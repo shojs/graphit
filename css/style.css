@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image:url(../img/grid50.png);
+}
+
+.surface-group {
+    margin: auto;
+    background-color: silver;
+    border-style: solid;
+    border-width: 1px 0 0 0;
+    border-radius: 5px;
+    width: 900px;
+    height: 700px;
+    clear: left;
+}
+
+.draggable > h6.header {
+    background-color: grey;
+    vertical-align: top;
+    margin: 0.5em 2em 1em 2em;
+    padding: 0.5em 1em;
+    border-style: solid;
+    border-width: 1px 0 0 0;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.draw-surface {
+    margin: auto;
+    width: 800;
+    height: 600;
+    display:block;
+    background-image:url(../img/grid-40x40.png);
+}
+
+.sliderex {
+    margin: 2px 5px 0 5px;
+    padding: 1px ;
+    background-color: grey;
+    border-style: solid;
+    border-width: 1px 0 0 0;
+    border-radius: 5px;
+}
+
+.sliderex > h6 {
+    display: inline;
+    margin: 0 2px;
+    padding: 0 2px;
+    background-color: silver;
+    border-style: solid;
+    border-width: 1px 0 0 0;
+    border-radius: 5px;
+}
+
+.sliderex > input.input {
+    width: 2em;
+    display: inline;
+    border-radius: 5px;
+    float: right;
+}
+
+.sliderex > .slider {
+    width: 150px;
+    margin: 1px 5px 0 5px;
+}
+
+.widget_draw_brush > h6 {
+    text-align: center;
+}
+
+.image-preview-group {
+    width: 102px;
+    margin: auto;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.image-preview-group > canvas {
+    width: 100px;
+    margin: auto;
+}
+
+.widget_draw_brush {
+    position: absolute;
+    background-color: silver;
+    border-radius: 5px;
+    width: 200px;
+    margin: 0.5em;
+    padding: 1px;
+    top: 1em;
+}
