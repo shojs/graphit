@@ -1,12 +1,12 @@
-var component = new widget_drawable(GLOB.id_generator.get());
-GLOB.add_component(component);
+//var component = new widget_drawable(GLOB.id_generator.get());
+//GLOB.add_component(component);
 
 $(function() {
 //    $(this).bind("contextmenu", function(e) {
 //        e.preventDefault();
 //    });
 }); 
-var cBrush = new Cdrawing_brush();
+var cBrush = new Cdraw_brush();
 var cSurface = new Cdraw_surface(400, 400);
 $(document).ready(function() {
 	//GLOB.test_all();

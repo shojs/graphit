@@ -100,8 +100,6 @@ Cdraw_surface.prototype.add_layer = function() {
 
 
 
-
-
 /**
  * 
  * @param r
@@ -160,78 +158,7 @@ function Cwidget_slider_ex ($parent, label, options, callbacks) {
 		$parent.append($r);
 }
 
-function Cwidget_draw_brush (cBrush) {
-	if (!(cBrush instanceof Cdrawing_brush)) {
-		console.error("Cwidget_draw_brush need a Cdrawing_brush as first paramater");
-		console.log(brush);
-		return null;
-	}
-	this.cBrush = cBrush;
-	this.rootElm = null;
-	return this;
-}
 
-Cwidget_draw_brush.prototype._build_header = function($parent) {
-	var root = document.createElement('h6');
-	var $r = $(root);
-	$r.addClass('header');
-	$r.append("Brush");
-	$parent.append($r);
-};
-
-Cwidget_draw_brush.prototype._build_image_preview = function($parent) {
-	var $r = $(document.createElement('div'));
-	$r.addClass('image-preview-group');
-	var canvas_dom = document.createElement('canvas');
-	this.canvas = canvas_dom;
-	var $canvas = $(canvas_dom);
-	//$r.append('<h7>preview</h7>');
-	$canvas.attr('width', this.cBrush.width);
-	$canvas.attr('height', this.cBrush.height);
-	//$r.src = 'img/brush-preview.png';
-	$canvas.addClass('image-preview');
-	$r.append($canvas)
-	$parent.append($r);
-};
-
-Cwidget_draw_brush.prototype.build = function() {
-	var that = this;
-	var root = document.createElement('div');
-	var $r = $(root);
-	$r.addClass('widget_draw_brush draggable');
-	this._build_header($r);
-	this._build_image_preview($r);
-	var $slidergroup = $(document.createElement('div'));
-	//this._build_size($r);
-	var func_draw = function() {
-		that.cBrush.redraw(that.canvas);
-	};
-	var callbacks_size = new Object({
-		change: function(e, value) { that.cBrush.set_size(value); func_draw();},	
-		slide: function(e, value) { that.cBrush.set_size(value); func_draw();}
-	});
-	var callbacks_opacity = new Object({
-		change: function(e, value) { that.cBrush.set_opacity(value); func_draw();},	
-		slide: function(e, value) { that.cBrush.set_opacity(value); func_draw();}
-	});
-	var callbacks_rotation = new Object({
-		change: function(e, value) { that.cBrush.set_rotation(value); func_draw();},	
-		slide: function(e, value) { that.cBrush.set_rotation(value); func_draw();}
-	});
-
-	Cwidget_slider_ex ($slidergroup, 'size', {min: 1, max: 100, step: 1, value: 20}, callbacks_size);
-	Cwidget_slider_ex ($slidergroup, 'opacity', {min: 0, max: 100, step: 1, value: 100}, callbacks_opacity);
-	Cwidget_slider_ex ($slidergroup, 'rotation', {min: 0, max: 90, step: 1, value: 0}, callbacks_rotation);
-	$r.append($slidergroup);
-	func_draw();
-	this.rootElm = $r;
-	return this;
-};
-
-Cwidget_draw_brush.prototype.get_dom = function() {
-	if (!this.rootElm) { this.build(); }
-	return this.rootElm;
-};
 /**
  * 
  */
@@ -264,7 +191,7 @@ function helper_alphaper2hex (alpha) {
 	return v;
 }
 
-function Cdrawing_brush() {
+function Cdraw_brush() {
 	this.width = 100;
 	this.height = 100;
 	this.color = new Ccolor(255, 0, 0, 0);
@@ -278,36 +205,36 @@ function Cdrawing_brush() {
 	this.build_canvas();
 }
 
-Cdrawing_brush.prototype.set_rotation = function(rotation) {
+Cdraw_brush.prototype.set_rotation = function(rotation) {
 	this.rotation = rotation;
 	this.need_redraw = true;
 };
 
-Cdrawing_brush.prototype.set_opacity = function(opacity) {
+Cdraw_brush.prototype.set_opacity = function(opacity) {
 	this.opacity = opacity;
 	this.color.a = helper_alphaper2hex(this.opacity);
 	this.need_redraw = true;
 };
 
-Cdrawing_brush.prototype.set_size = function(size) {
+Cdraw_brush.prototype.set_size = function(size) {
 	this.size = size;
 	this.need_redraw = true;
 };
 	
-Cdrawing_brush.prototype.redraw = function(canvas) {
+Cdraw_brush.prototype.redraw = function(canvas) {
 	if (this.build_canvas()) {
 		this.drawing(canvas, 0, 0);
 	}
 };
 
-Cdrawing_brush.prototype.drawing = function(tcanvas, tx, ty) {
+Cdraw_brush.prototype.drawing = function(tcanvas, tx, ty) {
 	var ctx = tcanvas.getContext('2d');
 	ctx.fillStyle = 'rgba(255,255,255,255)';
 	ctx.fillRect(0,0, this.width, this.height);
 	ctx.drawImage(this.canvas, 0, 0);
 };
 
-Cdrawing_brush.prototype.build_canvas = function() {
+Cdraw_brush.prototype.build_canvas = function() {
 	if (!this.need_redraw) {
 		return false;
 	}
@@ -316,8 +243,8 @@ Cdrawing_brush.prototype.build_canvas = function() {
 	return true;
 };
 
-Cdrawing_brush.prototype.to_s = function() {
-	var str = '* Cdrawing_brush\n';
+Cdraw_brush.prototype.to_s = function() {
+	var str = '* Cdraw_brush\n';
 	for (k in this) {
 		if (!this.hasOwnProperty(k)) {
 			continue;
