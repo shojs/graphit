@@ -1,6 +1,12 @@
-function Cwidget_draw_brush (cBrush) {
+/**
+ * @author joachim basmaison <joachim.basmaison [AT] GOOGLE>
+ * @param cBrush
+ * @returns
+ */
+function Cwidget_draw_brush(cBrush) {
 	if (!(cBrush instanceof Cdraw_brush)) {
-		console.error("Cwidget_draw_brush need a Cdraw_brush as first paramater");
+		console
+				.error("Cwidget_draw_brush need a Cdraw_brush as first paramater");
 		console.log(brush);
 		return null;
 	}
@@ -23,12 +29,10 @@ Cwidget_draw_brush.prototype._build_image_preview = function($parent) {
 	var canvas_dom = document.createElement('canvas');
 	this.canvas = canvas_dom;
 	var $canvas = $(canvas_dom);
-	//$r.append('<h7>preview</h7>');
 	$canvas.attr('width', this.cBrush.width);
 	$canvas.attr('height', this.cBrush.height);
-	//$r.src = 'img/brush-preview.png';
 	$canvas.addClass('image-preview');
-	$r.append($canvas)
+	$r.append($canvas);
 	$parent.append($r);
 };
 
@@ -40,26 +44,58 @@ Cwidget_draw_brush.prototype.build = function() {
 	this._build_header($r);
 	this._build_image_preview($r);
 	var $slidergroup = $(document.createElement('div'));
-	//this._build_size($r);
 	var func_draw = function() {
 		that.cBrush.redraw(that.canvas);
 	};
 	var callbacks_size = new Object({
-		change: function(e, value) { that.cBrush.set_size(value); func_draw();},	
-		slide: function(e, value) { that.cBrush.set_size(value); func_draw();}
+		change : function(e, value) {
+			that.cBrush.set_size(value);
+			func_draw();
+		},
+		slide : function(e, value) {
+			that.cBrush.set_size(value);
+			func_draw();
+		}
 	});
 	var callbacks_opacity = new Object({
-		change: function(e, value) { that.cBrush.set_opacity(value); func_draw();},	
-		slide: function(e, value) { that.cBrush.set_opacity(value); func_draw();}
+		change : function(e, value) {
+			that.cBrush.set_opacity(value);
+			func_draw();
+		},
+		slide : function(e, value) {
+			that.cBrush.set_opacity(value);
+			func_draw();
+		}
 	});
 	var callbacks_rotation = new Object({
-		change: function(e, value) { that.cBrush.set_rotation(value); func_draw();},	
-		slide: function(e, value) { that.cBrush.set_rotation(value); func_draw();}
+		change : function(e, value) {
+			that.cBrush.set_rotation(value);
+			func_draw();
+		},
+		slide : function(e, value) {
+			that.cBrush.set_rotation(value);
+			func_draw();
+		}
 	});
 
-	Cwidget_slider_ex ($slidergroup, 'size', {min: 1, max: 100, step: 1, value: 20}, callbacks_size);
-	Cwidget_slider_ex ($slidergroup, 'opacity', {min: 0, max: 100, step: 1, value: 100}, callbacks_opacity);
-	Cwidget_slider_ex ($slidergroup, 'rotation', {min: 0, max: 90, step: 1, value: 0}, callbacks_rotation);
+	widget_slider_ex($slidergroup, 'size', {
+		min : 1,
+		max : 100,
+		step : 1,
+		value : 20
+	}, callbacks_size);
+	widget_slider_ex($slidergroup, 'opacity', {
+		min : 0,
+		max : 100,
+		step : 1,
+		value : 100
+	}, callbacks_opacity);
+	widget_slider_ex($slidergroup, 'rotation', {
+		min : 0,
+		max : 90,
+		step : 1,
+		value : 0
+	}, callbacks_rotation);
 	$r.append($slidergroup);
 	func_draw();
 	this.rootElm = $r;
@@ -67,6 +103,8 @@ Cwidget_draw_brush.prototype.build = function() {
 };
 
 Cwidget_draw_brush.prototype.get_dom = function() {
-	if (!this.rootElm) { this.build(); }
+	if (!this.rootElm) {
+		this.build();
+	}
 	return this.rootElm;
 };
