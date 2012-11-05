@@ -5,6 +5,7 @@ var E_LAYERLABEL = new Object({
 	current : 1,
 	mouse : 2,
 	grid : 3,
+	prefrag: 4,
 });
 
 function helper_draw_surface(obj, x, y) {
@@ -22,12 +23,14 @@ function Cdraw_surface(id, width, height) {
 	this.height = height;
 	this.layer_mouse = new Cdraw_layer(this, E_LAYERLABEL.mouse);
 	this.layer_grid = new Cdraw_layer(this, E_LAYERLABEL.grid);
+	this.layer_prefrag = new Cdraw_layer(this, E_LAYERLABEL.prefrag);
 	this.layers = new Array();
 	this.set_current_layer(this.layer_grid);
 	this.mouse = new Cmouse_tracker(callback_stub, callback_stub, callback_stub, helper_draw_surface);
 	this.rootElm = null;
 	this.canvas = null;
 	this.tools = null;
+	this.cGraph = null;
 	this.build();
 }
 
@@ -65,6 +68,7 @@ Cdraw_surface.prototype.build = function() {
 	var canvas = document.createElement('canvas');
 	this.canvas = canvas;
 	var $c = $(canvas);
+	$c.attr('id', 'graphing-area');
 	$c.attr('width', this.width);
 	$c.attr('height', this.height);
 	$c.addClass('draw-surface not-draggable');
@@ -80,11 +84,13 @@ Cdraw_surface.prototype.build = function() {
 Cdraw_surface.prototype.callback_mousedown = function(e, obj) {
 	console.log(this.id + ': mouse down');
 	this.mouse.push();
+	this.cGrapher.start();
 };
 
 Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
 	console.log(this.id + ': mouse up');
 	this.mouse.release();
+	this.cGrapher.stop();
 };
 
 Cdraw_surface.prototype.callback_mousemove = function(e, obj) {

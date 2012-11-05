@@ -29,8 +29,8 @@ function Cmouse_tracker(c_move, c_push, c_release, c_track) {
 	this.x = 0;
 	this.y = 0;
 	this.minmax = new Object({
-		minx: 0, maxx: 400,
-		miny: 0, maxy: 400,
+		minx: 0, maxx: 800,
+		miny: 0, maxy: 600,
 	});
 	this.func_move = c_move;
 	this.func_push = c_push;
