@@ -19,3 +19,14 @@ function helper_bound_value (val, min, max) {
 	else if (val >= max) val = max;
 	return Math.floor(val);
 }
+
+function Cvector2d(x, y) {
+	this.x = x;
+	this.y = y;
+}
+
+
+function geom_distance(a, b) {
+	//console.log(new Object({a: a, b: b}));
+	return Math.sqrt((b.x - a.x)*(b.x - a.x)) + ((b.y - a.y)*(b.y - a.y));
+}

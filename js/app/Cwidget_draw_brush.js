@@ -32,15 +32,37 @@ Cwidget_draw_brush.prototype._build_header = function($parent) {
  * @param $parent
  */
 Cwidget_draw_brush.prototype._build_image_preview = function($parent) {
+	var that = this;
 	var $r = $(document.createElement('div'));
-	$r.addClass('image-preview-group');
+	var colorpicker = document.createElement('input');
+	this.dom_colorpicker = colorpicker;
+	var $cp = $(colorpicker);
+	//$cp.attr('width', 100);
+	//$cp.attr('height', 100);
+	//$cp.attr('src', 'img/loading.png');
+	$cp.addClass('var-colorpicker');
+	$cp.append('<h6>background</h6>');
+	$cp.ColorPicker({});
+	$cp.css('z-index', 1000);
+	//$r.append($cp);
+	var $preview = $(document.createElement('div'));
+	$preview.addClass('image-preview-group');
 	var canvas_dom = document.createElement('canvas');
 	this.canvas = canvas_dom;
 	var $canvas = $(canvas_dom);
 	$canvas.attr('width', this.cBrush.width);
 	$canvas.attr('height', this.cBrush.height);
 	$canvas.addClass('image-preview');
-	$r.append($canvas);
+	$preview.append($canvas);
+	$preview.ColorPicker({
+		onChange: function(hsb, hex, rgb) {
+			//console.log('Change'); console.log(rgb);
+			that.cBrush.set_color(rgb);
+			that.cBrush.redraw(that.canvas);
+		},
+	});
+	$r.append($preview);
+
 	$parent.append($r);
 };
 

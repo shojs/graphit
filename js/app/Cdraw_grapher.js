@@ -23,15 +23,23 @@ Cdraw_grapher.prototype.reset_index = function() {
 
 Cdraw_grapher.prototype._graph = function() {
 	//console.log('Graphing');
-	if (this.index >= cSurface.mouse.points.length) {
+	var numpoint = cSurface.mouse.points.length;
+	if (numpoint < 2) {
+		console.log('need two points');
+		return false;
+	}
+	if (this.index >= numpoint) {
 		console.log('nothing to graph');
 		return false;
 	}
 	var e = document.getElementById('graphing-area');
-	var ctx = e.getContext('2d');
+	//var ctx = e.getContext('2d');
 
 	var p = cSurface.mouse.points[this.index];
-	helper_draw_circle(e, p.x, p.y, this.cTools.size, 'rgba(255,0,100)');
+	var p0 = cSurface.mouse.points[(this.index + 1)];
+	//console.log('Distance: ' + geom_distance(p0, p));
+	var radius = this.cTools.size / 2;
+	helper_draw_circle(e, p.x, p.y, radius, this.cTools.color.to_rgba());
 	this.index++;
 	return true;
 };
@@ -56,7 +64,7 @@ Cdraw_grapher.prototype.start = function() {
 	var fGraph = function() {
 		that._graph();
 	};
-	this.timer = window.setInterval(fGraph, 10);
+	this.timer = window.setInterval(fGraph, 5);
 	return true;
 };
 

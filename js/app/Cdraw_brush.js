@@ -40,6 +40,13 @@ function Cdraw_brush() {
 	this.build_canvas();
 }
 
+Cdraw_brush.prototype.set_color = function(color) {
+	this.color.r = color.r;
+	this.color.g = color.g;
+	this.color.b = color.b;
+	this.need_redraw = true;
+};
+
 Cdraw_brush.prototype.set_rotation = function(rotation) {
 	this.rotation = rotation;
 	this.need_redraw = true;

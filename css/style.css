@@ -108,3 +108,11 @@ body {
 .mousetracker > .var-x {
 	display: inline-block;
 }
+
+.var-colorpicker {
+    width: 100px;
+    height: 100px;
+}
+.colorpicker {
+	z-index: 1000;
+}
