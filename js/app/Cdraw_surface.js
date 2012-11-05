@@ -7,19 +7,28 @@ var E_LAYERLABEL = new Object({
 	grid : 3,
 });
 
+function helper_draw_surface(obj, x, y) {
+	console.log('Mouse x/y: ' + x + ' / ' + y);
+}
 /**
  * 
  * @param width
  * @param height
  * @returns
  */
-function Cdraw_surface(width, height) {
+function Cdraw_surface(id, width, height) {
+	this.id = id;
 	this.width = width;
 	this.height = height;
 	this.layer_mouse = new Cdraw_layer(this, E_LAYERLABEL.mouse);
 	this.layer_grid = new Cdraw_layer(this, E_LAYERLABEL.grid);
 	this.layers = new Array();
 	this.set_current_layer(this.layer_grid);
+	this.mouse = new Cmouse_tracker(callback_stub, callback_stub, callback_stub, helper_draw_surface);
+	this.rootElm = null;
+	this.canvas = null;
+	this.tools = null;
+	this.build();
 }
 
 Cdraw_surface.prototype.set_current_layer = function(layer) {
@@ -42,4 +51,59 @@ Cdraw_surface.prototype.add_layer = function() {
 	var layer = new Cdraw_layer(this, 'layer');
 	this.layers.push(layer);
 	return layer;
+};
+
+Cdraw_surface.prototype.build = function() {
+	var that = this;
+	var root = document.createElement('div');
+	var $r = $(root);
+	$r.attr('id', this.id);
+	$r.addClass('surface-group draggable');
+	$r.css('width', (this.width + 100));
+	$r.css('height', (this.height + 100));
+	$r.append('<h6 class="header">surface</h6>');
+	var canvas = document.createElement('canvas');
+	this.canvas = canvas;
+	var $c = $(canvas);
+	$c.attr('width', this.width);
+	$c.attr('height', this.height);
+	$c.addClass('draw-surface not-draggable');
+	$c.mousedown(function(e) { that.callback_mousedown(e, that); });
+	$c.mouseup(function(e) { that.callback_mouseup(e, that); });
+	$c.mousemove(function(e) { that.callback_mousemove(e, that); });
+	this.dom_mouse = this.mouse.get_dom();
+	console.log(this.dom_mouse);
+	$r.append($c);
+	this.rootElm = $(root);
+};
+
+Cdraw_surface.prototype.callback_mousedown = function(e, obj) {
+	console.log(this.id + ': mouse down');
+	this.mouse.push();
+};
+
+Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
+	console.log(this.id + ': mouse up');
+	this.mouse.release();
+};
+
+Cdraw_surface.prototype.callback_mousemove = function(e, obj) {
+	//console.log(this.id + ': mouse move');
+	//console.log(e.pageX);
+	//console.log('Offset left: ' + obj.canvas.offsetLeft);
+	var $o = $(obj.canvas).offset();
+	var x = e.pageX - $o.left;
+	var y = e.pageY - $o.top;
+	var $d = $(this.dom_mouse).children('div').children('div.hold-var').children('div.var-x');
+	$d.empty();
+	$d.append(x);
+	$d = $(this.dom_mouse).children('div').children('div.hold-var').children('div.var-y');
+	$d.empty();
+	$d.append(y);
+	this.mouse.move(x, y);
+	
+};
+
+Cdraw_surface.prototype.get_dom = function() {
+	return this.rootElm;
 };

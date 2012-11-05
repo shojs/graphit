@@ -5,12 +5,15 @@ $(function() {
 });
 
 var cBrush = new Cdraw_brush();
-var cSurface = new Cdraw_surface(400, 400);
+var cSurface = new Cdraw_surface('surface-01', 400, 400);
+cSurface.tools = cBrush;
 $(document).ready(function() {
 
-	var widget = new Cwidget_draw_brush(cBrush);
+	var widget_brush = new Cwidget_draw_brush(cBrush);
 
-	$('body').append(widget.get_dom());
+	$('body').append(widget_brush.get_dom());
+	$('body').append(cSurface.get_dom());
+	$('body').append(cSurface.mouse.rootElm);
 
 	var layer = cSurface.get_layer();
 	var canvas = document.createElement('canvas');
@@ -30,6 +33,7 @@ $(document).ready(function() {
 	$('.draggable').draggable({
 		handle : 'h6>.header',
 		snap : true,
-		snapMode : 'outer'
+		snapMode : 'outer',
+		cancel: '.not-draggable',
 	});
 });

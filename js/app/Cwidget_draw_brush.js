@@ -15,6 +15,10 @@ function Cwidget_draw_brush(cBrush) {
 	return this;
 }
 
+/**
+ * 
+ * @param $parent
+ */
 Cwidget_draw_brush.prototype._build_header = function($parent) {
 	var root = document.createElement('h6');
 	var $r = $(root);
@@ -23,6 +27,10 @@ Cwidget_draw_brush.prototype._build_header = function($parent) {
 	$parent.append($r);
 };
 
+/**
+ * 
+ * @param $parent
+ */
 Cwidget_draw_brush.prototype._build_image_preview = function($parent) {
 	var $r = $(document.createElement('div'));
 	$r.addClass('image-preview-group');
@@ -36,6 +44,10 @@ Cwidget_draw_brush.prototype._build_image_preview = function($parent) {
 	$parent.append($r);
 };
 
+/**
+ * 
+ * @returns {Cwidget_draw_brush}
+ */
 Cwidget_draw_brush.prototype.build = function() {
 	var that = this;
 	var root = document.createElement('div');
@@ -102,6 +114,10 @@ Cwidget_draw_brush.prototype.build = function() {
 	return this;
 };
 
+/**
+ * 
+ * @returns
+ */
 Cwidget_draw_brush.prototype.get_dom = function() {
 	if (!this.rootElm) {
 		this.build();

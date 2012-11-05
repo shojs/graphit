@@ -21,25 +21,26 @@ function Cmouse_tracker_point(x, y) {
  * @param c_track
  * @returns
  */
-function Cmouse_tracker(set_mouse, c_push, c_release, c_track) {
-	console.log('set_mouse: ' + typeof (set_mouse));
-	if (typeof (set_mouse) != 'function') {
+function Cmouse_tracker(c_move, c_push, c_release, c_track) {
+	if (typeof (c_move) != 'function') {
 		console.error('Cmouse_trackerneed set_mouse function parameter');
-		return null;
-	}
-	if (typeof (track) != 'function') {
-		console.error('Cmouse_trackerneed track function parameter');
 		return null;
 	}
 	this.x = 0;
 	this.y = 0;
-	this.func_set_mouse = set_mouse;
-	this.func_track = track;
-	this.func_push = push;
-	this.func_release = release;
+	this.minmax = new Object({
+		minx: 0, maxx: 400,
+		miny: 0, maxy: 400,
+	});
+	this.func_move = c_move;
+	this.func_push = c_push;
+	this.func_release = c_release;
+	this.func_track = c_track;
 	this.pushed = null;
 	this.interval = null;
 	this.points = new Array();
+	this.rootElm = null;
+	this.build();
 	return this;
 }
 
@@ -50,10 +51,14 @@ function Cmouse_tracker(set_mouse, c_push, c_release, c_track) {
  * @param y
  * @returns {Cmouse_tracker}
  */
-Cmouse_tracker.prototype.set = function(x, y) {
-	this.func_set_mouse(x, y);
+Cmouse_tracker.prototype.move = function(x, y) {
+	this.x = helper_bound_value(x, this.minmax.minx, this.minmax.maxx);
+	this.y = helper_bound_value(y, this.minmax.miny, this.minmax.maxy);
+	//console.log('move: ' + this.x + ' / ' + this.y);
+	this.func_move(this.x, this.y);
 	return this;
 };
+
 
 /**
  * 
@@ -66,13 +71,34 @@ Cmouse_tracker.prototype.push = function() {
 			clearInterval(that.interval);
 			return null;
 		}
-		that.points.push(new Cmouse_tracker_point(that.x, that.y));
-		that.func_track(that);
+		var x = that.x;
+		var y = that.y;
+		console.log(that);
+		that.points.push(new Cmouse_tracker_point(x, y));
+		that.func_track(that, x, y);
 	}, 10);
 	if (this.func_push)
 		this.func_push(this);
 };
 
+Cmouse_tracker.prototype.build = function() {
+	var root = document.createElement('div');
+	var $r = $(root);
+	$r.addClass('mousetracker draggable');
+	$r.append('<h6 class="header">Mouse</h6>');
+	var group = document.createElement('div');
+	var $g = $(group);
+	$g.addClass('not-draggable');
+	$g.css('display', 'block');
+	$g.append('<div class="hold-var">x:&nbsp;<div class="var-x">' + this.x + '</div></div>');
+	$g.append('<div class="hold-var">y:<div class="var-y">' + this.y + '</div></div>');
+	$r.append($g);
+	this.rootElm = $r;
+};
+
+Cmouse_tracker.prototype.get_dom = function() {
+	return this.rootElm;
+};
 /**
  * 
  */
