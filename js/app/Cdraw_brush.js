@@ -7,8 +7,8 @@ var E_BRUSHSHAPE = new Object({
 
 function get_drawing_brush_general(oBrush) {
 	var canvas = document.createElement('canvas');
-	canvas.setAttribute('width', oBrush.width);
-	canvas.setAttribute('height', oBrush.height);
+	canvas.setAttribute('width', oBrush.size);
+	canvas.setAttribute('height', oBrush.size);
 	return canvas;
 }
 
@@ -17,7 +17,7 @@ function get_drawing_brush_circle(oBrush) {
 	var x = Math.floor(oBrush.width / 2);
 	var y = Math.floor(oBrush.height / 2);
 	var r = Math.floor(oBrush.size / 2);
-	helper_draw_circle(canvas, x, y, r, oBrush.color.to_rgba());
+	helper_draw_circle(canvas, r, r, r, oBrush.color.to_rgba());
 	return canvas;
 }
 
@@ -73,6 +73,9 @@ Cdraw_brush.prototype.drawing = function(tcanvas, tx, ty) {
 	var ctx = tcanvas.getContext('2d');
 	//ctx.fillStyle = 'rgba(0,0,0,0)';
 	//ctx.fillRect(0, 0, this.width, this.height);
+	var du = this.canvas.toDataURL();
+	console.log(du);
+	$('.draw-surface').css('cursor', 'url("'+this.canvas.toDataURL()+'"),auto');
 	ctx.clearRect(0,0,this.width, this.height);
 	ctx.drawImage(this.canvas, 0, 0);
 };

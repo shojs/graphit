@@ -1,7 +1,7 @@
 $(function() {
-	$(this).bind("contextmenu", function(e) {
-		e.preventDefault();
-	});
+//	$(this).bind("contextmenu", function(e) {
+//		e.preventDefault();
+//	});
 });
 
 var cBrush = new Cdraw_brush();

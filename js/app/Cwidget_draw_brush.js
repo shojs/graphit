@@ -59,6 +59,7 @@ Cwidget_draw_brush.prototype._build_image_preview = function($parent) {
 			//console.log('Change'); console.log(rgb);
 			that.cBrush.set_color(rgb);
 			that.cBrush.redraw(that.canvas);
+			
 		},
 	});
 	$r.append($preview);
