@@ -29,7 +29,7 @@ Cdraw_grapher.prototype._graph = function() {
 		return false;
 	}
 	if (this.index >= numpoint) {
-		console.log('nothing to graph');
+		//console.log('nothing to graph');
 		return false;
 	}
 	var e = document.getElementById('graphing-area');
@@ -41,6 +41,7 @@ Cdraw_grapher.prototype._graph = function() {
 	var radius = this.cTools.size / 2;
 	helper_draw_circle(e, p.x, p.y, radius, this.cTools.color.to_rgba());
 	this.index++;
+	this._graph();
 	return true;
 };
 
@@ -64,7 +65,7 @@ Cdraw_grapher.prototype.start = function() {
 	var fGraph = function() {
 		that._graph();
 	};
-	this.timer = window.setInterval(fGraph, 5);
+	this.timer = window.setInterval(fGraph, 50);
 	return true;
 };
 

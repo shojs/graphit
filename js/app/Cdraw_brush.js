@@ -71,8 +71,9 @@ Cdraw_brush.prototype.redraw = function(canvas) {
 
 Cdraw_brush.prototype.drawing = function(tcanvas, tx, ty) {
 	var ctx = tcanvas.getContext('2d');
-	ctx.fillStyle = 'rgba(255,255,255,255)';
-	ctx.fillRect(0, 0, this.width, this.height);
+	//ctx.fillStyle = 'rgba(0,0,0,0)';
+	//ctx.fillRect(0, 0, this.width, this.height);
+	ctx.clearRect(0,0,this.width, this.height);
 	ctx.drawImage(this.canvas, 0, 0);
 };
 

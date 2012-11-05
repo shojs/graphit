@@ -37,6 +37,6 @@ $(document).ready(function() {
 		snap : true,
 		snapMode : 'outer',
 		cancel: '.not-draggable',
-		zIndex: -1,
+		
 	});
 });
