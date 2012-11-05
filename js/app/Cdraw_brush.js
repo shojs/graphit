@@ -74,7 +74,7 @@ Cdraw_brush.prototype.drawing = function(tcanvas, tx, ty) {
 	//ctx.fillStyle = 'rgba(0,0,0,0)';
 	//ctx.fillRect(0, 0, this.width, this.height);
 	var du = this.canvas.toDataURL();
-	console.log(du);
+	//console.log(du);
 	$('.draw-surface').css('cursor', 'url("'+this.canvas.toDataURL()+'"),auto');
 	ctx.clearRect(0,0,this.width, this.height);
 	ctx.drawImage(this.canvas, 0, 0);
