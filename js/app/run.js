@@ -22,9 +22,9 @@ $(document).ready(function() {
 	helper_draw_circle(canvas, 50, 50, 10, 'rgb(150,0,0)');
 	console.log('Layer:');
 	console.log(layer);
-	for ( var j = 0; j < 10; j++) {
-		for ( var i = 0; i < 10; i++) {
-			layer.drawImage(canvas, 0, 0, 400, 400, i * 10, j * 10);
+	for ( var j = 0; j <= 5; j++) {
+		for ( var i = 0; i <= 5; i++) {
+			//layer.drawImage(canvas, 0, 0, 400, 400, 10, 10);
 		}
 	}
 	var nc = layer.get_canvas();

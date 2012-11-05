@@ -73,7 +73,7 @@ Cmouse_tracker.prototype.push = function() {
 		}
 		var x = that.x;
 		var y = that.y;
-		console.log(that);
+		//console.log(that);
 		that.points.push(new Cmouse_tracker_point(x, y));
 		that.func_track(that, x, y);
 	}, 10);
@@ -106,6 +106,7 @@ Cmouse_tracker.prototype.release = function() {
 	this.pushed = null;
 	if (this.func_release)
 		this.func_release(this);
+	console.log('Recorded points: ' + this.points.length);
 	this.points = new Array();
 };
 

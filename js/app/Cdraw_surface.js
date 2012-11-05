@@ -8,7 +8,7 @@ var E_LAYERLABEL = new Object({
 });
 
 function helper_draw_surface(obj, x, y) {
-	console.log('Mouse x/y: ' + x + ' / ' + y);
+	//console.log('Mouse x/y: ' + x + ' / ' + y);
 }
 /**
  * 
@@ -92,16 +92,13 @@ Cdraw_surface.prototype.callback_mousemove = function(e, obj) {
 	//console.log(e.pageX);
 	//console.log('Offset left: ' + obj.canvas.offsetLeft);
 	var $o = $(obj.canvas).offset();
-	var x = e.pageX - $o.left;
-	var y = e.pageY - $o.top;
+	this.mouse.move(e.pageX - $o.left, e.pageY - $o.top); 
 	var $d = $(this.dom_mouse).children('div').children('div.hold-var').children('div.var-x');
 	$d.empty();
-	$d.append(x);
+	$d.append(this.mouse.x);
 	$d = $(this.dom_mouse).children('div').children('div.hold-var').children('div.var-y');
 	$d.empty();
-	$d.append(y);
-	this.mouse.move(x, y);
-	
+	$d.append(this.mouse.x);
 };
 
 Cdraw_surface.prototype.get_dom = function() {
