@@ -36,11 +36,11 @@ function geom_distance(a, b) {
 
 var near_zero_tolerance = 0.01;
 function near_zero (v) {
-	console.log('Near zero:', v);
+	//console.log('Near zero:', v);
 	if (v < near_zero_tolerance && v > - near_zero_tolerance) {
-		console.log('true');
+		//console.log('true');
 		return true;
 	}
-	console.log('false');
+	//console.log('false');
 	return false;
 }

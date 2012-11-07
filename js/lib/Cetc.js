@@ -9,8 +9,9 @@ function Cetc() {
 }
 
 Cetc.prototype.set = function(k, v) {
+	//console.log('set ',k, ' = ', v);
 	this.store[k] = v;
-	return v;
+	return this;
 };
 
 Cetc.prototype.get = function(k) {

@@ -27,6 +27,13 @@ Cwidget_draw_brush.prototype._build_header = function($parent) {
 	$parent.append($r);
 };
 
+Cwidget_draw_brush.prototype.callback_color_changed = function(rgb) {
+	//console.log('Change'); console.log(rgb);
+	rgb.a = this.cBrush.color.a;
+	this.cBrush.color.set_rgb(rgb);	
+	DRAWETC.set('draw_brush_color', this.cBrush.color.to_rgba());
+	this.cBrush.redraw(this.canvas);
+};
 /**
  * 
  * @param $parent
@@ -56,11 +63,11 @@ Cwidget_draw_brush.prototype._build_image_preview = function($parent) {
 	$preview.append($canvas);
 	$preview.ColorPicker({
 		onChange: function(hsb, hex, rgb) {
-			//console.log('Change'); console.log(rgb);
-			rgb.a = that.cBrush.color.a;
-			that.cBrush.color.set(rgb);	
-			that.cBrush.redraw(that.canvas);
+			that.callback_color_changed(rgb);
 		},
+		onSubmit: function(hsb, hex, rgb) {
+			that.callback_color_changed(rgb);
+		}
 	});
 	$r.append($preview);
 
@@ -117,19 +124,19 @@ Cwidget_draw_brush.prototype.build = function() {
 		min : 1,
 		max : 100,
 		step : 1,
-		value : 20
+		value : this.cBrush.size
 	}, callbacks_size);
 	widget_slider_ex($slidergroup, 'opacity', {
 		min : 0,
-		max : 100,
-		step : 1,
-		value : 100
+		max : 1,
+		step : 0.01,
+		value : this.cBrush.color.a
 	}, callbacks_opacity);
 	widget_slider_ex($slidergroup, 'rotation', {
 		min : 0,
 		max : 90,
 		step : 1,
-		value : 0
+		value : this.cBrush.rotation
 	}, callbacks_rotation);
 	$r.append($slidergroup);
 	func_draw();

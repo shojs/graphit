@@ -30,9 +30,10 @@ function helper_alphaper2hex(alpha) {
 function Cdraw_brush() {
 	this.width = 100;
 	this.height = 100;
-	this.color = new Ccolor(0, 0, 0, 1);
+	var c = DRAWETC.get_set('draw_brush_color', 'rgba(0,0,0,1)');
+	this.color = new Ccolor(0, 0, 0, 1).from_rgba(c);
 	this.set_size(DRAWETC.get_set('draw_brush_size', 20));
-	this.set_opacity(DRAWETC.get_set('draw_brush_opacity', 100));
+	//this.set_opacity(DRAWETC.get_set('draw_brush_opacity', 100));
 	this.set_rotation(DRAWETC.get_set('draw_brush_rotation', 20));
 	this.need_redraw = true;
 	this.canvas = null;
@@ -42,18 +43,21 @@ function Cdraw_brush() {
 }
 
 Cdraw_brush.prototype.set_color = function(color) {
-	this.color.set(color);
+	this.color.set_rgb(color);
+	DRAWETC.set('draw_brush_color', this.color.to_rgba());
 	this.need_redraw = true;
 };
 
 Cdraw_brush.prototype.set_rotation = function(rotation) {
 	this.rotation = rotation;
+	DRAWETC.set('draw_brush_rotation', this.rotation);
 	this.need_redraw = true;
 };
 
 Cdraw_brush.prototype.set_opacity = function(opacity) {
 	//this.opacity = opacity;
-	this.color.a = helper_alphaper2hex(opacity);
+	this.color.a = opacity;
+	DRAWETC.set('draw_brush_color', this.color.to_rgba());
 	this.need_redraw = true;
 };
 
