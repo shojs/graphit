@@ -21,18 +21,20 @@ Cdraw_grapher.prototype.reset_index = function() {
 	this.index = 0;
 };
 
-function Cpoint (x, y) {
-	this.x = x;
-	this.y = y;
-}
-
 function math_linear_interpolation(p1, p2, step) {
 	step = 0.5;
 	var points = new Array();
 	var x1 = p1.x;
 	var x2 = p2.x;
 	if (p1.x >= p2.x) { x1 = p2.x; x2 = p1.x; }
-	var slope = (p2.y - p1.y) / (p2.x - p1.x);
+	var slope;
+	if (p2.x == p1.x) { slope = 0; }
+	else {
+		slope = (p2.y - p1.y) / (p2.x - p1.x);
+		if (near_zero(slope)) {
+			;
+		}
+	}
 	for (var x = x1; x <= x2; x += step) {
 		var y = Math.round(slope * (x - p1.x) + p1.y);
 		points.push(new Cpoint(x, y));

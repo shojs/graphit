@@ -1,5 +1,5 @@
 function Cdraw_glob() {
-	this.graphing_interval =10;
+	this.graphing_interval = 5;
 };
 
 var DRAWGLOB = new Cdraw_glob();
@@ -9,6 +9,8 @@ $(function() {
 //		e.preventDefault();
 //	});
 });
+
+var DRAWETC = new Cetc();
 
 var cBrush = new Cdraw_brush();
 var cSurface = new Cdraw_surface('surface-01', 800, 600);

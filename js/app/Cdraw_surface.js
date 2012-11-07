@@ -102,7 +102,7 @@ Cdraw_surface.prototype.callback_mousemove = function(e, obj) {
 	$d.append(this.mouse.x);
 	$d = $(this.dom_mouse).children('div').children('div.hold-var').children('div.var-y');
 	$d.empty();
-	$d.append(this.mouse.x);
+	$d.append(this.mouse.y);
 };
 
 Cdraw_surface.prototype.get_dom = function() {

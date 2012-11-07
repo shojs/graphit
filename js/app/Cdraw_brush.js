@@ -31,9 +31,9 @@ function Cdraw_brush() {
 	this.width = 100;
 	this.height = 100;
 	this.color = new Ccolor(0, 0, 0, 1);
-	this.set_size(20);
-	this.set_opacity(100);
-	this.set_rotation(0);
+	this.set_size(DRAWETC.get_set('draw_brush_size', 20));
+	this.set_opacity(DRAWETC.get_set('draw_brush_opacity', 100));
+	this.set_rotation(DRAWETC.get_set('draw_brush_rotation', 20));
 	this.need_redraw = true;
 	this.canvas = null;
 	this.ctx = null;
@@ -61,6 +61,7 @@ Cdraw_brush.prototype.set_size = function(size) {
 	this.size = size;
 	$(this.canvas).css('width', size);
 	$(this.canvas).css('height', size);
+	DRAWETC.set('draw_brush_size', size);
 	this.need_redraw = true;
 };
 
