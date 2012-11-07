@@ -94,14 +94,9 @@ Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
 };
 
 Cdraw_surface.prototype.callback_mousemove = function(e, obj) {
-	var dsize = obj.tools.size / 2;
-//	obj.mouse.x-=dsize;
-//	obj.mouse.y-=dsize;
-	//console.log(this.id + ': mouse move');
-	//console.log(e.pageX);
-	//console.log('Offset left: ' + obj.canvas.offsetLeft);
+	//var dsize = obj.tools.size / 2;
 	var $o = $(obj.canvas).offset();
-	this.mouse.move(e.pageX - $o.left + dsize, e.pageY - $o.top + dsize); 
+	this.mouse.move(e.pageX - $o.left, e.pageY - $o.top); 
 	var $d = $(this.dom_mouse).children('div').children('div.hold-var').children('div.var-x');
 	$d.empty();
 	$d.append(this.mouse.x);

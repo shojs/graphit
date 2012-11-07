@@ -1,3 +1,9 @@
+function Cdraw_glob() {
+	this.graphing_interval =10;
+};
+
+var DRAWGLOB = new Cdraw_glob();
+
 $(function() {
 //	$(this).bind("contextmenu", function(e) {
 //		e.preventDefault();

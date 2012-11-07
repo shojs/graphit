@@ -57,9 +57,9 @@ Cwidget_draw_brush.prototype._build_image_preview = function($parent) {
 	$preview.ColorPicker({
 		onChange: function(hsb, hex, rgb) {
 			//console.log('Change'); console.log(rgb);
-			that.cBrush.set_color(rgb);
+			rgb.a = that.cBrush.color.a;
+			that.cBrush.color.set(rgb);	
 			that.cBrush.redraw(that.canvas);
-			
 		},
 	});
 	$r.append($preview);

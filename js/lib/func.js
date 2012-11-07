@@ -27,6 +27,5 @@ function Cvector2d(x, y) {
 
 
 function geom_distance(a, b) {
-	//console.log(new Object({a: a, b: b}));
 	return Math.sqrt((b.x - a.x)*(b.x - a.x)) + ((b.y - a.y)*(b.y - a.y));
 }

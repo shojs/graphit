@@ -14,22 +14,23 @@ function get_drawing_brush_general(oBrush) {
 
 function get_drawing_brush_circle(oBrush) {
 	var canvas = get_drawing_brush_general(oBrush);
-	var x = Math.floor(oBrush.width / 2);
-	var y = Math.floor(oBrush.height / 2);
+	//var x = Math.floor(oBrush.width / 2);
+	//var y = Math.floor(oBrush.height / 2);
 	var r = Math.floor(oBrush.size / 2);
 	helper_draw_circle(canvas, r, r, r, oBrush.color.to_rgba());
 	return canvas;
 }
 
 function helper_alphaper2hex(alpha) {
-	var v = Math.floor(alpha * (1 * (255 / 100)));
+	var v = alpha / 100;
+	console.log('Alpha: ' + v);
 	return v;
 }
 
 function Cdraw_brush() {
 	this.width = 100;
 	this.height = 100;
-	this.color = new Ccolor(255, 0, 0, 0);
+	this.color = new Ccolor(0, 0, 0, 1);
 	this.set_size(20);
 	this.set_opacity(100);
 	this.set_rotation(0);
@@ -41,9 +42,7 @@ function Cdraw_brush() {
 }
 
 Cdraw_brush.prototype.set_color = function(color) {
-	this.color.r = color.r;
-	this.color.g = color.g;
-	this.color.b = color.b;
+	this.color.set(color);
 	this.need_redraw = true;
 };
 
@@ -53,13 +52,15 @@ Cdraw_brush.prototype.set_rotation = function(rotation) {
 };
 
 Cdraw_brush.prototype.set_opacity = function(opacity) {
-	this.opacity = opacity;
-	this.color.a = helper_alphaper2hex(this.opacity);
+	//this.opacity = opacity;
+	this.color.a = helper_alphaper2hex(opacity);
 	this.need_redraw = true;
 };
 
 Cdraw_brush.prototype.set_size = function(size) {
 	this.size = size;
+	$(this.canvas).css('width', size);
+	$(this.canvas).css('height', size);
 	this.need_redraw = true;
 };
 
@@ -71,11 +72,8 @@ Cdraw_brush.prototype.redraw = function(canvas) {
 
 Cdraw_brush.prototype.drawing = function(tcanvas, tx, ty) {
 	var ctx = tcanvas.getContext('2d');
-	//ctx.fillStyle = 'rgba(0,0,0,0)';
-	//ctx.fillRect(0, 0, this.width, this.height);
-	var du = this.canvas.toDataURL();
-	//console.log(du);
-	$('.draw-surface').css('cursor', 'url("'+this.canvas.toDataURL()+'"),auto');
+	//var du = this.canvas.toDataURL();
+	//$('.draw-surface').css('cursor', 'url("'+this.canvas.toDataURL()+'"),auto');
 	ctx.clearRect(0,0,this.width, this.height);
 	ctx.drawImage(this.canvas, 0, 0);
 };

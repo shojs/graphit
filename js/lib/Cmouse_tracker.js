@@ -76,7 +76,7 @@ Cmouse_tracker.prototype.push = function() {
 		//console.log(that);
 		that.points.push(new Cmouse_tracker_point(x, y));
 		that.func_track(that, x, y);
-	}, 1);
+	}, DRAWGLOB.graphing_interval);
 	if (this.func_push)
 		this.func_push(this);
 };
