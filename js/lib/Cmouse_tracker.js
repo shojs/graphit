@@ -11,6 +11,7 @@ function Cmouse_tracker_point(x, y) {
 	this.time = Date.now();
 }
 
+
 /**
  * Tracking mouse movement
  * 
@@ -21,7 +22,8 @@ function Cmouse_tracker_point(x, y) {
  * @param c_track
  * @returns
  */
-function Cmouse_tracker(c_move, c_push, c_release, c_track) {
+function Cmouse_tracker(parent, c_move, c_push, c_release, c_track) {
+	this.parent = parent;
 	if (typeof (c_move) != 'function') {
 		console.error('Cmouse_trackerneed set_mouse function parameter');
 		return null;
@@ -29,9 +31,14 @@ function Cmouse_tracker(c_move, c_push, c_release, c_track) {
 	this.x = 0;
 	this.y = 0;
 	this.minmax = new Object({
-		minx: 0, maxx: 800,
-		miny: 0, maxy: 600,
+		minx: 0, maxx: this.parent.width,
+		miny: 0, maxy: this.parent.height,
 	});
+	this.minx = this.minmax.maxx;
+	this.maxx = 0;
+	this.miny = this.minmax.maxy;
+	this.maxy = 0;
+
 	this.func_move = c_move;
 	this.func_push = c_push;
 	this.func_release = c_release;
@@ -44,6 +51,14 @@ function Cmouse_tracker(c_move, c_push, c_release, c_track) {
 	return this;
 }
 
+Cmouse_tracker.prototype.reset = function() {
+	this.minx = this.minmax.maxx;
+	this.maxx = 0;
+	this.miny = this.minmax.maxy;
+	this.maxy = 0;
+	this.points = new Array();
+};
+
 /**
  * Method:
  * 
@@ -52,8 +67,10 @@ function Cmouse_tracker(c_move, c_push, c_release, c_track) {
  * @returns {Cmouse_tracker}
  */
 Cmouse_tracker.prototype.move = function(x, y) {
-	this.x = helper_bound_value(x, this.minmax.minx, this.minmax.maxx);
-	this.y = helper_bound_value(y, this.minmax.miny, this.minmax.maxy);
+	var x = helper_bound_value(x, this.minmax.minx, this.minmax.maxx);
+	var y = helper_bound_value(y, this.minmax.miny, this.minmax.maxy);
+	this.x = x;
+	this.y = y;
 	//console.log('move: ' + this.x + ' / ' + this.y);
 	this.func_move(this.x, this.y);
 	return this;
@@ -75,6 +92,10 @@ Cmouse_tracker.prototype.push = function() {
 		var y = that.y;
 		//console.log(that);
 		that.points.push(new Cmouse_tracker_point(x, y));
+		that.minx = Math.min(that.minx, x);
+		that.maxx = Math.max(that.maxx, x);
+		that.miny = Math.min(that.miny, y);
+		that.maxy = Math.max(that.maxy, y);
 		that.func_track(that, x, y);
 	}, DRAWGLOB.graphing_interval);
 	if (this.func_push)
@@ -107,7 +128,7 @@ Cmouse_tracker.prototype.release = function() {
 	if (this.func_release)
 		this.func_release(this);
 	console.log('Recorded points: ' + this.points.length);
-	this.points = new Array();
+	this.reset();
 };
 
 /**

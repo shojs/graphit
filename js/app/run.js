@@ -1,3 +1,13 @@
+/**
+ * 
+ */
+var E_LAYERLABEL = new Object({
+	current : 1,
+	mouse : 2,
+	grid : 3,
+	prefrag: 4,
+});
+
 function Cdraw_glob() {
 	this.graphing_interval = 5;
 };
@@ -5,9 +15,9 @@ function Cdraw_glob() {
 var DRAWGLOB = new Cdraw_glob();
 
 $(function() {
-//	$(this).bind("contextmenu", function(e) {
-//		e.preventDefault();
-//	});
+	$(this).bind("contextmenu", function(e) {
+		e.preventDefault();
+	});
 });
 
 var DRAWETC = new Cetc();
@@ -40,6 +50,10 @@ $(document).ready(function() {
 //	var nc = layer.get_canvas();
 //	// console.log(nc.toDataURL());
 //	document.getElementById('surface-01').src = nc.toDataURL();
+	
+	var cToolbox = new Cdraw_toolbox();
+	cToolbox.add_tool(new Cdraw_tool_pen());
+	$('body').append(cToolbox.get_dom());
 	$('.draggable').draggable({
 		handle : 'h6>.header',
 		snap : true,

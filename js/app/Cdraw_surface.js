@@ -1,16 +1,41 @@
-/**
- * 
- */
-var E_LAYERLABEL = new Object({
-	current : 1,
-	mouse : 2,
-	grid : 3,
-	prefrag: 4,
-});
+
 
 function helper_draw_surface(obj, x, y) {
 	//console.log('Mouse x/y: ' + x + ' / ' + y);
 }
+
+function Cdraw_buttons(parent) {
+	this.parent = parent;
+	this.build();
+	this.rootElm;
+}
+
+Cdraw_buttons.prototype.build = function() {
+	var that = this;
+	var root = document.createElement('button');
+	var $r = $(root);
+	$r.button({label: 'clear'});
+	$r.click(function() {
+		var msg = document.createElement('div');
+		var $m = $(msg);
+		$m.append('<p>Dou you want to clear your drawing ?</p>');
+		$m.dialog({ 
+			buttons: { 
+				Ok: function() {
+					console.log('OK');
+					that.parent.clear();
+					$( this ).dialog( "close" );
+				},
+				Cancel: function() { $( this ).dialog( "close" ); }
+			}
+		});
+	});
+	this.rootElm = root;
+};
+
+Cdraw_buttons.prototype.get_dom = function() {
+	return this.rootElm;
+};
 /**
  * 
  * @param width
@@ -25,8 +50,9 @@ function Cdraw_surface(id, width, height) {
 	this.layer_grid = new Cdraw_layer(this, E_LAYERLABEL.grid);
 	this.layer_prefrag = new Cdraw_layer(this, E_LAYERLABEL.prefrag);
 	this.layers = new Array();
-	this.set_current_layer(this.layer_grid);
-	this.mouse = new Cmouse_tracker(callback_stub, callback_stub, callback_stub, helper_draw_surface);
+	var l0 = this.add_layer();
+	this.set_current_layer(l0);
+	this.mouse = new Cmouse_tracker(this, callback_stub, callback_stub, callback_stub, helper_draw_surface);
 	this.rootElm = null;
 	this.canvas = null;
 	this.tools = null;
@@ -51,7 +77,7 @@ Cdraw_surface.prototype.get_layer = function(label) {
 };
 
 Cdraw_surface.prototype.add_layer = function() {
-	var layer = new Cdraw_layer(this, 'layer');
+	var layer = new Cdraw_layer(this, this.layers.length);
 	this.layers.push(layer);
 	return layer;
 };
@@ -75,10 +101,46 @@ Cdraw_surface.prototype.build = function() {
 	$c.mousedown(function(e) { that.callback_mousedown(e, that); });
 	$c.mouseup(function(e) { that.callback_mouseup(e, that); });
 	$c.mousemove(function(e) { that.callback_mousemove(e, that); });
+	$c.mouseout(function(e) { that.callback_mouseup(e, that); });
 	this.dom_mouse = this.mouse.get_dom();
 	console.log(this.dom_mouse);
 	$r.append($c);
+	this.build_buttons = new Cdraw_buttons(this);
+	$r.append(this.build_buttons.get_dom());
+	//$r.unbind('keydown', 'Ctrl+z');
+	$(document).bind('keydown', 'Ctrl+z', function() { that.undo();});
 	this.rootElm = $(root);
+};
+
+
+
+Cdraw_surface.prototype.undo = function() {
+	console.log('Undo');
+	this.layer_current.discard_frag();
+	this.layer_current.redraw();
+
+	this.redraw();
+};
+
+Cdraw_surface.prototype.redraw = function() {
+	console.log('Redrawing surface');
+//	for(var i = 0; i < this.layers; i++) {
+//		this.canvas
+//	}
+	var tctx = this.canvas.getContext('2d');
+	tctx.clearRect(0,0, this.canvas.width, this.canvas.height);
+	for (var i = 0; i < this.layers.length; i++) {
+		//this.layers[i].need_redraw = true;
+		this.layers[i].redraw();
+		tctx.drawImage(this.layers[i].canvas, 0, 0, this.canvas.width, this.canvas.height);
+	}
+	tctx.drawImage(this.layer_prefrag.canvas, 0, 0, this.canvas.width, this.canvas.height);
+	tctx.drawImage(this.layer_mouse.canvas, 0, 0, this.canvas.width, this.canvas.height);
+};
+
+Cdraw_surface.prototype.clear = function() {
+	this.layer_current.clear();
+	this.redraw();
 };
 
 Cdraw_surface.prototype.callback_mousedown = function(e, obj) {
@@ -89,8 +151,9 @@ Cdraw_surface.prototype.callback_mousedown = function(e, obj) {
 
 Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
 	console.log(this.id + ': mouse up');
-	this.mouse.release();
 	this.cGrapher.stop();
+	this.mouse.release();
+	this.redraw();
 };
 
 Cdraw_surface.prototype.callback_mousemove = function(e, obj) {

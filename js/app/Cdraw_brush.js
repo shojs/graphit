@@ -56,13 +56,13 @@ Cdraw_brush.prototype.set_rotation = function(rotation) {
 
 Cdraw_brush.prototype.set_opacity = function(opacity) {
 	//this.opacity = opacity;
-	this.color.a = opacity;
+	this.color.a = parseInt(opacity);
 	DRAWETC.set('draw_brush_color', this.color.to_rgba());
 	this.need_redraw = true;
 };
 
 Cdraw_brush.prototype.set_size = function(size) {
-	this.size = size;
+	this.size = parseInt(size);
 	$(this.canvas).css('width', size);
 	$(this.canvas).css('height', size);
 	DRAWETC.set('draw_brush_size', size);
