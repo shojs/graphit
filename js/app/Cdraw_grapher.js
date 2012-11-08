@@ -22,7 +22,6 @@ Cdraw_grapher.prototype.reset_index = function() {
 };
 
 function math_linear_interpolation(p1, p2, step) {
-	step = 0.5;
 	var points = new Array();
 	var x1 = p1.x;
 	var x2 = p2.x;
@@ -58,7 +57,13 @@ Cdraw_grapher.prototype._graph = function() {
 	
 	var p1 = this.cSurface.mouse.points[this.index];
 	var p2 = this.cSurface.mouse.points[(this.index + 1)];
-	var points = math_linear_interpolation(p1, p2, radius);
+	var pression = (100 - this.cTools.pression) * radius;
+	if (pression <= 0 ) { pression = 1.01; }
+	
+	pression = Math.log(pression + (radius / 100)) ; 
+
+	console.log('pression: ' + pression);
+	var points = math_linear_interpolation(p1, p2, pression);
 	for (var i = 0; i < points.length; i++) {
 		helper_draw_circle(this.cSurface.layer_prefrag.canvas, points[i].x, points[i].y, radius, color);
 	}

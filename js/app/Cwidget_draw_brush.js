@@ -119,7 +119,16 @@ Cwidget_draw_brush.prototype.build = function() {
 			func_draw();
 		}
 	});
-
+	var callbacks_pression = new Object({
+		change : function(e, value) {
+			that.cBrush.set_pression(value);
+			func_draw();
+		},
+		slide : function(e, value) {
+			that.cBrush.set_pression(value);
+			func_draw();
+		}
+	});
 	widget_slider_ex($slidergroup, 'size', {
 		min : 1,
 		max : 100,
@@ -132,6 +141,12 @@ Cwidget_draw_brush.prototype.build = function() {
 		step : 0.01,
 		value : this.cBrush.color.a
 	}, callbacks_opacity);
+	widget_slider_ex($slidergroup, 'pression', {
+		min : 1,
+		max : 100,
+		step : 1,
+		value : this.cBrush.pression
+	}, callbacks_pression);
 	widget_slider_ex($slidergroup, 'rotation', {
 		min : 0,
 		max : 90,

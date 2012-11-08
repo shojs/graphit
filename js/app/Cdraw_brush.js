@@ -34,6 +34,7 @@ function Cdraw_brush() {
 	this.color = new Ccolor(0, 0, 0, 1).from_rgba(c);
 	this.set_size(DRAWETC.get_set('draw_brush_size', 20));
 	//this.set_opacity(DRAWETC.get_set('draw_brush_opacity', 100));
+	this.set_pression(DRAWETC.get_set('draw_brush_pressions', 100));
 	this.set_rotation(DRAWETC.get_set('draw_brush_rotation', 20));
 	this.need_redraw = true;
 	this.canvas = null;
@@ -45,6 +46,14 @@ function Cdraw_brush() {
 Cdraw_brush.prototype.set_color = function(color) {
 	this.color.set_rgb(color);
 	DRAWETC.set('draw_brush_color', this.color.to_rgba());
+	this.need_redraw = true;
+};
+
+Cdraw_brush.prototype.set_pression = function(pression) {
+	if (pression == 0) { pression = 0.1; }
+	this.pression = pression;
+	
+	DRAWETC.set('draw_brush_pression', this.pression);
 	this.need_redraw = true;
 };
 
