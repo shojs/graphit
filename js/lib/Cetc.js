@@ -9,7 +9,7 @@ function Cetc() {
 }
 
 Cetc.prototype.set = function(k, v) {
-	//console.log('set ',k, ' = ', v);
+	// console.log('set ',k, ' = ', v);
 	this.store[k] = v;
 	return this;
 };
@@ -17,7 +17,6 @@ Cetc.prototype.set = function(k, v) {
 Cetc.prototype.get = function(k) {
 	return this.store[k];
 };
-
 
 Cetc.prototype.get_set = function(k, v) {
 	var ret;
@@ -28,5 +27,3 @@ Cetc.prototype.get_set = function(k, v) {
 	this.store[k] = v;
 	return v;
 };
-
-

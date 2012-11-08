@@ -1,4 +1,4 @@
-/**
+/*******************************************************************************
  * Object to hold mouse position
  * 
  * @param x
@@ -11,8 +11,7 @@ function Cmouse_tracker_point(x, y) {
 	this.time = Date.now();
 }
 
-
-/**
+/*******************************************************************************
  * Tracking mouse movement
  * 
  * @author %AUTHOR
@@ -31,8 +30,10 @@ function Cmouse_tracker(parent, c_move, c_push, c_release, c_track) {
 	this.x = 0;
 	this.y = 0;
 	this.minmax = new Object({
-		minx: 0, maxx: this.parent.width,
-		miny: 0, maxy: this.parent.height,
+		minx : 0,
+		maxx : this.parent.width,
+		miny : 0,
+		maxy : this.parent.height,
 	});
 	this.minx = this.minmax.maxx;
 	this.maxx = 0;
@@ -71,11 +72,10 @@ Cmouse_tracker.prototype.move = function(x, y) {
 	var y = helper_bound_value(y, this.minmax.miny, this.minmax.maxy);
 	this.x = x;
 	this.y = y;
-	//console.log('move: ' + this.x + ' / ' + this.y);
+	// console.log('move: ' + this.x + ' / ' + this.y);
 	this.func_move(this.x, this.y);
 	return this;
 };
-
 
 /**
  * 
@@ -90,7 +90,7 @@ Cmouse_tracker.prototype.push = function() {
 		}
 		var x = that.x;
 		var y = that.y;
-		//console.log(that);
+		// console.log(that);
 		that.points.push(new Cmouse_tracker_point(x, y));
 		that.minx = Math.min(that.minx, x);
 		that.maxx = Math.max(that.maxx, x);
@@ -110,9 +110,10 @@ Cmouse_tracker.prototype.build = function() {
 	var group = document.createElement('div');
 	var $g = $(group);
 	$g.addClass('not-draggable');
-//	$g.css('display', 'block');
-	$g.append('<div class="hold-var"><h6>x:</h6><div class="var-x">' + this.x + '</div></div>');
-	$g.append('<div class="hold-var"><h6>y:</h6><div class="var-y">' + this.y + '</div></div>');
+	$g.append('<div class="hold-var"><h6>x:</h6><div class="var-x">' + this.x
+			+ '</div></div>');
+	$g.append('<div class="hold-var"><h6>y:</h6><div class="var-y">' + this.y
+			+ '</div></div>');
 	$r.append($g);
 	this.rootElm = $r;
 };

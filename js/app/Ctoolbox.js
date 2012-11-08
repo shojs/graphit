@@ -14,7 +14,6 @@ function Cdraw_tool_pen() {
 
 Cdraw_tool_pen.prototype = Object.create(Cdraw_tool.prototype);
 Cdraw_tool_pen.prototype.constructor = new Cdraw_tool();
-	
 
 function Cdraw_toolbox() {
 	this.selected_tool = null;
@@ -35,8 +34,8 @@ Cdraw_toolbox.prototype.build = function() {
 	var $r = $(root);
 	$r.append('<h6>Toolbox</h6>');
 	$r.addClass('draggable toolbox');
-	for (var i = 0; i < this.tools.length; i++) {
-		$r.append('<p>'+ this.tools[i].type + '</p>');
+	for ( var i = 0; i < this.tools.length; i++) {
+		$r.append('<p>' + this.tools[i].type + '</p>');
 	}
 	this.rootElm = root;
 };

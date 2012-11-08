@@ -1,4 +1,4 @@
-/**
+/*******************************************************************************
  * 
  */
 var E_BRUSHSHAPE = new Object({
@@ -14,26 +14,32 @@ function get_drawing_brush_general(oBrush) {
 
 function get_drawing_brush_circle(oBrush) {
 	var canvas = get_drawing_brush_general(oBrush);
-	//var x = Math.floor(oBrush.width / 2);
-	//var y = Math.floor(oBrush.height / 2);
 	var r = Math.floor(oBrush.size / 2);
 	helper_draw_circle(canvas, r, r, r, oBrush.color.to_rgba());
 	return canvas;
 }
 
+/*******************************************************************************
+ * 
+ * @param alpha
+ * @returns {Number}
+ */
 function helper_alphaper2hex(alpha) {
 	var v = alpha / 100;
 	console.log('Alpha: ' + v);
 	return v;
 }
 
+/*******************************************************************************
+ * 
+ * @returns
+ */
 function Cdraw_brush() {
 	this.width = 100;
 	this.height = 100;
 	var c = DRAWETC.get_set('draw_brush_color', 'rgba(0,0,0,1)');
 	this.color = new Ccolor(0, 0, 0, 1).from_rgba(c);
 	this.set_size(DRAWETC.get_set('draw_brush_size', 20));
-	//this.set_opacity(DRAWETC.get_set('draw_brush_opacity', 100));
 	this.set_pression(DRAWETC.get_set('draw_brush_pressions', 100));
 	this.set_rotation(DRAWETC.get_set('draw_brush_rotation', 20));
 	this.need_redraw = true;
@@ -50,9 +56,11 @@ Cdraw_brush.prototype.set_color = function(color) {
 };
 
 Cdraw_brush.prototype.set_pression = function(pression) {
-	if (pression == 0) { pression = 0.1; }
+	if (pression == 0) {
+		pression = 0.1;
+	}
 	this.pression = pression;
-	
+
 	DRAWETC.set('draw_brush_pression', this.pression);
 	this.need_redraw = true;
 };
@@ -64,8 +72,7 @@ Cdraw_brush.prototype.set_rotation = function(rotation) {
 };
 
 Cdraw_brush.prototype.set_opacity = function(opacity) {
-	//this.opacity = opacity;
-	this.color.a = Math.round(opacity*100)/100;
+	this.color.a = Math.round(opacity * 100) / 100;
 	DRAWETC.set('draw_brush_color', this.color.to_rgba());
 	this.need_redraw = true;
 };
@@ -86,9 +93,7 @@ Cdraw_brush.prototype.redraw = function(canvas) {
 
 Cdraw_brush.prototype.drawing = function(tcanvas, tx, ty) {
 	var ctx = tcanvas.getContext('2d');
-	//var du = this.canvas.toDataURL();
-	//$('.draw-surface').css('cursor', 'url("'+this.canvas.toDataURL()+'"),auto');
-	ctx.clearRect(0,0,this.width, this.height);
+	ctx.clearRect(0, 0, this.width, this.height);
 	ctx.drawImage(this.canvas, 0, 0);
 };
 

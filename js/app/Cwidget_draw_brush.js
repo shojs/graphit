@@ -28,9 +28,9 @@ Cwidget_draw_brush.prototype._build_header = function($parent) {
 };
 
 Cwidget_draw_brush.prototype.callback_color_changed = function(rgb) {
-	//console.log('Change'); console.log(rgb);
+	// console.log('Change'); console.log(rgb);
 	rgb.a = this.cBrush.color.a;
-	this.cBrush.color.set_rgb(rgb);	
+	this.cBrush.color.set_rgb(rgb);
 	DRAWETC.set('draw_brush_color', this.cBrush.color.to_rgba());
 	this.cBrush.redraw(this.canvas);
 };
@@ -44,14 +44,14 @@ Cwidget_draw_brush.prototype._build_image_preview = function($parent) {
 	var colorpicker = document.createElement('input');
 	this.dom_colorpicker = colorpicker;
 	var $cp = $(colorpicker);
-	//$cp.attr('width', 100);
-	//$cp.attr('height', 100);
-	//$cp.attr('src', 'img/loading.png');
+	// $cp.attr('width', 100);
+	// $cp.attr('height', 100);
+	// $cp.attr('src', 'img/loading.png');
 	$cp.addClass('var-colorpicker');
 	$cp.append('<h6>background</h6>');
 	$cp.ColorPicker({});
 	$cp.css('z-index', 1000);
-	//$r.append($cp);
+	// $r.append($cp);
 	var $preview = $(document.createElement('div'));
 	$preview.addClass('image-preview-group');
 	var canvas_dom = document.createElement('canvas');
@@ -62,10 +62,10 @@ Cwidget_draw_brush.prototype._build_image_preview = function($parent) {
 	$canvas.addClass('image-preview');
 	$preview.append($canvas);
 	$preview.ColorPicker({
-		onChange: function(hsb, hex, rgb) {
+		onChange : function(hsb, hex, rgb) {
 			that.callback_color_changed(rgb);
 		},
-		onSubmit: function(hsb, hex, rgb) {
+		onSubmit : function(hsb, hex, rgb) {
 			that.callback_color_changed(rgb);
 		}
 	});

@@ -1,4 +1,4 @@
-/**
+/*******************************************************************************
  * Fragment are images who composed layer global image
  * 
  * @param parent
@@ -24,8 +24,9 @@ Cdraw_frag.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 		return false;
 	}
 	try {
-		this.ctx.drawImage(canvas, sx, sy, swidth, sheight, 0, 0, swidth, sheight);
-	} catch(e) {
+		this.ctx.drawImage(canvas, sx, sy, swidth, sheight, 0, 0, swidth,
+				sheight);
+	} catch (e) {
 		console.log(e);
 	}
 	return true;
