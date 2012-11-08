@@ -110,9 +110,9 @@ Cmouse_tracker.prototype.build = function() {
 	var group = document.createElement('div');
 	var $g = $(group);
 	$g.addClass('not-draggable');
-	$g.css('display', 'block');
-	$g.append('<div class="hold-var">x:&nbsp;<div class="var-x">' + this.x + '</div></div>');
-	$g.append('<div class="hold-var">y:<div class="var-y">' + this.y + '</div></div>');
+//	$g.css('display', 'block');
+	$g.append('<div class="hold-var"><h6>x:</h6><div class="var-x">' + this.x + '</div></div>');
+	$g.append('<div class="hold-var"><h6>y:</h6><div class="var-y">' + this.y + '</div></div>');
 	$r.append($g);
 	this.rootElm = $r;
 };
