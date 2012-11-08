@@ -26,8 +26,8 @@ Cdraw_layer.prototype.redraw = function() {
 	if (!this.need_redraw) {
 		return false;
 	}
-	this.clear();
-	//this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	//this.clear();
+	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	//$('#frags-preview').empty();
 	//for ( var i = this.frags.length - 1; i >= 0; i--) {
 	for ( var i = 0; i < this.frags.length; i++) {
