@@ -134,7 +134,10 @@ Cdraw_surface.prototype.redraw = function() {
 };
 
 Cdraw_surface.prototype.clear = function() {
-	this.layer_current.clear();
+	//this.layer_current.clear();
+	for (var i = 0; i < this.layers.length; i++) {
+		this.layers[i].clear();
+	}
 	this.redraw();
 };
 
@@ -149,6 +152,7 @@ Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
 	this.cGrapher.stop();
 	this.redraw();
 	this.mouse.release();
+
 	
 };
 

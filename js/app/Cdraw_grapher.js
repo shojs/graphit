@@ -84,19 +84,7 @@ Cdraw_grapher.prototype.stop = function() {
 	var y = Math.round(cs.mouse.miny - dsize);
 	
 	cs.layer_current.drawImage(cs.layer_prefrag.canvas, x, y, width, height, 0,0, width, height);
-	//	var frag = new Cdraw_frag(this, new Cpoint(x, y), width, height);
-//	console.log(cs.layer_prefrag.canvas, x, y, width, height, 0,0, width, height);
-//	frag.drawImage(cs.layer_prefrag.canvas, x, y, width, height, 0,0, width, height);
-//	
-	//cs.layer_current.frags.push(frag);
-	//cs.layer_current.need_redraw = true;
-	//cs.layer_current.redraw();
-	//console.log("Mouse min:", cs.mouse, x, y, width, height);
-	//lmouse.ctx.fillStyle = 'rgba(255,0,0,1)';
-	//lmouse.ctx.strokeRect(x , y, width, height);
-	//this.cSurface.redraw();
-	cs.layer_prefrag = new Cdraw_layer(cs, E_LAYERLABEL.prefrag);
-	//cs.layer_current = cs.layer_prefrag;
+	cs.layer_prefrag.clear();// = new Cdraw_layer(cs, E_LAYERLABEL.prefrag);
 	this.timer = null;
 	this.index = 0;
 	return true;
