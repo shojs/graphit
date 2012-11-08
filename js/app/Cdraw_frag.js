@@ -23,17 +23,10 @@ Cdraw_frag.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 		console.error('y position out of bound');
 		return false;
 	}
-	var g = new Object({
-		canvas_frag: this.canvas,
-		canvas_source: canvas,
-		sx: sx,
-		sy: sy,
-		swidth: swidth,
-		sheight: sheight,
-		tx: tx,
-		ty: ty,
-	});
-	console.log(g, this.canvas, canvas);
-	this.ctx.drawImage(canvas, sx, sy, swidth, sheight, 0, 0, swidth, sheight);
+	try {
+		this.ctx.drawImage(canvas, sx, sy, swidth, sheight, 0, 0, swidth, sheight);
+	} catch(e) {
+		console.log(e);
+	}
 	return true;
 };

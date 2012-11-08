@@ -18,7 +18,7 @@ function helper_draw_circle (canvas, x, y, size, color) {
 		console.error(canvas);
 		return 0;
 	}
-	if (!color) { color = 'rgb(0,0,0)'; }
+	if (!color) { color = 'rgba(0,0,0,1)'; }
 	if (!size) { size = 1;}
 	ctx.beginPath();
 	ctx.fillStyle = color;

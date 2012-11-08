@@ -103,7 +103,6 @@ Cdraw_surface.prototype.build = function() {
 	$c.mousemove(function(e) { that.callback_mousemove(e, that); });
 	$c.mouseout(function(e) { that.callback_mouseup(e, that); });
 	this.dom_mouse = this.mouse.get_dom();
-	console.log(this.dom_mouse);
 	$r.append($c);
 	this.build_buttons = new Cdraw_buttons(this);
 	$r.append(this.build_buttons.get_dom());
@@ -115,7 +114,7 @@ Cdraw_surface.prototype.build = function() {
 
 
 Cdraw_surface.prototype.undo = function() {
-	console.log('Undo');
+	console.log('----- ----- -----' + "\n" + 'Undo');
 	this.layer_current.discard_frag();
 	this.layer_current.redraw();
 
@@ -123,14 +122,10 @@ Cdraw_surface.prototype.undo = function() {
 };
 
 Cdraw_surface.prototype.redraw = function() {
-	console.log('Redrawing surface');
-//	for(var i = 0; i < this.layers; i++) {
-//		this.canvas
-//	}
+	//console.log('Redrawing surface');
 	var tctx = this.canvas.getContext('2d');
 	tctx.clearRect(0,0, this.canvas.width, this.canvas.height);
 	for (var i = 0; i < this.layers.length; i++) {
-		//this.layers[i].need_redraw = true;
 		this.layers[i].redraw();
 		tctx.drawImage(this.layers[i].canvas, 0, 0, this.canvas.width, this.canvas.height);
 	}
@@ -144,7 +139,7 @@ Cdraw_surface.prototype.clear = function() {
 };
 
 Cdraw_surface.prototype.callback_mousedown = function(e, obj) {
-	console.log(this.id + ': mouse down');
+	console.log('----- ----- -----' + "\n" + this.id + ': mouse down');
 	this.mouse.push();
 	this.cGrapher.start();
 };
@@ -152,8 +147,9 @@ Cdraw_surface.prototype.callback_mousedown = function(e, obj) {
 Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
 	console.log(this.id + ': mouse up');
 	this.cGrapher.stop();
-	this.mouse.release();
 	this.redraw();
+	this.mouse.release();
+	
 };
 
 Cdraw_surface.prototype.callback_mousemove = function(e, obj) {

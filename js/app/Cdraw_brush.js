@@ -56,7 +56,7 @@ Cdraw_brush.prototype.set_rotation = function(rotation) {
 
 Cdraw_brush.prototype.set_opacity = function(opacity) {
 	//this.opacity = opacity;
-	this.color.a = parseInt(opacity);
+	this.color.a = Math.round(opacity*100)/100;
 	DRAWETC.set('draw_brush_color', this.color.to_rgba());
 	this.need_redraw = true;
 };

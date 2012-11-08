@@ -27,24 +27,16 @@ Cdraw_layer.prototype.redraw = function() {
 		return false;
 	}
 
-	console.log('Redrawing layer: ' + this.label);
 	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-	console.log('-----------------> num frags: ' + this.frags.length);
 	$('#frags-preview').empty();
-	//for ( var i = 0; i < this.frags.length; i++) {
-	for ( var i = this.frags.length - 1; i >= 0; i--) {
+	//for ( var i = this.frags.length - 1; i >= 0; i--) {
+	for ( var i = 0; i < this.frags.length; i++) {
 		var f = this.frags[i];
-		console.log('Assembing fragment: ' + i, f);
 		this.ctx.drawImage(f.canvas, 0, 0, f.canvas.width, f.canvas.height,
 				f.position.x, f.position.y, f.canvas.width, f.canvas.height);
-			//var img = document.createElement('img');
-			//img.src = f.canvas.toDataURL();
-			//$(img).css('float', 'left');
-			//$('#frags-preview').append(img);
 	}
 	var img = document.createElement('img');
 	img.src = this.canvas.toDataURL();
-	//console.log(img.src);
 	$('body').append(img);
 	this.need_redraw = false;
 	return true;
@@ -62,9 +54,12 @@ Cdraw_layer.prototype.get_canvas = function() {
 
 Cdraw_layer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 		ty) {
-	console.log('creating frag');
 	var frag = new Cdraw_frag(this, new Object({x: sx, y: sy}), swidth, sheight);
 	frag.drawImage(canvas, sx, sy, swidth, sheight, tx, ty);
 	this.frags.push(frag);
-	this.ctx.drawImage(canvas, sx, sy, swidth, sheight, sx, sy, swidth, sheight);
+	try {
+		this.ctx.drawImage(canvas, sx, sy, swidth, sheight, sx, sy, swidth, sheight);
+	} catch(e) {
+		console.error(e);
+	};
 };
