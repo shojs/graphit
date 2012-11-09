@@ -211,7 +211,8 @@ Cdraw_layer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
  * 
  * @returns
  */
-function Cdraw_layer_manager() {
+function Cdraw_layer_manager(parent) {
+	this.parent = parent;
 	this.layers = new Array();
 	this.special_layers = new Object();
 	this.current_layer = null;
@@ -219,6 +220,7 @@ function Cdraw_layer_manager() {
 };
 
 Cdraw_layer_manager.prototype.add = function(layer) {
+	var that = this;
 	if (!(layer instanceof Cdraw_layer)) {
 		console.error('Layer manager need Cdraw_layer object');
 		return false;
@@ -235,6 +237,27 @@ Cdraw_layer_manager.prototype.add = function(layer) {
 		this.layers.push(layer);
 	}
 	this.current_layer = layer;
+	if (this.rootElm) {		
+		var elm = $(this.rootElm).children('.group-layers');
+		elm.prepend(layer.dom_get(this.layers.length - 1));
+		elm.sortable({ handle: '.sortable-handle',
+			update: function(e, ui) {
+				console.log('order changed: ' + ui.item);
+				that.redraw();
+			}
+		});
+		elm.selectable({ filter: '.layer canvas', 
+			selected: function(e, ui) { 
+				console.log('selected', e, ui);
+				var l = $(ui.selected).parent().find('canvas');
+				console.log('INDEX: ', l.attr('layer_index'));
+				that.select(parseInt(l.attr('layer_index')));
+				return false;
+			},
+		});
+	
+		
+	}
 	return true;
 };
 
@@ -267,6 +290,24 @@ Cdraw_layer_manager.prototype.dom_build = function(parent) {
 		}, click: function() { console.log('BUH');}
 	});
 	$r.append($g);
+	var b_add = new Cimage_button({ src: 'img/16x16_create_file.png', width: 16, height: 16, 
+		css: {
+			display: 'inline-block',
+			clear: 'right',
+		},
+		click: function(obj) {
+			console.log("Add Layer: ", obj);
+			that.add(new Cdraw_layer(that.parent));
+			that.parent.redraw();
+		}
+	});
+	var b_trash = new Cimage_button({ src: 'img/16x16_trash.png', width: 16, height: 16, 
+		click: function(obj) {
+			console.log("Clicked: ", obj);
+		}
+	});
+	$r.append(b_add.dom_get());
+	$r.append(b_trash.dom_get());
 	this.rootElm = $r;
 	//parent.append($r):
 	return this;

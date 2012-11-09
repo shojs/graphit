@@ -27,6 +27,10 @@ Cimage_button.prototype.dom_build = function() {
 	var root = document.createElement('div');
 	var $r = $(root);
 	$r.addClass('button');
+	for (opt in this.options.css) {
+		console.log('css: ', opt);
+		$r.css(opt, this.options.css[opt]);
+	}
 	var img = document.createElement('img');
 	var $i = $(img);
 	this.image = img;
