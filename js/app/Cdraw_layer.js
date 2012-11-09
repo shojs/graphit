@@ -64,7 +64,7 @@ Cdraw_layer.prototype.dom_build = function(index) {
 	var root = document.createElement('li');
 	var $r = $(root);
 	$r.attr('id', this.uid);
-	$r.addClass('layer ui-state-default ui-sortable-placeholder');
+	$r.addClass('layer');
 	if (index == 0) {
 		$r.addClass('selected');
 	}
@@ -81,10 +81,10 @@ Cdraw_layer.prototype.dom_build = function(index) {
 
 	$td.append(button.dom_get());
 	$tr.append($td);
-	$td = $(document.createElement('td'));
-	$td.addClass('sortable-handle move');
-	$td.append("Move");
-	$tr.append($td);
+//	$td = $(document.createElement('td'));
+//	$td.addClass('sortable-handle move');
+//	$td.append("Move");
+//	$tr.append($td);
 	$td = $(document.createElement('td'));
 	$td.append('Layer - '+this.label);	
 	$td.addClass('label');
@@ -102,6 +102,7 @@ Cdraw_layer.prototype.dom_build = function(index) {
 	$c.attr('height', height);
 	$td.append($c);
 	$tr.append($td);
+	$td = $(document.createElement('td'));
 	var b_up = new Cimage_button({ 
 		src: 'img/16x16_up.png', 
 		width: 16, 
@@ -111,6 +112,7 @@ Cdraw_layer.prototype.dom_build = function(index) {
 			that.parent.move_up(that.uid);
 		}
 	});
+	$td.append(b_up.dom_get());
 	var b_down = new Cimage_button({ 
 		src: 'img/16x16_down.png', 
 		width: 16, 
@@ -120,6 +122,7 @@ Cdraw_layer.prototype.dom_build = function(index) {
 			that.parent.move_down(that.uid);
 		}
 	});
+	$td.append(b_down.dom_get());
 	var b_trash = new Cimage_button({ 
 		src: 'img/16x16_trash.png', 
 		width: 16, 
@@ -131,10 +134,11 @@ Cdraw_layer.prototype.dom_build = function(index) {
 			$(obj).parents('li.layer').remove();
 		}
 	});
+	$tr.append($td);
 	$td = $(document.createElement('td'));
 	$td.addClass('options');
-	$td.append(b_up.dom_get());
-	$td.append(b_down.dom_get());
+
+	//$td.append(b_down.dom_get());
 	$td.append(b_trash.dom_get());
 	
 	$tr.append($td);

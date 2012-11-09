@@ -129,7 +129,7 @@ Cdraw_layer_manager.prototype.dom_build = function(parent, force) {
 	var that = this;
 	var root = document.createElement('div');
 	var $r = $(root);
-	$r.addClass('layer-manager draggable ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable ui-dialog-buttons');
+	$r.addClass('layer-manager draggable ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable ');
 	$r.append('<h6 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">Layers</h6>');
 	var cmd = document.createElement('div');
 	var b_add = new Cimage_button({ src: 'img/16x16_create_file.png', width: 16, height: 16, 
@@ -145,7 +145,7 @@ Cdraw_layer_manager.prototype.dom_build = function(parent, force) {
 	$(cmd).append(b_add.dom_get());
 	var group = document.createElement('ul');
 	var $g = $(group);
-	$g.addClass('group-layers ui-sortable');
+	$g.addClass('group-layers');
 //	$g.sortable({ handle: '.sortable-handle', 
 //		placeholder: 'ui-sortable-placeholder',
 //		update: function(e, ui) {
@@ -156,7 +156,7 @@ Cdraw_layer_manager.prototype.dom_build = function(parent, force) {
 //			return true;
 //		}
 //	});
-	$g.sortable().disableSelection();
+	//$g.sortable().disableSelection();
 	$r.append(cmd);
 	
 	$r.append($g);
