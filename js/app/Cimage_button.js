@@ -38,9 +38,6 @@ Cimage_button.prototype.dom_build = function() {
 	if (this.options.height) $i.attr('height', this.options.height);
 	img.src = this.options.src;
 	$i.attr('alt',this.options.label);	
-	$r.append(img);
-
-
 	$i.button({});
 	$i.click(function() {
 		console.log('---- click');
@@ -48,6 +45,8 @@ Cimage_button.prototype.dom_build = function() {
 			that.options.click(this);
 		}
 	});
+	$r.append(img);
+
 	this.rootElm = $r;
 	return this;
 };

@@ -217,6 +217,7 @@ function Cdraw_layer_manager(parent) {
 	this.special_layers = new Object();
 	this.current_layer = null;
 	this.rootElm = null;
+	this.dom_build();
 };
 
 Cdraw_layer_manager.prototype.add = function(layer) {
@@ -265,35 +266,12 @@ Cdraw_layer_manager.prototype.dom_build = function(parent) {
 	var that = this;
 	var root = document.createElement('div');
 	var $r = $(root);
-	$r.addClass('layer-manager draggable ui-widget ui-widget-content');
-	$r.append('<h6 class="header ui-widget-header">Layers</h6>');
-	var group = document.createElement('ul');
-	var $g = $(group);
-	$g.addClass('group-layers');
-	for(var i = this.layers.length - 1; i >= 0; i--) {
-		var l = this.layers[i];
-		$g.append(l.dom_get(i));
-	}
-	$g.sortable({ handle: '.sortable-handle',
-		update: function(e, ui) {
-			console.log('order changed: ' + ui.item);
-			that.redraw();
-		}
-	});
-	$g.selectable({ filter: '.layer canvas', 
-		selected: function(e, ui) { 
-			//console.log('selected', e, ui);
-			var l = $(ui.selected).parent().find('canvas');
-			console.log('INDEX: ', l.attr('layer_index'));
-			that.select(parseInt(l.attr('layer_index')));
-			return false;
-		}, click: function() { console.log('BUH');}
-	});
-	$r.append($g);
+	$r.addClass('layer-manager draggable ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable ui-dialog-buttons');
+	$r.append('<h6 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">Layers</h6>');
+	var cmd = document.createElement('div');
 	var b_add = new Cimage_button({ src: 'img/16x16_create_file.png', width: 16, height: 16, 
 		css: {
 			display: 'inline-block',
-			clear: 'right',
 		},
 		click: function(obj) {
 			console.log("Add Layer: ", obj);
@@ -306,8 +284,33 @@ Cdraw_layer_manager.prototype.dom_build = function(parent) {
 			console.log("Clicked: ", obj);
 		}
 	});
-	$r.append(b_add.dom_get());
-	$r.append(b_trash.dom_get());
+	$(cmd).append(b_add.dom_get());
+	//$r.append(b_trash.dom_get());
+	var group = document.createElement('ul');
+	var $g = $(group);
+	$r.append(cmd);
+	$g.addClass('group-layers ui-widget-content ui-helper-clearfix');
+//	for(var i = this.layers.length - 1; i >= 0; i--) {
+//		var l = this.layers[i];
+//		$g.append(l.dom_get(i));
+//	}
+//	$g.sortable({ handle: '.sortable-handle',
+//		update: function(e, ui) {
+//			console.log('order changed: ' + ui.item);
+//			that.redraw();
+//		}
+//	});
+//	$g.selectable({ filter: '.layer canvas', 
+//		selected: function(e, ui) { 
+//			//console.log('selected', e, ui);
+//			var l = $(ui.selected).parent().find('canvas');
+//			console.log('INDEX: ', l.attr('layer_index'));
+//			that.select(parseInt(l.attr('layer_index')));
+//			return false;
+//		}, click: function() { console.log('BUH');}
+//	});
+	$r.append($g);
+
 	this.rootElm = $r;
 	//parent.append($r):
 	return this;

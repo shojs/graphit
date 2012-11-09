@@ -17,19 +17,10 @@ body {
     left: 220px;;
 }
 
-.draggable {
-	  margin: 2px;
-}
-.draggable > h6.header {
-
-    border-style: solid;
-    border-width: 1px 0 0 0;
-    border-radius: 5px;
-}
 
 .draggable {
-	position: absolute;
-;
+    margin: 1px 2px 2px 1px;
+	position: absolute;;
     border-style: solid;
     border-width: 1px 2px 2px 1px;
     border-radius: 5px;
@@ -134,7 +125,7 @@ body {
     border-style: solid;
     border-width: 1px;
     font-size: x-small;
-    
+
 }
 .layer-manager .ui-selected {
 	background-color: rgba(189,0,0,1);
@@ -146,15 +137,22 @@ body {
 }
 .layer-manager {
 	position: absolute;
+	width: 300px;
     left: 1150px;
             border: 1px;
             border-width: 1px;
+                
 }
 .layer > td {
 	white-space: no-wrap;
     
 }
 
+.group-layers {
+	overflow: auto;
+	height: 500px;
+	margin: 1px 2px 2px 1px;
+}
 
 .sortable {
        font-size: small;
@@ -211,4 +209,24 @@ body {
 	    margin: 0 auto 0 auto;
 	    text-align: center;
 
+}
+
+.button {
+	position: relative;
+	display: inline;
+	margin: 0;
+	padding: 0;
+    borer: 5px;
+}
+
+.button img {
+	display: inline-block;
+}
+
+
+.ui-widget-header {
+	height: 2em;
+    font-size: x-small;
+    margin: 1px 2p 2p 1px;
+    padding: 0;
 }
