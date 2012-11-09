@@ -128,7 +128,6 @@ body {
 
 .layer canvas { 
     width: 50px;
-    heigth: 50px;
     background-image:url(../img/grid-10x10.png);
     border-style: solid;
     margin: 1px auto 1em auto;

@@ -74,8 +74,10 @@ Cdraw_layer.prototype.dom_build = function(index) {
 	//this.canvas = canvas;
 	var $c = $(canvas);
 	$c.attr('layer_index', index);
-	$c.attr('width', 25);
-	$c.attr('height', 25);
+	var width = 100;
+	var height = width * (this.canvas.height / this.canvas.width);
+	$c.attr('width', width);
+	$c.attr('height', height);
 	$td.append($c);
 	$tr.append($td);
 	$t.append($tr);
@@ -95,8 +97,7 @@ Cdraw_layer.prototype.redraw_preview = function() {
 	ctx.fillStyle = 'rgba(0,0,0,1)';
 	ctx.strokeRect(0,0,this.canvas.width, this.canvas.jheight);
 	ctx.stroke();
-//	ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
-	ctx.drawImage(this.canvas, 0,0, this.canvas.width, this.canvas.height, 0, 0, 25, 25);
+	ctx.drawImage(this.canvas, 0,0, this.canvas.width, this.canvas.height, 0, 0, c.width, c.height);
 	
 	//console.log(this.canvas.toDataURL());
 
