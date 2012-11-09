@@ -27,54 +27,132 @@ function Cdraw_layer(parent, label, p_composition) {
 	this.canvas.setAttribute('height', parent.height);
 	this.ctx = this.canvas.getContext('2d');
 	this.need_redraw = true;
+	this.rootElm = null;
 };
 
+/**
+ * 
+ * @returns
+ */
 Cdraw_layer.prototype.discard_frag = function() {
-	console.log('length: ' + this.frags.length);
+	//console.log('length: ' + this.frags.length);
 	this.need_redraw = true;
 	return this.frags.pop();
 };
 
-Cdraw_layer.prototype.dom_build = function() {
-	var root = document.createElement('div');
+/**
+ * 
+ */
+Cdraw_layer.prototype.dom_get = function(index) {
+	this.dom_build(index);
+	return this.rootElm;
+},
+
+/**
+ * 
+ * @returns {Cdraw_layer}
+ */
+Cdraw_layer.prototype.dom_build = function(index) {
+	var root = document.createElement('li');
 	var $r = $(root);
-	$r.addClass('layers draggable');
-	$r.append('<h6>Layers</h6>');
-	var group = document.createElement('div');
-	var $g = $(group);
-	$g.addClass('group');
-	$r.append($g);
-	this.rootElm = $r;
+	$r.addClass('layer');
+	var table = document.createElement('table');
+	var $t = $(table);;
+	var $tr = $(document.createElement('tr'));
+	var $td = $(document.createElement('td'));
+	$td.addClass('sortable-handle');
+	$td.append("Move");
+	$tr.append($td);
+	$td = $(document.createElement('td'));
+	$td.append('Layer - '+this.label);
+	
+	
+	$tr.append($td);
+	$td =  $(document.createElement('td'));
+	var canvas = document.createElement('canvas');
+	this.canvas_preview = canvas;
+	//this.canvas = canvas;
+	var $c = $(canvas);
+	$c.attr('layer_index', index);
+	$c.attr('width', 25);
+	$c.attr('height', 25);
+	$td.append($c);
+	$tr.append($td);
+	$t.append($tr);
+	$r.append($t);
+	this.rootElm = root;
+	return this;
 };
 
-Cdraw_layer.prototype.redraw = function() {
+
+/**
+ * 
+ */
+Cdraw_layer.prototype.redraw_preview = function() {
+	//console.log('Redrawing preview');
+	var c = $(this.rootElm).children('table').children('tbody').children('tr').children('td').children('canvas')[0];
+	var ctx = c.getContext('2d');
+	ctx.fillStyle = 'rgba(0,0,0,1)';
+	ctx.strokeRect(0,0,this.canvas.width, this.canvas.jheight);
+	ctx.stroke();
+//	ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+	ctx.drawImage(this.canvas, 0,0, this.canvas.width, this.canvas.height, 0, 0, 25, 25);
+	
+	//console.log(this.canvas.toDataURL());
+
+};
+
+/**
+ * 
+ * @returns {Boolean}
+ */
+Cdraw_layer.prototype.redraw = function(bool) {
+	if (typeof(bool) === 'boolean') {
+		this.need_redraw = bool;
+	}
 	if (!this.need_redraw) {
 		return false;
 	}
-	// this.clear();
 	this.ctx.globalCompositeOperation = this.composition;
 	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-	// $('#frags-preview').empty();
-	// for ( var i = this.frags.length - 1; i >= 0; i--) {
+
 	for ( var i = 0; i < this.frags.length; i++) {
 		var f = this.frags[i];
 		this.ctx.drawImage(f.canvas, 0, 0, f.canvas.width, f.canvas.height,
 				f.position.x, f.position.y, f.canvas.width, f.canvas.height);
 	}
+	this.redraw_preview();
 	this.need_redraw = false;
 	return true;
 };
 
+/**
+ * 
+ */
 Cdraw_layer.prototype.clear = function() {
 	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	this.frags = new Array();
 };
 
+/**
+ * 
+ * @returns
+ */
 Cdraw_layer.prototype.get_canvas = function() {
 	this.redraw();
 	return this.canvas;
 };
 
+/**
+ * 
+ * @param canvas
+ * @param sx
+ * @param sy
+ * @param swidth
+ * @param sheight
+ * @param tx
+ * @param ty
+ */
 Cdraw_layer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 		ty) {
 	var frag = new Cdraw_frag(this, new Object({
@@ -86,11 +164,13 @@ Cdraw_layer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 	try {
 		this.ctx.drawImage(canvas, sx, sy, swidth, sheight, sx, sy, swidth,
 				sheight);
+		
 	} catch (e) {
 		console.error(e);
-	}
-	;
+	};
 };
+
+
 
 /*******************************************************************************
  * 
@@ -100,6 +180,7 @@ function Cdraw_layer_manager() {
 	this.layers = new Array();
 	this.special_layers = new Object();
 	this.current_layer = null;
+	this.rootElm = null;
 };
 
 Cdraw_layer_manager.prototype.add = function(layer) {
@@ -121,3 +202,48 @@ Cdraw_layer_manager.prototype.add = function(layer) {
 	this.current_layer = layer;
 	return true;
 };
+
+Cdraw_layer_manager.prototype.dom_build = function(parent) {
+	var that = this;
+	var root = document.createElement('div');
+	var $r = $(root);
+	$r.addClass('layer-manager draggable');
+	$r.append('<h6 class="header">Layers</h6>');
+	var group = document.createElement('ul');
+	var $g = $(group);
+	$g.addClass('group-layers');
+	for(var i = this.layers.length - 1; i >= 0; i--) {
+		var l = this.layers[i];
+		$g.append(l.dom_get(i));
+	}
+	$g.sortable({ handle: '.sortable-handle',
+		update: function(e, ui) {
+			console.log('order changed: ' + ui.item);
+			that.redraw();
+		}
+	});
+	$g.selectable({ filter: '.layer',
+		selected: function(e, ui) { 
+			console.log('selected', e, ui);
+			var l = $(ui.selected).find('canvas');
+			console.log('INDEX: ', l.attr('layer_index'));
+		}
+	});
+	$r.append($g);
+	this.rootElm = $r;
+	//parent.append($r):
+	return this;
+};
+
+Cdraw_layer_manager.prototype.redraw = function() {
+	for (var i = 0; i <= this.layers.length; i++) {
+		this.layers[i].redraw();
+	}
+	
+};
+Cdraw_layer_manager.prototype.dom_get = function() {
+	this.dom_build();
+	return this.rootElm;
+};
+
+

@@ -68,7 +68,7 @@ Cdraw_grapher.prototype._graph = function() {
 
 	pression = Math.log(pression + (radius / 100));
 
-	console.log('pression: ' + pression);
+	// console.log('pression: ' + pression);
 	var points = math_linear_interpolation(p1, p2, pression);
 	for ( var i = 0; i < points.length; i++) {
 		helper_draw_circle(

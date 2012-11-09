@@ -36,7 +36,7 @@ body {
     padding: 0px ;
     background-color: silver;
     border-style: solid;
-    border-width: 1px 0 0 0;
+    border-width: 1px 2px 2px 1px;
     border-radius: 5px;
 }
 
@@ -108,11 +108,12 @@ body {
 }
 
 .mousetracker {
-    top: 300px;    
+    top: 500px;    
 }
 
 .toolbox {
     top: 500px;    
+    visibility: hidden;
 }
 
 
@@ -123,4 +124,63 @@ body {
 }
 .colorpicker {
 	z-index: 1000;
+}
+
+.layer canvas { 
+    width: 50px;
+    heigth: 50px;
+    background-image:url(../img/grid-10x10.png);
+    border-style: solid;
+    margin: 1px auto 1em auto;
+    display: inline;
+}
+
+.layer > table {
+	width: 200px;
+}
+
+.layer {
+    margin: 0;
+    padding: 0;
+	background-color: grey;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    
+}
+.layer-manager {
+	position: absolute;
+    left: 1150px;
+}
+.layer > td {
+	white-space: no-wrap;
+    
+}
+
+
+.sortable {
+    
+}
+
+.sortable li {
+	list-style: none;
+}
+
+.sortable-handle {
+	color:#333;
+    border:0px solid red;
+    writing-mode:tb-rl;
+    -webkit-transform:rotate(-90deg);
+    -moz-transform:rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    white-space:nowrap;
+    display:block;
+    bottom:0;
+    width:20px;
+    height:20px;
+    font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+    font-size:12px;
+    font-weight:normal;
+    text-shadow: 0px 0px 1px #333;
+    cursor: move; 
 }

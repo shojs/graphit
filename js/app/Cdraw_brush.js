@@ -26,7 +26,7 @@ function get_drawing_brush_circle(oBrush) {
  */
 function helper_alphaper2hex(alpha) {
 	var v = alpha / 100;
-	console.log('Alpha: ' + v);
+	//console.log('Alpha: ' + v);
 	return v;
 }
 

@@ -34,7 +34,7 @@ $(document).ready(function() {
 	$('body').append(widget_brush.get_dom());
 	$('body').append(cSurface.get_dom());
 	$('body').append(cSurface.mouse.rootElm);
-
+	$('body').append(cSurface.layer_manager.dom_get());
 	var cToolbox = new Cdraw_toolbox();
 	cToolbox.add_tool(new Cdraw_tool_pen());
 	$('body').append(cToolbox.get_dom());

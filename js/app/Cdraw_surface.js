@@ -64,6 +64,7 @@ function Cdraw_surface(id, width, height) {
 	this.layer_manager.add(new Cdraw_layer(this, E_LAYERLABEL.mouse));
 	this.layer_manager.add(new Cdraw_layer(this, E_LAYERLABEL.prefrag));
 	this.layer_manager.add(new Cdraw_layer(this));
+	this.layer_manager.add(new Cdraw_layer(this));
 	this.mouse = new Cmouse_tracker(this, callback_stub, callback_stub,
 			callback_stub, helper_draw_surface);
 	this.rootElm = null;
@@ -129,11 +130,11 @@ Cdraw_surface.prototype.redraw = function() {
 	var tctx = this.canvas.getContext('2d');
 	tctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	for ( var i = 0; i < this.layer_manager.layers.length; i++) {
-		this.layer_manager.layers[i].redraw();
+		this.layer_manager.layers[i].redraw(true);
 		tctx.drawImage(this.layer_manager.layers[i].canvas, 0, 0,
 				this.canvas.width, this.canvas.height);
 	}
-	console.log(this.layer_manager.special_layers);
+	//console.log(this.layer_manager.special_layers);
 	tctx.drawImage(this.layer_manager.special_layers.prefrag.canvas, 0, 0,
 			this.canvas.width, this.canvas.height);
 	tctx.drawImage(this.layer_manager.special_layers.prefrag.canvas, 0, 0,
