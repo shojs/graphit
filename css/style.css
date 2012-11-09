@@ -187,3 +187,26 @@ body {
     text-shadow: 0px 0px 1px #333;
     cursor: move; 
 }
+
+.license {
+	width: 400px;
+    height: 400px;
+    margin: 0 auto 0 auto;
+    bakground-color: silver;
+    white-space:  pre-wrap;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+ 
+}
+.license > .group {
+	bakground-color: silver;
+    overflow: auto;
+    height: 350px;
+
+    
+}
+.license > .text {
+	    margin: 0 2px 2px 1px;
+}
