@@ -91,16 +91,9 @@ Cdraw_layer.prototype.dom_build = function(index) {
  * 
  */
 Cdraw_layer.prototype.redraw_preview = function() {
-	//console.log('Redrawing preview');
-	var c = $(this.rootElm).children('table').children('tbody').children('tr').children('td').children('canvas')[0];
-	var ctx = c.getContext('2d');
-	ctx.fillStyle = 'rgba(0,0,0,1)';
-	ctx.strokeRect(0,0,this.canvas.width, this.canvas.jheight);
-	ctx.stroke();
-	ctx.drawImage(this.canvas, 0,0, this.canvas.width, this.canvas.height, 0, 0, c.width, c.height);
-	
-	//console.log(this.canvas.toDataURL());
-
+	var ctx = this.canvas_preview.getContext('2d');
+	ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
+	ctx.drawImage(this.canvas, 0,0, this.canvas.width, this.canvas.height, 0, 0, this.canvas_preview.width, this.canvas_preview.height);
 };
 
 /**
@@ -114,7 +107,9 @@ Cdraw_layer.prototype.redraw = function(bool) {
 	if (!this.need_redraw) {
 		return false;
 	}
-	this.ctx.globalCompositeOperation = this.composition;
+	if (this.globalCompositionOperation != this.composition) {
+		this.ctx.globalCompositeOperation = this.composition;
+	}
 	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	if (this.frags.length > 10) {
 		;//this.stack_frags(0, 5);

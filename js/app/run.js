@@ -9,7 +9,7 @@ var E_LAYERLABEL = new Object({
 });
 
 function Cdraw_glob() {
-	this.graphing_interval = 5;
+	this.graphing_interval = 10;
 };
 
 var DRAWGLOB = new Cdraw_glob();
@@ -23,7 +23,7 @@ $(function() {
 var DRAWETC = new Cetc();
 
 var cBrush = new Cdraw_brush();
-var cSurface = new Cdraw_surface('surface-01', 800, 600);
+var cSurface = new Cdraw_surface('surface-01', 640, 480);
 var cGrapher = new Cdraw_grapher(cBrush, cSurface);
 
 cSurface.tools = cBrush;
@@ -38,6 +38,10 @@ $(document).ready(function() {
 	var cToolbox = new Cdraw_toolbox();
 	cToolbox.add_tool(new Cdraw_tool_pen());
 	$('body').append(cToolbox.get_dom());
+	$('body').append(new Clicense().dom_get());
+	
+	
+	
 	$('.draggable').draggable({
 		handle : 'h6>.header',
 		snap : true,

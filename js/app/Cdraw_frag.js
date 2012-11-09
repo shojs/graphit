@@ -7,7 +7,7 @@
  */
 function Cdraw_frag(parent, position, width, height) {
 	this.position = position;
-	this.canvas = new Ccanvas(width, height, new Ccolor(0,0,0,0.5));
+	this.canvas = new Ccanvas(width, height, new Ccolor(0,0,0,0));
 };
 
 Cdraw_frag.prototype.getContext = function(t) {
@@ -16,7 +16,7 @@ Cdraw_frag.prototype.getContext = function(t) {
 
 Cdraw_frag.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 		ty) {
-	var ctx = canvas.getContext('2d');
+	//var ctx = canvas.getContext('2d');
 	if (tx > swidth || tx < 0) {
 		console.error('x position out of bound');
 		return false;

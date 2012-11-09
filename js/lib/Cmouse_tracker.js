@@ -97,7 +97,7 @@ Cmouse_tracker.prototype.push = function() {
 		that.miny = Math.min(that.miny, y);
 		that.maxy = Math.max(that.maxy, y);
 		that.func_track(that, x, y);
-	}, DRAWGLOB.graphing_interval);
+	}, DRAWGLOB.graphing_interval * 3 /4) ;
 	if (this.func_push)
 		this.func_push(this);
 };
