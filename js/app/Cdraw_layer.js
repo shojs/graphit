@@ -21,10 +21,11 @@ function Cdraw_layer(parent, label, p_composition) {
 	this.composition = composition;
 	this.parent = parent;
 	this.label = label;
+	this.visible = true;
 	this.frags = new Array();
 	this.canvas = document.createElement('canvas');
-	this.canvas.setAttribute('width', parent.width);
-	this.canvas.setAttribute('height', parent.height);
+	this.canvas.setAttribute('width', parent.parent.width);
+	this.canvas.setAttribute('height', parent.parent.height);
 	this.ctx = this.canvas.getContext('2d');
 	this.need_redraw = true;
 	this.rootElm = null;
@@ -48,12 +49,17 @@ Cdraw_layer.prototype.dom_get = function(index) {
 	return this.rootElm;
 },
 
+Cdraw_layer.prototype.set_visible = function(b) {
+	if (b) { this.visible = true; }
+	else { this.visible = false; }
+};
 /**
  * 
  * @returns {Cdraw_layer}
  */
 Cdraw_layer.prototype.dom_build = function(index) {
 	console.log('index', index);
+	var that = this;
 	var root = document.createElement('li');
 	var $r = $(root);
 	$r.addClass('layer');
@@ -94,9 +100,15 @@ Cdraw_layer.prototype.dom_build = function(index) {
 	$c.attr('height', height);
 	$td.append($c);
 	$tr.append($td);
-	var b_trash = new Cimage_button({ src: 'img/16x16_trash.png', width: 16, height: 16, 
+	var b_trash = new Cimage_button({ 
+		src: 'img/16x16_trash.png', 
+		width: 16, 
+		height: 16, 
 		click: function(obj) {
+			var $s = $(that.rootElm).find('.preview > canvas');
+			that.parent.remove(that);
 			console.log("Clicked: ", obj);
+			$(obj).parents('li.layer').remove();
 		}
 	});
 	$td = $(document.createElement('td'));
@@ -108,6 +120,7 @@ Cdraw_layer.prototype.dom_build = function(index) {
 	this.rootElm = root;
 	return this;
 };
+
 
 
 /**

@@ -86,10 +86,12 @@ body {
     font-size: x-small;
 }
 
-.layer-manager .ui-selected {
-    background-color: rgba(189, 0, 0, 1);
-    color: rgba(189, 0, 0, 1);
-    border-width: 1px;
+.ui-selected:parent {
+    background-color: white;
+    border-color: white;
+    border-width:thin;
+    border-style: dashed;
+    cursor: pointer;
 }
 
 .layer-manager {
@@ -103,7 +105,9 @@ body {
     width: 100px;
     text-align: right;
 }
-
+.layer-manager .selected {
+    background-color: rgba(100,80,80,1);
+}
 .layer > .move {
     width: 20px;
     text-align: center;

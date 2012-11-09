@@ -61,10 +61,10 @@ function Cdraw_surface(id, width, height) {
 	this.width = width;
 	this.height = height;
 	this.layer_manager = new Cdraw_layer_manager(this);
-	this.layer_manager.add(new Cdraw_layer(this, E_LAYERLABEL.mouse));
-	this.layer_manager.add(new Cdraw_layer(this, E_LAYERLABEL.prefrag));
+	this.layer_manager.add(new Cdraw_layer(this.layer_manager, E_LAYERLABEL.mouse));
+	this.layer_manager.add(new Cdraw_layer(this.layer_manager, E_LAYERLABEL.prefrag));
 //	this.layer_manager.add(new Cdraw_layer(this));
-	this.layer_manager.add(new Cdraw_layer(this));
+	this.layer_manager.add(new Cdraw_layer(this.layer_manager));
 	this.mouse = new Cmouse_tracker(this, callback_stub, callback_stub,
 			callback_stub, helper_draw_surface);
 	this.rootElm = null;
