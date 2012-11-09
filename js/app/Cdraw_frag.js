@@ -6,6 +6,7 @@
  * @param height
  */
 function Cdraw_frag(parent, position, width, height) {
+	this.uid = UID.get();
 	this.position = position;
 	this.canvas = new Ccanvas(width, height, new Ccolor(0,0,0,0));
 };

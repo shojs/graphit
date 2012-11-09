@@ -14,6 +14,7 @@ var E_DRAWCOMPOSITION = new Object({
  * @returns
  */
 function Cdraw_layer(parent, label, p_composition) {
+	this.uid = UID.get();
 	var composition = p_composition;
 	if (!composition) {
 		composition = 'source-over';
@@ -62,7 +63,8 @@ Cdraw_layer.prototype.dom_build = function(index) {
 	var that = this;
 	var root = document.createElement('li');
 	var $r = $(root);
-	$r.addClass('layer');
+	$r.attr('id', this.uid);
+	$r.addClass('layer ui-state-default ui-sortable-placeholder');
 	if (index == 0) {
 		$r.addClass('selected');
 	}
@@ -100,6 +102,24 @@ Cdraw_layer.prototype.dom_build = function(index) {
 	$c.attr('height', height);
 	$td.append($c);
 	$tr.append($td);
+	var b_up = new Cimage_button({ 
+		src: 'img/16x16_up.png', 
+		width: 16, 
+		height: 16, 
+		click: function(obj) {
+			console.log("up ", obj);
+			that.parent.move_up(that.uid);
+		}
+	});
+	var b_down = new Cimage_button({ 
+		src: 'img/16x16_down.png', 
+		width: 16, 
+		height: 16, 
+		click: function(obj) {
+			console.log("down ", obj);
+			that.parent.move_down(that.uid);
+		}
+	});
 	var b_trash = new Cimage_button({ 
 		src: 'img/16x16_trash.png', 
 		width: 16, 
@@ -113,10 +133,18 @@ Cdraw_layer.prototype.dom_build = function(index) {
 	});
 	$td = $(document.createElement('td'));
 	$td.addClass('options');
+	$td.append(b_up.dom_get());
+	$td.append(b_down.dom_get());
 	$td.append(b_trash.dom_get());
+	
 	$tr.append($td);
 	$t.append($tr);
 	$r.append($t);
+	$r.click(function() {
+		$(this).parent().children('.layer').removeClass('selected');
+		$(this).addClass('selected');
+		that.parent.select(that);
+	});
 	this.rootElm = root;
 	return this;
 };

@@ -30,14 +30,15 @@ Cdraw_layer_manager.prototype.add = function(layer) {
 		this.layers.push(layer);
 	}
 	this.current_layer = layer;
-	if (!match && this.rootElm) {		
+	if (!match && this.rootElm) {
+		
 		var group = $(this.rootElm).children('.group-layers');
 		var $lElm = $(layer.dom_get(this.layers.length - 1));
-		$lElm.click(function() {
-			$(this).parent().children('.layer').removeClass('selected');
-			$(this).addClass('selected');
-			that.select(layer);
-		});
+//		$lElm.click(function() {
+//			$(this).parent().children('.layer').removeClass('selected');
+//			$(this).addClass('selected');
+//			that.select(layer);
+//		});
 		group.prepend($lElm);
 	}
 	return true;
@@ -67,8 +68,62 @@ Cdraw_layer_manager.prototype.remove = function(layer) {
 	this.parent.redraw();
 };
 
-Cdraw_layer_manager.prototype.dom_build = function(parent) {
-	if (this.rootElm) {
+Cdraw_layer_manager.prototype.get_index_by_uid = function(id) {
+	for (var i = 0; i < this.layers.length; i++) {
+		if (this.layers[i].uid == id) {
+			return i;
+		}
+	}
+	return null;
+};
+
+Cdraw_layer_manager.prototype._build_layer_preview = function(root) {
+	var $r = $(root);
+	$r.empty();
+	for (var i = this.layers.length - 1; i >= 0; i--) {
+		$r.append(this.layers[i].dom_get(1));
+	}	
+	
+};
+
+Cdraw_layer_manager.prototype.move_down = function(id) {
+	console.log('Moving up id', id);
+	var idx = this.get_index_by_uid(id);
+	console.log('lenght: ' + this.layers.length);
+	console.log('idx   : ' + idx);
+	if (idx === undefined || this.layers.length <= 1 || idx < 1) {
+		console.error('Can\'t move layer up');
+		return false;
+	}
+	var tmp = this.layers[idx - 1];
+	this.layers[idx - 1] = this.layers[idx];
+	this.layers[idx] = tmp;
+	this._build_layer_preview('.group-layers');
+	this.parent.redraw();
+	return true;
+};
+
+Cdraw_layer_manager.prototype.move_up = function(id) {
+	if (this.layers.length == 1) {
+		return false;
+	}
+	console.log('Moving down id', id);
+	var idx = this.get_index_by_uid(id);
+	console.log('lenght: ' + this.layers.length);
+	console.log('idx   : ' + idx);
+	if (idx === undefined || idx >= (this.layers.length - 1)|| this.layers.length <= 1) {
+		console.error('Can\'t move layer up');
+		return false;
+	}
+	var tmp = this.layers[idx + 1];
+	this.layers[idx + 1] = this.layers[idx];
+	this.layers[idx] = tmp;
+	this._build_layer_preview('.group-layers');
+	this.parent.redraw();
+	return true;
+};
+Cdraw_layer_manager.prototype.dom_build = function(parent, force) {
+	if (!force && this.rootElm) {
 		return this.rootElm;
 	}
 	var that = this;
@@ -90,20 +145,38 @@ Cdraw_layer_manager.prototype.dom_build = function(parent) {
 	$(cmd).append(b_add.dom_get());
 	var group = document.createElement('ul');
 	var $g = $(group);
-	$g.addClass('group-layers ui-widget-content ui-helper-clearfix sortable-placeholder');
-	$g.sortable({ handle: '.sortable-handle', 
-		update: function(e, ui) {
-			console.log('order changed: ' + ui.item);
-			that.redraw();
-			return true;
-		}
-	});
+	$g.addClass('group-layers ui-sortable');
+//	$g.sortable({ handle: '.sortable-handle', 
+//		placeholder: 'ui-sortable-placeholder',
+//		update: function(e, ui) {
+//			console.log('Event: ', e, ui);
+//			var tElm = $(document.elementFromPoint(ui.offset.left, ui.offset.top)).parent('.layer');
+//			console.log('target elm: ', tElm);
+//			that.redraw();
+//			return true;
+//		}
+//	});
+	$g.sortable().disableSelection();
 	$r.append(cmd);
 	
 	$r.append($g);
 	this.rootElm = $r;
 	return this;
 };
+
+Cdraw_layer_manager.prototype.dom_exists = function(domLayer) {
+	var found = false;
+	var i;
+	for (i = 0; i < this.layers.length; i++) {
+		if (this.layers[i].rootElm = domLayer) {
+			console.log('FOUND');
+			found = true;
+			break;
+		}
+	}
+	if (found) { return i}
+	return null;
+}
 
 Cdraw_layer_manager.prototype.select = function(obj) {
 	var index = this.exists(obj);
