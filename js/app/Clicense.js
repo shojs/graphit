@@ -8,15 +8,17 @@ Clicense.prototype.dom_build = function() {
 	if (this.rootElm) { return this; }
 	var root = document.createElement("div");
 	var $r = $(root);
-	$r.addClass('draggable license');
-	$r.append('<h6 class="header">GNU</h6>');
+	$r.addClass('draggable license ui-widget  ui-dialog ui-widget-content');
+	$r.append('<h6 class="ui-widget-header">GNU</h6>');
 	var group = document.createElement('div');
-	$(group).addClass('group not-draggable');
+	$(group).addClass('group not-draggable ');
 	var img = document.createElement('img');
-	img.src = this.src;
-	$(group).append(img);
+	img.src = this.logo;
+	$r.append(img);
+	$r.append('<p>Source code: <a href="http://github.com/shojs/graphit/">github</a></p>');
+	$r.append('<h6>License</h6>');
 	var txt = document.createElement('p');
-	$(txt).addClass('text not-draggable');
+	$(txt).addClass('"text not-draggable');
 	$(txt).append("" +
 "                    GNU GENERAL PUBLIC LICENSE" + 
 "                       Version 3, 29 June 2007" +
@@ -57,7 +59,16 @@ Clicense.prototype.dom_build = function() {
 "");
 	$(txt).load(this.text);
 	$(group).append(txt);
+	var button = document.createElement('button');
+	$(button).append('Close');
+	$(button).button();
+	$(button).click(function(e, ui) {
+		$(root).hide();
+		//console.log('Button clicked');
+	});
+
 	$r.append(group);
+	$r.append(button);
 	this.rootElm = $r;
 	return this;
 };

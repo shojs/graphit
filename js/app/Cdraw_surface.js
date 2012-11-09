@@ -83,10 +83,10 @@ Cdraw_surface.prototype.build = function() {
 	var root = document.createElement('div');
 	var $r = $(root);
 	$r.attr('id', this.id);
-	$r.addClass('surface-group draggable');
+	$r.addClass('surface-group draggable ui-widget-content ui-widget');
 	$r.css('width', (this.width + 100));
 	$r.css('height', (this.height + 100));
-	$r.append('<h6 class="header">surface</h6>');
+	$r.append('<h6 class="header ui-widget-header">surface</h6>');
 	var canvas = document.createElement('canvas');
 	this.canvas = canvas;
 	var $c = $(canvas);

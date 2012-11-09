@@ -10,7 +10,7 @@ body {
 
 .surface-group {
     margin: auto;
-    background-color: silver;
+
     border-style: solid;
     border-width: 1px 0 0 0;
     border-radius: 5px;
@@ -21,24 +21,15 @@ body {
 	  margin: 2px;
 }
 .draggable > h6.header {
-	font-size: 1em;
-	text-transform: capitalize;
-	color: white;
-    background-color: grey;
-    margin: 1px 2px 1px 1px;
-    padding: 1px 0 3px 0;
+
     border-style: solid;
     border-width: 1px 0 0 0;
     border-radius: 5px;
-    text-align: center;
-    height: 1em;
 }
 
 .draggable {
 	position: absolute;
-	margin: 0px 5px 0 5px;
-    padding: 0px ;
-    background-color: silver;
+;
     border-style: solid;
     border-width: 1px 2px 2px 1px;
     border-radius: 5px;
@@ -59,19 +50,13 @@ body {
 }
 
 .sliderex {
-    margin: 2px 5px 0 5px;
-    padding: 1px ;
-    background-color: grey;
-    border-style: solid;
-    border-width: 1px 0 0 0;
-    border-radius: 5px;
+
 }
 
 .sliderex > h6 {
     display: inline;
     margin: 0 2px;
     padding: 0 2px;
-    background-color: silver;
     border-style: solid;
     border-width: 1px 0 0 0;
     border-radius: 5px;
@@ -145,15 +130,25 @@ body {
 .layer {
     margin: 0;
     padding: 0;
-	background-color: grey;
     border-radius: 5px;
     border-style: solid;
     border-width: 1px;
+    font-size: x-small;
     
+}
+.layer-manager .ui-selected {
+	background-color: rgba(189,0,0,1);
+	color:  rgba(189,0,0,1);
+    border-width: 1px;
+}
+.layer-manager > canvas {
+
 }
 .layer-manager {
 	position: absolute;
     left: 1150px;
+            border: 1px;
+            border-width: 1px;
 }
 .layer > td {
 	white-space: no-wrap;
@@ -162,15 +157,17 @@ body {
 
 
 .sortable {
-    
+       font-size: small;
 }
 
-.sortable li {
+.sortable ul,ol,li {
 	list-style: none;
 }
-
+.sortable > td {
+	font-size: small;
+}
 .sortable-handle {
-	color:#333;
+	color:white;
     border:0px solid red;
     writing-mode:tb-rl;
     -webkit-transform:rotate(-90deg);
@@ -183,16 +180,14 @@ body {
     height:20px;
     font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
     font-size:12px;
-    font-weight:normal;
+    font-weight:bold;
     text-shadow: 0px 0px 1px #333;
     cursor: move; 
 }
 
 .license {
 	width: 400px;
-    height: 400px;
     margin: 0 auto 0 auto;
-    bakground-color: silver;
     white-space:  pre-wrap;
     font-weight: bold;
     position: absolute;
@@ -201,12 +196,19 @@ body {
  
 }
 .license > .group {
-	bakground-color: silver;
+	margin: 1px 2px 1px 1px;
     overflow: auto;
-    height: 350px;
-
+    height: 200px;
+    width: 99%;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
     
 }
+.license > img {
+}
 .license > .text {
-	    margin: 0 2px 2px 1px;
+	    margin: 0 auto 0 auto;
+	    text-align: center;
+
 }

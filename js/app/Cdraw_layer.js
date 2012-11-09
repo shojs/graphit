@@ -53,13 +53,27 @@ Cdraw_layer.prototype.dom_get = function(index) {
  * @returns {Cdraw_layer}
  */
 Cdraw_layer.prototype.dom_build = function(index) {
+	console.log('index', index);
 	var root = document.createElement('li');
 	var $r = $(root);
 	$r.addClass('layer');
+	if (index == 0) {
+		$r.addClass('selected');
+	}
+	
+	var button = new Cimage_button({ src: 'img/16x16_eye.png', width: 16, height: 16, 
+		click: function(obj) {
+			console.log("Clicked: ", obj);
+		}
+	});
 	var table = document.createElement('table');
 	var $t = $(table);;
 	var $tr = $(document.createElement('tr'));
 	var $td = $(document.createElement('td'));
+
+	$td.append(button.dom_get());
+	$tr.append($td);
+	$td = $(document.createElement('td'));
 	$td.addClass('sortable-handle');
 	$td.append("Move");
 	$tr.append($td);
@@ -228,8 +242,8 @@ Cdraw_layer_manager.prototype.dom_build = function(parent) {
 	var that = this;
 	var root = document.createElement('div');
 	var $r = $(root);
-	$r.addClass('layer-manager draggable');
-	$r.append('<h6 class="header">Layers</h6>');
+	$r.addClass('layer-manager draggable ui-widget ui-widget-content');
+	$r.append('<h6 class="header ui-widget-header">Layers</h6>');
 	var group = document.createElement('ul');
 	var $g = $(group);
 	$g.addClass('group-layers');
@@ -243,12 +257,14 @@ Cdraw_layer_manager.prototype.dom_build = function(parent) {
 			that.redraw();
 		}
 	});
-	$g.selectable({ filter: '.layer',
+	$g.selectable({ filter: '.layer canvas', 
 		selected: function(e, ui) { 
-			console.log('selected', e, ui);
-			var l = $(ui.selected).find('canvas');
+			//console.log('selected', e, ui);
+			var l = $(ui.selected).parent().find('canvas');
 			console.log('INDEX: ', l.attr('layer_index'));
-		}
+			that.select(parseInt(l.attr('layer_index')));
+			return false;
+		}, click: function() { console.log('BUH');}
 	});
 	$r.append($g);
 	this.rootElm = $r;
@@ -256,8 +272,16 @@ Cdraw_layer_manager.prototype.dom_build = function(parent) {
 	return this;
 };
 
+Cdraw_layer_manager.prototype.select = function(index) {
+	if (index === undefined || index < 0 || index > this.layers.length) {
+		console.error('Layer index out of range: ' + index);
+		return false;
+	}
+	this.current_layer = this.layers[index];
+};
+
 Cdraw_layer_manager.prototype.redraw = function() {
-	for (var i = 0; i <= this.layers.length; i++) {
+	for (var i = 0; i < this.layers.length; i++) {
 		this.layers[i].redraw();
 	}
 	

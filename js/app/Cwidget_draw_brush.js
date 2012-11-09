@@ -22,7 +22,7 @@ function Cwidget_draw_brush(cBrush) {
 Cwidget_draw_brush.prototype._build_header = function($parent) {
 	var root = document.createElement('h6');
 	var $r = $(root);
-	$r.addClass('header');
+	$r.addClass('header ui-widget-header');
 	$r.append("Brush");
 	$parent.append($r);
 };
@@ -70,7 +70,8 @@ Cwidget_draw_brush.prototype._build_image_preview = function($parent) {
 		}
 	});
 	$r.append($preview);
-
+	var colors = new Cdraw_colors();
+	$r.append(colors.dom_get());
 	$parent.append($r);
 };
 
@@ -82,7 +83,7 @@ Cwidget_draw_brush.prototype.build = function() {
 	var that = this;
 	var root = document.createElement('div');
 	var $r = $(root);
-	$r.addClass('widget_draw_brush draggable');
+	$r.addClass('widget_draw_brush draggable ui-widget-content ui-widget');
 	this._build_header($r);
 	this._build_image_preview($r);
 	var $slidergroup = $(document.createElement('div'));
