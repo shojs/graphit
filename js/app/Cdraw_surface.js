@@ -69,7 +69,7 @@ function Cdraw_surface(id, width, height) {
 			callback_stub, helper_draw_surface);
 	this.rootElm = null;
 	this.canvas = null;
-	this.tools = null;
+	this.cTools = null;
 	this.cGraph = null;
 	this.build();
 }
@@ -104,7 +104,9 @@ Cdraw_surface.prototype.build = function() {
 		that.callback_mousemove(e, that);
 	});
 	$c.mouseout(function(e) {
-		that.callback_mouseup(e, that);
+		if (that.mouse.is_pushed()) {
+			that.callback_mouseup(e, that);
+		}
 	});
 	this.dom_mouse = this.mouse.get_dom();
 	$r.append($c);
@@ -118,7 +120,7 @@ Cdraw_surface.prototype.build = function() {
 };
 
 Cdraw_surface.prototype.undo = function() {
-	console.log('----- ----- -----' + "\n" + 'Undo');
+	//console.log('----- ----- -----' + "\n" + 'Undo');
 	this.layer_manager.current_layer.discard_frag();
 	this.layer_manager.current_layer.redraw();
 
@@ -142,25 +144,34 @@ Cdraw_surface.prototype.redraw = function() {
 };
 
 Cdraw_surface.prototype.clear = function() {
-	// this.layer_current.clear();
-	for ( var i = 0; i < this.layers.length; i++) {
-		this.layers[i].clear();
+	//this.layer_manager.special_layers.current.clear();
+	for ( var i = 0; i < this.layer_manager.layers.length; i++) {
+		this.layer_manager.layers[i].clear();
 	}
 	this.redraw();
 };
 
 Cdraw_surface.prototype.callback_mousedown = function(e, obj) {
-	console.log('----- ----- -----' + "\n" + this.id + ': mouse down');
+	//console.log('----- ----- -----' + "\n" + this.id + ': mouse down');
+	if (this.mouse.is_pushed()) {
+		console.warn("Mouse already pushed");
+		return false;
+	}
 	this.mouse.push();
 	this.cGrapher.start();
+	return true;
 };
 
 Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
-	console.log(this.id + ': mouse up');
+	if (!this.mouse.is_pushed()) {
+		console.warn('Mouse not pushed');
+		return false;
+	}
+	//console.log(this.id + ': mouse up');
 	this.cGrapher.stop();
 	this.redraw();
 	this.mouse.release();
-
+	return true;
 };
 
 Cdraw_surface.prototype.callback_mousemove = function(e, obj) {

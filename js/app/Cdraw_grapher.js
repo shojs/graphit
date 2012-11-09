@@ -83,7 +83,7 @@ Cdraw_grapher.prototype._graph = function() {
 
 Cdraw_grapher.prototype.stop = function() {
 	if (!this.timer) {
-		console.error('Grapher is not started');
+		console.warn('Grapher is not started');
 		return false;
 	}
 	clearInterval(this.timer);

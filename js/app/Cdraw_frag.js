@@ -7,10 +7,11 @@
  */
 function Cdraw_frag(parent, position, width, height) {
 	this.position = position;
-	this.canvas = document.createElement('canvas');
-	this.canvas.setAttribute('width', width);
-	this.canvas.setAttribute('height', height);
-	this.ctx = this.canvas.getContext('2d');
+	this.canvas = new Ccanvas(width, height, new Ccolor(0,0,0,0.5));
+};
+
+Cdraw_frag.prototype.getContext = function(t) {
+	return this.canvas.getContext('2d');
 };
 
 Cdraw_frag.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
@@ -24,10 +25,10 @@ Cdraw_frag.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 		return false;
 	}
 	try {
-		this.ctx.drawImage(canvas, sx, sy, swidth, sheight, 0, 0, swidth,
+		this.canvas.ctx.drawImage(canvas, sx, sy, swidth, sheight, 0, 0, swidth,
 				sheight);
 	} catch (e) {
-		console.log(e);
+		console.log("Drawing ERROR", e);
 	}
 	return true;
 };

@@ -116,11 +116,14 @@ Cdraw_layer.prototype.redraw = function(bool) {
 	}
 	this.ctx.globalCompositeOperation = this.composition;
 	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+	if (this.frags.length > 10) {
+		;//this.stack_frags(0, 5);
+	}
 	for ( var i = 0; i < this.frags.length; i++) {
 		var f = this.frags[i];
-		this.ctx.drawImage(f.canvas, 0, 0, f.canvas.width, f.canvas.height,
-				f.position.x, f.position.y, f.canvas.width, f.canvas.height);
+		var canvas = f.canvas.canvas;
+		this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height,
+				f.position.x, f.position.y, canvas.width, canvas.height);
 	}
 	this.redraw_preview();
 	this.need_redraw = false;
@@ -144,6 +147,28 @@ Cdraw_layer.prototype.get_canvas = function() {
 	return this.canvas;
 };
 
+Cdraw_layer.prototype.stack_frags = function(p_start, p_end) {
+	var start = p_start;
+	var end = p_end;
+	if (p_start > p_end) {
+		start = p_end;
+		end = p_start;
+	}
+	var nf = new Cdraw_frag(this.canvas.width, this.canvas.height);
+	var tctx = nf.getContext('2d');
+	for (var i = start; i <= end; i++) {
+		var f = this.frags[i];
+		var canvas = f.canvas.canvas;
+		tctx.drawImage(canvas, 0, 0, canvas.width, canvas.height,
+				f.position.x, f.position.y, canvas.width, canvas.height);
+	}
+	//console.log(.canvas.canvas.toDataURL());
+	this.frags.splice(start, 0, nf);
+	this.frags.splice(start, end);
+	//this.frags.remove(start, end);
+	
+	
+};
 /**
  * 
  * @param canvas

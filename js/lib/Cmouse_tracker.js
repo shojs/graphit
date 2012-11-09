@@ -128,7 +128,7 @@ Cmouse_tracker.prototype.release = function() {
 	this.pushed = null;
 	if (this.func_release)
 		this.func_release(this);
-	console.log('Recorded points: ' + this.points.length);
+	//console.log('Recorded points: ' + this.points.length);
 	this.reset();
 };
 
