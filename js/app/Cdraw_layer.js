@@ -74,13 +74,15 @@ Cdraw_layer.prototype.dom_build = function(index) {
 	$td.append(button.dom_get());
 	$tr.append($td);
 	$td = $(document.createElement('td'));
-	$td.addClass('sortable-handle');
+	$td.addClass('sortable-handle move');
 	$td.append("Move");
 	$tr.append($td);
 	$td = $(document.createElement('td'));
 	$td.append('Layer - '+this.label);	
+	$td.addClass('label');
 	$tr.append($td);
 	$td =  $(document.createElement('td'));
+	$td.addClass('preview');
 	var canvas = document.createElement('canvas');
 	this.canvas_preview = canvas;
 	//this.canvas = canvas;
@@ -98,6 +100,7 @@ Cdraw_layer.prototype.dom_build = function(index) {
 		}
 	});
 	$td = $(document.createElement('td'));
+	$td.addClass('options');
 	$td.append(b_trash.dom_get());
 	$tr.append($td);
 	$t.append($tr);

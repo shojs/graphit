@@ -1,42 +1,39 @@
 body {
-    margin: 0;
-    padding: 0;
-    background-image:url(../img/grid50.png);
-            -moz-user-select: none; 
-        -khtml-user-select: none; 
-        -webkit-user-select: none; 
-        -o-user-select: none;
+    margin: 2px auto 2px auto;
+    padding: auto;
+    background-image: url(../img/grid50.png);
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
 }
 
 .surface-group {
     margin: auto;
-
     border-style: solid;
     border-width: 1px 0 0 0;
     border-radius: 5px;
-    left: 220px;;
 }
 
-
 .draggable {
-  
+       clear: both;
 }
 
 .draggable,.toolbox {
-    width: 200px;	
+    width: 200px;
 }
 
-.widget_draw_box{
-	height: 300;
+.widget_draw_box {
+    height: 300;
 }
 
 .draw-surface {
     margin: auto;
-    display:block;
-    background-image:url(../img/grid-40x40.png);
+    display: block;
+    background-image: url(../img/grid-40x40.png);
 }
 
-.widget_draw_brush > h6 {
+.widget_draw_brush>h6 {
     text-align: center;
 }
 
@@ -48,8 +45,7 @@ body {
     border-width: 1px;
 }
 
-.image-preview-group > canvas {
-   
+.image-preview-group>canvas {
     margin: auto;
 }
 
@@ -59,34 +55,26 @@ body {
 }
 
 .mousetracker {
-    top: 500px;    
+    top: 500px;
 }
 
 .toolbox {
-    top: 500px;    
+    top: 500px;
     visibility: hidden;
 }
-
-
 
 .var-colorpicker {
     width: 100px;
     height: 100px;
 }
+
 .colorpicker {
-	z-index: 1000;
+    z-index: 1000;
 }
 
-.layer canvas { 
+.layer  canvas {
     width: 50px;
-    background-image:url(../img/grid-10x10.png);
-    border-style: solid;
-    margin: 1px auto 1em auto;
-    display: inline;
-}
-
-.layer > table {
-	width: 200px;
+    background-image: url(../img/grid-10x10.png);
 }
 
 .layer {
@@ -94,137 +82,163 @@ body {
     padding: 0;
     border-radius: 5px;
     border-style: solid;
-    border-width: 1px;
+    border-width: 0 1px 1px 0;
     font-size: x-small;
-
 }
+
 .layer-manager .ui-selected {
-	background-color: rgba(189,0,0,1);
-	color:  rgba(189,0,0,1);
+    background-color: rgba(189, 0, 0, 1);
+    color: rgba(189, 0, 0, 1);
     border-width: 1px;
 }
-.layer-manager > canvas {
+
+.layer-manager {
+    position: absolute;
+    top: 1px;
+    right: 1px;
 
 }
-.layer-manager {
-	position: absolute;
-	width: 300px;
-    left: 1150px;
-            border: 1px;
-            border-width: 1px;
-                
+
+.layer > .options {
+    width: 100px;
+    text-align: right;
 }
-.layer > td {
-	white-space: no-wrap;
-    
+
+.layer > .move {
+    width: 20px;
+    text-align: center;
+}
+.layer > .label {
+    width: 0px;    
+}
+
+.layer > .preview {
+    width: 50px;
+    text-align: right;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+li{
+    list-style: none;
+     list-style-position: outside;
+     margin: 0;
+}
+
+.layer>td {
+    white-space: break-word;
 }
 
 .group-layers {
-	overflow: auto;
-	height: 500px;
-	margin: 1px 2px 2px 1px;
+    overflow: auto;
+    height: 400px;
+    margin: 1px 2px 2px 1px;
+    border-radius: 5px;
+    border-style: solid;
 }
 
 .sortable {
-       font-size: small;
+    font-size: x-small;
 }
 
-.sortable ul,ol,li {
-	list-style: none;
-}
-.sortable > td {
-	font-size: small;
-}
+
+
 .sortable-handle {
-	color:white;
-    border:0px solid red;
-    writing-mode:tb-rl;
-    -webkit-transform:rotate(-90deg);
-    -moz-transform:rotate(-90deg);
+    color: white;
+    writing-mode: tb-rl;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
     -o-transform: rotate(-90deg);
-    white-space:nowrap;
-    display:block;
-    bottom:0;
-    width:20px;
-    height:20px;
-    font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
-    font-size:12px;
-    font-weight:bold;
-    text-shadow: 0px 0px 1px #333;
-    cursor: move; 
+    white-space: nowrap;
+
+    font-family: â€˜Trebuchet MSâ€™, Helvetica, sans-serif;
+    font-weight: bold;
+    text-shadow: 0px 0px 1px #ff00ff;
+    cursor: move;
 }
 
 .license {
-	width: 400px;
-    margin: 0 auto 0 auto;
-    white-space:  pre-wrap;
-    font-weight: bold;
     position: absolute;
-    top: 50%;
-    left: 50%;
- 
+    width: 400px;
+    margin: auto;
+    white-space: pre-wrap;
+    font-weight: bold;
+    font-size: small;
+    top: 100px;
+    left: 300px;
+
+
 }
-.license > .group {
-	margin: 1px 2px 1px 1px;
+
+.license>.group {
+    margin: 1px 2px 1px 1px;
     overflow: auto;
     height: 200px;
     width: 99%;
     border-radius: 5px;
     border-style: solid;
     border-width: 1px;
-    
 }
-.license > img {
-}
-.license > .text {
-	    margin: 0 auto 0 auto;
-	    text-align: center;
 
+.license>img {
+    float: right;
+}
+
+.license>.text {
+    margin: 0 auto 0 auto;
+    text-align: center;
+    font-size: small;
 }
 
 .button {
-	position: relative;
-	display: inline;
-	margin: 0;
-	padding: 0;
+    position: relative;
+    display: inline;
+    margin: 0;
+    padding: 0;
     borer: 5px;
 }
 
 .button img {
-	display: inline-block;
+    display: inline-block;
 }
 
-
 .ui-widget-header {
-	height: 2em;
+    height: 2em;
     font-size: x-small;
     margin: 1px 2p 2p 1px;
     padding: 0;
 }
 
 .sliderex {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
+
 .sliderex table {
-	width: 99%;
-	margin: 0;
-	padding 0,
-    text-align: center;
-	border-collapse:collapse;
-	border: 0px solid white;
-	
+    width: 99%;
+    margin: 0; 
+    padding 0;
+    text-align : center;
+    border-collapse: collapse;
+    border: 0px solid white;
 }
+
 .sliderex table tr,td {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
+
 .sliderex tr {
-	border-style: solid;
-	border: solid ;
-	border-width: 0 0 1px 0;
-	border-color: white;
+    border-style: solid;
+    border: solid;
+    border-width: 0 0 1px 0;
+    border-color: white;
 }
+
 .sliderex  input {
     width: 2em;
     margin: 0;
@@ -232,16 +246,18 @@ body {
     font-size: x-small;
     text-align: right;
 }
+
 .sliderex h6 {
-	  margin: 0;
-	  padding: 0;
-	  width: 40px;
-	  font-size: xx-small;
-	  word-wrap: n;
+    margin: 0;
+    padding: 0;
+    width: 40px;
+    font-size: xx-small;
+    word-wrap: n;
 }
+
 .sliderex .slider {
-	margin: 0 0 0 0.1em;
-	width: 100px;
-	font-size: x-small;
-    word-wrap: 
+    margin: 0 0 0 0.1em;
+    width: 100px;
+    font-size: x-small;
+    word-wrap:
 }
