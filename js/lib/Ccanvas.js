@@ -26,6 +26,9 @@ Ccanvas.prototype.clear = function(color) {
 	}
 };
 
-var TC = new Ccanvas();
-
-TC.getContext('2d');
+Ccanvas.prototype.save = function() {
+	var data = this.canvas.toDataURL('image/png');
+	if (!window.open(data)) {
+		document.location.href = data;
+	}
+};

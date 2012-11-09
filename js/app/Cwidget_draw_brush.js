@@ -1,5 +1,4 @@
 /**
- * @author joachim basmaison <joachim.basmaison [AT] GOOGLE>
  * @param cBrush
  * @returns
  */
@@ -22,7 +21,7 @@ function Cwidget_draw_brush(cBrush) {
 Cwidget_draw_brush.prototype._build_header = function($parent) {
 	var root = document.createElement('h6');
 	var $r = $(root);
-	$r.addClass('header ui-widget-header');
+	$r.addClass('header ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix');
 	$r.append("Brush");
 	$parent.append($r);
 };
@@ -44,9 +43,7 @@ Cwidget_draw_brush.prototype._build_image_preview = function($parent) {
 	var colorpicker = document.createElement('input');
 	this.dom_colorpicker = colorpicker;
 	var $cp = $(colorpicker);
-	// $cp.attr('width', 100);
-	// $cp.attr('height', 100);
-	// $cp.attr('src', 'img/loading.png');
+
 	$cp.addClass('var-colorpicker');
 	$cp.append('<h6>background</h6>');
 	$cp.ColorPicker({});
@@ -83,7 +80,7 @@ Cwidget_draw_brush.prototype.build = function() {
 	var that = this;
 	var root = document.createElement('div');
 	var $r = $(root);
-	$r.addClass('widget_draw_brush draggable ui-widget-content ui-widget');
+	$r.addClass('widget_draw_brush draggable ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable ui-dialog-button');
 	this._build_header($r);
 	this._build_image_preview($r);
 	var $slidergroup = $(document.createElement('div'));

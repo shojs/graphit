@@ -2,19 +2,13 @@ function widget_slider_ex($parent, label, options, callbacks) {
 	var root = document.createElement('div');
 	var $r = $(root);
 	$r.addClass('sliderex ' + label);
-	$r.append('<h6>' + label + '</h6>');
-	var $input = $(document.createElement('input'));
-	$input.addClass('input');
-	$input.attr('value', options.value);
-	$input.css('width: 2em');
-	$input.change(function() {
-		$this = $(this);
-		var value = $this.attr('value');
-		var $p = $this.parent().children('div.slider');
-		$p.slider('option', 'value', value);
-		callbacks.change(this, value);
-	});
-	$r.append($input);
+	$r.attr('title', label);
+	var $table = $(document.createElement('table'));
+	var $tr = $(document.createElement('tr'));
+	var $td = $(document.createElement('td'));
+	$td.append('<h6>' + label + '</h6>');
+	$tr.append($td);
+
 	var $slider = $(document.createElement('div'));
 	$slider.addClass('slider');
 	$slider.slider({
@@ -37,6 +31,24 @@ function widget_slider_ex($parent, label, options, callbacks) {
 			callbacks.change(this, value);
 		}
 	});
-	$r.append($slider);
+	$td = $(document.createElement('td'));
+	$td.append($slider);
+	$tr.append($td);
+	var $input = $(document.createElement('input'));
+	$input.addClass('input');
+	$input.attr('value', options.value);
+	$input.css('width: 2em');
+	$input.change(function() {
+		$this = $(this);
+		var value = $this.attr('value');
+		var $p = $this.parent().children('div.slider');
+		$p.slider('option', 'value', value);
+		callbacks.change(this, value);
+	});
+	$td = $(document.createElement('td'));
+	$td.append($input);
+	$tr.append($td);
+	$table.append($tr);
+	$r.append($table);
 	$parent.append($r);
 }

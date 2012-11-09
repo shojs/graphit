@@ -64,11 +64,11 @@ function Cdraw_surface(id, width, height) {
 	this.layer_manager.add(new Cdraw_layer(this, E_LAYERLABEL.mouse));
 	this.layer_manager.add(new Cdraw_layer(this, E_LAYERLABEL.prefrag));
 //	this.layer_manager.add(new Cdraw_layer(this));
-//	this.layer_manager.add(new Cdraw_layer(this));
+	this.layer_manager.add(new Cdraw_layer(this));
 	this.mouse = new Cmouse_tracker(this, callback_stub, callback_stub,
 			callback_stub, helper_draw_surface);
 	this.rootElm = null;
-	this.canvas = null;
+	this.canvas = new Ccanvas(this.width, this.height);
 	this.cTools = null;
 	this.cGraph = null;
 	this.build();
@@ -87,8 +87,7 @@ Cdraw_surface.prototype.build = function() {
 	$r.css('width', (this.width + 100));
 	$r.css('height', (this.height + 100));
 	$r.append('<h6 class="header ui-widget-header">surface</h6>');
-	var canvas = document.createElement('canvas');
-	this.canvas = canvas;
+	var canvas = this.canvas.canvas;
 	var $c = $(canvas);
 	$c.attr('id', 'graphing-area');
 	$c.attr('width', this.width);
@@ -128,23 +127,21 @@ Cdraw_surface.prototype.undo = function() {
 };
 
 Cdraw_surface.prototype.redraw = function() {
-	// console.log('Redrawing surface');
-	var tctx = this.canvas.getContext('2d');
-	tctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	var canvas = this.canvas.canvas;
+	var tctx = canvas.getContext('2d');
+	tctx.clearRect(0, 0, canvas.width, canvas.height);
 	for ( var i = 0; i < this.layer_manager.layers.length; i++) {
 		this.layer_manager.layers[i].redraw(true);
 		tctx.drawImage(this.layer_manager.layers[i].canvas, 0, 0,
-				this.canvas.width, this.canvas.height);
+				canvas.width, canvas.height);
 	}
-	//console.log(this.layer_manager.special_layers);
 	tctx.drawImage(this.layer_manager.special_layers.prefrag.canvas, 0, 0,
-			this.canvas.width, this.canvas.height);
+			canvas.width, canvas.height);
 	tctx.drawImage(this.layer_manager.special_layers.prefrag.canvas, 0, 0,
-			this.canvas.width, this.canvas.height);
+			canvas.width, this.canvas);
 };
 
 Cdraw_surface.prototype.clear = function() {
-	//this.layer_manager.special_layers.current.clear();
 	for ( var i = 0; i < this.layer_manager.layers.length; i++) {
 		this.layer_manager.layers[i].clear();
 	}
@@ -152,7 +149,6 @@ Cdraw_surface.prototype.clear = function() {
 };
 
 Cdraw_surface.prototype.callback_mousedown = function(e, obj) {
-	//console.log('----- ----- -----' + "\n" + this.id + ': mouse down');
 	if (this.mouse.is_pushed()) {
 		console.warn("Mouse already pushed");
 		return false;
@@ -167,7 +163,6 @@ Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
 		console.warn('Mouse not pushed');
 		return false;
 	}
-	//console.log(this.id + ': mouse up');
 	this.cGrapher.stop();
 	this.redraw();
 	this.mouse.release();
@@ -176,7 +171,7 @@ Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
 
 Cdraw_surface.prototype.callback_mousemove = function(e, obj) {
 	// var dsize = obj.tools.size / 2;
-	var $o = $(obj.canvas).offset();
+	var $o = $(obj.canvas.canvas).offset();
 	this.mouse.move(e.pageX - $o.left, e.pageY - $o.top);
 	var $d = $(this.dom_mouse).children('div').children('div.hold-var')
 			.children('div.var-x');
