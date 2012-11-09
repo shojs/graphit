@@ -34,12 +34,9 @@ Cdraw_layer_manager.prototype.add = function(layer) {
 		var group = $(this.rootElm).children('.group-layers');
 		var $lElm = $(layer.dom_get(this.layers.length - 1));
 		$lElm.click(function() {
-			var $s = $(this).find('td.preview > canvas');
-			$(this).parent().find('.layer').removeClass('selected');
+			$(this).parent().children('.layer').removeClass('selected');
 			$(this).addClass('selected');
-			var idx = parseInt($s.attr('layer_index'));
-			that.select(idx);
-			console.log('Select layer', idx);
+			that.select(layer);
 		});
 		group.prepend($lElm);
 	}
@@ -108,7 +105,9 @@ Cdraw_layer_manager.prototype.dom_build = function(parent) {
 	return this;
 };
 
-Cdraw_layer_manager.prototype.select = function(index) {
+Cdraw_layer_manager.prototype.select = function(obj) {
+	var index = this.exists(obj);
+	console.log("SELECT ", index);
 	if (index === undefined || index < 0 || index > this.layers.length) {
 		console.error('Layer index out of range: ' + index);
 		return false;
