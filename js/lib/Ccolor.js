@@ -21,7 +21,8 @@ Ccolor.prototype.set_rgb = function(color) {
 	this.r = color.r;
 	this.g = color.g;
 	this.b = color.b;
-	// this.a = color.a;
+	this.a = 1;
+	return this;
 };
 
 Ccolor.prototype.from_rgba = function(rgba) {

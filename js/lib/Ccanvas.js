@@ -32,3 +32,18 @@ Ccanvas.prototype.save = function() {
 		document.location.href = data;
 	}
 };
+
+Ccanvas.prototype.clear = function(color) {
+	if (!(color instanceof Ccolor)) {
+		console.error('Fist parameter is not a Ccolor instance');
+		return false;
+	}
+	if (color.a == 0) {
+		this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
+	} else {
+		this.ctx.fillStyle = color.to_rgba();
+		this.ctx.fillRect(0,0,this.canvas.width, this.canvas.height);
+	}
+	return true;
+	
+};

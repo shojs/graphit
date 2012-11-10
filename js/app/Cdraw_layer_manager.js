@@ -34,11 +34,6 @@ Cdraw_layer_manager.prototype.add = function(layer) {
 		
 		var group = $(this.rootElm).children('.group-layers');
 		var $lElm = $(layer.dom_get(this.layers.length - 1));
-//		$lElm.click(function() {
-//			$(this).parent().children('.layer').removeClass('selected');
-//			$(this).addClass('selected');
-//			that.select(layer);
-//		});
 		group.prepend($lElm);
 	}
 	return true;
@@ -129,13 +124,10 @@ Cdraw_layer_manager.prototype.dom_build = function(parent, force) {
 	var that = this;
 	var root = document.createElement('div');
 	var $r = $(root);
-	$r.addClass('layer-manager draggable ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable ');
-	$r.append('<h6 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">Layers</h6>');
+	$r.addClass('layer-manager '+ DRAWGLOB.css_draggable_class);
+	helper_build_header($r, this, 'Layers');
 	var cmd = document.createElement('div');
 	var b_add = new Cimage_button({ src: 'img/16x16_create_file.png', width: 16, height: 16, 
-		css: {
-			display: 'inline-block',
-		},
 		click: function(obj) {
 			console.log("Add Layer: ", obj);
 			that.add(new Cdraw_layer(that));
@@ -146,17 +138,6 @@ Cdraw_layer_manager.prototype.dom_build = function(parent, force) {
 	var group = document.createElement('ul');
 	var $g = $(group);
 	$g.addClass('group-layers');
-//	$g.sortable({ handle: '.sortable-handle', 
-//		placeholder: 'ui-sortable-placeholder',
-//		update: function(e, ui) {
-//			console.log('Event: ', e, ui);
-//			var tElm = $(document.elementFromPoint(ui.offset.left, ui.offset.top)).parent('.layer');
-//			console.log('target elm: ', tElm);
-//			that.redraw();
-//			return true;
-//		}
-//	});
-	//$g.sortable().disableSelection();
 	$r.append(cmd);
 	
 	$r.append($g);

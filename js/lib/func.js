@@ -51,3 +51,11 @@ function near_zero(v) {
 	// console.log('false');
 	return false;
 }
+
+function helper_format_number_length(num, length) {
+    var r = "" + num;
+    while (r.length < length) {
+        r = "0" + r;
+    }
+    return r;
+}

@@ -3,6 +3,7 @@ function Cimage_button(options) {
 	this.selected = false;
 	this.options = options;
 	this.rootElm = null;
+	this.is_pushed = false;
 	this.errorMsg = '';
 	if (this.invalid_options()) {
 		console.error("Invalid option" + this.errorMsg);
@@ -40,10 +41,16 @@ Cimage_button.prototype.dom_build = function() {
 	$i.attr('alt',this.options.label);	
 	$i.button({});
 	$i.click(function() {
-		console.log('---- click');
+		if (that.is_pushed) {that.is_pushed = false}
+		else { that.is_pushed = true;}
 		if (that.options.click) {
 			that.options.click(this);
 		}
+		var src = that.options.src;
+		if (that.is_pushed && that.options.src_pushed) {
+				src = that.options.src_pushed;
+		}
+		that.image.src = src;
 	});
 	$r.append(img);
 

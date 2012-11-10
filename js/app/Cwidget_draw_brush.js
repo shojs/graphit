@@ -19,9 +19,9 @@ function Cwidget_draw_brush(cBrush) {
  * @param $parent
  */
 Cwidget_draw_brush.prototype._build_header = function($parent) {
-	var root = document.createElement('h6');
+	var root = document.createElement('div');
 	var $r = $(root);
-	$r.addClass('header ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix');
+	$r.addClass('brush ' + DRAWGLOB.css_draggable_class);
 	$r.append("Brush");
 	$parent.append($r);
 };
@@ -80,8 +80,8 @@ Cwidget_draw_brush.prototype.build = function() {
 	var that = this;
 	var root = document.createElement('div');
 	var $r = $(root);
-	$r.addClass('widget_draw_brush draggable ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable ui-dialog-button');
-	this._build_header($r);
+	$r.addClass('widget_draw_brush ' + DRAWGLOB.css_draggable_class);
+	helper_build_header($r, 'brush', 'Brush');
 	this._build_image_preview($r);
 	var $slidergroup = $(document.createElement('div'));
 	var func_draw = function() {

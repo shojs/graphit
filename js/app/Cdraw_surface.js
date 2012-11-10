@@ -63,12 +63,11 @@ function Cdraw_surface(id, width, height) {
 	this.layer_manager = new Cdraw_layer_manager(this);
 	this.layer_manager.add(new Cdraw_layer(this.layer_manager, E_LAYERLABEL.mouse));
 	this.layer_manager.add(new Cdraw_layer(this.layer_manager, E_LAYERLABEL.prefrag));
-//	this.layer_manager.add(new Cdraw_layer(this));
 	this.layer_manager.add(new Cdraw_layer(this.layer_manager));
 	this.mouse = new Cmouse_tracker(this, callback_stub, callback_stub,
 			callback_stub, helper_draw_surface);
 	this.rootElm = null;
-	this.canvas = new Ccanvas(this.width, this.height);
+	this.cCanvas = new Ccanvas(this.width, this.height);
 	this.cTools = null;
 	this.cGraph = null;
 	this.build();
@@ -82,17 +81,15 @@ Cdraw_surface.prototype.build = function() {
 	var that = this;
 	var root = document.createElement('div');
 	var $r = $(root);
-	$r.attr('id', this.id);
-	$r.addClass('surface-group draggable ui-widget-content ui-widget');
-	$r.css('width', (this.width + 100));
-	$r.css('height', (this.height + 100));
-	$r.append('<h6 class="header ui-widget-header">surface</h6>');
-	var canvas = this.canvas.canvas;
+
+	$r.addClass('surface ' + DRAWGLOB.css_draggable_class);
+	helper_build_header($r, ' ', 'Surface');
+	var $g = $(document.createElement('div'));
+	var canvas = this.cCanvas.canvas;
 	var $c = $(canvas);
-	$c.attr('id', 'graphing-area');
 	$c.attr('width', this.width);
 	$c.attr('height', this.height);
-	$c.addClass('draw-surface not-draggable');
+	$c.addClass('canvas not-draggable');
 	$c.mousedown(function(e) {
 		that.callback_mousedown(e, that);
 	});
@@ -108,9 +105,12 @@ Cdraw_surface.prototype.build = function() {
 		}
 	});
 	this.dom_mouse = this.mouse.get_dom();
-	$r.append($c);
+	$g.append($c);
+	$r.append($g);
 	this.build_buttons = new Cdraw_buttons(this);
-	$r.append(this.build_buttons.get_dom());
+	$g = $(document.createElement('div'));
+	$g.append(this.build_buttons.get_dom());
+	//$r.append($g);
 	// $r.unbind('keydown', 'Ctrl+z');
 	$(document).bind('keydown', 'Ctrl+z', function() {
 		that.undo();
@@ -127,7 +127,7 @@ Cdraw_surface.prototype.undo = function() {
 };
 
 Cdraw_surface.prototype.redraw = function() {
-	var canvas = this.canvas.canvas;
+	var canvas = this.cCanvas.canvas;
 	var tctx = canvas.getContext('2d');
 	tctx.clearRect(0, 0, canvas.width, canvas.height);
 	for ( var i = 0; i < this.layer_manager.layers.length; i++) {
@@ -171,16 +171,16 @@ Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
 
 Cdraw_surface.prototype.callback_mousemove = function(e, obj) {
 	// var dsize = obj.tools.size / 2;
-	var $o = $(obj.canvas.canvas).offset();
+	var $o = $(obj.cCanvas.canvas).offset();
 	this.mouse.move(e.pageX - $o.left, e.pageY - $o.top);
-	var $d = $(this.dom_mouse).children('div').children('div.hold-var')
-			.children('div.var-x');
-	$d.empty();
-	$d.append(this.mouse.x);
-	$d = $(this.dom_mouse).children('div').children('div.hold-var').children(
-			'div.var-y');
-	$d.empty();
-	$d.append(this.mouse.y);
+//	var $d = $(this.dom_mouse).children('div').children('div.hold-var')
+//			.children('div.var-x');
+//	$d.empty();
+//	$d.append(this.mouse.x);
+//	$d = $(this.dom_mouse).children('div').children('div.hold-var').children(
+//			'div.var-y');
+//	$d.empty();
+//	$d.append(this.mouse.y);
 };
 
 Cdraw_surface.prototype.get_dom = function() {
