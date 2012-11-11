@@ -127,8 +127,11 @@ Cdraw_layer_manager.prototype.dom_build = function(parent, force) {
 	$r.addClass('layer-manager '+ DRAWGLOB.css_draggable_class);
 	helper_build_header($r, this, 'Layers');
 	var cmd = document.createElement('div');
-	var b_add = new Cimage_button({ src: 'img/16x16_create_file.png', width: 16, height: 16, 
-		click: function(obj) {
+	var b_add = new Cimage({ 
+		src: 'img/16x16_create_file.png', 
+		width: 16, 
+		height: 16, 
+		callback_click: function(obj) {
 			console.log("Add Layer: ", obj);
 			that.add(new Cdraw_layer(that));
 			that.parent.redraw();
@@ -137,7 +140,7 @@ Cdraw_layer_manager.prototype.dom_build = function(parent, force) {
 	$(cmd).append(b_add.dom_get());
 	var group = document.createElement('ul');
 	var $g = $(group);
-	$g.addClass('group-layers');
+	$g.addClass('group-layers not-draggable');
 	$r.append(cmd);
 	
 	$r.append($g);

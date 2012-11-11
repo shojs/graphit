@@ -10,6 +10,9 @@ function Cdraw_grapher(cTools, cSurface) {
 	this.reset_index();
 	this.timer = null;
 	cSurface.cGrapher = this;
+	//this.cTool = new Ctool_pen(this);
+	//this.cTool.update(10);
+	console.log('Brush[pen]', this.cBrush);
 }
 
 Cdraw_grapher.prototype.set = function(cTools, cSurface) {

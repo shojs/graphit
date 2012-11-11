@@ -1,91 +1,8 @@
-
-/**
- * 
- * @param ptype
- * @returns
- */function Cdraw_tool(parent, ptype) {
-	var that = this;
-	this.parent = parent;
-	this.type = ptype;
-	this.options = {
-			src: 'img/32x32_tool_' + this.type + '.png',
-			//src_pushed: 'img/32x32_tool_' + this.type + '_pushed.png',
-			click: function(obj) { that.callback_click(obj); }
-	};
-	this.image = new Cimage_button(this.options);
-};
-
-
-Cdraw_tool.prototype.callback_click = function(obj) {
-	this.parent.select(this);
-};
-
-/**
- * 
- * @returns
- */
-Cdraw_tool.prototype.dom_build = function() {
-	this.rootElm = this.image.dom_get();
-	return this;
-};
-
-/**
- * 
- */
-Cdraw_tool.prototype.dom_get = function() {
-	return this.dom_build().rootElm;
-};
-/******************************************************************************
- * 
- *
- */
-function Cdraw_tool_pen(parent) {
-	Cdraw_tool.call(this, parent, 'pen');
-}
-
-Cdraw_tool_pen.prototype = Object.create(Cdraw_tool.prototype);
-Cdraw_tool_pen.prototype.constructor = new Cdraw_tool();
-
-
-/******************************************************************************
- * 
- *
- */
-function Cdraw_tool_fill(parent) {
-	Cdraw_tool.call(this, parent, 'fill');
-}
-
-Cdraw_tool_fill.prototype = Object.create(Cdraw_tool.prototype);
-Cdraw_tool_fill.prototype.constructor = new Cdraw_tool();
-
-/******************************************************************************
- * 
- *
- */
-function Cdraw_tool_eraser(parent) {
-	Cdraw_tool.call(this, this, 'eraser');
-}
-
-Cdraw_tool_eraser.prototype = Object.create(Cdraw_tool.prototype);
-Cdraw_tool_eraser.prototype.constructor = new Cdraw_tool();
-
-
-/******************************************************************************
- * 
- *
- */
-function Cdraw_tool_brush(parent) {
-	Cdraw_tool.call(this, this, 'brush');
-}
-
-Cdraw_tool_brush.prototype = Object.create(Cdraw_tool.prototype);
-Cdraw_tool_brush.prototype.constructor = new Cdraw_tool();
-
 /******************************************************************************
  * 
  * 
  */
-function Cdraw_toolbox_colorpicker(color) {
+function Ctoolbox_colorpicker(color) {
 	Cobject.call(this);
 	if (color && !(color instanceof Ccolor)) {
 		console.error('color parameter is not an instance of Ccolor');
@@ -101,14 +18,14 @@ function Cdraw_toolbox_colorpicker(color) {
 	this.clear(this.color);
 }
 
-Cdraw_toolbox_colorpicker.prototype = Object.create(Cobject.prototype);
-Cdraw_toolbox_colorpicker.prototype.constructor = new Cobject();
+Ctoolbox_colorpicker.prototype = Object.create(Cobject.prototype);
+Ctoolbox_colorpicker.prototype.constructor = new Cobject();
 
-Cdraw_toolbox_colorpicker.prototype.clear = function(color) {
+Ctoolbox_colorpicker.prototype.clear = function(color) {
 	this.cCanvas.clear(color);
 };
 
-Cdraw_toolbox_colorpicker.prototype.dom_build = function(bool) {
+Ctoolbox_colorpicker.prototype.dom_build = function(bool) {
 	var that = this;
 	if (this.rootElm) { return this;}
 	var root = document.createElement('div');
@@ -119,7 +36,7 @@ Cdraw_toolbox_colorpicker.prototype.dom_build = function(bool) {
 	this.elmImage = img;
 	$r.append(img);
 	var ctx = img.getContext('2d');
-	var c = this.cCanvas.canvas;
+	var c = this.cCanvas.data;
 	ctx.drawImage(c, 0, 0, c.width, c.height);
 	var update = function(obj, rgb) {
 		that.clear(new Ccolor().set_rgb(rgb));
@@ -141,7 +58,7 @@ Cdraw_toolbox_colorpicker.prototype.dom_build = function(bool) {
  * 
  * @returns
  */
-Cdraw_toolbox_colorpicker.prototype.dom_get = function() {
+Ctoolbox_colorpicker.prototype.dom_get = function() {
 	return this.dom_build().rootElm;
 };
 
@@ -150,39 +67,69 @@ Cdraw_toolbox_colorpicker.prototype.dom_get = function() {
  * 
  *
  */
-function Cdraw_toolbox() {
+function Ctoolbox(olist) {
+	this.olist = olist;
 	Cobject.call(this);
 }
 
-Cdraw_toolbox.prototype = Object.create(Cobject.prototype);
-Cdraw_toolbox.prototype.constructor = new Cobject();
+Ctoolbox.prototype = Object.create(Cobject.prototype);
+Ctoolbox.prototype.constructor = new Cobject();
 
-Cdraw_toolbox.prototype.init = function() {
+/**
+ * 
+ */
+Ctoolbox.prototype.init = function() {
 	this.selected_tool = null;
 	this.tools = new Array();
-	this.bg_color = new Cdraw_toolbox_colorpicker(new Ccolor(255,255,255,1));
-	this.fg_color = new Cdraw_toolbox_colorpicker(new Ccolor(0,0,0,1));
+	this.bg_color = new Ctoolbox_colorpicker(new Ccolor(255,255,255,1));
+	this.fg_color = new Ctoolbox_colorpicker(new Ccolor(0,0,0,1));
 	this.elmPreview = null;
 	this.elmOptions = null;
 	this.rootElm = null;
+	this.load(this.olist);
 	this.dom_build();
 };
 
-Cdraw_toolbox.prototype.add_tool = function(cTool) {
-	cTool.parent = this;
-	console.log("Adding tool: " + cTool.type);
-	cTool.dom_build();
-	this.tools.push(cTool);
+/**
+ * 
+ * @param olist
+ */
+Ctoolbox.prototype.load = function(olist) {
+	console.log('Loading tools');
+	for (label in olist) {
+		if (!('update' in olist[label]) && typeof(olist[label].update != 'function')) {
+			console.error('Tool need update function');
+			continue;
+		}
+		console.log('tool: ', label);
+		var t = new Ctool(this, label);
+		for (plabel in olist[label].parameters) {
+			if (!t.add_parameter(olist[label].parameters[plabel])) {
+				console.error('Cannot add parameter', label);
+				continue;
+			}	
+			this.tools.push(t);
+		}
+	}
 };
 
-Cdraw_toolbox.prototype.select = function(cTool) {
-	console.log("Selecting: " + cTool.type);
+
+/**
+ * 
+ * @param cTool
+ */
+Ctoolbox.prototype.select_tool = function(cTool) {
+	console.log("Selecting: " + cTool.label);
 	$(cTool.rootElm).parent().children('.button').removeClass('selected');
 	$(cTool.rootElm).addClass('selected');
 	this.selected = cTool;
 };
 
-Cdraw_toolbox.prototype.dom_build = function() {
+/**
+ * 
+ * @returns {Ctoolbox}
+ */
+Ctoolbox.prototype.dom_build = function() {
 	var that = this;
 	var root = document.createElement('div');
 	var $r = $(root);
@@ -209,6 +156,10 @@ Cdraw_toolbox.prototype.dom_build = function() {
 	return this;
 };
 
-Cdraw_toolbox.prototype.dom_get = function() {
+/**
+ * 
+ * @returns
+ */
+Ctoolbox.prototype.dom_get = function() {
 	return this.dom_build().rootElm;
 };

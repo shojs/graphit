@@ -6,13 +6,12 @@
  * @param height
  */
 function Cdraw_frag(parent, position, width, height) {
-	this.uid = UID.get();
 	this.position = position;
-	this.canvas = new Ccanvas(width, height, new Ccolor(0,0,0,0));
+	this.cCanvas = new Ccanvas(width, height, new Ccolor(0,0,0,0));
 };
 
 Cdraw_frag.prototype.getContext = function(t) {
-	return this.canvas.getContext('2d');
+	return this.cCanvas.getContext('2d');
 };
 
 Cdraw_frag.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
@@ -26,7 +25,7 @@ Cdraw_frag.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 		return false;
 	}
 	try {
-		this.canvas.ctx.drawImage(canvas, sx, sy, swidth, sheight, 0, 0, swidth,
+		this.cCanvas.ctx.drawImage(canvas, sx, sy, swidth, sheight, 0, 0, swidth,
 				sheight);
 	} catch (e) {
 		console.log("Drawing ERROR", e);

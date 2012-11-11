@@ -40,6 +40,7 @@ Cwidget_draw_brush.prototype.callback_color_changed = function(rgb) {
 Cwidget_draw_brush.prototype._build_image_preview = function($parent) {
 	var that = this;
 	var $r = $(document.createElement('div'));
+	$r.addClass('not-draggable');
 	var colorpicker = document.createElement('input');
 	this.dom_colorpicker = colorpicker;
 	var $cp = $(colorpicker);
@@ -84,6 +85,7 @@ Cwidget_draw_brush.prototype.build = function() {
 	helper_build_header($r, 'brush', 'Brush');
 	this._build_image_preview($r);
 	var $slidergroup = $(document.createElement('div'));
+	$slidergroup.addClass('not-draggable');
 	var func_draw = function() {
 		that.cBrush.redraw(that.canvas);
 	};

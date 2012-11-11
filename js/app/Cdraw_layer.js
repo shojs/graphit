@@ -69,8 +69,11 @@ Cdraw_layer.prototype.dom_build = function(index) {
 		$r.addClass('selected');
 	}
 	
-	var button = new Cimage_button({ src: 'img/16x16_eye.png', width: 16, height: 16, 
-		click: function(obj) {
+	var button = new Cimage({ 
+		src: 'img/16x16_eye.png', 
+		width: 16, 
+		height: 16, 
+		callback_click: function(obj) {
 			console.log("Clicked: ", obj);
 		}
 	});
@@ -103,35 +106,37 @@ Cdraw_layer.prototype.dom_build = function(index) {
 	$td.append($c);
 	$tr.append($td);
 	$td = $(document.createElement('td'));
-	var b_up = new Cimage_button({ 
+	var b_up = new Cimage({ 
 		src: 'img/16x16_up.png', 
 		width: 16, 
 		height: 16, 
-		click: function(obj) {
+		callback_click: function(obj) {
 			console.log("up ", obj);
 			that.parent.move_up(that.uid);
 		}
 	});
 	$td.append(b_up.dom_get());
-	var b_down = new Cimage_button({ 
+	var b_down = new Cimage({ 
 		src: 'img/16x16_down.png', 
 		width: 16, 
 		height: 16, 
-		click: function(obj) {
+		callback_click: function(obj) {
 			console.log("down ", obj);
 			that.parent.move_down(that.uid);
 		}
 	});
 	$td.append(b_down.dom_get());
-	var b_trash = new Cimage_button({ 
+	var b_trash = new Cimage({ 
 		src: 'img/16x16_trash.png', 
 		width: 16, 
 		height: 16, 
-		click: function(obj) {
-			var $s = $(that.rootElm).find('.preview > canvas');
-			that.parent.remove(that);
-			console.log("Clicked: ", obj);
-			$(obj).parents('li.layer').remove();
+		callback_click: function(obj) {
+			console.log('this', this);
+			var $s = $(this).parents('li.layer');
+			if ($s) { 
+				$r.remove(); 
+				that.parent.remove(that);
+			} else { console.error('Cannot remove layer element'); }
 		}
 	});
 	$tr.append($td);
@@ -145,11 +150,12 @@ Cdraw_layer.prototype.dom_build = function(index) {
 	$t.append($tr);
 	$r.append($t);
 	$r.click(function() {
-		$(this).parent().children('.layer').removeClass('selected');
+		console.log($(this).parents('.group-layers'));
+		$(this).parents('.group-layers').children('li.layer').removeClass('selected');
 		$(this).addClass('selected');
 		that.parent.select(that);
 	});
-	this.rootElm = root;
+	this.rootElm = $r;
 	return this;
 };
 
@@ -184,7 +190,7 @@ Cdraw_layer.prototype.redraw = function(bool) {
 	}
 	for ( var i = 0; i < this.frags.length; i++) {
 		var f = this.frags[i];
-		var canvas = f.canvas.canvas;
+		var canvas = f.cCanvas.data;
 		this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height,
 				f.position.x, f.position.y, canvas.width, canvas.height);
 	}
@@ -221,7 +227,7 @@ Cdraw_layer.prototype.stack_frags = function(p_start, p_end) {
 	var tctx = nf.getContext('2d');
 	for (var i = start; i <= end; i++) {
 		var f = this.frags[i];
-		var canvas = f.canvas.canvas;
+		var canvas = f.canvas.data;
 		tctx.drawImage(canvas, 0, 0, canvas.width, canvas.height,
 				f.position.x, f.position.y, canvas.width, canvas.height);
 	}

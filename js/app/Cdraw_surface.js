@@ -85,7 +85,7 @@ Cdraw_surface.prototype.build = function() {
 	$r.addClass('surface ' + DRAWGLOB.css_draggable_class);
 	helper_build_header($r, ' ', 'Surface');
 	var $g = $(document.createElement('div'));
-	var canvas = this.cCanvas.canvas;
+	var canvas = this.cCanvas.data;
 	var $c = $(canvas);
 	$c.attr('width', this.width);
 	$c.attr('height', this.height);
@@ -127,7 +127,7 @@ Cdraw_surface.prototype.undo = function() {
 };
 
 Cdraw_surface.prototype.redraw = function() {
-	var canvas = this.cCanvas.canvas;
+	var canvas = this.cCanvas.data;
 	var tctx = canvas.getContext('2d');
 	tctx.clearRect(0, 0, canvas.width, canvas.height);
 	for ( var i = 0; i < this.layer_manager.layers.length; i++) {
@@ -171,7 +171,7 @@ Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
 
 Cdraw_surface.prototype.callback_mousemove = function(e, obj) {
 	// var dsize = obj.tools.size / 2;
-	var $o = $(obj.cCanvas.canvas).offset();
+	var $o = $(obj.cCanvas.data).offset();
 	this.mouse.move(e.pageX - $o.left, e.pageY - $o.top);
 //	var $d = $(this.dom_mouse).children('div').children('div.hold-var')
 //			.children('div.var-x');
