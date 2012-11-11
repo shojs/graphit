@@ -14,6 +14,7 @@ body {
     display: inline;
     text-align: center;
 }
+
 .draggable {
     display: inline-block;
     margin: 1px 5px 10px 1px;
@@ -42,6 +43,34 @@ body {
     background-image: url(../img/grid-40x40.png);
 }
 
+.group {
+
+}
+
+.group-colorpickers {
+    clear: both;
+    float: right;
+    display: inline-block;
+    margin: 0.5em 1em 0.5em 1em;    
+}
+
+.group-tools>div.selected {
+    border-color: red;
+}
+
+.group-tools>div {
+            border-style: solid;
+    border-width: 1px;
+ 
+
+        -webkit-border-radius: 6px;
+-moz-border-radius: 6px;
+border-radius: 6px;  
+
+
+    display: inline-block;
+}
+
 .toolbox {
     width: 250px;
     clear: right;
@@ -65,11 +94,11 @@ body {
 }
 
 .group-layers {
-   width: 240px;
-   overflow: hidden;
+    width: 240px;
+    overflow: hidden;
 }
 
-.group-layers > .selected {
+.group-layers>.selected {
     border-width: 0 1px 0 1px;
 }
 
@@ -93,6 +122,20 @@ body {
     border: solid;
     border-width: 0 0 1px 0;
     border-color: white;
+}
+
+.group-colorpicker {
+    margin: 0 auto 0 auto;
+    text-align: center;
+}
+
+.group-colorpicker div {
+    display: inline;
+}
+
+.group-colorpicker canvas {
+    border-style: solid;
+    border-width: 1px;
 }
 
 .sliderex input {

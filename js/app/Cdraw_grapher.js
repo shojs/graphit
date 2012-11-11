@@ -10,9 +10,6 @@ function Cdraw_grapher(cTools, cSurface) {
 	this.reset_index();
 	this.timer = null;
 	cSurface.cGrapher = this;
-	//this.cTool = new Ctool_pen(this);
-	//this.cTool.update(10);
-	console.log('Brush[pen]', this.cBrush);
 }
 
 Cdraw_grapher.prototype.set = function(cTools, cSurface) {
@@ -49,18 +46,16 @@ function math_linear_interpolation(p1, p2, step) {
 };
 
 Cdraw_grapher.prototype._graph = function() {
-	var numpoint = cSurface.mouse.points.length;
+	var numpoint = this.cSurface.mouse.points.length;
 	if (numpoint <= 2) {
-		// console.log('need two points');
 		return false;
 	}
 	if (this.index >= (numpoint - 1)) {
-		// console.log('nothing to graph');
 		return false;
 	}
 	var e = document.getElementById('graphing-area');
 	var radius = this.cTools.size / 2;
-	var color = this.cTools.color.to_rgba();
+	var color = this.cTools.fg_color.to_rgba();
 
 	var p1 = this.cSurface.mouse.points[this.index];
 	var p2 = this.cSurface.mouse.points[(this.index + 1)];
@@ -70,13 +65,19 @@ Cdraw_grapher.prototype._graph = function() {
 	}
 
 	pression = Math.log(pression + (radius / 100));
-
-	// console.log('pression: ' + pression);
+	
+	var tool = this.cTools.selected;
+	var dcanvas = this.cSurface.layer_manager.special_layers.prefrag.canvas;
+	var ctx = dcanvas.getContext('2d');
+	var scanvas = tool.cCanvas.data;
+	var dw = scanvas.width / 2;
+	var dh = scanvas.height / 2;
 	var points = math_linear_interpolation(p1, p2, pression);
 	for ( var i = 0; i < points.length; i++) {
-		helper_draw_circle(
-				this.cSurface.layer_manager.special_layers.prefrag.canvas,
-				points[i].x, points[i].y, radius, color);
+		ctx.save();
+		ctx.translate(points[i].x - dw, points[i].y - dh);
+		ctx.drawImage(scanvas, 0,0, scanvas.width, scanvas.height);
+		ctx.restore();
 	}
 	this.index++;
 	this.cSurface.redraw();
@@ -93,12 +94,12 @@ Cdraw_grapher.prototype.stop = function() {
 	var lmouse = this.cSurface.layer_manager.special_layers.mouse;
 	lmouse.ctx.fillStyle = 'rgba(255,0,0,0.1)';
 	var cs = this.cSurface;
-	var dsize = Math.round(this.cTools.size / 2);
-	var width = Math.round(cs.mouse.maxx - cs.mouse.minx + this.cTools.size);
-	var height = Math.round(cs.mouse.maxy - cs.mouse.miny + this.cTools.size);
+	var size = this.cTools.selected.parameters.size.value * 2;
+	var dsize = Math.round(size / 2);
+	var width = Math.round(cs.mouse.maxx - cs.mouse.minx + size);
+	var height = Math.round(cs.mouse.maxy - cs.mouse.miny + size);
 	var x = Math.round(cs.mouse.minx - dsize);
 	var y = Math.round(cs.mouse.miny - dsize);
-
 	cs.layer_manager.current_layer.drawImage(
 			cs.layer_manager.special_layers.prefrag.canvas, x, y, width,
 			height, 0, 0, width, height);

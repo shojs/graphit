@@ -1,15 +1,5 @@
 /*******************************************************************************
  * 
- * @param obj
- * @param x
- * @param y
- */
-function helper_draw_surface(obj, x, y) {
-	// console.log('Mouse x/y: ' + x + ' / ' + y);
-}
-
-/*******************************************************************************
- * 
  * @param parent
  * @returns
  */
@@ -33,7 +23,6 @@ Cdraw_buttons.prototype.build = function() {
 		$m.dialog({
 			buttons : {
 				Ok : function() {
-					console.log('OK');
 					that.parent.clear();
 					$(this).dialog("close");
 				},
@@ -65,7 +54,7 @@ function Cdraw_surface(id, width, height) {
 	this.layer_manager.add(new Cdraw_layer(this.layer_manager, E_LAYERLABEL.prefrag));
 	this.layer_manager.add(new Cdraw_layer(this.layer_manager));
 	this.mouse = new Cmouse_tracker(this, callback_stub, callback_stub,
-			callback_stub, helper_draw_surface);
+			callback_stub, callback_stub);
 	this.rootElm = null;
 	this.cCanvas = new Ccanvas(this.width, this.height);
 	this.cTools = null;
@@ -110,8 +99,6 @@ Cdraw_surface.prototype.build = function() {
 	this.build_buttons = new Cdraw_buttons(this);
 	$g = $(document.createElement('div'));
 	$g.append(this.build_buttons.get_dom());
-	//$r.append($g);
-	// $r.unbind('keydown', 'Ctrl+z');
 	$(document).bind('keydown', 'Ctrl+z', function() {
 		that.undo();
 	});
@@ -119,7 +106,6 @@ Cdraw_surface.prototype.build = function() {
 };
 
 Cdraw_surface.prototype.undo = function() {
-	//console.log('----- ----- -----' + "\n" + 'Undo');
 	this.layer_manager.current_layer.discard_frag();
 	this.layer_manager.current_layer.redraw();
 
@@ -170,17 +156,8 @@ Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
 };
 
 Cdraw_surface.prototype.callback_mousemove = function(e, obj) {
-	// var dsize = obj.tools.size / 2;
 	var $o = $(obj.cCanvas.data).offset();
 	this.mouse.move(e.pageX - $o.left, e.pageY - $o.top);
-//	var $d = $(this.dom_mouse).children('div').children('div.hold-var')
-//			.children('div.var-x');
-//	$d.empty();
-//	$d.append(this.mouse.x);
-//	$d = $(this.dom_mouse).children('div').children('div.hold-var').children(
-//			'div.var-y');
-//	$d.empty();
-//	$d.append(this.mouse.y);
 };
 
 Cdraw_surface.prototype.get_dom = function() {

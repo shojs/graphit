@@ -84,10 +84,6 @@ Cdraw_layer.prototype.dom_build = function(index) {
 
 	$td.append(button.dom_get());
 	$tr.append($td);
-//	$td = $(document.createElement('td'));
-//	$td.addClass('sortable-handle move');
-//	$td.append("Move");
-//	$tr.append($td);
 	$td = $(document.createElement('td'));
 	$td.append('Layer - '+this.label);	
 	$td.addClass('label');
@@ -96,7 +92,6 @@ Cdraw_layer.prototype.dom_build = function(index) {
 	$td.addClass('preview');
 	var canvas = document.createElement('canvas');
 	this.canvas_preview = canvas;
-	//this.canvas = canvas;
 	var $c = $(canvas);
 	$c.attr('layer_index', index);
 	var width = 100;
@@ -111,7 +106,6 @@ Cdraw_layer.prototype.dom_build = function(index) {
 		width: 16, 
 		height: 16, 
 		callback_click: function(obj) {
-			console.log("up ", obj);
 			that.parent.move_up(that.uid);
 		}
 	});
@@ -121,7 +115,6 @@ Cdraw_layer.prototype.dom_build = function(index) {
 		width: 16, 
 		height: 16, 
 		callback_click: function(obj) {
-			console.log("down ", obj);
 			that.parent.move_down(that.uid);
 		}
 	});
@@ -131,7 +124,6 @@ Cdraw_layer.prototype.dom_build = function(index) {
 		width: 16, 
 		height: 16, 
 		callback_click: function(obj) {
-			console.log('this', this);
 			var $s = $(this).parents('li.layer');
 			if ($s) { 
 				$r.remove(); 
@@ -143,14 +135,12 @@ Cdraw_layer.prototype.dom_build = function(index) {
 	$td = $(document.createElement('td'));
 	$td.addClass('options');
 
-	//$td.append(b_down.dom_get());
 	$td.append(b_trash.dom_get());
 	
 	$tr.append($td);
 	$t.append($tr);
 	$r.append($t);
 	$r.click(function() {
-		console.log($(this).parents('.group-layers'));
 		$(this).parents('.group-layers').children('li.layer').removeClass('selected');
 		$(this).addClass('selected');
 		that.parent.select(that);

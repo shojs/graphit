@@ -61,7 +61,7 @@ function helper_build_header($parent, p_class, label) {
 		console.error('Require 3 parameters');
 	}
 	var $r = $(document.createElement('div'));
-	$r.addClass('ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix');
+	$r.addClass('ui-dialog-titlebar  ui-corner-all ui-helper-clearfix');
 	$r.append('<span class="ui-dialog-title">'+label+'</span>');
 	//$r.append('<a role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span class="ui-icon ui-icon-closethick">close</span></a>');
 	$parent.append($r);

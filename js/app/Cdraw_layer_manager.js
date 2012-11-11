@@ -21,12 +21,10 @@ Cdraw_layer_manager.prototype.add = function(layer) {
 	var reg = new RegExp(/^_(.*)/);
 	var match = reg.exec(layer.label);
 	if (match) {
-		console.log('add special: ' + match[1]);
 		layer.label = 'layer-' + match[1];
 		this.special_layers[match[1]] = layer;
 	} else {
 		layer.label = this.layers.length;
-		console.log('add: ' + layer.label);
 		this.layers.push(layer);
 	}
 	this.current_layer = layer;
@@ -54,7 +52,6 @@ Cdraw_layer_manager.prototype.exists = function(layer) {
 };
 
 Cdraw_layer_manager.prototype.remove = function(layer) {
-	console.log('Removing element', layer);
 	var idx = this.exists(layer);
 	if (idx === undefined) {
 		console.error('Cannot remove undefined element');
@@ -82,10 +79,7 @@ Cdraw_layer_manager.prototype._build_layer_preview = function(root) {
 };
 
 Cdraw_layer_manager.prototype.move_down = function(id) {
-	console.log('Moving up id', id);
 	var idx = this.get_index_by_uid(id);
-	console.log('lenght: ' + this.layers.length);
-	console.log('idx   : ' + idx);
 	if (idx === undefined || this.layers.length <= 1 || idx < 1) {
 		console.error('Can\'t move layer up');
 		return false;
@@ -102,10 +96,7 @@ Cdraw_layer_manager.prototype.move_up = function(id) {
 	if (this.layers.length == 1) {
 		return false;
 	}
-	console.log('Moving down id', id);
 	var idx = this.get_index_by_uid(id);
-	console.log('lenght: ' + this.layers.length);
-	console.log('idx   : ' + idx);
 	if (idx === undefined || idx >= (this.layers.length - 1)|| this.layers.length <= 1) {
 		console.error('Can\'t move layer up');
 		return false;
@@ -132,7 +123,6 @@ Cdraw_layer_manager.prototype.dom_build = function(parent, force) {
 		width: 16, 
 		height: 16, 
 		callback_click: function(obj) {
-			console.log("Add Layer: ", obj);
 			that.add(new Cdraw_layer(that));
 			that.parent.redraw();
 		}
@@ -153,18 +143,16 @@ Cdraw_layer_manager.prototype.dom_exists = function(domLayer) {
 	var i;
 	for (i = 0; i < this.layers.length; i++) {
 		if (this.layers[i].rootElm = domLayer) {
-			console.log('FOUND');
 			found = true;
 			break;
 		}
 	}
-	if (found) { return i}
+	if (found) { return i;}
 	return null;
 }
 
 Cdraw_layer_manager.prototype.select = function(obj) {
 	var index = this.exists(obj);
-	console.log("SELECT ", index);
 	if (index === undefined || index < 0 || index > this.layers.length) {
 		console.error('Layer index out of range: ' + index);
 		return false;

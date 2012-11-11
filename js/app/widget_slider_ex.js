@@ -1,12 +1,12 @@
-function widget_slider_ex($parent, label, options, callbacks) {
+function widget_slider_ex(obj, $parent, options) {
 	var root = document.createElement('div');
 	var $r = $(root);
-	$r.addClass('sliderex ' + label);
-	$r.attr('title', label);
+	$r.addClass('sliderex ' + options.label);
+	$r.attr('title', options.label);
 	var $table = $(document.createElement('table'));
 	var $tr = $(document.createElement('tr'));
 	var $td = $(document.createElement('td'));
-	$td.append('<h6>' + label + '</h6>');
+	$td.append('<h6>' + options.label + '</h6>');
 	$tr.append($td);
 
 	var $slider = $(document.createElement('div'));
@@ -19,16 +19,21 @@ function widget_slider_ex($parent, label, options, callbacks) {
 		slide : function() {
 			var $t = $(this);
 			var value = $t.slider('option', 'value');
-			var $p = $t.parent().children('input.input');
+			var $p = $t.parents('.sliderex').find('input.input');
 			$p.attr('value', value);
-			callbacks.slide(this, value);
+			if ('callback_slide' in options && typeof(options.callback_slide) == 'function') {
+				options.callback_slide.call(obj, value);
+			}
 		},
 		change : function() {
 			var $t = $(this);
 			var value = $t.slider('option', 'value');
-			var $p = $t.parent().children('input.input');
+			var $p = $t.parents('.sliderex').find('input.input');
 			$p.attr('value', value);
-			callbacks.change(this, value);
+			if ('callback_change' in options && typeof(options.callback_change) == 'function') {
+				options.callback_change.call(obj, value);
+			}
+	
 		}
 	});
 	$td = $(document.createElement('td'));
@@ -41,9 +46,11 @@ function widget_slider_ex($parent, label, options, callbacks) {
 	$input.change(function() {
 		$this = $(this);
 		var value = $this.attr('value');
-		var $p = $this.parent().children('div.slider');
+		var $p = $this.parents('.sliderex').find('.slider');
 		$p.slider('option', 'value', value);
-		callbacks.change(this, value);
+		if ('callback_change' in options && typeof(options.callback_change) == 'function') {
+			options.callback_change.call(obj, value);
+		}
 	});
 	$td = $(document.createElement('td'));
 	$td.append($input);

@@ -64,7 +64,6 @@ Clicense.prototype.dom_build = function() {
 	$(button).button();
 	$(button).click(function(e, ui) {
 		$(root).hide();
-		//console.log('Button clicked');
 	});
 
 	$r.append(group);

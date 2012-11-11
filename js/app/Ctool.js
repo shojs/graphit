@@ -4,30 +4,80 @@
  * @returns
  */
 function Ctool_parameter(options) {
-	var checks = new Object({ label: 1, min: 1, max: 1, def: 1, step: 1 });
-	for (k in checks) {
+	if (!options.parent) { console.log('Ctool_parameter require parent in options {...}');}
+	this.parent = options.parent;
+	this.checks = new Object({ label: 1, min: 1, max: 1, def: 1, step: 1,});
+	for (k in this.checks) {
 		if (!(k in options) || options[k] === undefined) {
-			console.error('Missing parameter value', options, k);
+			console.error('Missing parameter key/value', options, k);
 			return null;
 		}
 		if (k == 'label') { this[k] = options[k]; }
-		else { this[k] = parseInt(options[k]); }
+		else { this[k] = parseFloat(options[k]); }
 	}
+	if ('callback_onchange' in options && typeof(options.callback_onchange) == 'function') {
+		this.callback_onchange = options.callback_onchange;
+	};
+	this.reset();
 	return this;
 }
 
+Ctool_parameter.prototype.reset = function() {
+	this.set(this.def);
+};
+
+Ctool_parameter.prototype.get = function(k) {
+	if (!(k in this)) {
+		console.error('Invalid key', k);
+		return null;
+	}
+	return this[k];
+};
+
+Ctool_parameter.prototype.set = function(v) {
+	v = parseFloat(v);
+	if (v == this.value) {
+		return this;
+	}
+	if ('callback_onchange' in this && typeof(this.callback_onchange) == 'function') {
+		this.callback_onchange.call(this, v);
+	}
+	this.value = v;
+	return this;
+};
+
+var CTOOL_brushes = {
+		circle : {
+			update: function(obj) {
+				var size = this.parameters.size.value;
+				this.cCanvas = new Ccanvas(size*2, size*2)
+				var dsize = size;
+				helper_draw_circle(this.cCanvas, dsize, dsize, size, this.parent.fg_color.to_rgba());
+			},
+			
+		},
+
+	};
 /**
  * 
  */
 var CTOOL_tools = {
 		pen: {
+			label: 'pen',
 			parameters: {
-				size: { label: 'size', min: 0, max: 100, def: 20, step: 0.1 },
-				opacity: { label: 'opacity', min: 0, max: 100, def: 20, step: 0.1 },
+				size: { label: 'size', min: 0, max: 100, def: 20, step: 1 },
+				opacity: { label: 'opacity', min: 0, max: 1, def: 1, step: 0.01 },
 			},
-			update: function(obj) {
-				console.log('Update pen');
+			brush: CTOOL_brushes.circle,
+		},
+		brush: {
+			label: 'brush',
+			parameters: {
+				size: { label: 'size', min: 0, max: 100, def: 20, step: 1 },
+				opacity: { label: 'opacity', min: 0, max: 1, def: 1, step: 0.1 },
+				rotation: { label: 'rotation', min: 0, max: 360, def: 0, step: 0.1 },
 			},
+			brush: CTOOL_brushes.circle,
 		},
 		eraser: {
 			label: 'eraser',
@@ -35,9 +85,10 @@ var CTOOL_tools = {
 				size: { label: 'size', min: 0, max: 100, def: 20, step: 0.1 },
 				opacity: { label: 'opacity', min: 0, max: 100, def: 20, step: 0.1 },
 			},
-			update: function(obj) {
-				console.log('Update pen');
-			},
+			brush: CTOOL_brushes.circle,
+			pre_update: function() {
+				;
+			}
 		},
 		fill: {
 			label: 'fill',
@@ -45,9 +96,7 @@ var CTOOL_tools = {
 				size: { label: 'size', min: 0, max: 100, def: 20, step: 0.1 },
 				opacity: { label: 'opacity', min: 0, max: 100, def: 20, step: 0.1 },
 			},
-			update: function(obj) {
-				console.log('Update pen');
-			},
+			brush: CTOOL_brushes.circle,
 		}
 		
 };
@@ -64,10 +113,12 @@ function Ctool(parent, label) {
 	this.label = label;
 	this.parent = parent;
 	this.parameters = {};
+	this.brush = null;
 	this.cCanvas = null;
 	this.need_update = true;
 	this.rootElm = null;
-	console.log('Creating brush', label);
+	this.optElm = null;
+	return this;
 };
 
 Ctool.prototype = Object.create(Cobject.prototype);
@@ -86,8 +137,17 @@ Ctool.prototype.canvas_create = function(width, height) {
 	this.set_parameter('height', height);
 };
 
+Ctool.prototype.set_brush = function(brush) {
+	if (!brush) {
+		console.error('Brush is null');
+		return this;
+	}
+	console.log('Brush set to', brush);
+	this.brush = brush;
+	return this;
+};
+
 Ctool.prototype.set_parameter = function(key, value) {
-	console.log('Key: ' + key);
 	if (key in this.parameters) {
 		this.parameters[key].cur = value;
 	} else {
@@ -96,20 +156,34 @@ Ctool.prototype.set_parameter = function(key, value) {
 };
 
 Ctool.prototype.add_parameter = function(options) {
-	console.log('Add parameter', options);
+	var that = this;
 	if (options.label in this.parameters) {
 		console.error('Parameter already registered', options);
 		return false;
 	}
+	options.callback_onchange = function(value) {
+		this.need_update = true;
+		this.parent.update();
+	};
+	options.parent = this;
 	var p = new Ctool_parameter(options);
+
 	this.parameters[p.label] = p;
 	return true;
 };
 
 Ctool.prototype.update = function(elapsed) {
-	if (this.need_update) {
-		return this._update(elapsed);
+	this.need_update = true;
+	if (!this.need_update) { 
+		console.log('Doesn\'t need update');
+		return false;
 	}
+	if (!('size' in this.parameters)) { console.error('We need a size parameter'); return false;}
+	var size = this.parameters.size.value;
+	if (!size) { console.error("No size"); }
+	this.cCanvas = new Ccanvas(size, size);
+	this.brush.update.call(this, this);
+	this.need_update = false;
 	return true;
 };
 
@@ -130,7 +204,6 @@ Ctool.prototype.drawImage = function(t_canvas, tx, ty) {
 };
 
 Ctool.prototype.onclick = function() {
-	console.log('Clicked', this);
 	if ('callback_onclick' in this.options && 
 			typeof(this.options.callback_onclick) === 'function') {
 		this.options.callback_onclick(this);
@@ -151,37 +224,39 @@ Ctool.prototype.dom_build_tool = function() {
 	var that = this;
 	var img = new Cimage({
 		src: 'img/32x32_tool_' + this.label + '.png',
-		callback_onload: function(obj) { console.log('Tool image loaded', obj); },
-		callback_click: function(obj) { that.callback_click(obj); }
+		callback_onload: function(obj) { ; },
+		callback_click: function(obj) { that.callback_click(obj); 
+		lagel = this.label;
+		}
 	});
 	return $(img.dom_get());
 };
 
+Ctool.prototype.dom_build_options = function() {
+	if (this.optElm) { return this.optElm; }
+	var that = this;
+	var $r = $(document.createElement('div'));
+	$r.addClass('not-draggable');
+	for (label in this.parameters) {
+		var param = this.parameters[label];
+		param.callback_slide = function(value)  {
+			this.set(value);
+		};
+		param.callback_change = function(value) { 	
+			this.set(value);
+		};
+		widget_slider_ex(param, $r, param);
+	}
+	this.optElm = $r;
+	return $r;
+};
 
 Ctool.prototype.callback_click = function(obj) {
-	console.log('Tool clicked', this);
 	if (this.parent) {
 		this.parent.select_tool(this);
 	}
 };
 
-//
-///******************************************************************************
-// * 
-// * @param parent
-// * @returns
-// */
-//function Ctool_pen(parent) {
-//	Ctool.call(this, parent, 'pen');
-//	this.add_parameter({label: 'size', min: 0, max: 100, def: 20, step: 0.1  });
-//	this.add_parameter({label: 'opacity', min: 0, max: 1, def: 1, step: 0.1});
-//	this.add_parameter({label: 'rotation', min: 0, max: 360, def: 0, step: 0.1});
-//	this.add_parameter({label: 'pression', min: 0, max: 360, def: 0, step: 0.1});
-//};
-//
-//Ctool_pen.prototype = Object.create(Ctool.prototype);
-//Ctool_pen.prototype.constructor = new Ctool();
-//
-//Ctool_pen.prototype._update = function() {
-//	console.log('Updating brush');
-//};
+Ctool.prototype.drawImage = function (dcanvas, dx, dy) {
+	
+};

@@ -21,12 +21,13 @@ Cimage.prototype.constructor = new Cobject();
 
 Cimage.prototype.load = function(p_src, force) {
 	var that = this;
+	var opt = this.options;
 	if (this.data && !force) {
 		console.warn('Image already loaded');
 		return true;
 	}
 	var src = p_src;
-	if ('src' in this.options && this.options.src) { src = this.options.src; }
+	if ('src' in opt && opt.src) { src = opt.src; }
 	if (!src) {
 		console.warn('No source for image');
 		return false;
@@ -34,14 +35,15 @@ Cimage.prototype.load = function(p_src, force) {
 	var img = document.createElement('img');
 	img.onload = function() { that.callback_onload(); };
 	img.onerror = function() { that.callback_onerror(); };
-	if ('label' in this.options && this.options.label) {
+	if ('label' in opt && opt.label != undefined) {
 		img.setAttribute('alt', this.options.label);
+		img.setAttribute('title', this.options.label);
 	}
-	if ('width' in this.options && this.options.width) {
+	if ('width' in this.options && this.options.width != undefined) {
 		img.setAttribute('width', this.options.width);
 	}
-	if ('height' in this.options && this.options.height) {
-		img.setAttribute('height', this.options.height);
+	if ('height' in this.options && this.options.height != undefined) {
+		img.setAttribute('height', this.options.height != undefined);
 	}
 	if ('src' in this.options && this.options.src) {
 		img.setAttribute('src', this.options.src);
@@ -52,7 +54,6 @@ Cimage.prototype.load = function(p_src, force) {
 
 Cimage.prototype.callback_onload = function() {
 	var ret = true;
-	console.log('Image loading ok');
 	this.status = Eloading_status.ok;
 	this.last_update = Date.now();
 	if ('replace_id' in this.options && this.options.replace_id) {
@@ -80,7 +81,6 @@ Cimage.prototype.callback_onload = function() {
 
 Cimage.prototype.callback_onerror = function() {
 	var ret = true;
-	console.log('Image loading failed');
 	this.status = Eloading_status.fail;
 	this.last_update = null;
 	if ('callback_onerror' in this.options && typeof(this.options.callback_onerror) === 'function') {
@@ -94,7 +94,6 @@ Cimage.prototype.callback_onerror = function() {
 
 Cimage.prototype.callback_click = function() {
 	var ret = true;
-	console.log('Image clicked');
 	if (this.options.auto_release) {
 		this.is_pushed = false;
 	} else {

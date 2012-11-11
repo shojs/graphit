@@ -8,7 +8,7 @@
  * @param color
  * @return bool
  */
-function helper_draw_circle(canvas, x, y, size, color) {
+function helper_draw_circle(canvas, x, y, r, color) {
 	if (canvas === undefined || x === undefined || y == undefined) {
 		console.error('Invalid parameters');
 		return 0;
@@ -22,13 +22,15 @@ function helper_draw_circle(canvas, x, y, size, color) {
 	if (!color) {
 		color = 'rgba(0,0,0,1)';
 	}
-	if (!size) {
-		size = 1;
+	if (!r) {
+		r = 1;
 	}
+	ctx.save();
 	ctx.beginPath();
 	ctx.fillStyle = color;
-	ctx.arc(x, y, size, 0, Math.PI * 2, true);
+	ctx.arc(x, y, r, 0, Math.PI * 2, true);
 	ctx.closePath();
 	ctx.fill();
+	ctx.restore();
 	return 1;
 }
