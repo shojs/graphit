@@ -141,6 +141,21 @@ Ctoolbox.prototype.select_tool = function(cTool) {
 	cTool.update();
 };
 
+Ctoolbox.prototype.switch_color = function() {
+	var tmp = this.fg_color;
+	this.fg_color = this.bg_color;
+	this.bg_color = tmp;
+	var $holder = this.rootElm.find('.colorpicker-colors');
+	$holder.children('.colorpicker').detach();
+	this.dom_build_colorpickers($holder);
+};
+
+Ctoolbox.prototype.dom_build_colorpickers = function($root) {
+	var that = this;
+	$root.append(this.fg_color.dom_get());
+	$root.append(this.bg_color.dom_get());
+};
+
 /**
  * 
  * @returns {Ctoolbox}
@@ -163,8 +178,20 @@ Ctoolbox.prototype.dom_build = function() {
 	/* Color picker */
 	$group = $(document.createElement('div'));
 	$group.addClass('group group-colorpicker not-draggable');
-	$group.append(this.bg_color.dom_get());
-	$group.append(this.fg_color.dom_get());
+	var $cp = $(document.createElement('div'));
+	$cp.addClass('colorpicker-colors');
+	this.dom_build_colorpickers($cp);
+	$group.append($cp);
+	$group.append(	$(new Cimage({
+		src : 'img/16x16_toggle_color.png',
+		callback_onload : function(obj) {
+			;
+		},
+		callback_click : function(obj) {
+			that.switch_color();
+		},
+		class: ''
+	}).dom_get()));
 	$r.append($group);
 	/* Options */
 	$group = $(document.createElement('div'));

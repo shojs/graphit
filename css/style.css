@@ -44,6 +44,7 @@ body {
 
 .group {
     margin: 1em auto 1em auto;
+    padding: 0.5em 0;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
