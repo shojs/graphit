@@ -50,7 +50,8 @@ var CTOOL_brushes = {
 		circle : {
 			update: function(obj) {
 				var size = this.parameters.size.value;
-				this.cCanvas = new Ccanvas(size*2, size*2)
+//				this.cCanvas = new Ccanvas(size*2, size*2);
+				
 				var dsize = size;
 				helper_draw_circle(this.cCanvas, dsize, dsize, size, this.parent.fg_color.to_rgba());
 			},
@@ -87,8 +88,11 @@ var CTOOL_tools = {
 			},
 			brush: CTOOL_brushes.circle,
 			pre_update: function() {
-				;
-			}
+				//this.ctx.fillStyle = 'rgba(255,255,255,0)';
+				//this.ctx.fillRect(0,0,this.cCanvas.data.width, this.cCanvas.data.height);
+				//this.ctx.globalCompositeOperation = 'xor'; 
+			},
+			//globalCompositeOperation: 'destination-out',
 		},
 		fill: {
 			label: 'fill',
@@ -118,6 +122,7 @@ function Ctool(parent, label) {
 	this.need_update = true;
 	this.rootElm = null;
 	this.optElm = null;
+	this.globalCompositeOperation = 'source-over'; //'source-over';
 	return this;
 };
 
@@ -181,8 +186,16 @@ Ctool.prototype.update = function(elapsed) {
 	if (!('size' in this.parameters)) { console.error('We need a size parameter'); return false;}
 	var size = this.parameters.size.value;
 	if (!size) { console.error("No size"); }
-	this.cCanvas = new Ccanvas(size, size);
+	this.cCanvas = new Ccanvas(size*2, size*2);
+	this.ctx = this.cCanvas.getContext('2d');
+	if ('pre_update' in this) {
+		console.log('Calling pre_update');
+		this.pre_update.call(this, this);
+	}
 	this.brush.update.call(this, this);
+	if ('post_update' in this.brush) {
+		this.brush.post_update.call(this, this);
+	}	
 	this.need_update = false;
 	return true;
 };

@@ -31,13 +31,40 @@ Cuid.prototype.init = function() {
 
 var UID = new Cuid();
 
-function Cobject() {
-	this._class_init();
+/******************************************************************************
+ * 
+ * @returns
+ */
+function Cobject(options) {
+	this._class_init(options);
 	this.init();
 }
 
-Cobject.prototype._class_init =function() {
+Cobject.prototype._class_init = function(options) {
+	this.options = {};
 	this.uid = UID.get();
+	if (!options) {
+		//console.log('No options for new object');
+		return;
+	}
+	this.options = options;
+};
+
+Cobject.prototype.callback_exists = function(name) {
+	return !(name in this.options) || (typeof this.options[name] != 'function');
+};
+
+Cobject.prototype.callback_get = function(name) {
+	var clabel = 'callback_' + name;
+	if (!this.callback_exists(clabel)) { return null; }
+	return this.options[clabel];
+};
+
+Cobject.prototype.callback_execute = function(name, params) {
+	var clabel = 'callback_' + name;
+	if (this.callback_exists(clabel)) {
+		console.error('No callback named ' + clabel);
+	}
 };
 
 Cobject.prototype.init = function() {
@@ -49,6 +76,11 @@ Cobject.prototype.dom_get = function(force) {
 	return this.dom_build().rootElm;
 };
 
+
+/******************************************************************************
+ * 
+ * @returns
+ */
 function Cdraw_glob() {
 	this.graphing_interval = 5;
 	this.css_draggable_class = "draggable  ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable ui-dialog-buttons";

@@ -117,6 +117,7 @@ Ctoolbox.prototype.load = function(olist) {
 			console.error('Tool need brush');
 			continue;
 		}
+		console.log('-> Toolbox::tool', label);
 		var t = new Ctool(this, label);
 		for (plabel in olist[label].parameters) {
 			if (!t.add_parameter(olist[label].parameters[plabel])) {
@@ -124,8 +125,16 @@ Ctoolbox.prototype.load = function(olist) {
 				continue;
 			}
 			t.set_brush(olist[label].brush);
+			if ('pre_update' in olist[label]) {
+				console.log('Installing pre_update');
+				t.pre_update = olist[label].pre_update;
+			}
+			if ('globalCompositeOperation' in olist[label]) {
+				t.globalCompositeOperation = olist[label].globalCompositeOperation;
+			}
 			t.update();
 			this.tools.push(t);
+			if (label == 'pen') this.selected = t;
 		}
 	}
 };

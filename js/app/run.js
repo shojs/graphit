@@ -28,7 +28,8 @@ $(document).ready(function() {
 	//$('body').append(widget_brush.get_dom());
 
 	var cToolbox = new Ctoolbox(CTOOL_tools);
-	var cSurface = new Cdraw_surface('surface-01', 640, 480);
+	var cSurface = new Cdraw_surface('surface-01', 800, 600);
+	cSurface.cTools = cToolbox;
 	var cGrapher = new Cdraw_grapher(cToolbox, cSurface);
 //	cSurface.tools = cBrush;
 

@@ -21,12 +21,18 @@ function Cmouse_tracker_point(x, y) {
  * @param c_track
  * @returns
  */
-function Cmouse_tracker(parent, c_move, c_push, c_release, c_track) {
+function Cmouse_tracker(parent, options) {
+	Cobject.call(this, options);
 	this.parent = parent;
-	if (typeof (c_move) != 'function') {
-		console.error('Cmouse_trackerneed set_mouse function parameter');
-		return null;
-	}
+
+//	var callbacks = ['move', 'push', 'release', 'track'];
+//	for (var i = 0; i < callbacks.length; i++) {
+//		var clabel = callbacks[i];
+//		if (this.callback_exists(clabel)) {
+//			console.warn('Cmouse_tracker::Callback << '+clabel+' >> is undefined');
+//		}		
+//	}
+
 	this.x = 0;
 	this.y = 0;
 	this.minmax = new Object({
@@ -40,10 +46,6 @@ function Cmouse_tracker(parent, c_move, c_push, c_release, c_track) {
 	this.miny = this.minmax.maxy;
 	this.maxy = 0;
 
-	this.func_move = c_move;
-	this.func_push = c_push;
-	this.func_release = c_release;
-	this.func_track = c_track;
 	this.pushed = null;
 	this.interval = null;
 	this.points = new Array();
@@ -51,6 +53,9 @@ function Cmouse_tracker(parent, c_move, c_push, c_release, c_track) {
 	this.build();
 	return this;
 }
+
+Cmouse_tracker.prototype = Object.create(Cobject.prototype);
+Cmouse_tracker.prototype.constructor = new Cobject();
 
 Cmouse_tracker.prototype.reset = function() {
 	this.minx = this.minmax.maxx;
@@ -68,12 +73,13 @@ Cmouse_tracker.prototype.reset = function() {
  * @returns {Cmouse_tracker}
  */
 Cmouse_tracker.prototype.move = function(x, y) {
-	var x = helper_bound_value(x, this.minmax.minx, this.minmax.maxx);
-	var y = helper_bound_value(y, this.minmax.miny, this.minmax.maxy);
+	var x = cMath.clamp(x, this.minmax.minx, this.minmax.maxx);
+	var y = cMath.clamp(y, this.minmax.miny, this.minmax.maxy);
+	if (this.x == x && this.y == y) {
+		return this;
+	}
 	this.x = x;
 	this.y = y;
-	// console.log('move: ' + this.x + ' / ' + this.y);
-	this.func_move(this.x, this.y);
 	return this;
 };
 
@@ -88,16 +94,19 @@ Cmouse_tracker.prototype.push = function() {
 			clearInterval(that.interval);
 			return null;
 		}
-		var x = that.x;
-		var y = that.y;
-		// console.log(that);
-		that.points.push(new Cmouse_tracker_point(x, y));
-		that.minx = Math.min(that.minx, x);
-		that.maxx = Math.max(that.maxx, x);
-		that.miny = Math.min(that.miny, y);
-		that.maxy = Math.max(that.maxy, y);
-		that.func_track(that, x, y);
-	}, DRAWGLOB.graphing_interval * 3 /4) ;
+		var cp = new Cmouse_tracker_point(that.x, that.y);
+		var lp = that.points[that.points.length - 1];
+		/* We are not storing same point twice */
+		if (lp && lp.x == cp.x && lp.y == cp.y) {
+				return false;
+		}
+		/* Storing our point */
+		that.points.push(cp);
+		that.minx = Math.min(that.minx, cp.x);
+		that.maxx = Math.max(that.maxx, cp.x);
+		that.miny = Math.min(that.miny, cp.y);
+		that.maxy = Math.max(that.maxy, cp.y);
+	}, DRAWGLOB.graphing_interval);// * 3 /4) ;
 	if (this.func_push)
 		this.func_push(this);
 };
@@ -128,7 +137,6 @@ Cmouse_tracker.prototype.release = function() {
 	this.pushed = null;
 	if (this.func_release)
 		this.func_release(this);
-	//console.log('Recorded points: ' + this.points.length);
 	this.reset();
 };
 

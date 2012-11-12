@@ -244,6 +244,7 @@ Cdraw_layer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 		x : sx,
 		y : sy
 	}), swidth, sheight);
+	frag.setGlobalCompositeOperation(this.parent.parent.cTools.selected.globalCompositeOperation);
 	frag.drawImage(canvas, sx, sy, swidth, sheight, tx, ty);
 	this.frags.push(frag);
 	try {

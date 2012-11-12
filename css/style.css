@@ -38,8 +38,6 @@ body {
 }
 
 .surface canvas {
-    width: 640px;
-    height: 480px;
     background-image: url(../img/grid-40x40.png);
 }
 
