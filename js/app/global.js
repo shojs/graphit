@@ -31,50 +31,7 @@ Cuid.prototype.init = function() {
 
 var UID = new Cuid();
 
-/******************************************************************************
- * 
- * @returns
- */
-function Cobject(options) {
-	this._class_init(options);
-	this.init();
-}
 
-Cobject.prototype._class_init = function(options) {
-	this.options = {};
-	this.uid = UID.get();
-	if (!options) {
-		//console.log('No options for new object');
-		return;
-	}
-	this.options = options;
-};
-
-Cobject.prototype.callback_exists = function(name) {
-	return !(name in this.options) || (typeof this.options[name] != 'function');
-};
-
-Cobject.prototype.callback_get = function(name) {
-	var clabel = 'callback_' + name;
-	if (!this.callback_exists(clabel)) { return null; }
-	return this.options[clabel];
-};
-
-Cobject.prototype.callback_execute = function(name, params) {
-	var clabel = 'callback_' + name;
-	if (this.callback_exists(clabel)) {
-		console.error('No callback named ' + clabel);
-	}
-};
-
-Cobject.prototype.init = function() {
-	;
-};
-
-Cobject.prototype.dom_get = function(force) {
-	if (this.rootElm && !force) { return this.rootElm; }
-	return this.dom_build().rootElm;
-};
 
 
 /******************************************************************************

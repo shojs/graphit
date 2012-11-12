@@ -1,4 +1,4 @@
-function Cetc() {
+function Cregistry() {
 	this.store = null;
 	this.localStorage = new Clocal_storage();
 	if (this.localStorage.store) {
@@ -8,17 +8,17 @@ function Cetc() {
 	}
 }
 
-Cetc.prototype.set = function(k, v) {
+Cregistry.prototype.set = function(k, v) {
 	// console.log('set ',k, ' = ', v);
 	this.store[k] = v;
 	return this;
 };
 
-Cetc.prototype.get = function(k) {
+Cregistry.prototype.get = function(k) {
 	return this.store[k];
 };
 
-Cetc.prototype.get_set = function(k, v) {
+Cregistry.prototype.get_set = function(k, v) {
 	var ret;
 	this.store[k + '_default'] = v;
 	if (ret = this.get(k)) {

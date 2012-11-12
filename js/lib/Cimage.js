@@ -101,8 +101,8 @@ Cimage.prototype.callback_click = function() {
 		else { this.is_pushed = true; }
 	}
 	if ('callback_click' in this.options && typeof(this.options.callback_click) === 'function') {
-		console.log('Calling callback', this);
-		if (!this.options.callback_click(this)) { 
+		//console.log('Calling callback', this);
+		if (!this.options.callback_click.call(this, this)) { 
 			this.errorMsg += 'Error while calling click callback';
 			ret = false;
 		}

@@ -5,19 +5,19 @@
  * @returns
  */
 
-function Cdraw_grapher(cTools, cSurface) {
+function Cgrapher(cTools, cSurface) {
 	this.set(cTools, cSurface);
 	this.reset_index();
 	this.timer = null;
 	cSurface.cGrapher = this;
 }
 
-Cdraw_grapher.prototype.set = function(cTools, cSurface) {
+Cgrapher.prototype.set = function(cTools, cSurface) {
 	this.cTools = cTools;
 	this.cSurface = cSurface;
 };
 
-Cdraw_grapher.prototype.reset_index = function() {
+Cgrapher.prototype.reset_index = function() {
 	this.index = 0;
 };
 
@@ -87,7 +87,7 @@ function math_linear_interpolation2(p1, p2, step) {
 	return points;
 };
 
-Cdraw_grapher.prototype._graph = function() {
+Cgrapher.prototype._graph = function() {
 	var numpoint = this.cSurface.mouse.points.length;
 	if (numpoint <= 2) {
 		return false;
@@ -104,28 +104,31 @@ Cdraw_grapher.prototype._graph = function() {
 //	var p3 = this.cSurface.mouse.points[this.index + 2];
 
 	
-	var tool = this.cTools.selected;
-	var dcanvas = this.cSurface.layer_manager.special_layers.prefrag.canvas;
-	var ctx = dcanvas.getContext('2d');
-
-	var scanvas = tool.cCanvas.data;
-	if (tool.label == 'eraser') {
-		//ctx.fillStyle = 'rgba(0,0,0,1)';
-		//scanvas.getContext('2d').
-		//ctx.globalCompositeOperation = 'desination-atop'; 
-	}
-	var dw = scanvas.width / 2;
-	var dh = scanvas.height / 2;
-	var dctx = scanvas.getContext('2d');
-	var ptrn = ctx.createPattern(this.cTools.selected.cCanvas.data,'repeat');
-	//ctx.save();
-	ctx.beginPath();
-	ctx.strokeStyle = this.cTools.fg_color.to_rgba();
-	ctx.lineWidth = this.cTools.selected.parameters.size.value;
-	ctx.quadraticCurveTo(p1.x, p1.y, p2.x, p2.y);
-	//ctx.moveTo(p1.x, p1.y);
-	//ctx.lineTo(p2.x, p2.y);
-	ctx.stroke();
+	this.cTools.selected.graph(this, p1, p2);
+//	var tool = this.cTools.selected;
+//	
+//	var dcanvas = this.cSurface.layer_manager.special_layers.prefrag.canvas;
+//	var ctx = dcanvas.getContext('2d');
+//
+//	var scanvas = tool.cCanvas.data;
+//	if (tool.label == 'eraser') {
+//		//ctx.fillStyle = 'rgba(0,0,0,1)';
+//		//scanvas.getContext('2d').
+//		//ctx.globalCompositeOperation = 'desination-atop'; 
+//	}
+//	
+//	var dw = scanvas.width / 2;
+//	var dh = scanvas.height / 2;
+//	var dctx = scanvas.getContext('2d');
+//	var ptrn = ctx.createPattern(this.cTools.selected.cCanvas.data,'repeat');
+//	//ctx.save();
+//	ctx.beginPath();
+//	ctx.strokeStyle = this.cTools.fg_color.to_rgba();
+//	ctx.lineWidth = this.cTools.selected.parameters.size.value;
+//	ctx.quadraticCurveTo(p1.x, p1.y, p2.x, p2.y);
+//	//ctx.moveTo(p1.x, p1.y);
+//	//ctx.lineTo(p2.x, p2.y);
+//	ctx.stroke();
 	//ctx.closePath();
 	//ctx.restore();
 	//console.log(dcanvas.toDataURL());
@@ -147,7 +150,7 @@ Cdraw_grapher.prototype._graph = function() {
 	return true;
 };
 
-Cdraw_grapher.prototype.stop = function() {
+Cgrapher.prototype.stop = function() {
 	if (!this.timer) {
 		console.warn('Grapher is not started');
 		return false;
@@ -171,7 +174,7 @@ Cdraw_grapher.prototype.stop = function() {
 	return true;
 };
 
-Cdraw_grapher.prototype.start = function() {
+Cgrapher.prototype.start = function() {
 	if (this.timer) {
 		console.error('Grapher already started');
 		return false;

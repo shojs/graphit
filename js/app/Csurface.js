@@ -45,14 +45,14 @@ Cdraw_buttons.prototype.get_dom = function() {
  * @param height
  * @returns
  */
-function Cdraw_surface(id, width, height) {
+function Csurface(id, width, height) {
 	this.id = id;
 	this.width = width;
 	this.height = height;
-	this.layer_manager = new Cdraw_layer_manager(this);
-	this.layer_manager.add(new Cdraw_layer(this.layer_manager, E_LAYERLABEL.mouse));
-	this.layer_manager.add(new Cdraw_layer(this.layer_manager, E_LAYERLABEL.prefrag));
-	this.layer_manager.add(new Cdraw_layer(this.layer_manager));
+	this.layer_manager = new Clayer_manager(this);
+	this.layer_manager.add(new Clayer(this.layer_manager, E_LAYERLABEL.mouse));
+	this.layer_manager.add(new Clayer(this.layer_manager, E_LAYERLABEL.prefrag));
+	this.layer_manager.add(new Clayer(this.layer_manager));
 	this.mouse = new Cmouse_tracker(this, {
 		callback_move: function() { console.log('mouse move'); },
 		callback_track: function() { console.log('mouse track'); },
@@ -65,11 +65,11 @@ function Cdraw_surface(id, width, height) {
 	this.build();
 }
 
-Cdraw_surface.prototype.set_current_layer = function(layer) {
+Csurface.prototype.set_current_layer = function(layer) {
 	this.layer_manager.current_layer = layer;
 };
 
-Cdraw_surface.prototype.build = function() {
+Csurface.prototype.build = function() {
 	var that = this;
 	var root = document.createElement('div');
 	var $r = $(root);
@@ -108,14 +108,14 @@ Cdraw_surface.prototype.build = function() {
 	this.rootElm = $(root);
 };
 
-Cdraw_surface.prototype.undo = function() {
+Csurface.prototype.undo = function() {
 	this.layer_manager.current_layer.discard_frag();
 	this.layer_manager.current_layer.redraw();
 
 	this.redraw();
 };
 
-Cdraw_surface.prototype.redraw = function() {
+Csurface.prototype.redraw = function() {
 	var tool = this.cTools.selected;
 	var canvas = this.cCanvas.data;
 	var tctx = canvas.getContext('2d');
@@ -131,20 +131,19 @@ Cdraw_surface.prototype.redraw = function() {
 	if (tool.globalCompositeOperation) {
 		tctx.globalCompositeOperation = tool.globalCompositeOperation;
 	}
-	console.log('composite: ', tctx.globalCompositeOperation);
 	tctx.drawImage(this.layer_manager.special_layers.prefrag.canvas, 0, 0,
 			canvas.width, canvas.height);
 	tctx.restore();
 };
 
-Cdraw_surface.prototype.clear = function() {
+Csurface.prototype.clear = function() {
 	for ( var i = 0; i < this.layer_manager.layers.length; i++) {
 		this.layer_manager.layers[i].clear();
 	}
 	this.redraw();
 };
 
-Cdraw_surface.prototype.callback_mousedown = function(e, obj) {
+Csurface.prototype.callback_mousedown = function(e, obj) {
 	if (this.mouse.is_pushed()) {
 		console.warn("Mouse already pushed");
 		return false;
@@ -154,7 +153,7 @@ Cdraw_surface.prototype.callback_mousedown = function(e, obj) {
 	return true;
 };
 
-Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
+Csurface.prototype.callback_mouseup = function(e, obj) {
 	if (!this.mouse.is_pushed()) {
 		console.warn('Mouse not pushed');
 		return false;
@@ -165,11 +164,11 @@ Cdraw_surface.prototype.callback_mouseup = function(e, obj) {
 	return true;
 };
 
-Cdraw_surface.prototype.callback_mousemove = function(e, obj) {
+Csurface.prototype.callback_mousemove = function(e, obj) {
 	var $o = $(obj.cCanvas.data).offset();
 	this.mouse.move(e.pageX - $o.left, e.pageY - $o.top);
 };
 
-Cdraw_surface.prototype.get_dom = function() {
+Csurface.prototype.get_dom = function() {
 	return this.rootElm;
 };

@@ -2,7 +2,7 @@
  * 
  * @returns
  */
-function Cdraw_layer_manager(parent) {
+function Clayer_manager(parent) {
 	this.parent = parent;
 	this.layers = new Array();
 	this.special_layers = new Object();
@@ -11,11 +11,11 @@ function Cdraw_layer_manager(parent) {
 	this.dom_build();
 };
 
-Cdraw_layer_manager.prototype.add = function(layer) {
+Clayer_manager.prototype.add = function(layer) {
 	layer.parent = this;
 	var that = this;
-	if (!(layer instanceof Cdraw_layer)) {
-		console.error('Layer manager need Cdraw_layer object');
+	if (!(layer instanceof Clayer)) {
+		console.error('Layer manager need Clayer object');
 		return false;
 	}
 	var reg = new RegExp(/^_(.*)/);
@@ -38,7 +38,7 @@ Cdraw_layer_manager.prototype.add = function(layer) {
 };
 
 
-Cdraw_layer_manager.prototype.exists = function(layer) {
+Clayer_manager.prototype.exists = function(layer) {
 	var i = 0;
 	var found = false;
 	for (i = 0; i < this.layers.length; i++) {
@@ -51,7 +51,7 @@ Cdraw_layer_manager.prototype.exists = function(layer) {
 	return null;
 };
 
-Cdraw_layer_manager.prototype.remove = function(layer) {
+Clayer_manager.prototype.remove = function(layer) {
 	var idx = this.exists(layer);
 	if (idx === undefined) {
 		console.error('Cannot remove undefined element');
@@ -60,7 +60,7 @@ Cdraw_layer_manager.prototype.remove = function(layer) {
 	this.parent.redraw();
 };
 
-Cdraw_layer_manager.prototype.get_index_by_uid = function(id) {
+Clayer_manager.prototype.get_index_by_uid = function(id) {
 	for (var i = 0; i < this.layers.length; i++) {
 		if (this.layers[i].uid == id) {
 			return i;
@@ -69,7 +69,7 @@ Cdraw_layer_manager.prototype.get_index_by_uid = function(id) {
 	return null;
 };
 
-Cdraw_layer_manager.prototype._build_layer_preview = function(root) {
+Clayer_manager.prototype._build_layer_preview = function(root) {
 	var $r = $(root);
 	$r.empty();
 	for (var i = this.layers.length - 1; i >= 0; i--) {
@@ -78,7 +78,7 @@ Cdraw_layer_manager.prototype._build_layer_preview = function(root) {
 	
 };
 
-Cdraw_layer_manager.prototype.move_down = function(id) {
+Clayer_manager.prototype.move_down = function(id) {
 	var idx = this.get_index_by_uid(id);
 	if (idx === undefined || this.layers.length <= 1 || idx < 1) {
 		console.error('Can\'t move layer up');
@@ -92,7 +92,7 @@ Cdraw_layer_manager.prototype.move_down = function(id) {
 	return true;
 };
 
-Cdraw_layer_manager.prototype.move_up = function(id) {
+Clayer_manager.prototype.move_up = function(id) {
 	if (this.layers.length == 1) {
 		return false;
 	}
@@ -108,7 +108,7 @@ Cdraw_layer_manager.prototype.move_up = function(id) {
 	this.parent.redraw();
 	return true;
 };
-Cdraw_layer_manager.prototype.dom_build = function(parent, force) {
+Clayer_manager.prototype.dom_build = function(parent, force) {
 	if (!force && this.rootElm) {
 		return this.rootElm;
 	}
@@ -123,7 +123,7 @@ Cdraw_layer_manager.prototype.dom_build = function(parent, force) {
 		width: 16, 
 		height: 16, 
 		callback_click: function(obj) {
-			that.add(new Cdraw_layer(that));
+			that.add(new Clayer(that));
 			that.parent.redraw();
 		}
 	});
@@ -138,7 +138,7 @@ Cdraw_layer_manager.prototype.dom_build = function(parent, force) {
 	return this;
 };
 
-Cdraw_layer_manager.prototype.dom_exists = function(domLayer) {
+Clayer_manager.prototype.dom_exists = function(domLayer) {
 	var found = false;
 	var i;
 	for (i = 0; i < this.layers.length; i++) {
@@ -151,7 +151,7 @@ Cdraw_layer_manager.prototype.dom_exists = function(domLayer) {
 	return null;
 }
 
-Cdraw_layer_manager.prototype.select = function(obj) {
+Clayer_manager.prototype.select = function(obj) {
 	var index = this.exists(obj);
 	if (index === undefined || index < 0 || index > this.layers.length) {
 		console.error('Layer index out of range: ' + index);
@@ -160,13 +160,13 @@ Cdraw_layer_manager.prototype.select = function(obj) {
 	this.current_layer = this.layers[index];
 };
 
-Cdraw_layer_manager.prototype.redraw = function() {
+Clayer_manager.prototype.redraw = function() {
 	for (var i = 0; i < this.layers.length; i++) {
 		this.layers[i].redraw();
 	}
 	
 };
-Cdraw_layer_manager.prototype.dom_get = function() {
+Clayer_manager.prototype.dom_get = function() {
 	this.dom_build();
 	return this.rootElm;
 };

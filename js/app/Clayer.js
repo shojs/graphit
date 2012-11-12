@@ -13,7 +13,7 @@ var E_DRAWCOMPOSITION = new Object({
  * @param label
  * @returns
  */
-function Cdraw_layer(parent, label, p_composition) {
+function Clayer(parent, label, p_composition) {
 	this.uid = UID.get();
 	var composition = p_composition;
 	if (!composition) {
@@ -36,7 +36,7 @@ function Cdraw_layer(parent, label, p_composition) {
  * 
  * @returns
  */
-Cdraw_layer.prototype.discard_frag = function() {
+Clayer.prototype.discard_frag = function() {
 	//console.log('length: ' + this.frags.length);
 	this.need_redraw = true;
 	return this.frags.pop();
@@ -45,20 +45,20 @@ Cdraw_layer.prototype.discard_frag = function() {
 /**
  * 
  */
-Cdraw_layer.prototype.dom_get = function(index) {
+Clayer.prototype.dom_get = function(index) {
 	this.dom_build(index);
 	return this.rootElm;
 },
 
-Cdraw_layer.prototype.set_visible = function(b) {
+Clayer.prototype.set_visible = function(b) {
 	if (b) { this.visible = true; }
 	else { this.visible = false; }
 };
 /**
  * 
- * @returns {Cdraw_layer}
+ * @returns {Clayer}
  */
-Cdraw_layer.prototype.dom_build = function(index) {
+Clayer.prototype.dom_build = function(index) {
 	console.log('index', index);
 	var that = this;
 	var root = document.createElement('li');
@@ -154,7 +154,7 @@ Cdraw_layer.prototype.dom_build = function(index) {
 /**
  * 
  */
-Cdraw_layer.prototype.redraw_preview = function() {
+Clayer.prototype.redraw_preview = function() {
 	var ctx = this.canvas_preview.getContext('2d');
 	ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
 	ctx.drawImage(this.canvas, 0,0, this.canvas.width, this.canvas.height, 0, 0, this.canvas_preview.width, this.canvas_preview.height);
@@ -164,7 +164,7 @@ Cdraw_layer.prototype.redraw_preview = function() {
  * 
  * @returns {Boolean}
  */
-Cdraw_layer.prototype.redraw = function(bool) {
+Clayer.prototype.redraw = function(bool) {
 	if (typeof(bool) === 'boolean') {
 		this.need_redraw = bool;
 	}
@@ -192,7 +192,7 @@ Cdraw_layer.prototype.redraw = function(bool) {
 /**
  * 
  */
-Cdraw_layer.prototype.clear = function() {
+Clayer.prototype.clear = function() {
 	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	this.frags = new Array();
 };
@@ -201,12 +201,12 @@ Cdraw_layer.prototype.clear = function() {
  * 
  * @returns
  */
-Cdraw_layer.prototype.get_canvas = function() {
+Clayer.prototype.get_canvas = function() {
 	this.redraw();
 	return this.canvas;
 };
 
-Cdraw_layer.prototype.stack_frags = function(p_start, p_end) {
+Clayer.prototype.stack_frags = function(p_start, p_end) {
 	var start = p_start;
 	var end = p_end;
 	if (p_start > p_end) {
@@ -238,13 +238,12 @@ Cdraw_layer.prototype.stack_frags = function(p_start, p_end) {
  * @param tx
  * @param ty
  */
-Cdraw_layer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
+Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 		ty) {
 	var frag = new Cdraw_frag(this, new Object({
 		x : sx,
 		y : sy
 	}), swidth, sheight);
-	frag.setGlobalCompositeOperation(this.parent.parent.cTools.selected.globalCompositeOperation);
 	frag.drawImage(canvas, sx, sy, swidth, sheight, tx, ty);
 	this.frags.push(frag);
 	try {

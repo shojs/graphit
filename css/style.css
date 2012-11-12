@@ -25,6 +25,7 @@ body {
     padding: 5px;
     float: left;
     clear: both;
+    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7); 
 }
 
 .widget_draw_brush {
@@ -42,35 +43,31 @@ body {
 }
 
 .group {
-
-}
-
-.group-colorpickers {
-    clear: both;
-    float: right;
-    display: inline-block;
-    margin: 0.5em 1em 0.5em 1em;    
+    margin: 1em auto 1em auto;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    text-align: center;
+       line-height: 1.5em;
+   color: #444444;
+   background-color: #ddd;
+   background-image: linear-gradient(#E5E5E5, #CFCFCF);
 }
 
 .group-tools>div.selected {
-    border-color: red;
+        box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7); 
 }
 
 .group-tools>div {
-            border-style: solid;
-    border-width: 1px;
- 
-
-        -webkit-border-radius: 6px;
--moz-border-radius: 6px;
-border-radius: 6px;  
-
-
+    margin: 1px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
     display: inline-block;
 }
 
 .toolbox {
-    width: 250px;
+    width: 200px;
     clear: right;
     float: left;
 }
@@ -103,6 +100,7 @@ border-radius: 6px;
 .layer-manager {
     clear: right;
     floar: left;
+    widht: 250px;
 }
 
 .layer-manager>.group-layers {
@@ -123,8 +121,7 @@ border-radius: 6px;
 }
 
 .group-colorpicker {
-    margin: 0 auto 0 auto;
-    text-align: center;
+
 }
 
 .group-colorpicker div {
@@ -137,7 +134,7 @@ border-radius: 6px;
 }
 
 .sliderex input {
-    width: 2em;
+    width: 2.5em;
     margin: 0 0 0 1em;
     padding: 0;
     font-size: x-small;
@@ -146,14 +143,14 @@ border-radius: 6px;
 .sliderex  h6 {
     margin: 0;
     padding: 0;
-    width: 60px;
+    width: 50px;
     font-size: x-small;
     word-wrap: n;
 }
 
 .sliderex .slider {
     margin: 0 0 0 0.1em;
-    width: 150px;
+    width: 90px;
     font-size: x-small;
     word-wrap:
 }
