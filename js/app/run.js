@@ -34,6 +34,9 @@ $(document).ready(function() {
 	console.log(win);
 	$('body').append(win);
 	
+	$('#button-save').click(function() {
+		cSurface.save_as_json();
+	});
 	$('.draggable').draggable({
 		handle : 'ui-widget-header',
 		snap : true,

@@ -179,7 +179,7 @@ Ctoolbox.prototype.dom_build = function() {
 	$group = $(document.createElement('div'));
 	$group.addClass('group group-colorpicker not-draggable');
 	var $cp = $(document.createElement('div'));
-	$cp.addClass('colorpicker-colors');
+	$cp.addClass('group colorpicker-colors');
 	this.dom_build_colorpickers($cp);
 	$group.append($cp);
 	$group.append(	$(new Cimage({

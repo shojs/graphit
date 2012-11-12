@@ -9,6 +9,13 @@ body {
     top: 0;
 }
 
+.main-menu-top {
+    background-color: black;
+    color: white;    
+    width: 100%;
+    margin: 0 0 3px 0;
+}
+
 .ui-dialog-title {
     font-size: x-small;
     display: inline;
@@ -160,6 +167,12 @@ body {
     z-index: 100;
 }
 
+.colorpicker-colors  canvas {
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    display: inline-block;
+}
 ul {
     list-style-type: none;
     padding: 0px;

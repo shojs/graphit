@@ -172,3 +172,18 @@ Csurface.prototype.callback_mousemove = function(e, obj) {
 Csurface.prototype.get_dom = function() {
 	return this.rootElm;
 };
+
+Csurface.prototype.save_as_json = function() {
+	
+	var data = {
+			label: this.label,
+			layers: [],
+	};
+	for (var i = 0; i < this.layer_manager.layers.length; i++) {
+		data.layers.push(this.layer_manager.layers[i].to_json());
+	}
+	var w = window.open(this.cCanvas.data.toDataURL());
+	//w.document.location.href=JSON.stringify(data);
+	console.log(data);
+	return data;
+};

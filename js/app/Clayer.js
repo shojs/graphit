@@ -85,7 +85,14 @@ Clayer.prototype.dom_build = function(index) {
 	$td.append(button.dom_get());
 	$tr.append($td);
 	$td = $(document.createElement('td'));
-	$td.append('Layer - '+this.label);	
+	var $txt = $(document.createTextNode('Layer - '+this.label));
+	$txt.editInPlace({
+		callback: function(original_element, html, originals) {
+			console.log('Text edited');
+			return html;
+		}
+	});
+	$td.append($txt);	
 	$td.addClass('label');
 	$tr.append($td);
 	$td =  $(document.createElement('td'));
@@ -93,6 +100,11 @@ Clayer.prototype.dom_build = function(index) {
 	var canvas = document.createElement('canvas');
 	this.canvas_preview = canvas;
 	var $c = $(canvas);
+	$td.click(function() {
+		$(this).parents('.group-layers').children('li.layer').removeClass('selected');
+		$(this).addClass('selected');
+		that.parent.select(that);
+	});
 	$c.attr('layer_index', index);
 	var width = 100;
 	var height = width * (this.canvas.height / this.canvas.width);
@@ -140,11 +152,7 @@ Clayer.prototype.dom_build = function(index) {
 	$tr.append($td);
 	$t.append($tr);
 	$r.append($t);
-	$r.click(function() {
-		$(this).parents('.group-layers').children('li.layer').removeClass('selected');
-		$(this).addClass('selected');
-		that.parent.select(that);
-	});
+
 	this.rootElm = $r;
 	return this;
 };
@@ -256,4 +264,9 @@ Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 };
 
 
-
+Clayer.prototype.to_json = function() {
+	return {
+			label: this.data,
+			data: this.canvas.toDataURL(),
+	};
+};
