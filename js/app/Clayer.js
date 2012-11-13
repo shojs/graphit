@@ -86,13 +86,14 @@ Clayer.prototype.dom_build = function(index) {
 	$tr.append($td);
 	$td = $(document.createElement('td'));
 	var $txt = $(document.createTextNode('Layer - '+this.label));
+
+	$td.append($txt);	
 	$td.editInPlace({
 		callback: function(original_element, html, originals) {
 			that.label = html;
 			return html;
 		}
 	});
-	$td.append($txt);	
 	$td.addClass('label');
 	$tr.append($td);
 	$td =  $(document.createElement('td'));
@@ -105,7 +106,7 @@ Clayer.prototype.dom_build = function(index) {
 		$(this).addClass('selected');
 		that.parent.select(that);
 	});
-	$c.attr('layer_index', index);
+	//$c.attr('layer_index', index);
 	var width = 100;
 	var height = width * (this.canvas.height / this.canvas.width);
 	$c.attr('width', width);
