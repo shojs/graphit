@@ -15,10 +15,11 @@ var CTOOL_brushes = {
  * 
  */
 var CTOOL_tools = {
+		/* PEN */
 		pen: {
 			label: 'pen',
 			parameters: {
-				size: { label: 'size', min: 0, max: 100, def: 20, step: 1 },
+				size: { label: 'size', min: 1, max: 100, def: 20, step: 1 },
 				opacity: { label: 'opacity', min: 0, max: 1, def: 1, step: 0.01 },
 			},
 			brush: CTOOL_brushes.circle,
@@ -35,10 +36,11 @@ var CTOOL_tools = {
 				ctx.restore();
 			},
 		},
+		/* BRUSH */
 		brush: {
 			label: 'brush',
 			parameters: {
-				size: { label: 'size', min: 0, max: 100, def: 20, step: 1 },
+				size: { label: 'size', min: 1, max: 100, def: 20, step: 1 },
 				opacity: { label: 'opacity', min: 0, max: 1, def: 1, step: 0.1 },
 				rotation: { label: 'rotation', min: 0, max: 360, def: 0, step: 0.1 },
 				pression: { label: 'pression', min: 0, max: 100, def: 100, step: 1 },
@@ -46,7 +48,6 @@ var CTOOL_tools = {
 			brush: CTOOL_brushes.circle,
 			_graph: function(grapher, p1, p2) {
 				console.log('pen graphing');
-				
 				var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.canvas;
 				var ctx = dcanvas.getContext('2d');
 				var scanvas = this.cCanvas.data;
@@ -54,10 +55,7 @@ var CTOOL_tools = {
 				var dh = scanvas.height / 2;
 				var dctx = scanvas.getContext('2d');
 				var points = math_linear_interpolation2(p1, p2, 0.1);//pression);
-				if (!points) {
-					this.index++;
-					return false;
-				}
+	
 				for ( var i = 0; i < points.length; i++) {
 					ctx.save();
 					ctx.translate(points[i].x - dw, points[i].y - dh);
@@ -69,7 +67,7 @@ var CTOOL_tools = {
 		eraser: {
 			label: 'eraser',
 			parameters: {
-				size: { label: 'size', min: 0, max: 100, def: 20, step: 0.1 },
+				size: { label: 'size', min: 1, max: 100, def: 20, step: 0.1 },
 				opacity: { label: 'opacity', min: 0, max: 100, def: 20, step: 0.1 },
 			},
 			brush: CTOOL_brushes.circle,
@@ -83,7 +81,7 @@ var CTOOL_tools = {
 		fill: {
 			label: 'fill',
 			parameters: {
-				size: { label: 'size', min: 0, max: 100, def: 20, step: 0.1 },
+				size: { label: 'size', min: 1, max: 100, def: 20, step: 0.1 },
 				opacity: { label: 'opacity', min: 0, max: 100, def: 20, step: 0.1 },
 			},
 			brush: CTOOL_brushes.circle,

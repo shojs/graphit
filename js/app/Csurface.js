@@ -93,7 +93,14 @@ Csurface.prototype.build = function() {
 	});
 	$c.mouseout(function(e) {
 		if (that.mouse.is_pushed()) {
-			that.callback_mouseup(e, that);
+			that.mouse.paused = true;
+			//that.callback_mouseup(e, that);
+		}
+	});
+	$c.mouseover(function(e) {
+		if (that.mouse.is_pushed()) {
+			that.mouse.paused = false;
+			//that.callback_mouseup(e, that);
 		}
 	});
 	this.dom_mouse = this.mouse.get_dom();
@@ -111,7 +118,6 @@ Csurface.prototype.build = function() {
 Csurface.prototype.undo = function() {
 	this.layer_manager.current_layer.discard_frag();
 	this.layer_manager.current_layer.redraw();
-
 	this.redraw();
 };
 

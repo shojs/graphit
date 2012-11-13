@@ -26,17 +26,17 @@ $(document).ready(function() {
 	cSurface.cTools = cToolbox;
 	var cGrapher = new Cgrapher(cToolbox, cSurface);
 
-	$('body').append(cToolbox.dom_get());
-	$('body').append(cSurface.get_dom());
+	$('#main-content').append(cToolbox.dom_get());
+	$('#main-content').append(cSurface.get_dom());
 
-	$('body').append(cSurface.layer_manager.dom_get());
-	var win = WM.dom_get();
-	console.log(win);
-	$('body').append(win);
+	$('#main-content').append(cSurface.layer_manager.dom_get());
+//	var win = WM.dom_get();
+	//$('#main-content').append(win);
 	
 	$('#button-save').click(function() {
 		cSurface.save_as_json();
 	});
+	$('#menu-top').menu({  });
 	$('.draggable').draggable({
 		handle : 'ui-widget-header',
 		snap : true,
@@ -44,4 +44,5 @@ $(document).ready(function() {
 		cancel : '.not-draggable',
 
 	});
+	$(document).tooltip({tooltipClass: 'tootltip-small'});
 });

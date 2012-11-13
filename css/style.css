@@ -86,6 +86,13 @@ body {
     border-color: white;
 }
 
+.layer-manager > .selected {
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    border-color: black;
+    
+}
+
 .layer .label {
     font-size: x-small;
     width: 150px;
@@ -200,4 +207,13 @@ li {
 
 .button .selected {
     background-image: url(../img/32x32_tool_background.png);
+}
+
+.menu {
+    width: 100px;
+}
+
+.tooltip-small {
+    font-size: x-small;
+    text-transform: capitalize;
 }

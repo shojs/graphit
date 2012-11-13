@@ -47,6 +47,7 @@ function Cmouse_tracker(parent, options) {
 	this.maxy = 0;
 
 	this.pushed = null;
+	this.paused = false;
 	this.interval = null;
 	this.points = new Array();
 	this.rootElm = null;
@@ -94,6 +95,7 @@ Cmouse_tracker.prototype.push = function() {
 			clearInterval(that.interval);
 			return null;
 		}
+		if (this.paused) { return null;}
 		var cp = new Cmouse_tracker_point(that.x, that.y);
 		var lp = that.points[that.points.length - 1];
 		/* We are not storing same point twice */

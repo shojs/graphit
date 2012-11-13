@@ -6,25 +6,25 @@ var Eloading_status = {
 };
 
 function Cimage(options) {
-	Cobject.call(this);
+	Cobject.call(this, options, {}) ;
 	this.options = options;
 	this.data = null;
 	this.status = Eloading_status.none;
 	this.errorMsg = '';
 	this.last_update = null;
 	this.is_pushed = false;
-	this.load();
+	this.dom_get();
 }
 
 Cimage.prototype = Object.create(Cobject.prototype);
 Cimage.prototype.constructor = new Cobject();
 
-Cimage.prototype.load = function(p_src, force) {
+Cimage.prototype.dom_build = function(p_src, force) {
 	var that = this;
 	var opt = this.options;
-	if (this.data && !force) {
+	if (this.rootElm && !force) {
 		console.warn('Image already loaded');
-		return true;
+		return this;
 	}
 	var src = p_src;
 	if ('src' in opt && opt.src) { src = opt.src; }
@@ -35,21 +35,24 @@ Cimage.prototype.load = function(p_src, force) {
 	var img = document.createElement('img');
 	img.onload = function() { that.callback_onload(); };
 	img.onerror = function() { that.callback_onerror(); };
+//	console.log(opt);
 	if ('label' in opt && opt.label != undefined) {
 		img.setAttribute('alt', this.options.label);
 		img.setAttribute('title', this.options.label);
 	}
-	if ('width' in this.options && this.options.width != undefined) {
-		img.setAttribute('width', this.options.width);
+	if ('width' in opt && opt.width != undefined) {
+		console.log('set width', opt.width);
+		img.setAttribute('width', opt.width);
 	}
-	if ('height' in this.options && this.options.height != undefined) {
-		img.setAttribute('height', this.options.height != undefined);
+	if ('height' in opt && opt.height != undefined) {
+		img.setAttribute('height', opt.height);
 	}
-	if ('src' in this.options && this.options.src) {
-		img.setAttribute('src', this.options.src);
+	if ('src' in opt && opt.src) {
+		img.setAttribute('src', opt.src);
 	}
-	this.data = img;
-	return true;
+	$(img).click(function() { that.callback_click(); });
+	this.rootElm = img;
+	return this;
 };
 
 Cimage.prototype.callback_onload = function() {
@@ -111,15 +114,15 @@ Cimage.prototype.callback_click = function() {
 };
 
 
-Cimage.prototype.dom_build = function() {
-	var that = this;
-	var img = document.createElement('img');
-	img.src = this.options.src;
-	var $i = $(img);
-	$i.click(function() { that.callback_click(); });
-	this.rootElm = $(img);
-	return this;
-};
+//Cimage.prototype.dom_build = function() {
+//	var that = this;
+//	var img = document.createElement('img');
+//	img.src = this.options.src;
+//	var $i = $(img);
+//	$i.click(function() { that.callback_click(); });
+//	this.rootElm = $(img);
+//	return this;
+//};
 
 
 

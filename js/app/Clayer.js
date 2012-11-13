@@ -86,9 +86,9 @@ Clayer.prototype.dom_build = function(index) {
 	$tr.append($td);
 	$td = $(document.createElement('td'));
 	var $txt = $(document.createTextNode('Layer - '+this.label));
-	$txt.editInPlace({
+	$td.editInPlace({
 		callback: function(original_element, html, originals) {
-			console.log('Text edited');
+			that.label = html;
 			return html;
 		}
 	});
@@ -188,9 +188,20 @@ Clayer.prototype.redraw = function(bool) {
 	}
 	for ( var i = 0; i < this.frags.length; i++) {
 		var f = this.frags[i];
+		var x = f.position.x;
+		var y = f.position.y;
 		var canvas = f.cCanvas.data;
-		this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height,
-				f.position.x, f.position.y, canvas.width, canvas.height);
+		var width = canvas.width;
+		var height = canvas.height;
+		if (x < 0 || y < 0) { console.error('Negative canvas coordinate'); continue;}
+		//if (x > width || y > height) { console.error('Coordinate out of bound', x, y, width, height); }
+		var dwidth = this.canvas.width;
+		var dheight = this.canvas.height;
+		if((width + x) > dwidth) {
+			console.log("need width clipping");
+		}
+		this.ctx.drawImage(canvas, 0, 0, width, height,
+				x, y, canvas.width, canvas.height);
 	}
 	this.redraw_preview();
 	this.need_redraw = false;

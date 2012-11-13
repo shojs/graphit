@@ -67,13 +67,14 @@ Ctool.prototype.update = function(elapsed) {
 		console.error("All tools need << size >> parameter");
 		return false;
 	}
+	console.log('size', size);
 	this.cCanvas = new Ccanvas(size * 2, size * 2);
 	this.ctx = this.cCanvas.getContext('2d');
 	if ('pre_update' in this) {
 		console.log('Calling pre_update');
 		this.pre_update.call(this, this);
 	}
-	// this.brush.update.call(this, this);
+	this.brush.update.call(this, this);
 	// if ('post_update' in this.brush) {
 	// this.brush.post_update.call(this, this);
 	// }
@@ -141,7 +142,8 @@ Ctool.prototype.dom_build_tool = function() {
 		},
 		callback_click : function(obj) {
 			that.callback_click.call(that, obj);
-		}
+		},
+		label: this.label
 	});
 	return $(img.dom_get());
 };
@@ -161,9 +163,11 @@ Ctool.prototype.dom_build_options = function() {
 		var param = this.parameters[label];
 		param.callback_slide = function(value) {
 			this.set(value);
+			this.parent.update();
 		};
 		param.callback_change = function(value) {
 			this.set(value);
+			this.parent.update();
 		};
 		widget_slider_ex(param, $r, param);
 	}

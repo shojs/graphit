@@ -37,7 +37,6 @@ Clayer_manager.prototype.add = function(layer) {
 	return true;
 };
 
-
 Clayer_manager.prototype.exists = function(layer) {
 	var i = 0;
 	var found = false;
@@ -93,6 +92,7 @@ Clayer_manager.prototype.move_down = function(id) {
 };
 
 Clayer_manager.prototype.move_up = function(id) {
+
 	if (this.layers.length == 1) {
 		return false;
 	}
@@ -108,6 +108,7 @@ Clayer_manager.prototype.move_up = function(id) {
 	this.parent.redraw();
 	return true;
 };
+
 Clayer_manager.prototype.dom_build = function(parent, force) {
 	if (!force && this.rootElm) {
 		return this.rootElm;
@@ -121,7 +122,8 @@ Clayer_manager.prototype.dom_build = function(parent, force) {
 	var b_add = new Cimage({ 
 		src: 'img/16x16_create_file.png', 
 		width: 16, 
-		height: 16, 
+		height: 16,
+		title: 'Visibility: hide/show',
 		callback_click: function(obj) {
 			that.add(new Clayer(that));
 			that.parent.redraw();
@@ -130,7 +132,7 @@ Clayer_manager.prototype.dom_build = function(parent, force) {
 	$(cmd).append(b_add.dom_get());
 	var group = document.createElement('ul');
 	var $g = $(group);
-	$g.addClass('group-layers not-draggable');
+	$g.addClass('group-layers group not-draggable');
 	$r.append(cmd);
 	
 	$r.append($g);
@@ -166,6 +168,7 @@ Clayer_manager.prototype.redraw = function() {
 	}
 	
 };
+
 Clayer_manager.prototype.dom_get = function() {
 	this.dom_build();
 	return this.rootElm;

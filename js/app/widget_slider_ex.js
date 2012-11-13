@@ -52,6 +52,7 @@ function widget_slider_ex(obj, $parent, options) {
 			options.callback_change.call(obj, value);
 		}
 	});
+	$input.spinner();
 	$td = $(document.createElement('td'));
 	$td.append($input);
 	$tr.append($td);
