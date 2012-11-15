@@ -41,6 +41,7 @@ var CTOOL_tools = {
 				ctx.closePath();
 				ctx.restore();
 			},
+
 		},
 		/* BRUSH */
 		brush: {

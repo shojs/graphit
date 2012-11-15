@@ -87,6 +87,7 @@ function math_linear_interpolation2(p1, p2, step) {
 	return points;
 };
 
+
 Cgrapher.prototype._graph = function() {
 	var numpoint = this.cSurface.mouse.points.length;
 	if (numpoint <= 2) {
@@ -95,55 +96,11 @@ Cgrapher.prototype._graph = function() {
 	if (this.index >= (numpoint - 1)) {
 		return false;
 	}
-//	var e = document.getElementById('graphing-area');
-//	var radius = this.cTools.size / 2;
-//	var color = this.cTools.fg_color.to_rgba();
 
 	var p1 = this.cSurface.mouse.points[this.index];
 	var p2 = this.cSurface.mouse.points[(this.index + 1)];
-//	var p3 = this.cSurface.mouse.points[this.index + 2];
-
 	
 	this.cTools.selected.graph(this, p1, p2);
-//	var tool = this.cTools.selected;
-//	
-//	var dcanvas = this.cSurface.layer_manager.special_layers.prefrag.canvas;
-//	var ctx = dcanvas.getContext('2d');
-//
-//	var scanvas = tool.cCanvas.data;
-//	if (tool.label == 'eraser') {
-//		//ctx.fillStyle = 'rgba(0,0,0,1)';
-//		//scanvas.getContext('2d').
-//		//ctx.globalCompositeOperation = 'desination-atop'; 
-//	}
-//	
-//	var dw = scanvas.width / 2;
-//	var dh = scanvas.height / 2;
-//	var dctx = scanvas.getContext('2d');
-//	var ptrn = ctx.createPattern(this.cTools.selected.cCanvas.data,'repeat');
-//	//ctx.save();
-//	ctx.beginPath();
-//	ctx.strokeStyle = this.cTools.fg_color.to_rgba();
-//	ctx.lineWidth = this.cTools.selected.parameters.size.value;
-//	ctx.quadraticCurveTo(p1.x, p1.y, p2.x, p2.y);
-//	//ctx.moveTo(p1.x, p1.y);
-//	//ctx.lineTo(p2.x, p2.y);
-//	ctx.stroke();
-	//ctx.closePath();
-	//ctx.restore();
-	//console.log(dcanvas.toDataURL());
-//	
-//	var points = math_linear_interpolation2(p1, p2, 0.1);//pression);
-//	if (!points) {
-//		this.index++;
-//		return false;
-//	}
-//	for ( var i = 0; i < points.length; i++) {
-//		ctx.save();
-//		ctx.translate(points[i].x - dw, points[i].y - dh);
-//		ctx.drawImage(scanvas, 0,0, scanvas.width, scanvas.height);
-//		ctx.restore();
-//	}
 	this.index++;
 	this.cSurface.redraw();
 	this._graph();
