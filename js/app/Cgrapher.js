@@ -159,12 +159,17 @@ Cgrapher.prototype.stop = function() {
 	var lmouse = this.cSurface.layer_manager.special_layers.mouse;
 	lmouse.ctx.fillStyle = 'rgba(255,0,0,0.1)';
 	var cs = this.cSurface;
+	var dcanvas = cs.layer_manager.current_layer.canvas;
 	var size = this.cTools.selected.parameters.size.value * 2;
 	var dsize = Math.round(size / 2);
 	var width = Math.round(cs.mouse.maxx - cs.mouse.minx + size);
 	var height = Math.round(cs.mouse.maxy - cs.mouse.miny + size);
 	var x = Math.round(cs.mouse.minx - dsize);
+	if (x < 0) { x = 0;} 
+	if ((x + width) > dcanvas.width) { width = dcanvas.width - x ;}
 	var y = Math.round(cs.mouse.miny - dsize);
+	if (y < 0) { y = 0;}
+	if ((y + height) > dcanvas.height) { height = dcanvas.height - y ;}
 	cs.layer_manager.current_layer.drawImage(
 			cs.layer_manager.special_layers.prefrag.canvas, x, y, width,
 			height, 0, 0, width, height);

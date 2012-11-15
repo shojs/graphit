@@ -41,7 +41,7 @@ Cimage.prototype.dom_build = function(p_src, force) {
 		img.setAttribute('title', this.options.label);
 	}
 	if ('width' in opt && opt.width != undefined) {
-		console.log('set width', opt.width);
+		//console.log('set width', opt.width);
 		img.setAttribute('width', opt.width);
 	}
 	if ('height' in opt && opt.height != undefined) {

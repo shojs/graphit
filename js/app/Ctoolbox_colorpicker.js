@@ -12,7 +12,7 @@ function Ctoolbox_colorpicker(color, options) {
 	} else {
 		this.color = new Ccolor();
 	}
-	console.log('label', this.label);
+	//console.log('label', this.label);
 	this.rootElm = null;
 	this.cCanvas = new Ccanvas(32, 32);
 	this.ctx = this.cCanvas.getContext('2d');

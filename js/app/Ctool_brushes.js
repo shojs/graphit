@@ -26,11 +26,17 @@ var CTOOL_tools = {
 			_graph: function(grapher, p1, p2) {				
 				var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.canvas;
 				var ctx = dcanvas.getContext('2d');
+				var size = this.parameters.size.value;
+				//console.log('size', size);
+				
 				ctx.save();
-				ctx.beginPath();
+				ctx.lineWidth = Math.round(this.parameters.size.value);
 				ctx.strokeStyle = this.parent.fg_color.to_rgba();
-				ctx.lineWidth = this.parameters.size.value;
-				ctx.quadraticCurveTo(p1.x, p1.y, p2.x, p2.y);
+					
+				ctx.beginPath();
+				ctx.moveTo(p1.x, p1.y);
+				ctx.lineTo(p2.x, p2.y);
+				//ctx.quadraticCurveTo(p1.x, p1.y, p2.x, p2.y);
 				ctx.stroke();
 				ctx.closePath();
 				ctx.restore();
@@ -47,7 +53,7 @@ var CTOOL_tools = {
 			},
 			brush: CTOOL_brushes.circle,
 			_graph: function(grapher, p1, p2) {
-				console.log('pen graphing');
+				//console.log('pen graphing');
 				var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.canvas;
 				var ctx = dcanvas.getContext('2d');
 				var scanvas = this.cCanvas.data;

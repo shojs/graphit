@@ -1,5 +1,5 @@
 function Cwidget(parent, label) {
-	if (!label) { console.warn('Creating Cwidget without label'); }
+	//if (!label) { console.warn('Creating Cwidget without label'); }
 	Cobject.call(this);
 	this.label = label;
 	this.parent = parent;

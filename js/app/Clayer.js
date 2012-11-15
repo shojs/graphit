@@ -59,7 +59,7 @@ Clayer.prototype.set_visible = function(b) {
  * @returns {Clayer}
  */
 Clayer.prototype.dom_build = function(index) {
-	console.log('index', index);
+	//console.log('index', index);
 	var that = this;
 	var root = document.createElement('li');
 	var $r = $(root);
@@ -71,8 +71,8 @@ Clayer.prototype.dom_build = function(index) {
 	
 	var button = new Cimage({ 
 		src: 'img/16x16_eye.png', 
-		width: 16, 
-		height: 16, 
+		width: '16px', 
+		height: '16px', 
 		callback_click: function(obj) {
 			console.log("Clicked: ", obj);
 		}
@@ -100,6 +100,10 @@ Clayer.prototype.dom_build = function(index) {
 	$td.addClass('preview');
 	var canvas = document.createElement('canvas');
 	this.canvas_preview = canvas;
+	var width = 100;
+	var height = width * (this.canvas.height / this.canvas.width);
+	canvas.width = width;
+	canvas.height = height;
 	var $c = $(canvas);
 	$td.click(function() {
 		$(this).parents('.group-layers').children('li.layer').removeClass('selected');
@@ -107,10 +111,7 @@ Clayer.prototype.dom_build = function(index) {
 		that.parent.select(that);
 	});
 	//$c.attr('layer_index', index);
-	var width = 100;
-	var height = width * (this.canvas.height / this.canvas.width);
-	$c.attr('width', width);
-	$c.attr('height', height);
+	
 	$td.append($c);
 	$tr.append($td);
 	$td = $(document.createElement('td'));
@@ -187,22 +188,23 @@ Clayer.prototype.redraw = function(bool) {
 	if (this.frags.length > 10) {
 		;//this.stack_frags(0, 5);
 	}
+	var dwidth = this.canvas.width;
+	var dheight = this.canvas.height;
 	for ( var i = 0; i < this.frags.length; i++) {
 		var f = this.frags[i];
+		var scanvas = f.cCanvas.data;
+		var height = scanvas.height;
+		var width = scanvas.width;
 		var x = f.position.x;
+		if (x < 0) { x = 0;} else if ((x + width) > dwidth) { width = dwidth - x;}
 		var y = f.position.y;
-		var canvas = f.cCanvas.data;
-		var width = canvas.width;
-		var height = canvas.height;
-		if (x < 0 || y < 0) { console.error('Negative canvas coordinate'); continue;}
-		//if (x > width || y > height) { console.error('Coordinate out of bound', x, y, width, height); }
-		var dwidth = this.canvas.width;
-		var dheight = this.canvas.height;
-		if((width + x) > dwidth) {
-			console.log("need width clipping");
-		}
-		this.ctx.drawImage(canvas, 0, 0, width, height,
-				x, y, canvas.width, canvas.height);
+		if (y < 0) { y = 0;} else if ((y + height) > dheight) { height = dheight - y;}
+
+		this.ctx.drawImage(scanvas, 
+				// sx sy swidth sheight
+				0, 0, width, height,
+				// dx dy dwidth dheight
+				x, y, width, height);
 	}
 	this.redraw_preview();
 	this.need_redraw = false;
@@ -264,11 +266,15 @@ Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 		x : sx,
 		y : sy
 	}), swidth, sheight);
+	//console.log('Frag', sx, sy, swidth, sheight, tx, ty);
 	frag.drawImage(canvas, sx, sy, swidth, sheight, tx, ty);
+	//console.log(frag.cCanvas.data.toDataURL());
+
 	this.frags.push(frag);
 	try {
 		this.ctx.drawImage(canvas, sx, sy, swidth, sheight, sx, sy, swidth,
 				sheight);
+		//console.log(this.canvas.toDataURL());
 		
 	} catch (e) {
 		console.error(e);

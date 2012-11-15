@@ -79,8 +79,10 @@ Csurface.prototype.build = function() {
 	var $g = $(document.createElement('div'));
 	var canvas = this.cCanvas.data;
 	var $c = $(canvas);
-	$c.attr('width', this.width);
-	$c.attr('height', this.height);
+	$c.width = this.width;
+	$c.height = this.height;
+//	$c.attr('width', this.width);
+//	$c.attr('height', this.height);
 	$c.addClass('canvas not-draggable');
 	$c.mousedown(function(e) {
 		that.callback_mousedown(e, that);
@@ -133,13 +135,8 @@ Csurface.prototype.redraw = function() {
 		tctx.drawImage(this.layer_manager.layers[i].canvas, 0, 0,
 				canvas.width, canvas.height);
 	}
-	tctx.save();
-	if (tool.globalCompositeOperation) {
-		tctx.globalCompositeOperation = tool.globalCompositeOperation;
-	}
 	tctx.drawImage(this.layer_manager.special_layers.prefrag.canvas, 0, 0,
 			canvas.width, canvas.height);
-	tctx.restore();
 };
 
 Csurface.prototype.clear = function() {

@@ -27,4 +27,4 @@ Clocal_storage.prototype.set = function(k, v) {
 var key = 'time_first_run';
 var cStore = new Clocal_storage();
 var lr = cStore.get(key);
-console.log(' Run: ' + lr);
+//console.log(' Run: ' + lr);

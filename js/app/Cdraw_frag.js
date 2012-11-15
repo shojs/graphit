@@ -24,8 +24,8 @@ Cdraw_frag.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 		return false;
 	}
 	var dctx = canvas.getContext('2d');
-	this.cCanvas.ctx.drawImage(canvas, sx, sy, swidth, sheight, 0, 0, swidth,
-				sheight);
+	this.cCanvas.ctx.drawImage(canvas, sx, sy, swidth, sheight, 0, 0, this.cCanvas.data.width,
+				this.cCanvas.data.height);
 	return true;
 };
 

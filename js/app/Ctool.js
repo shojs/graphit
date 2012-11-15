@@ -67,7 +67,7 @@ Ctool.prototype.update = function(elapsed) {
 		console.error("All tools need << size >> parameter");
 		return false;
 	}
-	console.log('size', size);
+	//console.log('size', size);
 	this.cCanvas = new Ccanvas(size * 2, size * 2);
 	this.ctx = this.cCanvas.getContext('2d');
 	if ('pre_update' in this) {

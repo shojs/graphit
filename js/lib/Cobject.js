@@ -20,7 +20,7 @@ Cobject.prototype._class_init = function(options, permitted) {
 };
 
 Cobject.prototype.parse_options = function(options, permitted) {
-	console.log(' -> Parsing Object options');
+	//console.log(' -> Parsing Object options');
 	if (!options) {
 		console.error('No options set');
 		return false;
@@ -29,7 +29,7 @@ Cobject.prototype.parse_options = function(options, permitted) {
 		for ( var i = 0; i < permitted.length; i++) {
 			var label = permitted[i];
 			if (label in options) {
-				console.log('  - injecting ', label);
+//				console.log('  - injecting ', label);
 				this[label] = options[label];
 			} else {
 				console.error('Needed properties <<', label, '>> ');
