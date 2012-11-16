@@ -1,7 +1,7 @@
 function widget_slider_ex(obj, $parent, options) {
 	var root = document.createElement('div');
 	var $r = $(root);
-	$r.addClass('sliderex ' + options.label);
+	$r.addClass('sliderex parameter ' + options.label);
 	$r.attr('title', options.label);
 	var $table = $(document.createElement('table'));
 	var $tr = $(document.createElement('tr'));

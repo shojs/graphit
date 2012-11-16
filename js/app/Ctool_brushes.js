@@ -21,7 +21,8 @@ var CTOOL_tools = {
 			parameters: {
 				size: {  label: 'size', min: 1, max: 100, def: 20, step: 1 },
 				opacity: {  label: 'opacity', min: 0, max: 1, def: 1, step: 0.01 },
-				form: { type: Eparameter_type.select, label: 'form', choices: { round: 'round', butt: 'butt', square: 'square'}, def: 'round' },
+				linecap: { type: Eparameter_type.select, label: 'linecap', choices: { round: 'round', butt: 'butt', square: 'square'}, def: 'round' },
+				//linejoin: { type: Eparameter_type.select, label: 'linejoin', choices: { bevel: 'bevel', round: 'round', miter: 'mitter' }, def: 'round' },
 			},
 			brush: CTOOL_brushes.circle,
 			_graph: function(grapher, p1, p2) {				
@@ -32,9 +33,13 @@ var CTOOL_tools = {
 				
 				ctx.save();
 				ctx.lineWidth = Math.round(this.parameters.size.value);
-				ctx.strokeStyle = this.parent.fg_color.to_rgba();
+				var color = this.parent.fg_color.color.clone();
+				color.a = this.parameters.opacity.value;
+				ctx.strokeStyle = color.to_rgba();
 				//console.log('params', this.parameters);
-				ctx.lineCap =  this.parameters.form.value;
+				ctx.lineCap =  this.parameters.linecap.value;
+				//ctx.lineJoin =  this.parameters.linejoin.value;
+				//ctx.miterLimit = 1000;
 				ctx.beginPath();
 				ctx.moveTo(p1.x, p1.y);
 				ctx.lineTo(p2.x, p2.y);
@@ -65,7 +70,6 @@ var CTOOL_tools = {
 				var dh = scanvas.height / 2;
 				var dctx = scanvas.getContext('2d');
 				var points = math_linear_interpolation2(p1, p2, 0.1);//pression);
-	
 				for ( var i = 0; i < points.length; i++) {
 					ctx.save();
 					ctx.translate(points[i].x - dw, points[i].y - dh);

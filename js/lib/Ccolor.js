@@ -39,3 +39,7 @@ Ccolor.prototype.from_rgba = function(rgba) {
 	this.a = match[4];
 	return this;
 };
+
+Ccolor.prototype.clone = function() {
+    return new Ccolor(this.r, this.g, this.b, this.a);
+};

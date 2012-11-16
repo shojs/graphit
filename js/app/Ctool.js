@@ -155,7 +155,8 @@ function widget_select_ex ($root, param) {
     var that = this;
     //console.log('param', param);
     var $r = $(document.createElement('div'));
-    $r.append('<span>'+param.label+'</span>');
+    $r.addClass('selectex parameter');
+    $r.append('<h6>'+param.label+'</h6>');
     var $s = $(document.createElement('select'));
     for(c in param.choices) {
 	//console.log('choice', param.choices[c]);
