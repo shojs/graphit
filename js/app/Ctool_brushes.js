@@ -19,8 +19,9 @@ var CTOOL_tools = {
 		pen: {
 			label: 'pen',
 			parameters: {
-				size: { label: 'size', min: 1, max: 100, def: 20, step: 1 },
-				opacity: { label: 'opacity', min: 0, max: 1, def: 1, step: 0.01 },
+				size: {  label: 'size', min: 1, max: 100, def: 20, step: 1 },
+				opacity: {  label: 'opacity', min: 0, max: 1, def: 1, step: 0.01 },
+				form: { type: Eparameter_type.select, label: 'form', choices: { round: 'round', butt: 'butt', square: 'square'}, def: 'butt' },
 			},
 			brush: CTOOL_brushes.circle,
 			_graph: function(grapher, p1, p2) {				
@@ -32,14 +33,16 @@ var CTOOL_tools = {
 				ctx.save();
 				ctx.lineWidth = Math.round(this.parameters.size.value);
 				ctx.strokeStyle = this.parent.fg_color.to_rgba();
-					
+				console.log('params', this.parameters);
+				ctx.lineCap =  this.parameters.form.value;
 				ctx.beginPath();
 				ctx.moveTo(p1.x, p1.y);
 				ctx.lineTo(p2.x, p2.y);
-				//ctx.quadraticCurveTo(p1.x, p1.y, p2.x, p2.y);
+//				ctx.quadraticCurveTo(p1.x, p1.y, p2.x, p2.y);
 				ctx.stroke();
 				ctx.closePath();
 				ctx.restore();
+				return true;
 			},
 
 		},
@@ -69,6 +72,7 @@ var CTOOL_tools = {
 					ctx.drawImage(scanvas, 0,0, scanvas.width, scanvas.height);
 					ctx.restore();
 				}
+				return true;
 			},
 		},
 		eraser: {

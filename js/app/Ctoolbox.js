@@ -70,6 +70,10 @@ Ctoolbox.prototype.load = function(olist) {
  * @param cTool
  */
 Ctoolbox.prototype.select_tool = function(cTool) {
+    	if (cTool == undefined) { 
+    	    console.error('Nothing to select'); 
+    	    return false;
+    	}
 	var $t = $(cTool.rootElm);
 	$t.parent().children('div').removeClass('selected');
 	$t.addClass('selected');
@@ -78,6 +82,7 @@ Ctoolbox.prototype.select_tool = function(cTool) {
 	$g.append(cTool.dom_build_options());
 	this.selected = cTool;
 	cTool.update();
+	return true;
 };
 
 /**

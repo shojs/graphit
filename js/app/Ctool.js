@@ -20,11 +20,10 @@ Ctool.prototype = Object.create(Cobject.prototype);
 Ctool.prototype.constructor = new Cobject();
 
 /**
- * 
- * @param width
- * @param height
- * @returns
- */
+* @param width
+* @param height
+* @return 
+*/
 Ctool.prototype.canvas_create = function(width, height) {
 	if (!width || width < 0 || width > 1920) {
 		console.error('Width not in range', width);
@@ -83,7 +82,10 @@ Ctool.prototype.update = function(elapsed) {
 };
 
 /**
- * 
+ * @param t_canvas
+ * @param tx
+ * @param ty
+ * @return true on success
  */
 Ctool.prototype.drawImage = function(t_canvas, tx, ty) {
 	var ctx = t_canvas.getContext('2d');
@@ -117,11 +119,11 @@ Ctool.prototype.onclick = function() {
 /**
  * 
  * @param force
- * @returns
+ * @return Object instance
  */
 Ctool.prototype.dom_build = function(force) {
 	if (this.rootElm && !force) {
-		return this.rootElm;
+		return this;
 	}
 	var $r = $(document.createElement('div'));
 	$r.append(this.dom_build_tool());
@@ -148,6 +150,32 @@ Ctool.prototype.dom_build_tool = function() {
 	return $(img.dom_get());
 };
 
+
+function widget_select_ex ($root, param) {
+    var that = this;
+    console.log('param', param);
+    var $r = $(document.createElement('div'));
+    $r.append('<span>'+param.label+'</span>');
+    var $s = $(document.createElement('select'));
+    for(c in param.choices) {
+	console.log('choice', param.choices[c]);
+	var $o = $(document.createElement('option'));
+	$o.attr('value', c);
+	if (param.def == c) {
+	    $o.attr('selected', 'selected');
+	}
+	$o.append(document.createTextNode(param.choices[c]));
+	$s.append($o);
+    }
+    $s.change(function() { 
+	if ('callback_change' in param && (typeof param.callback_change == 'function')) {
+	    param.callback_change.call(param, this.value);
+	} 
+    
+    });
+    $r.append($s);
+    $root.append($r);
+}
 /**
  * 
  * @returns
@@ -169,7 +197,16 @@ Ctool.prototype.dom_build_options = function() {
 			this.set(value);
 			this.parent.update();
 		};
-		widget_slider_ex(param, $r, param);
+		if (param.type == undefined  || param.type == Eparameter_type.numeric) {
+		    widget_slider_ex(param, $r, param);
+		} else if(param.type == Eparameter_type.select) {
+		    console.log('Build select parameter');
+		    widget_select_ex($r, param);
+
+		} else {
+		    console.error('Unknow parameter type', param.type);
+		    return null;
+		}
 	}
 	this.optElm = $r;
 	return $r;

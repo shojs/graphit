@@ -51,7 +51,14 @@ Cobject.prototype.add_parameter = function(options) {
 		console.error('Parameters need label');
 		return false;
 	}
-	this.parameters[options.label] = new Cparameter(options);
+	console.log('param type', options.type);
+	if (!('type' in options) || options.type == Eparameter_type.numeric) {
+	    this.parameters[options.label] = new Cparameter_numeric(options);
+	} else if(options.type == Eparameter_type.select) {
+	    this.parameters[options.label] = new Cparameter_select(options);
+	} else {
+	    console.error('Unknown parameter type', options);
+	}
 	return true;
 };
 
