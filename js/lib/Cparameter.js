@@ -129,17 +129,17 @@ Cparameter_select.prototype = Object.create(Cparameter.prototype);
 Cparameter_select.prototype.constructor = new Cparameter();
 
 Cparameter_select.prototype.init = function(options) {
-    console.log('Init select');
+    //console.log('Init select');
     this.choices = {};
     this.def = options.def;
     this.label = options.label;
     for (label in options.choices) {
-	console.log('option', label);
+	//console.log('option', label);
 	this.choices[label] = options.choices[label];
     }
 };
 
 Cparameter_select.prototype.set = function(value) {
-    console.log('Init select');
+    //console.log('Init select');
     this.value = value;
 };

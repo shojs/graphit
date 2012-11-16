@@ -21,7 +21,7 @@ var CTOOL_tools = {
 			parameters: {
 				size: {  label: 'size', min: 1, max: 100, def: 20, step: 1 },
 				opacity: {  label: 'opacity', min: 0, max: 1, def: 1, step: 0.01 },
-				form: { type: Eparameter_type.select, label: 'form', choices: { round: 'round', butt: 'butt', square: 'square'}, def: 'butt' },
+				form: { type: Eparameter_type.select, label: 'form', choices: { round: 'round', butt: 'butt', square: 'square'}, def: 'round' },
 			},
 			brush: CTOOL_brushes.circle,
 			_graph: function(grapher, p1, p2) {				
@@ -33,7 +33,7 @@ var CTOOL_tools = {
 				ctx.save();
 				ctx.lineWidth = Math.round(this.parameters.size.value);
 				ctx.strokeStyle = this.parent.fg_color.to_rgba();
-				console.log('params', this.parameters);
+				//console.log('params', this.parameters);
 				ctx.lineCap =  this.parameters.form.value;
 				ctx.beginPath();
 				ctx.moveTo(p1.x, p1.y);

@@ -153,12 +153,12 @@ Ctool.prototype.dom_build_tool = function() {
 
 function widget_select_ex ($root, param) {
     var that = this;
-    console.log('param', param);
+    //console.log('param', param);
     var $r = $(document.createElement('div'));
     $r.append('<span>'+param.label+'</span>');
     var $s = $(document.createElement('select'));
     for(c in param.choices) {
-	console.log('choice', param.choices[c]);
+	//console.log('choice', param.choices[c]);
 	var $o = $(document.createElement('option'));
 	$o.attr('value', c);
 	if (param.def == c) {
@@ -200,7 +200,7 @@ Ctool.prototype.dom_build_options = function() {
 		if (param.type == undefined  || param.type == Eparameter_type.numeric) {
 		    widget_slider_ex(param, $r, param);
 		} else if(param.type == Eparameter_type.select) {
-		    console.log('Build select parameter');
+		    //console.log('Build select parameter');
 		    widget_select_ex($r, param);
 
 		} else {

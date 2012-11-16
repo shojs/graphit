@@ -8,18 +8,18 @@ Clicense.prototype.dom_build = function() {
 	if (this.rootElm) { return this; }
 	var root = document.createElement("div");
 	var $r = $(root);
-	$r.addClass('draggable license ui-widget  ui-dialog ui-widget-content');
-	$r.append('<h6 class="ui-widget-header">GNU</h6>');
-	var group = document.createElement('div');
-	$(group).addClass('group not-draggable ');
+	$r.addClass('about ' + DRAWGLOB.css_draggable_class);
+	helper_build_header($r, ' ', 'About');
+	var $g = $(document.createElement('div'));
+	$g.addClass('group group-license not-draggable');
 	var img = document.createElement('img');
 	img.src = this.logo;
-	$r.append(img);
-	$r.append('<p>Source code: <a href="http://github.com/shojs/graphit/">github</a></p>');
-	$r.append('<h6>License</h6>');
-	var txt = document.createElement('p');
-	$(txt).addClass('"text not-draggable');
-	$(txt).append("" +
+	$g.append(img);
+	$g.append('<p>Source code: <a href="http://github.com/shojs/graphit/">github</a></p>');
+	$g.append('<h6>License</h6>');
+	var $txt = $(document.createElement('p'));
+	$txt.addClass('group text');
+	$txt.append("" +
 "                    GNU GENERAL PUBLIC LICENSE" + 
 "                       Version 3, 29 June 2007" +
 "\n"+
@@ -57,17 +57,20 @@ Clicense.prototype.dom_build = function() {
 "certain responsibilities if you distribute copies of the software, or if" +
 "you modify it: responsibilities to respect the freedom of others." +
 "");
-	$(txt).load(this.text);
-	$(group).append(txt);
+	try {
+	    //$(txt).load(this.text);
+	} catch(e) {
+	    console.error('Cannot load full license', e);
+	}
+	$g.append($txt);
 	var button = document.createElement('button');
 	$(button).append('Close');
 	$(button).button();
 	$(button).click(function(e, ui) {
-		$(root).hide();
+		$('.about').remove();
 	});
-
-	$r.append(group);
-	$r.append(button);
+	$g.append(button);
+	$r.append($g);
 	this.rootElm = $r;
 	return this;
 };

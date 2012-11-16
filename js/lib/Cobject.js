@@ -51,7 +51,7 @@ Cobject.prototype.add_parameter = function(options) {
 		console.error('Parameters need label');
 		return false;
 	}
-	console.log('param type', options.type);
+	//console.log('param type', options.type);
 	if (!('type' in options) || options.type == Eparameter_type.numeric) {
 	    this.parameters[options.label] = new Cparameter_numeric(options);
 	} else if(options.type == Eparameter_type.select) {
