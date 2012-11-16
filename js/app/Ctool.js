@@ -140,7 +140,7 @@ function widget_select_ex ($root, param) {
 	//console.log('choice', param.choices[c]);
 	var $o = $(document.createElement('option'));
 	$o.attr('value', c);
-	if (param.def == c) {
+	if (param.value == c) {
 	    $o.attr('selected', 'selected');
 	}
 	$o.append(document.createTextNode(param.choices[c]));

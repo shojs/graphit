@@ -39,13 +39,36 @@ function Cparameter(options) {
 	}
 
 	this.init(options);
-	this.reset();
+	//this.reset();
+	this._init();
 	return this;
 }
 
-Cparameter.prototype._init= function() {
-	this.set(this.def);
+Cparameter.prototype._init = function() {
+    	if (this.autosave) {
+    	    var label = this.make_registry_key();
+    	    var v = cRegistry.get(label);
+    	    if (v != undefined) {
+    		this._set(v);
+    	    } else { this._set(this.def);}
+    	} else {
+    	    this._set(this.def);
+    	}
 };
+
+Cparameter.prototype.set = function(value) {
+    	if (this.value == value) {
+    	    return false;
+    	}
+	this._set(value);
+	if (this.autosave) {
+	    var label = this.make_registry_key();
+	    console.log('Saving key', label, this.value)
+	    cRegistry.set(label, this.value);
+	}
+	return true;
+};
+
 Cparameter.prototype.reset = function() {
 	this.set(this.def);
 };
@@ -58,7 +81,12 @@ Cparameter.prototype.get = function(k) {
 	return this[k];
 };
 
-
+Cparameter.prototype.make_registry_key = function() {
+	var classname = 'global';
+	if ('className' in this.parent) { classname = this.parent.className; }
+	var label = classname + '-' + this.parent.label + '-' + this.label;
+	return label.toLowerCase();
+};
 
 
 /**
@@ -94,22 +122,18 @@ Cparameter_numeric.prototype.init = function(options) {
 	};
 };
 
-Cparameter.prototype.set = function(v) {
+
+
+Cparameter.prototype._set = function(v) {
 	v = parseFloat(v);
 	if (v == this.value) {
 		return this;
 	}
-	if (this.autosave && 'label' in this.parent) {
-		var classname = 'global';
-		if ('className' in this.parent) { classname = this.parent.className; }
-		var label = classname + '-' + this.parent.label + '-' + this.label;
-		cRegistry.set(label, v);
-	}
+
 	if ('callback_onchange' in this && typeof(this.callback_onchange) == 'function') {
 		this.callback_onchange.call(this, v);
 	}
 	this.value = v;
-	return this;
 };
 /**
  * 
@@ -139,7 +163,6 @@ Cparameter_select.prototype.init = function(options) {
     }
 };
 
-Cparameter_select.prototype.set = function(value) {
-    //console.log('Init select');
+Cparameter_select.prototype._set = function(value) {
     this.value = value;
 };
