@@ -78,7 +78,11 @@ Cparameter.prototype.get = function(k) {
 		console.error('Invalid key', k);
 		return null;
 	}
-	return this[k];
+	return this._get(this[k]);
+};
+
+Cparameter.prototype._get = function(value) {
+    return value;
 };
 
 Cparameter.prototype.make_registry_key = function() {
@@ -122,7 +126,9 @@ Cparameter_numeric.prototype.init = function(options) {
 	};
 };
 
-
+Cparameter.prototype._get = function(v) {
+    return parseFloat(v);
+};
 
 Cparameter.prototype._set = function(v) {
 	v = parseFloat(v);
