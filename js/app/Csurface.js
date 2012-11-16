@@ -49,24 +49,28 @@ function Csurface(id, width, height) {
 	this.id = id;
 	this.width = width;
 	this.height = height;
+	this.cCanvas = new Ccanvas(this.width, this.height);
+	this.cTools = null;
+	this.cGraph = null;
+	this.need_redraw = false;
 	this.layer_manager = new Clayer_manager(this);
 	this.layer_manager.add(new Clayer(this.layer_manager, E_LAYERLABEL.mouse));
 	this.layer_manager.add(new Clayer(this.layer_manager, E_LAYERLABEL.prefrag));
 	this.layer_manager.add(new Clayer(this.layer_manager));
+	this.cCanvas.clear(new Ccolor(255,0,0,1));
 	this.mouse = new Cmouse_tracker(this, {
 		callback_move: function() { console.log('mouse move'); },
 		callback_track: function() { console.log('mouse track'); },
 	});
 	this.rootElm = null;
-	this.cCanvas = new Ccanvas(this.width, this.height);
-	this.cCanvas.clear(new Ccolor(255,0,0,1));
-	this.cTools = null;
-	this.cGraph = null;
+	this.need_redraw = true;
+	this.layer_manager.select(this.layer_manager.layers[0]);
 	this.build();
+
 }
 
 Csurface.prototype.set_current_layer = function(layer) {
-	this.layer_manager.current_layer = layer;
+	this.layer_manager.select(layer);
 };
 
 Csurface.prototype.build = function() {
@@ -81,8 +85,8 @@ Csurface.prototype.build = function() {
 	var $c = $(canvas);
 	$c.width = this.width;
 	$c.height = this.height;
-//	$c.attr('width', this.width);
-//	$c.attr('height', this.height);
+// $c.attr('width', this.width);
+// $c.attr('height', this.height);
 	$c.addClass('canvas not-draggable');
 	$c.mousedown(function(e) {
 		that.callback_mousedown(e, that);
@@ -96,13 +100,13 @@ Csurface.prototype.build = function() {
 	$c.mouseout(function(e) {
 		if (that.mouse.is_pushed()) {
 			that.mouse.paused = true;
-			//that.callback_mouseup(e, that);
+			// that.callback_mouseup(e, that);
 		}
 	});
 	$c.mouseover(function(e) {
 		if (that.mouse.is_pushed()) {
 			that.mouse.paused = false;
-			//that.callback_mouseup(e, that);
+			// that.callback_mouseup(e, that);
 		}
 	});
 	this.dom_mouse = this.mouse.get_dom();
@@ -118,25 +122,44 @@ Csurface.prototype.build = function() {
 };
 
 Csurface.prototype.undo = function() {
-	this.layer_manager.current_layer.discard_frag();
-	this.layer_manager.current_layer.redraw();
-	this.redraw();
+	this.layer_manager.selected.discard_frag();
+	this.layer_manager.selected.redraw();
+	this.redraw(true);
 };
 
-Csurface.prototype.redraw = function() {
-	var tool = this.cTools.selected;
+Csurface.prototype.redraw = function(force) {
+    	if (!this.need_redraw && !force) {
+    	    return false;
+    	}
+	//var tool = this.cTools.selected;
 	var canvas = this.cCanvas.data;
 	var tctx = canvas.getContext('2d');
 	tctx.clearRect(0, 0, canvas.width, canvas.height);
-//	tctx.fillStyle = 'rgba(255,0,0,1)';
-//	tctx.fillRect(0,0, canvas.width, canvas.height);
-	for ( var i = 0; i < this.layer_manager.layers.length; i++) {
-		this.layer_manager.layers[i].redraw(true);
-		tctx.drawImage(this.layer_manager.layers[i].canvas, 0, 0,
-				canvas.width, canvas.height);
-	}
+// tctx.fillStyle = 'rgba(255,0,0,1)';
+// tctx.fillRect(0,0, canvas.width, canvas.height);
+// for ( var i = 0; i < this.layer_manager.layers.length; i++) {
+// this.layer_manager.layers[i].redraw(true);
+// tctx.drawImage(this.layer_manager.layers[i].canvas, 0, 0,
+// canvas.width, canvas.height);
+// }
+	
+	//canvas.width, canvas.height);
+	if (this.layer_manager.special_layers.stack_down != undefined) {
+	    tctx.drawImage(this.layer_manager.special_layers.stack_down.canvas, 0, 0,
+		canvas.width, canvas.height);
+	}	
+	this.layer_manager.selected.redraw(force);
+	tctx.drawImage(this.layer_manager.selected.canvas, 0, 0,
+		canvas.width, canvas.height);
+
 	tctx.drawImage(this.layer_manager.special_layers.prefrag.canvas, 0, 0,
 			canvas.width, canvas.height);
+	if (this.layer_manager.special_layers.stack_up != undefined) {
+	    tctx.drawImage(this.layer_manager.special_layers.stack_up.canvas, 0, 0,
+		canvas.width, canvas.height);
+	}
+	this.need_redraw = false;
+	return true;
 };
 
 Csurface.prototype.clear = function() {
@@ -162,7 +185,7 @@ Csurface.prototype.callback_mouseup = function(e, obj) {
 		return false;
 	}
 	this.cGrapher.stop();
-	this.redraw();
+	this.redraw(true);
 	this.mouse.release();
 	return true;
 };
@@ -186,7 +209,7 @@ Csurface.prototype.save_as_json = function() {
 		data.layers.push(this.layer_manager.layers[i].to_json());
 	}
 	var w = window.open(this.cCanvas.data.toDataURL());
-	//w.document.location.href=JSON.stringify(data);
+	// w.document.location.href=JSON.stringify(data);
 	console.log(data);
 	return data;
 };

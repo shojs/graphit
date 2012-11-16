@@ -23,7 +23,7 @@ var cRegistry = new Cregistry();
 $(document).ready(function() {
 	var cToolbox = new Ctoolbox(CTOOL_tools);
 	var cSurface = new Csurface('surface-01', 800, 600);
-	cSurface.cTools = cToolbox;
+	//cSurface.cTools = cToolbox;
 	var cGrapher = new Cgrapher(cToolbox, cSurface);
 	$('#menu-top').menu({  });
 

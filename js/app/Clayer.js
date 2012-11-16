@@ -32,6 +32,14 @@ function Clayer(parent, label, p_composition) {
 	this.rootElm = null;
 };
 
+Clayer.prototype.clone = function() {
+    var l = new Clayer(this.parent, this.label, this.composition);
+    l.visible = this.visible;
+    l.ctx.drawImage(this.canvas, 0, 0, this.canvas.width, this.canvas.height);
+    l.need_redraw = this.need_redraw;
+    l.rootElm = this.rootElm;
+    return l;
+};
 /**
  * 
  * @returns
@@ -46,7 +54,7 @@ Clayer.prototype.discard_frag = function() {
  * 
  */
 Clayer.prototype.dom_get = function(index) {
-	this.dom_build(index);
+	this.dom_build();
 	return this.rootElm;
 },
 
@@ -58,17 +66,16 @@ Clayer.prototype.set_visible = function(b) {
  * 
  * @returns {Clayer}
  */
-Clayer.prototype.dom_build = function(index) {
+Clayer.prototype.dom_build = function() {
+    	if (this.rootElm) {
+    	    return this;
+    	}
 	//console.log('index', index);
 	var that = this;
 	var root = document.createElement('li');
 	var $r = $(root);
 	$r.attr('id', this.uid);
 	$r.addClass('layer');
-	if (index == 0) {
-		$r.addClass('selected');
-	}
-	
 	var button = new Cimage({ 
 		src: 'img/16x16_eye.png', 
 		width: '16px', 
@@ -168,6 +175,7 @@ Clayer.prototype.redraw_preview = function() {
 	var ctx = this.canvas_preview.getContext('2d');
 	ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
 	ctx.drawImage(this.canvas, 0,0, this.canvas.width, this.canvas.height, 0, 0, this.canvas_preview.width, this.canvas_preview.height);
+	//console.log(this.canvas.toDataURL());
 };
 
 /**
@@ -175,15 +183,16 @@ Clayer.prototype.redraw_preview = function() {
  * @returns {Boolean}
  */
 Clayer.prototype.redraw = function(bool) {
+    	//console.log('redraw layer');
 	if (typeof(bool) === 'boolean') {
 		this.need_redraw = bool;
 	}
 	if (!this.need_redraw) {
 		return false;
 	}
-	if (this.globalCompositionOperation != this.composition) {
-		this.ctx.globalCompositeOperation = this.composition;
-	}
+//	if (this.globalCompositionOperation != this.composition) {
+//		this.ctx.globalCompositeOperation = this.composition;
+//	}
 	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	if (this.frags.length > 10) {
 		;//this.stack_frags(0, 5);
@@ -279,6 +288,7 @@ Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 	} catch (e) {
 		console.error(e);
 	};
+	this.redraw();
 };
 
 

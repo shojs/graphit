@@ -102,7 +102,7 @@ Cgrapher.prototype._graph = function() {
 	
 	this.cTools.selected.graph(this, p1, p2);
 	this.index++;
-	this.cSurface.redraw();
+	this.cSurface.redraw(true);
 	this._graph();
 	return true;
 };
@@ -116,7 +116,7 @@ Cgrapher.prototype.stop = function() {
 	var lmouse = this.cSurface.layer_manager.special_layers.mouse;
 	lmouse.ctx.fillStyle = 'rgba(255,0,0,0.1)';
 	var cs = this.cSurface;
-	var dcanvas = cs.layer_manager.current_layer.canvas;
+	var dcanvas = cs.layer_manager.selected.canvas;
 	var size = this.cTools.selected.parameters.size.value * 2;
 	var dsize = Math.round(size / 2);
 	var width = Math.round(cs.mouse.maxx - cs.mouse.minx + size);
@@ -127,12 +127,15 @@ Cgrapher.prototype.stop = function() {
 	var y = Math.round(cs.mouse.miny - dsize);
 	if (y < 0) { y = 0;}
 	if ((y + height) > dcanvas.height) { height = dcanvas.height - y ;}
-	cs.layer_manager.current_layer.drawImage(
+	cs.layer_manager.selected.drawImage(
 			cs.layer_manager.special_layers.prefrag.canvas, x, y, width,
 			height, 0, 0, width, height);
+	cs.layer_manager.selected.redraw();
 	cs.layer_manager.special_layers.prefrag.clear();
+	
 	this.timer = null;
 	this.index = 0;
+	cs.redraw(true);
 	return true;
 };
 
