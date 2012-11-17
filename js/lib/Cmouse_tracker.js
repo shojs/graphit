@@ -6,11 +6,14 @@
  * @returns {Object}
  */
 function Cmouse_tracker_point(x, y) {
+    	Cvector2d.call(this, x, y);
 	this.x = x;
 	this.y = y;
 	this.time = Date.now();
 }
 
+Cmouse_tracker_point.prototype = Object.create(Cvector2d.prototype);
+Cmouse_tracker_point.prototype.constructor = new Cvector2d(0,0,0);
 /*******************************************************************************
  * Tracking mouse movement
  * 

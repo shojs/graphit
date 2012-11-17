@@ -60,6 +60,7 @@ Clicense.prototype.dom_build = function() {
 "");
 	try {
 	    $(txt).load(this.text);
+	    return true;
 	} catch(e) {
 	    console.error('Cannot load full license', e);
 	}

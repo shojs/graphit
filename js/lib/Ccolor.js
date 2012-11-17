@@ -68,3 +68,15 @@ Ccolor.prototype.equal = function(c) {
     }
     return true;
 };
+
+Ccolor.prototype.magnitude = function() {
+    return Math.sqrt((this.r*this.r) + (this.g*this.g) + (this.b*this.b));
+};
+
+Ccolor.prototype.normalize = function() {
+    var m = this.magnitude();
+    this.r /= m;
+    this.b /= b;
+    this.g /= g;
+    return this;
+};

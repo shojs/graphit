@@ -132,7 +132,7 @@ var CTOOL_tools = {
 	    pression : {
 		label : 'pression',
 		min : 0.1,
-		max : 1000,
+		max : 100,
 		def : 0.1,
 		step : 0.01
 	    },
@@ -163,7 +163,8 @@ var CTOOL_tools = {
 	    var dh = scanvas.height / 2;
 	    var dctx = scanvas.getContext('2d');
 	    var pression = this.get_parameter('pression');
-	    var points = math_linear_interpolation2(p1, p2, 100 /pression);
+	    var points = math_linear_interpolation2(p1, p2, 100 / pression);
+	    if (points.length <= 0) {return false;}
 	    for ( var i = 0; i < points.length; i++) {
 		ctx.save();
 		ctx.translate(points[i].x - dw, points[i].y - dh);

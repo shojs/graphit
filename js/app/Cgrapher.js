@@ -71,24 +71,23 @@ function math_linear_interpolation2(p1, p2, step) {
 		x1 = p2.x;
 		x2 = p1.x;
 	}
-	var slope;
-	if (p2.x == p1.x) {
-		slope = 0;
-	} else {
-		slope = (p2.y - p1.y) / (p2.x - p1.x);
-		if (near_zero(slope)) {
-			;
-		}
-	}
-	for ( var x = x1; x <= x2; x += step) {
-		var y = Math.round(slope * (x - p1.x) + p1.y);
-		points.push(new Cpoint(x, y));
+	var v = new Cvector2d();
+	v.from_point(p1, p2);
+	var distance = v.magnitude();
+	if (distance == 0) {return points;}
+	v.normalize();
+	var lp = p1.clone();
+	for ( var x = 0; x <= distance; x += step) {
+	    	var lv = v.clone().smul(step);
+	    	lp.vadd(lv);	
+		points.push(new Cpoint(lp.x, lp.y));
 	}
 	return points;
 };
 
 
 Cgrapher.prototype._graph = function() {
+	//clearInterval(this.timer);
 	var numpoint = this.cSurface.mouse.points.length;
 	if (numpoint <= 2) {
 		return false;
@@ -100,10 +99,16 @@ Cgrapher.prototype._graph = function() {
 	var p1 = this.cSurface.mouse.points[this.index];
 	var p2 = this.cSurface.mouse.points[(this.index + 1)];
 	
-	this.cTools.selected.graph(this, p1, p2);
+	if (this.cTools.selected.graph(this, p1, p2)) {
+	    this.cSurface.redraw(true);
+	}
 	this.index++;
-	this.cSurface.redraw(true);
-	this._graph();
+	var that = this;
+	var fGraph = function() {
+	    that._graph();
+	};
+	this.timer = window.setInterval(fGraph, DRAWGLOB.graphing_interval);
+	//this._graph();
 	return true;
 };
 
