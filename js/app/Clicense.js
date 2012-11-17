@@ -15,7 +15,8 @@ Clicense.prototype.dom_build = function() {
 	var img = document.createElement('img');
 	img.src = this.logo;
 	$g.append(img);
-	$g.append('<p>Source code: <a href="http://github.com/shojs/graphit/">github</a></p>');
+	$g.append('<p>Source code: <a href="#code" onclick="window.open(\'http://github.com/shojs/graphit/\'); return false;">github</a></p>');
+	$g.append('<p>Documentation: <a href="#doc" onclick="window.open(\'https://github.com/shojs/graphit/wiki\')">Wiki</a></p>');
 	$g.append('<h6>License</h6>');
 	var $txt = $(document.createElement('p'));
 	$txt.addClass('group text');
@@ -58,7 +59,7 @@ Clicense.prototype.dom_build = function() {
 "you modify it: responsibilities to respect the freedom of others." +
 "");
 	try {
-	    //$(txt).load(this.text);
+	    $(txt).load(this.text);
 	} catch(e) {
 	    console.error('Cannot load full license', e);
 	}

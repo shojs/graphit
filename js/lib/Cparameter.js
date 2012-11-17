@@ -63,7 +63,7 @@ Cparameter.prototype.set = function(value) {
 	this._set(value);
 	if (this.autosave) {
 	    var label = this.make_registry_key();
-	    console.log('Saving key', label, this.value)
+	    //console.log('Saving key', label, this.value)
 	    cRegistry.set(label, this.value);
 	}
 	return true;

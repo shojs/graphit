@@ -41,3 +41,8 @@ function helper_format_number_length(num, length) {
     }
     return r;
 }
+
+function isCanvasSupported(){
+    var elem = document.createElement('canvas');
+    return !!(elem.getContext && elem.getContext('2d'));
+  }

@@ -32,7 +32,7 @@ Cobject.prototype.parse_options = function(options, permitted) {
 //				console.log('  - injecting ', label);
 				this[label] = options[label];
 			} else {
-				console.error('Needed properties <<', label, '>> ');
+				console.warn('Needed property <<', label, '>> ');
 			}
 		}
 	}

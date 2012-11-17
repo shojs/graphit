@@ -40,6 +40,31 @@ Ccolor.prototype.from_rgba = function(rgba) {
 	return this;
 };
 
+Ccolor.prototype.from_pixel = function(p_data, x, y) {
+    //console.log('data', p_data);
+    var data = p_data.data;
+    this.r = data[ ( (x*(p_data.width*4)) + (y*4) )];
+    this.g = data[ ( (x*(p_data.width*4)) + (y*4) + 1)];
+    this.b = data[ ( (x*(p_data.width*4)) + (y*4) + 2)];
+    this.a = data[ ( (x*(p_data.width*4)) + (y*4) + 3)];
+    this.a = Math.round((this.a / 255) * 100) / 100;
+    return this;
+};
+
 Ccolor.prototype.clone = function() {
     return new Ccolor(this.r, this.g, this.b, this.a);
+};
+
+Ccolor.prototype.equal = function(c) {
+    //console.log(c, this);
+    var checks = ['a', 'r', 'g', 'b'];
+    var component;
+    for (var i = 0; i < checks.length; i++) {
+	component = checks[i];
+	//console.log('check component: ',component,  this[component], c[component]);
+	if (this[component] != c[component]) {
+	    return false;
+	}
+    }
+    return true;
 };

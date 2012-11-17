@@ -20,9 +20,8 @@ $(function() {
 
 var cRegistry = new Cregistry();
 
-$(document).ready(function() {
-	
-	var cSurface = new Csurface('surface-01', 800, 600);
+function _ok_to_build() {
+	var cSurface = new Csurface('surface-01', 640, 480);
 	var cToolbox = new Ctoolbox(CTOOL_tools, {parent: cSurface});
 	//cSurface.cTools = cToolbox;
 	var cGrapher = new Cgrapher(cToolbox, cSurface);
@@ -39,6 +38,9 @@ $(document).ready(function() {
 	$('#button-save').click(function() {
 		cSurface.save_as_json();
 	});
+	$('#button-select-by-color').click(function() {
+		cSurface.cCanvas.select_by_color(new Ccolor(0,0,0,1));
+	});
 	$('#button-about').click(function() {
 	    var about = new Clicense();
 	    var dom = about.dom_get();
@@ -51,5 +53,40 @@ $(document).ready(function() {
 		cancel : '.not-draggable',
 
 	});
+	$('#group-feed-placeholder').FeedEk({
+	    FeedUrl: 'http://github.com/shojs/graphit/commits/gh-pages.atom',
+	    MaxCout: 5,
+	    ShowDesc: true,
+	    ShowPubDate: false,
+	});
+	$('#rss-feed').dialog({
+	    resizable: true,
+	    width: 600,
+            height: 300,
+	});
 	$(document).tooltip({tooltipClass: 'tootltip-small'});
+}
+$(document).ready(function() {
+	if (!isCanvasSupported()) {
+	    var $d = $(document.createElement('div'));
+	    $d.attr('title', 'HTML5 error');
+	    $d.addClass('error');
+	    $d.append('<p>Your internet browser doesn\'t support <b>canvas</b> element.' +
+		    '<br><b>canvas</b> is part of HTML 5 specification' + 
+		    '<br> Browser who must support it are Chrome, Firefox, Safari, Opera, IE 9+' +
+		    '</p>');
+	    $d.dialog({
+		modal: true,
+		close: function() {
+		    console.log('close');
+		    $('body').empty();
+		    document.location = 'http://github.com/shojs/graphit';
+		}
+		
+	    });
+	    
+	} else {
+	    _ok_to_build();
+	}
+
 });

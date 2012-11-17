@@ -71,7 +71,7 @@ Ctoolbox.prototype.load = function(olist) {
  */
 Ctoolbox.prototype.select_tool = function(cTool) {
     	if (cTool == undefined) { 
-    	    console.error('Nothing to select'); 
+    	    console.warn('Can\'t select undefined tool'); 
     	    return false;
     	}
 	var $t = $(cTool.rootElm);

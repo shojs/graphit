@@ -244,3 +244,24 @@ li {
 	font-size: xx-small;
 	text-transform: capitalize;
 }
+.group-license .text {
+	font-size: x-small;
+	white-space: pre-line;
+}
+.group-license a:link {
+    color: green;
+    text-transform: lowercase;
+}
+#rss-feed:parent {
+	width: 400px;
+	height: 300px;
+    x-overflow: none;
+	y-overflow: auto;
+}
+.ItemContent {
+	height: 100px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	clear: left;
+	float:right;
+}

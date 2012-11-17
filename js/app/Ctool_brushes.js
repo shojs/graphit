@@ -102,7 +102,9 @@ var CTOOL_tools = {
 	},
 
     },
-    /* BRUSH */
+    /**************************************************************************
+     * BRUSH 
+     **************************************************************************/
     brush : {
 	label : 'brush',
 	parameters : {
@@ -137,7 +139,6 @@ var CTOOL_tools = {
 	},
 	brush : CTOOL_brushes.circle,
 	_update : function() {
-	    console.log('update');
 	    this.need_update = true;
 	    if (!this.need_update) {
 		console.log('Doesn\'t need update');
@@ -155,7 +156,6 @@ var CTOOL_tools = {
 	    return true;
 	},
 	_graph : function(grapher, p1, p2) {
-	    // console.log('pen graphing');
 	    var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.canvas;
 	    var ctx = dcanvas.getContext('2d');
 	    var scanvas = this.cCanvas.data;
@@ -173,7 +173,9 @@ var CTOOL_tools = {
 	    return true;
 	},
     },
-    /* BRUSH */
+    /**************************************************************************
+     * Eraser
+     *************************************************************************/
     eraser : {
 	label : 'eraser',
 	parameters : {
@@ -195,7 +197,6 @@ var CTOOL_tools = {
 	compositeOperation: Ecomposite_operation.xor,
 	brush : CTOOL_brushes.circle,
 	_update : function() {
-	    //console.log('update');
 	    this.need_update = true;
 	    if (!this.need_update) {
 		console.log('Doesn\'t need update');
@@ -209,32 +210,24 @@ var CTOOL_tools = {
 	    this.cCanvas = new Ccanvas(size * 2, size * 2);
 	    this.ctx = this.cCanvas.getContext('2d');
 	    this.brush.update.call(this, this);
-	    //this.cCanvas.reverse();
 	    this.need_update = false;
+	    this.parent.parent.rootElm.css('cursor', "url('"+this.cCanvas.data.toDataURL()+"'), pointer, ne-resize:" + size);
 	    return true;
 	},
 	_pregraph: function(x, y, width, height) {
 	    $('body').append('<br>');
-	    //console.log(this);
 	    var c = this.parent.parent.layer_manager.special_layers.prefrag.canvas;
 	    var ctx = c.getContext('2d');
-	   // ctx.save();
-
-	    //ctx.fillStyle = 'rgba(0,0,0,0)';
-
-	   //ctx.fillRect(0,0, c.width, c.height);
 	   
 	   var dc = this.parent.parent.layer_manager.selected.canvas;
 	  
 	   ctx.drawImage(dc, 0,0, dc.width, dc.height);
-	   //ctx.globalCompositeOperation = Ecomposite_operation['xor'];
-	   //console.log('url', c.toDataURL());
 
 	},
 	_graph : function(grapher, p1, p2) {
-	    // console.log('pen graphing');
 	    var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.canvas;
 	    var ctx = dcanvas.getContext('2d');
+	    grapher.cSurface.layer_manager.special_layers.prefrag.down_composite_operation = Ecomposite_operation['source-in'];
 	    ctx.globalCompositeOperation = Ecomposite_operation['destination-out'];
 	    var scanvas = this.cCanvas.data;
 	    var dw = scanvas.width / 2;
@@ -252,50 +245,17 @@ var CTOOL_tools = {
 	    return true;
 	},
 	_postgraph: function(x, y, width, height) {
-	   // console.log(this.parent.parent);
 	    var l = this.parent.parent.layer_manager.selected;
-	    //l.ctx.save();
 	    var f = this.parent.parent.layer_manager.special_layers.prefrag;
 	    var nf = f.clone();
 	    nf.ctx.globalCompositeOption = 'xor';
-	    nf.ctx.drawImage(f.canvas, 0, 0,  f.canvas.width, f.canvas.height);
-	    
-	    //$('body').append($(document.createElement('img')).attr('src', nf.canvas.toDataURL()).attr('width', 50).attr('style', 'background-color: green'));
-//	    $('body').append(
-//		    $(document.createElement('img')).attr('src', l.canvas.toDataURL()).attr('width', 50).attr('style', 'background-color: red')
-//	    );
-	   // l.ctx.globalCompositeOperation = 'source-in';
+	    nf.ctx.drawImage(f.canvas, 0, 0,  f.canvas.width, f.canvas.height);	    
 	    l.drawImage(
 			nf.canvas, x, y, width,
 			height, 0, 0, 'source-in');
-	    //l.ctx.restore();
-
-//	    $('body').append(
-//		    $(document.createElement('img')).attr('src', l.canvas.toDataURL()).attr('width', 50).attr('style', 'background-color: yellow')
-//	    );
-	    //l.ctx.globalCompositeOperation = 'source-over';
 	},
 	
     },
-//    fill : {
-//	label : 'fill',
-//	parameters : {
-//	    size : {
-//		label : 'size',
-//		min : 1,
-//		max : 100,
-//		def : 20,
-//		step : 0.1
-//	    },
-//	    opacity : {
-//		label : 'opacity',
-//		min : 0,
-//		max : 100,
-//		def : 20,
-//		step : 0.1
-//	    },
-//	},
-//	brush : CTOOL_brushes.circle,
-//    }
+
 
 };

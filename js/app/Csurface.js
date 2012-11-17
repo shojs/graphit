@@ -134,6 +134,7 @@ Csurface.prototype.redraw = function(force) {
 	//var tool = this.cTools.selected;
 	var canvas = this.cCanvas.data;
 	var tctx = canvas.getContext('2d');
+	tctx.save();
 	tctx.clearRect(0, 0, canvas.width, canvas.height);
 // tctx.fillStyle = 'rgba(255,0,0,1)';
 // tctx.fillRect(0,0, canvas.width, canvas.height);
@@ -152,12 +153,16 @@ Csurface.prototype.redraw = function(force) {
 	tctx.drawImage(this.layer_manager.selected.canvas, 0, 0,
 		canvas.width, canvas.height);
 
+	if ('down_composite_operation' in this.layer_manager.special_layers.prefrag) {
+	    tctx.globalCompositeOperation = this.layer_manager.special_layers.prefrag.down_composite_operation;
+	}
 	tctx.drawImage(this.layer_manager.special_layers.prefrag.canvas, 0, 0,
 			canvas.width, canvas.height);
 	if (this.layer_manager.special_layers.stack_up != undefined) {
 	    tctx.drawImage(this.layer_manager.special_layers.stack_up.canvas, 0, 0,
 		canvas.width, canvas.height);
 	}
+	tctx.restore();
 	this.need_redraw = false;
 	return true;
 };

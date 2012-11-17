@@ -18,7 +18,6 @@ function Clayer_manager(parent) {
 };
 
 Clayer_manager.prototype.layer_stack = function(start, end) {
-    console.log('Build stack', start, end);
     if (start > end) {
 	return null;
     }
@@ -26,7 +25,6 @@ Clayer_manager.prototype.layer_stack = function(start, end) {
     var canvas;
     for ( var i = start; i <= end; i++) {
 	canvas = this.layers[i].canvas;
-	console.log('Stacking layer', i);
 	l.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
     }
     return l;
@@ -34,10 +32,8 @@ Clayer_manager.prototype.layer_stack = function(start, end) {
 };
 
 Clayer_manager.prototype.build_layer_stack = function(index) {
-    console.log('Building layer stack with index', index);
     this.special_layers.stack_down = this.layer_stack(0, index - 1);
     this.special_layers.stack_up = this.layer_stack(index + 1, this.layers.length - 1);
-
 };
 
 Clayer_manager.prototype.add = function(layer) {

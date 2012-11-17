@@ -235,15 +235,12 @@ Clayer.prototype.redraw = function(bool) {
 	} else {
 	    this.ctx.globalCompositeOperation = 'source-over';
 	}
-//	    $('body').append(
-//		    $(document.createElement('img')).attr('src',
-//			    scanvas.toDataURL()).attr('width', '100px').attr('style',
-//			    'background-color: blue'));
+
 	this.ctx.drawImage(scanvas,
-	// sx sy swidth sheight
 	0, 0, width, height,
-	// dx dy dwidth dheight
 	x, y, width, height);
+//	this.ctx.putImageData(scanvas.getContext('2d').getImageData(0,0,width, height),
+//		x, y, 0, 0, width, height);
 	this.ctx.restore();
     }
     this.redraw_preview();
