@@ -127,11 +127,16 @@ Cgrapher.prototype.stop = function() {
 	var y = Math.round(cs.mouse.miny - dsize);
 	if (y < 0) { y = 0;}
 	if ((y + height) > dcanvas.height) { height = dcanvas.height - y ;}
-	cs.layer_manager.selected.drawImage(
+	//console.log(cs);
+	if ('_postgraph' in this.cTools.selected) {
+	    this.cTools.selected._postgraph(x, y, width, height, 0, 0, width, height);
+	} else {
+	    cs.layer_manager.selected.drawImage(
 			cs.layer_manager.special_layers.prefrag.canvas, x, y, width,
-			height, 0, 0, width, height);
+			height, 0, 0, null);
+	}
 	cs.layer_manager.selected.redraw();
-	cs.layer_manager.special_layers.prefrag.clear();
+	cs.layer_manager.special_layers.prefrag = new Clayer(cs.layer_manager, '_prefrag');//;.clear(new Ccolor(0,0,0,0));
 	
 	this.timer = null;
 	this.index = 0;
@@ -148,6 +153,9 @@ Cgrapher.prototype.start = function() {
 	var fGraph = function() {
 		that._graph();
 	};
+	if ('_pregraph' in this.cTools.selected) {
+	    this.cTools.selected._pregraph(this);
+	}
 	this.timer = window.setInterval(fGraph, DRAWGLOB.graphing_interval);
 	return true;
 };

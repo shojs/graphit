@@ -12,7 +12,7 @@ function Ctool(options) {
 	this.optElm = null;
 	this.label = null;
 	this.className = 'Ctool';
-	Cobject.call(this, options, [ 'parent', 'brush', 'label', '_graph', '_update']);
+	Cobject.call(this, options, [ 'parent', 'brush', 'label', '_pregraph', '_graph', '_postgraph', '_update', 'compositeOperation']);
 	return this;
 };
 

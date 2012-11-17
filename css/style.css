@@ -237,9 +237,10 @@ li {
 
 .menu {
 	width: 200px;
+	font-size: small;
 }
 
-.tooltip-small {
-	font-size: x-small;
+.ui-tooltip {
+	font-size: xx-small;
 	text-transform: capitalize;
 }

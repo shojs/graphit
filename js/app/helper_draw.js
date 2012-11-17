@@ -13,7 +13,8 @@ function helper_draw_circle(canvas, x, y, r, color) {
 		console.error('Invalid parameters');
 		return 0;
 	}
-	var ctx = canvas.getContext('2d');
+	//console.log(canvas);
+	var ctx = canvas.ctx;//getContext('2d');
 	if (!ctx) {
 		console.error('Cannot get context 2d from canvas');
 		console.error(canvas);

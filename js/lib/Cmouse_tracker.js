@@ -101,9 +101,9 @@ Cmouse_tracker.prototype.push = function() {
 		var cp = new Cmouse_tracker_point(that.x, that.y);
 		var lp = that.points[that.points.length - 1];
 		/* We are not storing same point twice */
-		if (lp && lp.x == cp.x && lp.y == cp.y) {
-				return false;
-		}
+//		if (lp && lp.x == cp.x && lp.y == cp.y) {
+//				return false;
+//		}
 		/* Storing our point */
 		that.points.push(cp);
 		that.minx = Math.min(that.minx, cp.x);

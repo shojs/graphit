@@ -8,6 +8,7 @@
 function Cdraw_frag(parent, position, width, height) {
 	this.position = position;
 	this.cCanvas = new Ccanvas(width, height, new Ccolor(0,0,0,0));
+	this.ctx = this.getContext();
 };
 
 Cdraw_frag.prototype.getContext = function(t) {

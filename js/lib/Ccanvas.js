@@ -21,6 +21,9 @@ Ccanvas.prototype.getCanvas = function() {
 }
 
 Ccanvas.prototype.clear = function(color) {
+    	if (color instanceof Ccolor) {
+    	    this.background_color = color;
+    	}
 	if (this.background_color.a == 0) {
 		this.ctx.clearRect(0,0,this.data.width, this.data.height);
 	} else {
@@ -30,6 +33,7 @@ Ccanvas.prototype.clear = function(color) {
 		this.ctx.restore();
 	}
 };
+
 
 Ccanvas.prototype.save = function() {
 	var data = this.data.toDataURL('image/png');

@@ -6,7 +6,7 @@ function Cwidget_draw_brush(cBrush) {
 	if (!(cBrush instanceof Cdraw_brush)) {
 		console
 				.error("Cwidget_draw_brush need a Cdraw_brush as first paramater");
-		console.log(brush);
+		//console.log(brush);
 		return null;
 	}
 	this.cBrush = cBrush;

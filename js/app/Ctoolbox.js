@@ -6,9 +6,9 @@
  * - options associated with tools
  * - brush preview 
  */
-function Ctoolbox(olist) {
+function Ctoolbox(olist, options) {
 	this.olist = olist;
-	Cobject.call(this);
+	Cobject.call(this, options, ['parent']);
 }
 
 Ctoolbox.prototype = Object.create(Cobject.prototype);
