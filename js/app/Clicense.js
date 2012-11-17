@@ -58,13 +58,12 @@ Clicense.prototype.dom_build = function() {
 "certain responsibilities if you distribute copies of the software, or if" +
 "you modify it: responsibilities to respect the freedom of others." +
 "");
+	$g.append($txt);
 	try {
 	    $txt.load(this.text);
-	    return true;
 	} catch(e) {
 	    console.error('Cannot load full license', e);
 	}
-	$g.append($txt);
 	var button = document.createElement('button');
 	$(button).append('Close');
 	$(button).button();
