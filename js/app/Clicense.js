@@ -59,7 +59,7 @@ Clicense.prototype.dom_build = function() {
 "you modify it: responsibilities to respect the freedom of others." +
 "");
 	try {
-	    $(txt).load(this.text);
+	    $txt.load(this.text);
 	    return true;
 	} catch(e) {
 	    console.error('Cannot load full license', e);
