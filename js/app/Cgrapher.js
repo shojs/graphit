@@ -65,21 +65,16 @@ function math_linear_interpolation(p1, p2, step) {
 
 function math_linear_interpolation2(p1, p2, step) {
 	var points = new Array();
-	var x1 = p1.x;
-	var x2 = p2.x;
-	if (p1.x >= p2.x) {
-		x1 = p2.x;
-		x2 = p1.x;
-	}
 	var v = new Cvector2d();
 	v.from_point(p1, p2);
 	var distance = v.magnitude();
 	if (distance == 0) {return points;}
 	v.normalize();
 	var lp = p1.clone();
+	//var lv = v.clone().smul(step);
+	v.smul(step);
 	for ( var x = 0; x <= distance; x += step) {
-	    	var lv = v.clone().smul(step);
-	    	lp.vadd(lv);	
+	    	lp.vadd(v);	
 		points.push(new Cpoint(lp.x, lp.y));
 	}
 	return points;
