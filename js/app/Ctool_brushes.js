@@ -229,7 +229,7 @@ var CTOOL_tools = {
 	    var dh = scanvas.height / 2;
 	    var dctx = scanvas.getContext('2d');
 	    var pression = this.get_parameter('pression');
-	    var points = math_linear_interpolation2(p1, p2, 100 /pression);
+	    var points = cMath.linear_interpolation(p1, p2, 100 /pression);
 	    for ( var i = 0; i < points.length; i++) {
 		ctx.save();
 		ctx.translate(points[i].x - dw, points[i].y - dh);

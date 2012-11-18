@@ -5,9 +5,8 @@
  * @returns
  */
 function Csurface(id, width, height) {
+    Cobject.call(this, {width: width, height: height}, ['width', 'height']);
     this.id = id;
-    this.width = width;
-    this.height = height;
     this.cCanvas = new Ccanvas(this.width, this.height);
     this.cTools = null;
     this.cGraph = null;
@@ -33,6 +32,9 @@ function Csurface(id, width, height) {
 
 }
 
+Csurface.prototype = Object.create(Cobject.prototype);
+Csurface.prototype.constructor = new Cobject();
+
 Csurface.prototype.set_current_layer = function(layer) {
     this.layer_manager.select(layer);
 };
@@ -41,25 +43,13 @@ Csurface.prototype.build = function() {
     var that = this;
     var root = document.createElement('div');
     var $r = $(root);
-    // $r.attr('title', 'surface');
-    // $r.id = 'surface-id-01';
     $r.addClass('surface ' + DRAWGLOB.css_draggable_class);
-    // var $d = $r.dialog({
-    // width: 900,
-    // height: 700,
-    // resizable: true,
-    // draggable: true,
-    // title: 'Surface',
-    // autoOpen: false,
-    // });
     var $g = $(document.createElement('div'));
     helper_build_header($r, ' ', 'Surface');
     var canvas = this.cCanvas.data;
     var $c = $(canvas);
     $c.width = this.width;
     $c.height = this.height;
-    // $c.attr('width', this.width);
-    // $c.attr('height', this.height);
     $c.addClass('canvas not-draggable');
     $c.mousedown(function(e) {
 	that.callback_mousedown(e, that);
@@ -73,28 +63,23 @@ Csurface.prototype.build = function() {
     $c.mouseout(function(e) {
 	if (that.mouse.is_pushed()) {
 	    that.mouse.paused = true;
-	    // that.callback_mouseup(e, that);
 	}
     });
     $c.mouseover(function(e) {
 	if (that.mouse.is_pushed()) {
 	    that.mouse.paused = false;
-	    // that.callback_mouseup(e, that);
 	}
     });
     this.dom_mouse = this.mouse.get_dom();
     $g.append($c);
     $r.append($g);
-    // this.build_buttons = new Cdraw_buttons(this);
-    // $g = $(document.createElement('div'));
-    // $g.append(this.build_buttons.get_dom());
     // TODO Putting back undo
     $(document).bind('keydown', 'Ctrl+z', function() {
 	that.undo();
     });
     $r.append($g);
-    // $d.dialog('open');
     this.rootElm = $r;
+    return this;
 };
 
 Csurface.prototype.undo = function() {

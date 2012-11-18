@@ -13,7 +13,6 @@ Cvector2d.prototype.constructor = new Cpoint();
 Cvector2d.prototype.magnitude = function() {
     if (this.x == 0 && this.y == 0)
 	return 0;
-    // console.log(this.x, this.y);
     return Math.sqrt((this.x * this.x) + (this.y * this.y));
 };
 
@@ -93,6 +92,13 @@ var cMath = {
 	}
 	return points;
     },
+    /**
+     * Return borned value: lo < value < hi
+     * @param value
+     * @param lo
+     * @param hi
+     * @returns
+     */
     clamp : function(value, lo, hi) {
 	return value < lo ? lo : value > hi ? hi : value;
     }

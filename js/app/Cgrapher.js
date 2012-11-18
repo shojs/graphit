@@ -31,7 +31,6 @@ Cgrapher.prototype.reset_index = function() {
 
 
 Cgrapher.prototype._graph = function() {
-	//clearInterval(this.timer);
 	var numpoint = this.cSurface.mouse.points.length;
 	if (numpoint <= 2) {
 		return false;
@@ -42,7 +41,6 @@ Cgrapher.prototype._graph = function() {
 
 	var p1 = this.cSurface.mouse.points[this.index];
 	var p2 = this.cSurface.mouse.points[(this.index + 1)];
-	
 	if (this.cTools.selected.graph(this, p1, p2)) {
 	    this.cSurface.redraw(true);
 	}
@@ -51,7 +49,6 @@ Cgrapher.prototype._graph = function() {
 	var fGraph = function() {
 	    that._graph();
 	};
-	//this.timer = window.setInterval(fGraph, DRAWGLOB.graphing_interval);
 	this._graph();
 	return true;
 };
@@ -78,21 +75,18 @@ Cgrapher.prototype.stop = function() {
 	var y = Math.round(cs.mouse.miny - dsize);
 	if (y < 0) { y = 0;}
 	if ((y + height) > dcanvas.height) { height = dcanvas.height - y;}
-	console.log({x:x, y:y, width:width, height:height});
-	    cs.cCanvas.ctx.fillStyle = 'red';
-	    cs.cCanvas.ctx.fillRect(0, 0, cs.layer_manager.selected.canvas.width, cs.layer_manager.selected.canvas.height);
-	    cs.cCanvas.ctx.fillRect(x, y, width, height);
 	if ('_postgraph' in this.cTools.selected) {
-	    this.cTools.selected._postgraph(x, y, width, height, 0, 0, width, height);
+	    this.cTools.selected._postgraph(x, y, 
+		    width, height, 0, 0, width, height);
 	} else {
-
 	    cs.layer_manager.selected.drawImage(
-			cs.layer_manager.special_layers.prefrag.canvas, x, y, width,
+			cs.layer_manager.special_layers.prefrag.canvas, 
+			x, y, width,
 			height, 0, 0, null);
 	}
 	cs.layer_manager.selected.redraw();
-	cs.layer_manager.special_layers.prefrag = new Clayer(cs.layer_manager, '_prefrag');//;.clear(new Ccolor(0,0,0,0));
-	
+	cs.layer_manager.special_layers.prefrag = 
+	    new Clayer(cs.layer_manager, '_prefrag');
 	this.timer = null;
 	this.index = 0;
 	cs.redraw(true);
