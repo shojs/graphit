@@ -2,7 +2,7 @@ var CTOOL_brushes = {
     circle : {
 	update : function(obj) {
 
-	    var size = this.parameters.size.value;
+	    //var size = this.parameters.size.value;
 	    // this.cCanvas = new Ccanvas(size*2, size*2);
 	    var color = this.parent.fg_color.color.clone();
 	    var tool = this.parent.selected;
@@ -16,9 +16,10 @@ var CTOOL_brushes = {
 //	    } else {
 //		this.cCanvas.ctx.globalCompositeOperation = Ecomposite_operation['source-over'];
 //	    }
-	    var dsize = size / 2;
+	    var dsize = this.cCanvas.data.width / 2;
 
-	    helper_draw_circle(this.cCanvas, size, size, dsize,
+	    console.log(this.cCanvas.width, dsize);
+	    helper_draw_circle(this.cCanvas, dsize, dsize, dsize,
 		    color.to_rgba());
 	},
 
@@ -77,7 +78,7 @@ var CTOOL_tools = {
 	},
 	brush : CTOOL_brushes.circle,
 	_graph : function(grapher, p1, p2) {
-	    var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.canvas;
+	    var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.cCanvas.data;
 	    var ctx = dcanvas.getContext('2d');
 	    var size = this.parameters.size.value;
 	    // console.log('size', size);
@@ -131,29 +132,14 @@ var CTOOL_tools = {
 	    },
 	},
 	brush : CTOOL_brushes.circle,
-	_update : function() {
-	    this.need_update = true;
-	    if (!this.need_update) {
-		console.log('Doesn\'t need update');
-		return false;
-	    }
-	    var size = this.get_parameter('size');
-	    if (!size) {
-		console.error("All tools need << size >> parameter");
-		return false;
-	    }
-	    this.cCanvas = new Ccanvas(size * 2, size * 2);
-	    this.ctx = this.cCanvas.getContext('2d');
-	    this.brush.update.call(this, this);
-	    this.need_update = false;
-	    return true;
-	},
+	_update : function() { return true; },
 	_graph : function(grapher, p1, p2) {
-	    var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.canvas;
+	    var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.cCanvas.data;
 	    var ctx = dcanvas.getContext('2d');
 	    var scanvas = this.cCanvas.data;
 	    var dw = scanvas.width / 2;
 	    var dh = scanvas.height / 2;
+	    //console.log(dw, dh);
 	    var dctx = scanvas.getContext('2d');
 	    var pression = this.get_parameter('pression');
 	    var points = cMath.linear_interpolation(p1, p2, 100 / pression);
@@ -190,37 +176,20 @@ var CTOOL_tools = {
 	},
 	compositeOperation: Ecomposite_operation.xor,
 	brush : CTOOL_brushes.circle,
-	_update : function() {
-	    this.need_update = true;
-	    if (!this.need_update) {
-		console.log('Doesn\'t need update');
-		return false;
-	    }
-	    var size = this.get_parameter('size');
-	    if (!size) {
-		console.error("All tools need << size >> parameter");
-		return false;
-	    }
-	    this.cCanvas = new Ccanvas(size * 2, size * 2);
-	    this.ctx = this.cCanvas.getContext('2d');
-	    this.brush.update.call(this, this);
-	    this.need_update = false;
-	    this.parent.parent.rootElm.css('cursor', "url('"+this.cCanvas.data.toDataURL()+"'), pointer,:" + size);
-	    return true;
-	},
+	_update : function() { },
 	_pregraph: function(x, y, width, height) {
 	    console.log('pregraph');
-	    var c = this.parent.parent.layer_manager.special_layers.prefrag.canvas;
+	    var c = this.parent.parent.layer_manager.special_layers.prefrag.cCanvas.data;
 	    var ctx = c.getContext('2d');
 	   
-	   var dc = this.parent.parent.layer_manager.selected.canvas;
+	   var dc = this.parent.parent.layer_manager.selected.cCanvas.data;
 	  
 	   ctx.drawImage(dc, 0,0, dc.width, dc.height);
 	   //console.log('Copied layer', dc.toDataURL());
 
 	},
 	_graph : function(grapher, p1, p2) {
-	    var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.canvas;
+	    var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.cCanvas.data;
 	    var ctx = dcanvas.getContext('2d');
 	    grapher.cSurface.layer_manager.special_layers.prefrag.down_composite_operation = Ecomposite_operation['source-in'];
 	    ctx.globalCompositeOperation = Ecomposite_operation['destination-out'];
@@ -228,8 +197,8 @@ var CTOOL_tools = {
 	    var dw = scanvas.width / 2;
 	    var dh = scanvas.height / 2;
 	    var dctx = scanvas.getContext('2d');
-	    var pression = this.get_parameter('pression');
-	    var points = cMath.linear_interpolation(p1, p2, 100 /pression);
+	    var pression = this.get_parameter('pression') || 100;
+	    var points = cMath.linear_interpolation(p1, p2, (100 / pression));
 	    for ( var i = 0; i < points.length; i++) {
 		ctx.save();
 		ctx.translate(points[i].x - dw, points[i].y - dh);
@@ -244,9 +213,9 @@ var CTOOL_tools = {
 	    var f = this.parent.parent.layer_manager.special_layers.prefrag;
 	    var nf = f.clone();
 	    nf.ctx.globalCompositeOption = 'xor';
-	    nf.ctx.drawImage(f.canvas, 0, 0,  f.canvas.width, f.canvas.height);	    
+	    nf.ctx.drawImage(f.cCanvas.data, 0, 0,  f.cCanvas.data.width, f.cCanvas.data.height);	    
 	    l.drawImage(
-			nf.canvas, x, y, width,
+			nf.cCanvas.data, x, y, width,
 			height, 0, 0, 'source-in');
 	},
 	

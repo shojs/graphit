@@ -27,11 +27,8 @@ Cgrapher.prototype.reset_index = function() {
 	this.index = 0;
 };
 
-
-
-
 Cgrapher.prototype._graph = function() {
-	var numpoint = this.cSurface.mouse.points.length;
+	var numpoint = this.cSurface.cMouse.points.length;
 	if (numpoint <= 2) {
 		return false;
 	}
@@ -39,16 +36,13 @@ Cgrapher.prototype._graph = function() {
 		return false;
 	}
 
-	var p1 = this.cSurface.mouse.points[this.index];
-	var p2 = this.cSurface.mouse.points[(this.index + 1)];
+	var p1 = this.cSurface.cMouse.points[this.index];
+	var p2 = this.cSurface.cMouse.points[(this.index + 1)];
+	//console.log(p1, p2);
 	if (this.cTools.selected.graph(this, p1, p2)) {
 	    this.cSurface.redraw(true);
 	}
 	this.index++;
-	var that = this;
-	var fGraph = function() {
-	    that._graph();
-	};
 	this._graph();
 	return true;
 };
@@ -60,19 +54,19 @@ Cgrapher.prototype.stop = function() {
 		return false;
 	}
 	clearInterval(this.timer);
-	var lmouse = this.cSurface.layer_manager.special_layers.mouse;
-	lmouse.ctx.fillStyle = 'rgba(255,0,0,0.1)';
+//	var lmouse = this.cSurface.layer_manager.special_layers.mouse;
+//	lmouse.ctx.fillStyle = 'rgba(255,0,0,0.1)';
 	var cs = this.cSurface;
 	var selected = cs.layer_manager.selected;
-	var dcanvas = selected.canvas;
-	var size = (this.cTools.selected.parameters.size.value * 2) + 10;
-	var dsize = Math.round(size / 2);
-	var width = Math.round((cs.mouse.maxx - cs.mouse.minx) + size);
-	var height = Math.round((cs.mouse.maxy - cs.mouse.miny) + size);
-	var x = Math.round(cs.mouse.minx - dsize);
+	var dcanvas = selected.cCanvas.data;
+	var size = (this.cTools.selected.parameters.size.value);
+	var dsize = size / 2;
+	var width = (cs.cMouse.maxx - cs.cMouse.minx) + size;
+	var height = (cs.cMouse.maxy - cs.cMouse.miny) + size;
+	var x = cs.cMouse.minx - dsize;
 	if (x < 0) { x = 0;} 
 	if ((x + width) > dcanvas.width) { width = dcanvas.width - x;}
-	var y = Math.round(cs.mouse.miny - dsize);
+	var y = cs.cMouse.miny - dsize;
 	if (y < 0) { y = 0;}
 	if ((y + height) > dcanvas.height) { height = dcanvas.height - y;}
 	if ('_postgraph' in this.cTools.selected) {
@@ -80,9 +74,9 @@ Cgrapher.prototype.stop = function() {
 		    width, height, 0, 0, width, height);
 	} else {
 	    cs.layer_manager.selected.drawImage(
-			cs.layer_manager.special_layers.prefrag.canvas, 
+			cs.layer_manager.special_layers.prefrag.cCanvas.data, 
 			x, y, width,
-			height, 0, 0, null);
+			height, 0, 0);
 	}
 	cs.layer_manager.selected.redraw();
 	cs.layer_manager.special_layers.prefrag = 

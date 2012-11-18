@@ -1,8 +1,20 @@
+/**
+ * A point in space
+ * @param x
+ * @param y
+ * @returns
+ */
 function Cpoint(x, y) {
     this.x = x;
     this.y = y;
 }
 
+/**
+ * A 2d vector
+ * @param x
+ * @param y
+ * @returns
+ */
 function Cvector2d(x, y) {
     Cpoint.call(this, x, y);
 }
@@ -47,6 +59,9 @@ Cvector2d.prototype.clone = function() {
     return new Cvector2d(this.x, this.y);
 };
 
+/**
+ * Global math Object
+ */
 var cMath = {
 	/**
 	 * Return distance between point A and B
@@ -86,10 +101,15 @@ var cMath = {
 	v.normalize();
 	var lp = A.clone();
 	v.smul(step);
-	for ( var x = 0; x <= distance; x += step) {
+	var nstep = step;// distance / step;
+	//console.log('distance', distance, 'nstep:', nstep);
+	points.push(A);
+	for ( var i = 0; i <= distance; i += step) {
 	    lp.vadd(v);
-	    points.push(new Cpoint(lp.x, lp.y));
+	    points.push(new Cpoint(lp.x, lp.y ));
 	}
+	points.push(B);
+	//console.log(points);
 	return points;
     },
     /**

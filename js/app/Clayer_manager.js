@@ -24,7 +24,7 @@ Clayer_manager.prototype.layer_stack = function(start, end) {
     var l = new Clayer(this, 'stack');
     var canvas;
     for ( var i = start; i <= end; i++) {
-	canvas = this.layers[i].canvas;
+	canvas = this.layers[i].cCanvas.data;
 	l.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
     }
     return l;

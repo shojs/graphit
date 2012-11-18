@@ -1,3 +1,27 @@
+function Cminmax(min, max) {
+    this.min = min;
+    this.max = max;
+    this.last = null;
+};
+Cminmax.prototype.init = function(v) {
+    this.min = this.max = this.last = v;
+};
+
+Cminmax.prototype.cmp = function(v) {
+    if (v == undefined) {
+	console.warn('MinMax: Comparing with null value');
+	return false;
+    }
+    if (v < this.min) {
+	this.min = v;
+    }
+    if (v > max) {
+	this.max = v;
+    }
+    this.last = v;
+    return true;
+}
+
 /*******************************************************************************
  * Object to hold mouse position
  * 
@@ -24,20 +48,14 @@ Cmouse_tracker_point.prototype.constructor = new Cvector2d(0,0,0);
  * @param c_track
  * @returns
  */
-function Cmouse_tracker(parent, options) {
-	Cobject.call(this, options);
-	this.parent = parent;
-
-//	var callbacks = ['move', 'push', 'release', 'track'];
-//	for (var i = 0; i < callbacks.length; i++) {
-//		var clabel = callbacks[i];
-//		if (this.callback_exists(clabel)) {
-//			console.warn('Cmouse_tracker::Callback << '+clabel+' >> is undefined');
-//		}		
-//	}
+function Cmouse_tracker(options) {
+	Cobject.call(this, options, ['parent', 'callback_move', 'callback_track']);
 
 	this.x = 0;
 	this.y = 0;
+	this.cMinmaxX = new Cminmax(0, this.parent.width);
+	this.cMinmaxY = new Cminmax(0, this.parent.height);
+	
 	this.minmax = new Object({
 		minx : 0,
 		maxx : this.parent.width,
@@ -54,7 +72,7 @@ function Cmouse_tracker(parent, options) {
 	this.interval = null;
 	this.points = new Array();
 	this.rootElm = null;
-	this.build();
+	this.dom_get();
 	return this;
 }
 
@@ -86,6 +104,9 @@ Cmouse_tracker.prototype.move = function(x, y) {
 //	console.log(x,y);
 	this.x = x;
 	this.y = y;
+	if ('callback_track' in this) {
+	    this.callback_track.call(this, x, y);
+	}
 	return this;
 };
 
@@ -118,20 +139,21 @@ Cmouse_tracker.prototype.push = function() {
 		this.func_push(this);
 };
 
-Cmouse_tracker.prototype.build = function() {
-	var root = document.createElement('div');
-	var $r = $(root);
-	$r.addClass('mousetracker draggable');
-	$r.append('<h6 class="header">Mouse</h6>');
+Cmouse_tracker.prototype.dom_build = function() {
+    	var r = $('<div />');
+    	r.attr('title', 'Mouse tracker');
+	r.addClass('mousetracker');
 	var group = document.createElement('div');
 	var $g = $(group);
 	$g.addClass('not-draggable');
-	$g.append('<div class="hold-var"><h6>x:</h6><div class="var-x">' + this.x
-			+ '</div></div>');
-	$g.append('<div class="hold-var"><h6>y:</h6><div class="var-y">' + this.y
-			+ '</div></div>');
-	$r.append($g);
-	this.rootElm = $r;
+	$g.append('<div class="hold-var"><h6>x:&nbsp;</h6><span class="var-x">' + this.x
+			+ '</span></div>');
+	$g.append('<div class="hold-var"><h6>y:&nbsp;</h6><span class="var-y">' + this.y
+			+ '</span></div>');
+	r.append($g);
+	r.dialog({width: 150, height: 150});
+	this.rootElm = r;
+	return this;
 };
 
 Cmouse_tracker.prototype.get_dom = function() {

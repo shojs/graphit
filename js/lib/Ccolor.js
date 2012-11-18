@@ -1,5 +1,9 @@
+var Ecolor = {
+	transparent_black: 'rgba(0,0,0,0)',
+};
+
 /**
- * 
+ *  RGBA color object
  * @param r
  * @param g
  * @param b
@@ -13,10 +17,16 @@ function Ccolor(r, g, b, a) {
 	this.a = a;
 }
 
+/* Convert Ccolor object to rgba string: rgba(r,g,b,a)
+ * @return string
+ */
 Ccolor.prototype.to_rgba = function() {
 	return 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + this.a + ')';
 };
 
+/*
+ * Set rgb color from structure while setting alpha to 1
+ */
 Ccolor.prototype.set_rgb = function(color) {
 	this.r = color.r;
 	this.g = color.g;
@@ -25,6 +35,11 @@ Ccolor.prototype.set_rgb = function(color) {
 	return this;
 };
 
+/**
+ * Parse rgba string and fill object properties
+ * @param rgba
+ * @returns {Ccolor}
+ */
 Ccolor.prototype.from_rgba = function(rgba) {
 	var reg = new RegExp(
 			/^rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+(\.\d+)?)\s*\)$/);
@@ -40,6 +55,13 @@ Ccolor.prototype.from_rgba = function(rgba) {
 	return this;
 };
 
+/**
+ * Read color from pixel data (context.getImageData.data...) 
+ * @param p_data Our pixel array
+ * @param x X position
+ * @param y Y position
+ * @returns {Ccolor}
+ */
 Ccolor.prototype.from_pixel = function(p_data, x, y) {
     //console.log('data', p_data);
     var data = p_data.data;
@@ -51,17 +73,24 @@ Ccolor.prototype.from_pixel = function(p_data, x, y) {
     return this;
 };
 
+/**
+ * Clone Object
+ * @returns {Ccolor}
+ */
 Ccolor.prototype.clone = function() {
     return new Ccolor(this.r, this.g, this.b, this.a);
 };
 
+/**
+ * Compare two color object
+ * @param c
+ * @returns {Boolean}
+ */
 Ccolor.prototype.equal = function(c) {
-    //console.log(c, this);
     var checks = ['a', 'r', 'g', 'b'];
     var component;
     for (var i = 0; i < checks.length; i++) {
 	component = checks[i];
-	//console.log('check component: ',component,  this[component], c[component]);
 	if (this[component] != c[component]) {
 	    return false;
 	}
@@ -69,10 +98,17 @@ Ccolor.prototype.equal = function(c) {
     return true;
 };
 
+/*
+ * Magnitude of color treated like vector v(r,g,b)
+ */
 Ccolor.prototype.magnitude = function() {
     return Math.sqrt((this.r*this.r) + (this.g*this.g) + (this.b*this.b));
 };
 
+/**
+ * Normalinzing color... WTF :P
+ * @returns {Ccolor}
+ */
 Ccolor.prototype.normalize = function() {
     var m = this.magnitude();
     this.r /= m;

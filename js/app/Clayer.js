@@ -14,32 +14,39 @@ var E_DRAWCOMPOSITION = new Object({
  * @returns
  */
 function Clayer(parent, label, p_composite_operation) {
-    this.uid = UID.get();
     var composite_operation = p_composite_operation;
     if (!composite_operation) {
 	composiste_operation = Ecomposite_operation['source-over'];
     }
-    this.composite_operation = composite_operation;
-    this.parent = parent;
-    this.label = label;
-    this.visible = true;
+    Cobject.call(this, {
+	parent : parent,
+	label : label,
+	composite_operation : composite_operation,
+	visible: false,
+	need_redraw: true,
+    }, ['parent', 'label', 'composite_operation', 'need_redraw', 'visible']);
+    this.uid = UID.get();
     this.frags = new Array();
-    this.canvas = document.createElement('canvas');
-    this.canvas.setAttribute('width', parent.parent.width);
-    this.canvas.setAttribute('height', parent.parent.height);
-    this.ctx = this.canvas.getContext('2d');
-    this.need_redraw = true;
+    // TODO: it's a bit ugly to get layer size this way
+    var width = parent.parent.width;
+    var height = parent.parent.height;
+    this.cCanvas = new Ccanvas(width, height);
+    this.ctx = this.cCanvas.getContext('2d');
     this.rootElm = null;
 };
+Clayer.prototype = Object.create(Cobject.prototype);
+Clayer.prototype.constructor = new Cobject();
 
 Clayer.prototype.clone = function() {
+    var canvas = this.cCanvas.data;
     var l = new Clayer(this.parent, this.label, this.composition);
     l.visible = this.visible;
-    l.ctx.drawImage(this.canvas, 0, 0, this.canvas.width, this.canvas.height);
+    l.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
     l.need_redraw = this.need_redraw;
     l.rootElm = this.rootElm;
     return l;
 };
+
 /**
  * 
  * @returns
@@ -65,6 +72,7 @@ Clayer.prototype.set_visible = function(b) {
 	this.visible = false;
     }
 };
+
 /**
  * 
  * @returns {Clayer}
@@ -112,7 +120,7 @@ Clayer.prototype.dom_build = function() {
     var canvas = document.createElement('canvas');
     this.canvas_preview = canvas;
     var width = 100;
-    var height = width * (this.canvas.height / this.canvas.width);
+    var height = width * (this.cCanvas.data.height / this.cCanvas.data.width);
     canvas.width = width;
     canvas.height = height;
     var $c = $(canvas);
@@ -122,8 +130,6 @@ Clayer.prototype.dom_build = function() {
 	$(this).addClass('selected');
 	that.parent.select(that);
     });
-    // $c.attr('layer_index', index);
-
     $td.append($c);
     $tr.append($td);
     $td = $(document.createElement('td'));
@@ -162,13 +168,10 @@ Clayer.prototype.dom_build = function() {
     $tr.append($td);
     $td = $(document.createElement('td'));
     $td.addClass('options');
-
     $td.append(b_trash.dom_get());
-
     $tr.append($td);
     $t.append($tr);
     $r.append($t);
-
     this.rootElm = $r;
     return this;
 };
@@ -178,10 +181,10 @@ Clayer.prototype.dom_build = function() {
  */
 Clayer.prototype.redraw_preview = function() {
     var ctx = this.canvas_preview.getContext('2d');
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    ctx.drawImage(this.canvas, 0, 0, this.canvas.width, this.canvas.height, 0,
+    var scanvas = this.cCanvas.data;
+    ctx.clearRect(0, 0, scanvas.width, scanvas.height);
+    ctx.drawImage(scanvas, 0, 0, scanvas.width, scanvas.height, 0,
 	    0, this.canvas_preview.width, this.canvas_preview.height);
-    // console.log(this.canvas.toDataURL());
 };
 
 /**
@@ -189,25 +192,21 @@ Clayer.prototype.redraw_preview = function() {
  * @returns {Boolean}
  */
 Clayer.prototype.redraw = function(bool) {
-    // console.log('redraw layer');
     if (typeof (bool) === 'boolean') {
 	this.need_redraw = bool;
     }
     if (!this.need_redraw) {
 	return false;
     }
-    // if (this.globalCompositionOperation != this.composition) {
-    // this.ctx.globalCompositeOperation = this.composition;
-    // }
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.clearRect(0, 0, this.cCanvas.data.width, this.cCanvas.data.height);
     if ('compositeOperation' in this) {
 	this.ctx.compositeOperation = this.compositeOperation;
     }
     if (this.frags.length > 10) {
-	;// this.stack_frags(0, 5);
+	;
     }
-    var dwidth = this.canvas.width;
-    var dheight = this.canvas.height;
+    var dwidth = this.cCanvas.data.width;
+    var dheight = this.cCanvas.data.height;
     for ( var i = 0; i < this.frags.length; i++) {
 	var f = this.frags[i];
 	var scanvas = f.cCanvas.data;
@@ -230,17 +229,12 @@ Clayer.prototype.redraw = function(bool) {
 	this.ctx.rect(x, y, width, height);
 	this.ctx.clip();
 	if (f.downCompositeOperation) {
-	   // console.log('layer redraw set compose', f);
 	    this.ctx.globalCompositeOperation = f.downCompositeOperation;
 	} else {
 	    this.ctx.globalCompositeOperation = 'source-over';
 	}
 
-	this.ctx.drawImage(scanvas,
-	0, 0, width, height,
-	x, y, width, height);
-//	this.ctx.putImageData(scanvas.getContext('2d').getImageData(0,0,width, height),
-//		x, y, 0, 0, width, height);
+	this.ctx.drawImage(scanvas, 0, 0, width, height, x, y, width, height);
 	this.ctx.restore();
     }
     this.redraw_preview();
@@ -276,15 +270,12 @@ Clayer.prototype.stack_frags = function(p_start, p_end) {
     var tctx = nf.getContext('2d');
     for ( var i = start; i <= end; i++) {
 	var f = this.frags[i];
-	var canvas = f.canvas.data;
+	var canvas = f.cCanvas.data;
 	tctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, f.position.x,
 		f.position.y, canvas.width, canvas.height);
     }
-    // console.log(.canvas.canvas.toDataURL());
     this.frags.splice(start, 0, nf);
     this.frags.splice(start, end);
-    // this.frags.remove(start, end);
-
 };
 /**
  * 
@@ -298,35 +289,25 @@ Clayer.prototype.stack_frags = function(p_start, p_end) {
  */
 Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx, ty,
 	compositeOperation) {
-    var frag = new Cdraw_frag(this, new Object({
+    var frag = new Cfrag(this, new Object({
 	x : sx,
 	y : sy
     }), swidth, sheight);
-    frag.drawImage(canvas, sx, sy, swidth, sheight, tx, ty);
-//    $('body').append(
-//	    $(document.createElement('img')).attr('src',
-//		    frag.cCanvas.data.toDataURL()).attr('width', 50).attr('style',
-//		    'background-color: orange'));
+    frag.drawImage(canvas, sx, sy, swidth, sheight, 0, 0);
     this.ctx.save();
     this.ctx.beginPath();
     this.ctx.rect(sx, sy, swidth, sheight);
+    this.ctx.strokeRect(sx, sy, swidth, sheight);
     this.ctx.clip();
     if (compositeOperation) {
 	this.ctx.globalCompositeOperation = compositeOperation;
 	frag.downCompositeOperation = compositeOperation;
-	//console.log('Composite', compositeOperation);
     }
-    // console.log('Frag', sx, sy, swidth, sheight, tx, ty);
-
-    
-    
-    // console.log(frag.cCanvas.data.toDataURL());
-
     this.frags.push(frag);
-    //FIXME: Invalid parameters cause exception on safari 
+    // FIXME: Invalid parameters cause exception on safari
     console.log(sx, sy, swidth, sheight, tx, ty);
-    this.ctx.drawImage(frag.cCanvas.data, 0,0, swidth, sheight, sx, sy, swidth, sheight);
-
+    this.ctx.drawImage(frag.cCanvas.data, 0, 0, swidth, sheight, sx, sy,
+	    swidth, sheight);
     this.ctx.restore();
     this.redraw();
 };
@@ -334,6 +315,6 @@ Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx, ty,
 Clayer.prototype.to_json = function() {
     return {
 	label : this.data,
-	data : this.canvas.toDataURL(),
+	data : this.cCanvas.data.toDataURL(),
     };
 };

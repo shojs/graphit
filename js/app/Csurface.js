@@ -5,7 +5,11 @@
  * @returns
  */
 function Csurface(id, width, height) {
-    Cobject.call(this, {width: width, height: height}, ['width', 'height']);
+    Cobject.call(this, {
+	width : width,
+	height : height
+    }, [ 'width', 'height' ]);
+    console.log('-> Creating surface WxH', width, height);
     this.id = id;
     this.cCanvas = new Ccanvas(this.width, this.height);
     this.cTools = null;
@@ -16,13 +20,16 @@ function Csurface(id, width, height) {
     this.layer_manager
 	    .add(new Clayer(this.layer_manager, E_LAYERLABEL.prefrag));
     this.layer_manager.add(new Clayer(this.layer_manager));
-    this.cCanvas.clear(new Ccolor(255, 0, 0, 1));
-    this.mouse = new Cmouse_tracker(this, {
+    this.cCanvas.clear(new Ccolor(0, 0, 0, 1));
+    var that = this;
+    this.cMouse = new Cmouse_tracker({
+	parent : this,
 	callback_move : function() {
 	    console.log('mouse move');
 	},
-	callback_track : function() {
-	    console.log('mouse track');
+	callback_track : function(x, y) {
+	    $(that.cMouse.rootElm).find('.var-x').empty().append(x);
+	    $(that.cMouse.rootElm).find('.var-y').empty().append(y);
 	},
     });
     this.rootElm = null;
@@ -35,10 +42,18 @@ function Csurface(id, width, height) {
 Csurface.prototype = Object.create(Cobject.prototype);
 Csurface.prototype.constructor = new Cobject();
 
+/**
+ * 
+ * @param layer
+ */
 Csurface.prototype.set_current_layer = function(layer) {
     this.layer_manager.select(layer);
 };
 
+/**
+ * 
+ * @returns {Csurface}
+ */
 Csurface.prototype.build = function() {
     var that = this;
     var root = document.createElement('div');
@@ -61,16 +76,16 @@ Csurface.prototype.build = function() {
 	that.callback_mousemove(e, that);
     });
     $c.mouseout(function(e) {
-	if (that.mouse.is_pushed()) {
-	    that.mouse.paused = true;
+	if (that.cMouse.is_pushed()) {
+	    that.cMouse.paused = true;
 	}
     });
     $c.mouseover(function(e) {
-	if (that.mouse.is_pushed()) {
-	    that.mouse.paused = false;
+	if (that.cMouse.is_pushed()) {
+	    that.cMouse.paused = false;
 	}
     });
-    this.dom_mouse = this.mouse.get_dom();
+    this.dom_mouse = this.cMouse.get_dom();
     $g.append($c);
     $r.append($g);
     // TODO Putting back undo
@@ -82,6 +97,9 @@ Csurface.prototype.build = function() {
     return this;
 };
 
+/**
+ * 
+ */
 Csurface.prototype.undo = function() {
     this.layer_manager.selected.discard_frag();
     this.layer_manager.selected.redraw();
@@ -89,14 +107,10 @@ Csurface.prototype.undo = function() {
 };
 
 /**
- * Redraw our surface
- * We are stacking layers below and on top of current selected layer so our 
- * rendering process a finite number of layers
- * - bottom
- * - selected
- * - prefrag
- * - up
- * - grid
+ * Redraw our surface We are stacking layers below and on top of current
+ * selected layer so our rendering process a finite number of layers - bottom -
+ * selected - prefrag - up - grid
+ * 
  * @param force
  * @returns {Boolean}
  */
@@ -111,34 +125,38 @@ Csurface.prototype.redraw = function(force) {
     tctx.clearRect(0, 0, canvas.width, canvas.height);
     // Drawing layer stack down
     if (this.layer_manager.special_layers.stack_down != undefined) {
-	tctx.drawImage(this.layer_manager.special_layers.stack_down.canvas, 0,
+	tctx.drawImage(
+		this.layer_manager.special_layers.stack_down.cCanvas.data, 0,
 		0, canvas.width, canvas.height);
     }
     // Drawing selected layer
     this.layer_manager.selected.redraw(force);
-    tctx.drawImage(this.layer_manager.selected.canvas, 0, 0, canvas.width,
-	    canvas.height);
+    tctx.drawImage(this.layer_manager.selected.cCanvas.data, 0, 0,
+	    canvas.width, canvas.height);
 
     // Drawing prefrag layer
     if ('down_composite_operation' in this.layer_manager.special_layers.prefrag) {
 	tctx.globalCompositeOperation = this.layer_manager.special_layers.prefrag.down_composite_operation;
     }
-    tctx.drawImage(this.layer_manager.special_layers.prefrag.canvas, 0, 0,
-	    canvas.width, canvas.height);
+    tctx.drawImage(this.layer_manager.special_layers.prefrag.cCanvas.data, 0,
+	    0, canvas.width, canvas.height);
     if ('down_composite_operation' in this.layer_manager.special_layers.prefrag) {
 	tctx.globalCompositeOperation = 'source-over';
     }
     // Drawing layer stack up
     if (this.layer_manager.special_layers.stack_up != undefined) {
-	tctx.drawImage(this.layer_manager.special_layers.stack_up.canvas, 0, 0,
-		canvas.width, canvas.height);
+	tctx.drawImage(this.layer_manager.special_layers.stack_up.cCanvas.data,
+		0, 0, canvas.width, canvas.height);
     }
-    
+
     tctx.restore();
     this.need_redraw = false;
     return true;
 };
 
+/**
+ * 
+ */
 Csurface.prototype.clear = function() {
     for ( var i = 0; i < this.layer_manager.layers.length; i++) {
 	this.layer_manager.layers[i].clear();
@@ -146,36 +164,61 @@ Csurface.prototype.clear = function() {
     this.redraw();
 };
 
+/**
+ * 
+ * @param e
+ * @param obj
+ * @returns {Boolean}
+ */
 Csurface.prototype.callback_mousedown = function(e, obj) {
-    if (this.mouse.is_pushed()) {
+    if (this.cMouse.is_pushed()) {
 	console.warn("Mouse already pushed");
 	return false;
     }
-    this.mouse.push();
+    this.cMouse.push();
     this.cGrapher.start();
     return true;
 };
 
+/**
+ * 
+ * @param e
+ * @param obj
+ * @returns {Boolean}
+ */
 Csurface.prototype.callback_mouseup = function(e, obj) {
-    if (!this.mouse.is_pushed()) {
+    if (!this.cMouse.is_pushed()) {
 	console.warn('Mouse not pushed');
 	return false;
     }
     this.cGrapher.stop();
     this.redraw(true);
-    this.mouse.release();
+    this.cMouse.release();
     return true;
 };
 
+/**
+ * 
+ * @param e
+ * @param obj
+ */
 Csurface.prototype.callback_mousemove = function(e, obj) {
     var $o = $(obj.cCanvas.data).offset();
-    this.mouse.move(e.pageX - $o.left, e.pageY - $o.top);
+    this.cMouse.move(e.pageX - $o.left, e.pageY - $o.top);
 };
 
+/**
+ * 
+ * @returns
+ */
 Csurface.prototype.get_dom = function() {
     return this.rootElm;
 };
 
+/**
+ * 
+ * @returns {___anonymous5807_5851}
+ */
 Csurface.prototype.save_as_json = function() {
 
     var data = {

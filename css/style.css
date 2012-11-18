@@ -94,6 +94,12 @@ body {
 	display: inline-block;
 }
 
+.hold-var {
+	font-size: x-small;
+}
+.hold-var h6 {
+	display: inline-block;
+}
 .toolbox {
 	width: 200px;
 }
