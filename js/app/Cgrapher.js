@@ -1,5 +1,10 @@
+var Egrapher_mode = {
+	continuous: 1,
+	endpoint: 2,
+};
 /**
  * 
+
  * @param cTools
  * @param cSurface
  * @returns
@@ -10,6 +15,7 @@ function Cgrapher(cTools, cSurface) {
 	this.reset_index();
 	this.timer = null;
 	cSurface.cGrapher = this;
+	this.mode = Egrapher_mode.continuous;
 }
 
 Cgrapher.prototype.set = function(cTools, cSurface) {
@@ -21,64 +27,7 @@ Cgrapher.prototype.reset_index = function() {
 	this.index = 0;
 };
 
-function math_linear_interpolation(p1, p2, step) {
-	//step = 0.25;
-	if (p1.x == p2.x && p1.y == p2.y) {
-		console.warn('interp between same poing ...');
-		return null;
-	}
-	var points = new Array();
-	var x1 = p1.x;
-	var x2 = p2.x;
-	var y1 = p1.y;
-	var y2 = p2.y;
-	if (p1.x >= p2.x) {
-		x1 = p2.x;
-		//y1 = p2.y;
-		x2 = p1.x;
-		//y2 = p1.y;
-	}
-	var interval = x2 - x1;
-	var slope;
-	if (x2 == x1) {
-		slope = 0;
-	} else {
-		slope = (y2 - y1) / (interval);
-		if (near_zero(slope)) {
-			;
-		}
-	}
 
-	for ( var x = x1; x <= x2 + step; x += step) {
-		var y = y1;
-		if (interval != 0) {
-			var ni = x - x1;
-			if (ni != 0) {
-				y += (((ni*y2) - (ni*y1) ) / (interval));
-			}
-		} 
-		y = Math.round(y);
-		points.push(new Cpoint(x, y));
-	}
-	return points;
-};
-
-function math_linear_interpolation2(p1, p2, step) {
-	var points = new Array();
-	var v = new Cvector2d();
-	v.from_point(p1, p2);
-	var distance = v.magnitude();
-	if (distance == 0) {return points;}
-	v.normalize();
-	var lp = p1.clone();
-	//var lv = v.clone().smul(step);
-	v.smul(step);
-	for ( var x = 0; x <= distance; x += step) {
-	    	lp.vadd(v);	
-		points.push(new Cpoint(lp.x, lp.y));
-	}
-	return points;
-};
 
 
 Cgrapher.prototype._graph = function() {
