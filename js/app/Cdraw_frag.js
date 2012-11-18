@@ -17,13 +17,13 @@ Cdraw_frag.prototype.getContext = function(t) {
 
 Cdraw_frag.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 		ty) {
-	if (tx > swidth || tx < 0) {
-		console.error('x position out of bound');
-		return false;
-	} else if (ty > sheight || ty < 0) {
-		console.error('y position out of bound');
-		return false;
-	}
+//	if (tx > swidth || tx < 0) {
+//		console.error('x position out of bound', tx);
+//		return false;
+//	} else if (ty > sheight || ty < 0) {
+//		console.error('y position out of bound');
+//		return false;
+//	}
 	var dctx = canvas.getContext('2d');
 	this.cCanvas.ctx.drawImage(canvas, sx, sy, swidth, sheight, 0, 0, this.cCanvas.data.width,
 				this.cCanvas.data.height);

@@ -107,12 +107,13 @@ Cgrapher.prototype._graph = function() {
 	var fGraph = function() {
 	    that._graph();
 	};
-	this.timer = window.setInterval(fGraph, DRAWGLOB.graphing_interval);
-	//this._graph();
+	//this.timer = window.setInterval(fGraph, DRAWGLOB.graphing_interval);
+	this._graph();
 	return true;
 };
 
 Cgrapher.prototype.stop = function() {
+    	// TODO Clean fragment size...
 	if (!this.timer) {
 		console.warn('Grapher is not started');
 		return false;
@@ -121,21 +122,26 @@ Cgrapher.prototype.stop = function() {
 	var lmouse = this.cSurface.layer_manager.special_layers.mouse;
 	lmouse.ctx.fillStyle = 'rgba(255,0,0,0.1)';
 	var cs = this.cSurface;
-	var dcanvas = cs.layer_manager.selected.canvas;
-	var size = this.cTools.selected.parameters.size.value * 2;
+	var selected = cs.layer_manager.selected;
+	var dcanvas = selected.canvas;
+	var size = (this.cTools.selected.parameters.size.value * 2) + 10;
 	var dsize = Math.round(size / 2);
-	var width = Math.round(cs.mouse.maxx - cs.mouse.minx + size);
-	var height = Math.round(cs.mouse.maxy - cs.mouse.miny + size);
+	var width = Math.round((cs.mouse.maxx - cs.mouse.minx) + size);
+	var height = Math.round((cs.mouse.maxy - cs.mouse.miny) + size);
 	var x = Math.round(cs.mouse.minx - dsize);
 	if (x < 0) { x = 0;} 
-	if ((x + width) > dcanvas.width) { width = dcanvas.width - x ;}
+	if ((x + width) > dcanvas.width) { width = dcanvas.width - x;}
 	var y = Math.round(cs.mouse.miny - dsize);
 	if (y < 0) { y = 0;}
-	if ((y + height) > dcanvas.height) { height = dcanvas.height - y ;}
-	//console.log(cs);
+	if ((y + height) > dcanvas.height) { height = dcanvas.height - y;}
+	console.log({x:x, y:y, width:width, height:height});
+	    cs.cCanvas.ctx.fillStyle = 'red';
+	    cs.cCanvas.ctx.fillRect(0, 0, cs.layer_manager.selected.canvas.width, cs.layer_manager.selected.canvas.height);
+	    cs.cCanvas.ctx.fillRect(x, y, width, height);
 	if ('_postgraph' in this.cTools.selected) {
 	    this.cTools.selected._postgraph(x, y, width, height, 0, 0, width, height);
 	} else {
+
 	    cs.layer_manager.selected.drawImage(
 			cs.layer_manager.special_layers.prefrag.canvas, x, y, width,
 			height, 0, 0, null);
@@ -158,6 +164,7 @@ Cgrapher.prototype.start = function() {
 	var fGraph = function() {
 		that._graph();
 	};
+	if (!this.cTools) { return false; };
 	if ('_pregraph' in this.cTools.selected) {
 	    this.cTools.selected._pregraph(this);
 	}

@@ -16,9 +16,9 @@ var CTOOL_brushes = {
 //	    } else {
 //		this.cCanvas.ctx.globalCompositeOperation = Ecomposite_operation['source-over'];
 //	    }
-	    var dsize = size;
+	    var dsize = size / 2;
 
-	    helper_draw_circle(this.cCanvas, dsize, dsize, size,
+	    helper_draw_circle(this.cCanvas, size, size, dsize,
 		    color.to_rgba());
 	},
 
@@ -133,7 +133,7 @@ var CTOOL_tools = {
 		label : 'pression',
 		min : 0.1,
 		max : 100,
-		def : 0.1,
+		def : 100,
 		step : 0.01
 	    },
 	},
@@ -190,8 +190,8 @@ var CTOOL_tools = {
 	    pression : {
 		label : 'pression',
 		min : 0.1,
-		max : 1000,
-		def : 0.1,
+		max : 100,
+		def : 100,
 		step : 0.01
 	    },
 	},
@@ -212,17 +212,18 @@ var CTOOL_tools = {
 	    this.ctx = this.cCanvas.getContext('2d');
 	    this.brush.update.call(this, this);
 	    this.need_update = false;
-	    this.parent.parent.rootElm.css('cursor', "url('"+this.cCanvas.data.toDataURL()+"'), pointer, ne-resize:" + size);
+	    this.parent.parent.rootElm.css('cursor', "url('"+this.cCanvas.data.toDataURL()+"'), pointer,:" + size);
 	    return true;
 	},
 	_pregraph: function(x, y, width, height) {
-	    $('body').append('<br>');
+	    console.log('pregraph');
 	    var c = this.parent.parent.layer_manager.special_layers.prefrag.canvas;
 	    var ctx = c.getContext('2d');
 	   
 	   var dc = this.parent.parent.layer_manager.selected.canvas;
 	  
 	   ctx.drawImage(dc, 0,0, dc.width, dc.height);
+	   //console.log('Copied layer', dc.toDataURL());
 
 	},
 	_graph : function(grapher, p1, p2) {

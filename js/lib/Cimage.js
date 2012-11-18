@@ -74,7 +74,7 @@ Cimage.prototype.callback_onload = function() {
 		}
 	}
 	if ('callback_onload' in this.options && typeof(this.options.callback_onload) === 'function') {
-		if (!this.options.callback_onload(this)) { 
+		if (!this.options.callback_onload.call(this, this)) { 
 			this.errorMsg += 'Error while calling onload callback';
 			ret = false;
 		}

@@ -192,6 +192,7 @@ Clayer_manager.prototype.dom_exists = function(domLayer) {
 }
 
 Clayer_manager.prototype.select = function(obj) {
+    console.log('Selecting layer');
     var index = this.exists(obj);
     if (index === undefined || index < 0 || index > this.layers.length) {
 	console.error('Layer index out of range: ' + index);
