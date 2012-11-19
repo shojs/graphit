@@ -14,6 +14,8 @@ function Csurface(id, width, height) {
     this.cCanvas = new Ccanvas(this.width, this.height);
     this.cTools = null;
     this.cGraph = null;
+    var that = this;
+
     this.need_redraw = false;
     this.layer_manager = new Clayer_manager(this);
     this.layer_manager.add(new Clayer(this.layer_manager, E_LAYERLABEL.mouse));
@@ -35,8 +37,26 @@ function Csurface(id, width, height) {
     this.rootElm = null;
     this.need_redraw = true;
     this.layer_manager.select(this.layer_manager.layers[0]);
-    this.build();
-
+    var update_grid = function() {
+	    var grid = that.layer_manager.get_layer('grid');
+	    var ctx = grid.getContext('2d');
+	    ctx.clearRect(0, 0, grid.cCanvas.data.width, grid.cCanvas.data.height);
+	    this.parent.draw(grid.cCanvas.data,0,0,that.cCanvas.data.width, that.cCanvas.data.height);
+	    that.redraw(true);
+    }
+    this.cGrid = new Cgrid({
+	parent: this,
+	callback_slide: function(value) {
+	    this.set(value);
+	    console.log('slide');
+	    update_grid.call(this);
+	},
+	callback_change: function(value) {
+	    this.set(value);
+	    update_grid.call(this);
+	}
+    });
+    this.dom_get();
 }
 
 Csurface.prototype = Object.create(Cobject.prototype);
@@ -54,7 +74,7 @@ Csurface.prototype.set_current_layer = function(layer) {
  * 
  * @returns {Csurface}
  */
-Csurface.prototype.build = function() {
+Csurface.prototype.dom_build = function() {
     var that = this;
     var root = document.createElement('div');
     var $r = $(root);
@@ -93,6 +113,7 @@ Csurface.prototype.build = function() {
 	that.undo();
     });
     $r.append($g);
+    this.cGrid.dom_get();
     this.rootElm = $r;
     return this;
 };
@@ -148,7 +169,8 @@ Csurface.prototype.redraw = function(force) {
 	tctx.drawImage(this.layer_manager.special_layers.stack_up.cCanvas.data,
 		0, 0, canvas.width, canvas.height);
     }
-
+    tctx.drawImage(this.layer_manager.special_layers.grid.cCanvas.data,
+		0, 0, canvas.width, canvas.height);
     tctx.restore();
     this.need_redraw = false;
     return true;
@@ -207,13 +229,6 @@ Csurface.prototype.callback_mousemove = function(e, obj) {
     this.cMouse.move(e.pageX - $o.left, e.pageY - $o.top);
 };
 
-/**
- * 
- * @returns
- */
-Csurface.prototype.get_dom = function() {
-    return this.rootElm;
-};
 
 /**
  * 

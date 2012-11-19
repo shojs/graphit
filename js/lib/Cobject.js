@@ -43,6 +43,14 @@ Cobject.prototype.parse_options = function(options, permitted) {
 	}
 };
 
+Cobject.prototype.getContext = function(type) {
+    type = type || '2d';
+    if ('cCanvas' in this) {
+	return this.cCanvas.data.getContext(type);
+    }
+    console.error('Cannot return context for this object... no cCanvas');
+    return null;
+}
 Cobject.prototype.add_parameter = function(options) {
 	if (!('parent' in options)) {
 		options.parent = this;

@@ -305,7 +305,7 @@ Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx, ty,
     }
     this.frags.push(frag);
     // FIXME: Invalid parameters cause exception on safari
-    console.log(sx, sy, swidth, sheight, tx, ty);
+    //console.log(sx, sy, swidth, sheight, tx, ty);
     this.ctx.drawImage(frag.cCanvas.data, 0, 0, swidth, sheight, sx, sy,
 	    swidth, sheight);
     this.ctx.restore();

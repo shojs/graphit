@@ -1,5 +1,5 @@
 function Ccanvas(width, height, background_color) {
-    console.log('Creating new Ccanvas WxH', width, height);
+    //console.log('Creating new Ccanvas WxH', width, height);
     if (background_color instanceof Ccolor) {
 	this.background_color = background_color;
     } else {

@@ -47,6 +47,7 @@ function _ok_to_build() {
     });
     // cSurface.cTools = cToolbox;
     var cGrapher = new Cgrapher(cToolbox, cSurface);
+    
     $('#menu-top').menu({});
 
     $('#main-content').append(cToolbox.dom_get());
@@ -54,7 +55,7 @@ function _ok_to_build() {
     $('#main-content').append(cSurface.layer_manager.dom_get());
     // var win = WM.dom_get();
     // $('#main-content').append(win);
-    $('#main-content').append(cSurface.get_dom());
+    $('#main-content').append(cSurface.dom_get());
 
     $('#button-save').click(function() {
 	cSurface.save_as_json();

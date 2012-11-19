@@ -10,7 +10,8 @@ function Clayer_manager(parent) {
     this.rootElm = null;
     this.add(new Clayer(this, '_stack_up'));
     this.add(new Clayer(this, '_stack_down'));
-    
+    var g = this.add(new Clayer(this, '_grid'));    
+//    this.parent.cGrid.draw(g.cCanvas.data, 0, 0, g.width, g.height);
     this.dom_build();
   
     this.layerstack_up = null;
@@ -41,7 +42,7 @@ Clayer_manager.prototype.add = function(layer) {
     var that = this;
     if (!(layer instanceof Clayer)) {
 	console.error('Layer manager need Clayer object');
-	return false;
+	return null;
     }
     var reg = new RegExp(/^_(.*)/);
     var match = reg.exec(layer.label);
@@ -60,7 +61,7 @@ Clayer_manager.prototype.add = function(layer) {
 	group.prepend($lElm);
     }
     //this.select(layer);
-    return true;
+    return layer;
 };
 
 Clayer_manager.prototype.exists = function(layer) {
@@ -89,6 +90,13 @@ Clayer_manager.prototype.remove = function(layer) {
     this.layers.splice(idx, 1);
     this.select(selected);
     this.parent.redraw(true);
+};
+
+Clayer_manager.prototype.get_layer = function(id) {
+    if (cMath.isint(id)) {
+	return this.layers[id];
+    }
+    return this.special_layers[id];
 };
 
 Clayer_manager.prototype.get_index_by_uid = function(id) {

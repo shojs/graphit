@@ -95,13 +95,12 @@ Cmouse_tracker.prototype.reset = function() {
  * @returns {Cmouse_tracker}
  */
 Cmouse_tracker.prototype.move = function(x, y) {
-	var x = Math.round(cMath.clamp(x, this.minmax.minx, this.minmax.maxx));
-	var y = Math.round(cMath.clamp(y, this.minmax.miny, this.minmax.maxy));
+	x = cMath.clamp(x, this.minmax.minx, this.minmax.maxx);
+	y = cMath.clamp(y, this.minmax.miny, this.minmax.maxy);
 //	if (this.x == x && this.y == y) {
 //		console.log('Discarding points');
 //		return this;
 //	}
-//	console.log(x,y);
 	this.x = x;
 	this.y = y;
 	if ('callback_track' in this) {
