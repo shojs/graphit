@@ -1,0 +1,21 @@
+**GraphIT** is a a little drawing program written only with _javascript_.
+
+It's only tested with last version of **Chrome**, **Firefox** and **Safari**. 
+
+Since release of **Internet Explorer 9** it should work on it too...
+
+This program is really a beta, with beta i'm mean alpha, or, hmm, well who care!
+
+**Features**
+* n-Layer
+* n-Undo on layers (Ctrl+z)
+* Pen, Brush, Eraser
+* Bg/Fg Color picker and switcher
+* Settings saved between session
+
+**Demo**
+* [Live](http://shojs.github.com/graphit/)
+
+**Navigation**
+* [Links] (https://github.com/shojs/graphit/wiki/Links)
+* [Screenshots](http://github.com/shojs/graphit/wiki/Screenshots)
