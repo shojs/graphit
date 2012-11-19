@@ -14,6 +14,7 @@ function Csurface(id, width, height) {
     this.cCanvas = new Ccanvas(this.width, this.height);
     this.cTools = null;
     this.cGraph = null;
+    this.showGrid = true;
     var that = this;
 
     this.need_redraw = false;
@@ -37,25 +38,20 @@ function Csurface(id, width, height) {
     this.rootElm = null;
     this.need_redraw = true;
     this.layer_manager.select(this.layer_manager.layers[0]);
-    var update_grid = function() {
-	    var grid = that.layer_manager.get_layer('grid');
-	    var ctx = grid.getContext('2d');
-	    ctx.clearRect(0, 0, grid.cCanvas.data.width, grid.cCanvas.data.height);
-	    this.parent.draw(grid.cCanvas.data,0,0,that.cCanvas.data.width, that.cCanvas.data.height);
-	    that.redraw(true);
-    }
+
     this.cGrid = new Cgrid({
 	parent: this,
 	callback_slide: function(value) {
 	    this.set(value);
 	    console.log('slide');
-	    update_grid.call(this);
+	    that.update_grid(this);
 	},
 	callback_change: function(value) {
 	    this.set(value);
-	    update_grid.call(this);
+	    that.update_grid.call(this);
 	}
     });
+    this.update_grid();
     this.dom_get();
 }
 
@@ -70,6 +66,13 @@ Csurface.prototype.set_current_layer = function(layer) {
     this.layer_manager.select(layer);
 };
 
+Csurface.prototype.update_grid = function() {
+    var grid = this.layer_manager.get_layer('grid');
+    var ctx = grid.getContext('2d');
+    ctx.clearRect(0, 0, grid.cCanvas.data.width, grid.cCanvas.data.height);
+    this.cGrid.draw(grid.cCanvas.data,0,0,this.cCanvas.data.width, this.cCanvas.data.height);
+    this.redraw(true);
+};
 /**
  * 
  * @returns {Csurface}

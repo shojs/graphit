@@ -150,7 +150,7 @@ Cmouse_tracker.prototype.dom_build = function() {
 	$g.append('<div class="hold-var"><h6>y:&nbsp;</h6><span class="var-y">' + this.y
 			+ '</span></div>');
 	r.append($g);
-	r.dialog({width: 150, height: 150});
+	r.dialog({});
 	this.rootElm = r;
 	return this;
 };

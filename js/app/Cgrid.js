@@ -65,7 +65,7 @@ Cgrid.prototype.dom_build = function() {
 	}
     }
     r.append(g);
-    r.dialog({width: 300, height: 250, resizable: false});
+    r.dialog({ resizable: false});
     this.rootElm = r;
     return this;
 };
