@@ -1,24 +1,12 @@
 var CTOOL_brushes = {
     circle : {
 	update : function(obj) {
-
-	    //var size = this.parameters.size.value;
-	    // this.cCanvas = new Ccanvas(size*2, size*2);
 	    var color = this.parent.fg_color.color.clone();
 	    var tool = this.parent.selected;
 	    if (tool && 'opacity' in tool.parameters) {
 		color.a = tool.parameters.opacity.value;
 	    }
-	   // console.log('tool', tool);
-//	    if (0 &&tool && tool.compositeOperation) {
-//		//this.cCanvas.clear(new Ccolor(0,0,0,1));
-//		this.cCanvas.ctx.globalCompositeOperation = tool.compositeOperation;
-//	    } else {
-//		this.cCanvas.ctx.globalCompositeOperation = Ecomposite_operation['source-over'];
-//	    }
 	    var dsize = this.cCanvas.data.width / 2;
-
-	    console.log(this.cCanvas.width, dsize);
 	    helper_draw_circle(this.cCanvas, dsize, dsize, dsize,
 		    color.to_rgba());
 	},
@@ -39,7 +27,6 @@ var Ecomposite_operation = {
 	'destination-out': 'destination-out',
 	'destination-atop': 'destination-atop',
 	'darker': 'darker',
-
 };
 /**
  * 

@@ -40,7 +40,6 @@ Ctoolbox.prototype.init = function() {
 	this.rootElm = null;
 	this.load(this.olist);
 	this.dom_build();
-	this.select_tool(this.selected);
 };
 
 /**
@@ -58,11 +57,14 @@ Ctoolbox.prototype.load = function(olist) {
 		olist[label].parent = this;
 		var t = new Ctool(olist[label]);
 		t.update();
-		this.tools.push(t);
-		if (label == 'pen')
-			selected = t;
+		this.tools.push(t);	    console.log('label', label);
+		if (label == 'pen') {
+	
+		    selected = t;
+		}
 	}
 	this.selected = selected;
+	this.select_tool(this.selected);
 };
 
 /**

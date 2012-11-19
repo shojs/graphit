@@ -149,33 +149,7 @@ Ctool.prototype.dom_build_tool = function() {
     return $(img.dom_get());
 };
 
-function widget_select_ex($root, param) {
-    var that = this;
-    // console.log('param', param);
-    var $r = $(document.createElement('div'));
-    $r.addClass('selectex parameter');
-    $r.append('<h6>' + param.label + '</h6>');
-    var $s = $(document.createElement('select'));
-    for (c in param.choices) {
-	// console.log('choice', param.choices[c]);
-	var $o = $(document.createElement('option'));
-	$o.attr('value', c);
-	if (param.value == c) {
-	    $o.attr('selected', 'selected');
-	}
-	$o.append(document.createTextNode(param.choices[c]));
-	$s.append($o);
-    }
-    $s.change(function() {
-	if ('callback_change' in param
-		&& (typeof param.callback_change == 'function')) {
-	    param.callback_change.call(param, this.value);
-	}
 
-    });
-    $r.append($s);
-    $root.append($r);
-}
 /**
  * 
  * @returns

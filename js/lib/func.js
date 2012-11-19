@@ -45,4 +45,16 @@ function helper_format_number_length(num, length) {
 function isCanvasSupported(){
     var elem = document.createElement('canvas');
     return !!(elem.getContext && elem.getContext('2d'));
-  }
+ }
+
+/**
+ * 
+ * @param obj
+ * @returns
+ */
+function getObjectClass(obj){
+	   if (typeof obj != "object" || obj === null) return false;
+	   console.log(obj.constructor.toString());
+	   var pat = /^function (\w+)\(/;
+	   return pat.exec(obj.constructor.toString())[1];
+};

@@ -9,10 +9,12 @@ Cgrid.prototype.init = function() {
     console.log('Init grid');
     this.color = this.color || new Ccolor(0,0,0,1);
     this.isVisible = this.isVisible || true;
+    // TODO: Parameters are not auto loaded
     this.parameters = {
-	    width: new Cparameter_numeric({parent: this, label: 'width', min: 1, max: 100, def: 10, step:1}),
-	    height: new Cparameter_numeric({parent: this, label: 'height', min: 1, max: 100, def: 10, step:1}),
+	    width: new Cparameter_numeric({parent: this, label: 'width', min: 1, max: 100, def: 100, step:1}),
+	    height: new Cparameter_numeric({parent: this, label: 'height', min: 1, max: 100, def: 100, step:1}),
 	    lineWidth: new Cparameter_numeric({parent: this, label: 'lineWidth', min: 1, max: 10, def: 1, step:1}),
+	    visibility: new Cparameter_checkbox({type: Eparameter_type.checkbox, parent: this, label: 'visibility', def: true}),
     };
     this.label = 'grid';
     this.rootElm = null;
@@ -53,11 +55,14 @@ Cgrid.prototype.dom_build = function() {
 	if ('callback_slide' in this) {
 	    param.callback_slide = this.callback_slide;
 	}
+	console.log('Param type: ', param.type);
 	if (param.type == undefined || param.type == Eparameter_type.numeric) {
 	    widget_slider_ex(param, g, param);
 	} else if (param.type == Eparameter_type.select) {
-	    // console.log('Build select parameter');
 	    widget_select_ex(g, param);
+
+	} else if (param.type == Eparameter_type.checkbox) {
+	    widget_checkbox_ex(g, param);
 
 	} else {
 	    console.error('Unknow parameter type', param.type);

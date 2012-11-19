@@ -14,7 +14,6 @@ function Csurface(id, width, height) {
     this.cCanvas = new Ccanvas(this.width, this.height);
     this.cTools = null;
     this.cGraph = null;
-    this.showGrid = true;
     var that = this;
 
     this.need_redraw = false;
@@ -48,7 +47,8 @@ function Csurface(id, width, height) {
 	},
 	callback_change: function(value) {
 	    this.set(value);
-	    that.update_grid.call(this);
+	    console.log('Change');
+	    that.update_grid(this);
 	}
     });
     this.update_grid();
@@ -70,7 +70,9 @@ Csurface.prototype.update_grid = function() {
     var grid = this.layer_manager.get_layer('grid');
     var ctx = grid.getContext('2d');
     ctx.clearRect(0, 0, grid.cCanvas.data.width, grid.cCanvas.data.height);
-    this.cGrid.draw(grid.cCanvas.data,0,0,this.cCanvas.data.width, this.cCanvas.data.height);
+    if (this.cGrid.get_parameter('visibility')) {
+	this.cGrid.draw(grid.cCanvas.data,0,0,this.cCanvas.data.width, this.cCanvas.data.height);
+    }
     this.redraw(true);
 };
 /**
@@ -138,11 +140,10 @@ Csurface.prototype.undo = function() {
  * @param force
  * @returns {Boolean}
  */
-Csurface.prototype.redraw = function(force) {
+Csurface.prototype.redraw = function(force, dcanvas) {
     if (!this.need_redraw && !force) {
 	return false;
     }
-    // var tool = this.cTools.selected;
     var canvas = this.cCanvas.data;
     var tctx = canvas.getContext('2d');
     tctx.save();
@@ -172,8 +173,11 @@ Csurface.prototype.redraw = function(force) {
 	tctx.drawImage(this.layer_manager.special_layers.stack_up.cCanvas.data,
 		0, 0, canvas.width, canvas.height);
     }
-    tctx.drawImage(this.layer_manager.special_layers.grid.cCanvas.data,
+    // Drawing grid
+    if ('cGrid' in this && this.cGrid.isVisible) {
+	tctx.drawImage(this.layer_manager.special_layers.grid.cCanvas.data,
 		0, 0, canvas.width, canvas.height);
+    }
     tctx.restore();
     this.need_redraw = false;
     return true;

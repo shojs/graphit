@@ -1,14 +1,3 @@
-/**
- * 
- * @param obj
- * @returns
- */
-function getObjectClass(obj){
-	   if (typeof obj != "object" || obj === null) return false;
-	   console.log(obj.constructor.toString());
-	   var pat = /^function (\w+)\(/;
-	   return pat.exec(obj.constructor.toString())[1];
-};
 
 /**
  * 
@@ -16,6 +5,7 @@ function getObjectClass(obj){
 var Eparameter_type = {
 	numeric: 1,
 	select: 2,
+	checkbox: 3,
 };
 /******************************************************************************
  * 
@@ -27,7 +17,7 @@ function Cparameter(options) {
     	    console.warn('Constructor call without options parameter'); 
     	    return null; 
     	}
-	this.autosave = true;
+	this.bAutosave = true;
 	this.parent = options.parent;
 	this.type = options.type;
 	if (!options.parent) { 
@@ -45,7 +35,7 @@ function Cparameter(options) {
 }
 
 Cparameter.prototype._init = function() {
-    	if (this.autosave) {
+    	if (this.bAutosave) {
     	    var label = this.make_registry_key();
     	    var v = cRegistry.get(label);
     	    if (v != undefined) {
@@ -61,7 +51,7 @@ Cparameter.prototype.set = function(value) {
     	    return false;
     	}
 	this._set(value);
-	if (this.autosave) {
+	if (this.bAutosave) {
 	    var label = this.make_registry_key();
 	    //console.log('Saving key', label, this.value)
 	    cRegistry.set(label, this.value);
@@ -77,6 +67,10 @@ Cparameter.prototype.get = function(k) {
 	if (!(k in this)) {
 		console.error('Invalid key', k);
 		return null;
+	}
+	if (this.bAutosave) {
+	    var label = this.make_registry_key();
+	    return this._get(cRegistry.get(label));
 	}
 	return this._get(this[k]);
 };
@@ -99,11 +93,7 @@ Cparameter.prototype.make_registry_key = function() {
  * @returns
  */
 function Cparameter_numeric(options) {
-    if (options.type != undefined && options.type != Eparameter_type.numeric) {
-	console.error('Building Cparameter_numeric with bad options');
-	return null;
-    }
-    options.type = Eparameter_type.numeric;
+    options.type = Eparameter_type.numeric
     Cparameter.call(this, options);
     return this;
 }
@@ -132,13 +122,6 @@ Cparameter.prototype._get = function(v) {
 
 Cparameter.prototype._set = function(v) {
 	v = parseFloat(v);
-	if (v == this.value) {
-		return this;
-	}
-
-	if ('callback_onchange' in this && typeof(this.callback_onchange) == 'function') {
-		this.callback_onchange.call(this, v);
-	}
 	this.value = v;
 };
 /**
@@ -147,10 +130,7 @@ Cparameter.prototype._set = function(v) {
  * @returns
  */
 function Cparameter_select(options) {
-    if (options.type != Eparameter_type.select) {
-	console.error('Building Cparameter_select with bad options');
-	return null;
-    }
+    options.type = Eparameter_type.select;
     Cparameter.call(this, options);
     
 }
@@ -171,4 +151,39 @@ Cparameter_select.prototype.init = function(options) {
 
 Cparameter_select.prototype._set = function(value) {
     this.value = value;
+};
+
+/**
+ * 
+ * @param options
+ * @returns
+ */
+function Cparameter_checkbox(options) {
+    options.type = Eparameter_type.checkbox;
+    Cparameter.call(this, options);
+}
+
+Cparameter_checkbox.prototype = Object.create(Cparameter.prototype);
+Cparameter_checkbox.prototype.constructor = new Cparameter();
+
+Cparameter_checkbox.prototype.init = function(options) {
+    //console.log('Init select');
+    this.choices = {};
+    this.def = options.def;
+    this.label = options.label;
+};
+
+Cparameter_checkbox.prototype._get = function(value) {
+    if (value == 'true') this.value = true;
+    else if (value == 'false') this.value = false;
+    else if (value) this.value = true;
+    else this.value = false;
+};
+
+Cparameter_checkbox.prototype._set = function(v) {
+	if (v) {
+	    this.value = true;
+	} else {
+	    this.value = false;
+	}
 };

@@ -15,6 +15,8 @@ Cregistry.prototype.set = function(k, v) {
 };
 
 Cregistry.prototype.get = function(k) {
+    console.log('Get key', k);
+    	console.log('Registry get(' + k + ')');
 	return this.store[k];
 };
 
