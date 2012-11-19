@@ -65,13 +65,21 @@ Clayer.prototype.dom_get = function(index) {
     return this.rootElm;
 },
 
-Clayer.prototype.set_visible = function(b) {
+Clayer.prototype.set_visibility = function(b) {
     if (b) {
-	this.visible = true;
+	this.bIsVisible = true;
     } else {
-	this.visible = false;
+	this.bIsVisible = false;
     }
 };
+
+Clayer.prototype.toggle_visibility = function() {
+    if (this.bIsVisible == true) {
+	return this.set_visibility(false);
+    } else {
+	return this.set_visibility(true);
+    }
+    };
 
 /**
  * 
@@ -92,6 +100,7 @@ Clayer.prototype.dom_build = function() {
 	width : '16px',
 	height : '16px',
 	callback_click : function(obj) {
+	    that.toggle_visibility();
 	    console.log("Clicked: ", obj);
 	}
     });

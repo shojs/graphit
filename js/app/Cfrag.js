@@ -18,14 +18,14 @@ Cfrag.prototype.getContext = function(t) {
 Cfrag.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
 		ty) {
     	var dcanvas = this.cCanvas.data;
-    	if (sx < 0 || sx > dcanvas.width) {
-    	    console.error('sx out of bound', sx);
-    	    cMath.clamp(0, sx, dcanvas.width);
-    	}
-    	if (sy < 0 || sy > dcanvas.height) {
-    	    console.error('sy out of bound', sy);
-    	    cMath.clamp(0, sy, dcanvas.height);
-    	}
+//    	if (sx < 0 || sx > dcanvas.width) {
+//    	    console.error('sx out of bound', sx, dcanvas);
+//    	    cMath.clamp(0, sx, dcanvas.width-1);
+//    	}
+//    	if (sy < 0 || sy > dcanvas.height) {
+//    	    console.error('sy out of bound', sy,dcanvas);
+//    	    cMath.clamp(0, sy, dcanvas.height-1);
+//    	}
     	var dctx = canvas.getContext('2d');
     	try {
 	this.cCanvas.ctx.drawImage(canvas, 

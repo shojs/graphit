@@ -8,7 +8,7 @@ Cgrid.prototype = Object.create(Cobject.prototype);
 Cgrid.prototype.constructor = new Cobject();
 
 Cgrid.prototype.init = function() {
-    console.log('Init grid');
+    //console.log('Init grid');
     this.color = this.color || new Ccolor(0,0,0,1);
     this.isVisible = this.isVisible || true;
     // TODO: Parameters are not auto loaded
@@ -62,7 +62,7 @@ Cgrid.prototype.dom_build = function() {
 	if ('callback_slide' in this) {
 	    param.callback_slide = this.callback_slide;
 	}
-	console.log('Param type: ', param.type);
+	//console.log('Param type: ', param.type);
 	if (param.type == undefined || param.type == Eparameter_type.numeric) {
 	    widget_slider_ex(param, g, param);
 	} else if (param.type == Eparameter_type.select) {

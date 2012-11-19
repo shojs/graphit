@@ -8,11 +8,16 @@ function Clayer_manager(parent) {
     this.special_layers = new Object();
     this.selected = null;
     this.rootElm = null;
+    this.dom_build();
+    $(document).bind('shojs-update', function(e, d) {
+	console.log('Receiving update', e, d);
+	d.caller.redraw(true);
+    });
     this.add(new Clayer(this, '_stack_up'));
     this.add(new Clayer(this, '_stack_down'));
     var g = this.add(new Clayer(this, '_grid'));    
 //    this.parent.cGrid.draw(g.cCanvas.data, 0, 0, g.width, g.height);
-    this.dom_build();
+
   
     this.layerstack_up = null;
     this.layerstack_bottom = null;
@@ -61,6 +66,7 @@ Clayer_manager.prototype.add = function(layer) {
 	group.prepend($lElm);
     }
     //this.select(layer);
+    $(document).trigger('shojs-update', { who: 'layer-manager', what: 'add-layer', caller: this});
     return layer;
 };
 

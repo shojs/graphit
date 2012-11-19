@@ -12,7 +12,7 @@ function Ctool(options) {
     this.optElm = null;
     this.label = null;
     this.className = 'Ctool';
-    this.changeCursor = false;
+    this.changeCursor = true;
     Cobject.call(this, options, [ 'parent', 'brush', 'label', '_pregraph',
 	    '_graph', '_postgraph', '_update', 'compositeOperation' ]);
     return this;
@@ -66,6 +66,7 @@ Ctool.prototype.update = function(elapsed) {
 	console.error("All tools need << size >> parameter");
 	return false;
     }
+    var dsize = size / 2;
     this.cCanvas = new Ccanvas(size, size);
     this.ctx = this.cCanvas.getContext('2d');
     this.brush.update.call(this, this);
@@ -74,7 +75,7 @@ Ctool.prototype.update = function(elapsed) {
 	this._update.call(this);
 	if (this.changeCursor) {
 	    this.parent.parent.rootElm.css('cursor', "url('"
-		    + this.cCanvas.data.toDataURL() + "'), pointer");
+		    + this.cCanvas.data.toDataURL() + "') "+dsize+" "+dsize+", pointer");
 	}
     }
     this.need_update = false;
