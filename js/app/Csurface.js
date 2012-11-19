@@ -14,6 +14,8 @@ function Csurface(id, width, height) {
     this.cCanvas = new Ccanvas(this.width, this.height);
     this.cTools = null;
     this.cGraph = null;
+    this.label = 'Surface';
+    this.className = 'Csurface'
     var that = this;
 
     this.need_redraw = false;
@@ -43,12 +45,12 @@ function Csurface(id, width, height) {
 	callback_slide: function(value) {
 	    this.set(value);
 	    console.log('slide');
-	    that.update_grid(this);
+	    that.update_grid.call(that, this);
 	},
 	callback_change: function(value) {
 	    this.set(value);
 	    console.log('Change');
-	    that.update_grid(this);
+	    that.update_grid.call(that, this);
 	}
     });
     this.update_grid();

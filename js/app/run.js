@@ -18,34 +18,10 @@ $(function() {
 var cRegistry = new Cregistry();
 
 function _ok_to_build() {
-//    var $c = $('#canvas-test');
-//    console.log($c.attr('width'));
-//   $c.surface({
-//	width : $c.attr('width'),
-//	height : $c.attr('height'),
-//	showTools: true,
-//    });
-//   var s = $c.surface();
-//   $('.canvas2surface').button().click(function() {
-//	console.log('click', this);
-//	$(':shojs-surface').surface('close');
-//	var selector = $(this).attr('selector');
-//	console.log('Selector: ' + selector);
-//	$(selector).dialog('open');
-//    });
-//    $c.surface('add_layer', 'layer 01');
-//    $c.surface('add_layer', 'layer 02');
-//    $c.surface('show_tools');
-//    try {
-//	s.surface('log', 'salut');
-//    } catch (e) {
-//	console.error(e, s);
-//    }
     var cSurface = new Csurface('surface-01', 640, 480);
     var cToolbox = new Ctoolbox(CTOOL_tools, {
 	parent : cSurface
     });
-    // cSurface.cTools = cToolbox;
     var cGrapher = new Cgrapher(cToolbox, cSurface);
     
     $('#menu-top').menu({});
@@ -53,8 +29,7 @@ function _ok_to_build() {
     $('#main-content').append(cToolbox.dom_get());
 
     $('#main-content').append(cSurface.layer_manager.dom_get());
-    // var win = WM.dom_get();
-    // $('#main-content').append(win);
+
     $('#main-content').append(cSurface.dom_get());
 
     $('#button-save').click(function() {
@@ -90,6 +65,7 @@ function _ok_to_build() {
     $(document).tooltip({
 	tooltipClass : 'tootltip-small'
     });
+    isFileSupported();
 }
 $(document)
 	.ready(

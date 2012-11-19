@@ -125,9 +125,11 @@ Clayer.prototype.dom_build = function() {
     canvas.height = height;
     var $c = $(canvas);
     $td.click(function() {
-	$(this).parents('.group-layers').children('li.layer').removeClass(
+	var e = $(this).parents('.group-layers');
+	console.log(e);
+	e.find('.layer').removeClass(
 		'selected');
-	$(this).addClass('selected');
+	$(this).parents('.layer').addClass('selected');
 	that.parent.select(that);
     });
     $td.append($c);

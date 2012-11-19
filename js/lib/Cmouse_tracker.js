@@ -95,8 +95,8 @@ Cmouse_tracker.prototype.reset = function() {
  * @returns {Cmouse_tracker}
  */
 Cmouse_tracker.prototype.move = function(x, y) {
-	x = cMath.clamp(x, this.minmax.minx, this.minmax.maxx);
-	y = cMath.clamp(y, this.minmax.miny, this.minmax.maxy);
+	x = cMath.clamp(Math.round(x), this.minmax.minx, this.minmax.maxx);
+	y = cMath.clamp(Math.round(y), this.minmax.miny, this.minmax.maxy);
 //	if (this.x == x && this.y == y) {
 //		console.log('Discarding points');
 //		return this;
@@ -144,13 +144,13 @@ Cmouse_tracker.prototype.dom_build = function() {
 	r.addClass('mousetracker');
 	var group = document.createElement('div');
 	var $g = $(group);
-	$g.addClass('not-draggable');
+	$g.addClass('group not-draggable');
 	$g.append('<div class="hold-var"><h6>x:&nbsp;</h6><span class="var-x">' + this.x
 			+ '</span></div>');
 	$g.append('<div class="hold-var"><h6>y:&nbsp;</h6><span class="var-y">' + this.y
 			+ '</span></div>');
 	r.append($g);
-	r.dialog({});
+	r.dialog({width: 150, height: 150});
 	this.rootElm = r;
 	return this;
 };

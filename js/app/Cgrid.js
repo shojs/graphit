@@ -1,5 +1,7 @@
 function Cgrid(options) {
     Cobject.call(this, options, ['parent', 'callback_slide', 'callback_change']);
+    this.className = 'Cgrid';
+    this.label = 'grid';
 }
 
 Cgrid.prototype = Object.create(Cobject.prototype);
@@ -10,12 +12,17 @@ Cgrid.prototype.init = function() {
     this.color = this.color || new Ccolor(0,0,0,1);
     this.isVisible = this.isVisible || true;
     // TODO: Parameters are not auto loaded
+    // TODO: Too tricky ...
+    var parent = { className: this.className, label: this.label};
     this.parameters = {
-	    width: new Cparameter_numeric({parent: this, label: 'width', min: 1, max: 100, def: 100, step:1}),
-	    height: new Cparameter_numeric({parent: this, label: 'height', min: 1, max: 100, def: 100, step:1}),
-	    lineWidth: new Cparameter_numeric({parent: this, label: 'lineWidth', min: 1, max: 10, def: 1, step:1}),
-	    visibility: new Cparameter_checkbox({type: Eparameter_type.checkbox, parent: this, label: 'visibility', def: true}),
+	    width: new Cparameter_numeric({parent: parent, label: 'width', min: 1, max: 100, def: 100, step:1}),
+	    height: new Cparameter_numeric({parent: parent, label: 'height', min: 1, max: 100, def: 100, step:1}),
+	    lineWidth: new Cparameter_numeric({parent: parent, label: 'lineWidth', min: 1, max: 10, def: 1, step:1}),
+	    visibility: new Cparameter_checkbox({parent: parent, type: Eparameter_type.checkbox, parent: this, label: 'visibility', def: true}),
     };
+    for (p in this.parameters) {
+	this.parameters[p]._init();
+    }
     this.label = 'grid';
     this.rootElm = null;
 };
@@ -70,7 +77,7 @@ Cgrid.prototype.dom_build = function() {
 	}
     }
     r.append(g);
-    r.dialog({ resizable: false});
+    r.dialog({ resizable: false, width: 250});
     this.rootElm = r;
     return this;
 };

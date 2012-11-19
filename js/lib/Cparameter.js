@@ -80,10 +80,12 @@ Cparameter.prototype._get = function(value) {
 };
 
 Cparameter.prototype.make_registry_key = function() {
-	var classname = 'global';
-	if ('className' in this.parent) { classname = this.parent.className; }
-	var label = classname + '-' + this.parent.label + '-' + this.label;
-	return label.toLowerCase();
+    	console.log('MAKE', this.parent);
+	var classname = this.parent.className || 'global';
+	var label = this.parent.label || 'test';
+	var key = classname + '-' + label + '-' + this.label;
+	console.log('key: ', key);
+	return key.toLowerCase();
 };
 
 

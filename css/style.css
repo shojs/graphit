@@ -71,12 +71,11 @@ body {
 
 .group {
 	margin: 0.1em auto 0.1em auto;
-	padding: 0.5em 0;
+	padding: 0.1em 0;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
 	text-align: center;
-	line-height: 1.5em;
 	color: #444444;
 	background-color: #ddd;
 	background-image: linear-gradient(#E5E5E5, #CFCFCF);
@@ -96,9 +95,18 @@ body {
 
 .hold-var {
 	font-size: x-small;
+
+	   margin: auto;
+	   margin: 0 0.1em;
+/* 	       -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px; */
+    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7);
+	   
 }
 .hold-var h6 {
 	display: inline-block;
+
 }
 .toolbox {
 	width: 200px;
@@ -133,7 +141,8 @@ body {
 }
 
 .group-layers>.selected {
-	border-width: 0 1px 0 1px;
+	background-color: #404040;
+	color: #EEE;
 }
 
 .layer-manager {
@@ -181,9 +190,9 @@ body {
 	margin: 0;
     padding: 0;
     width: 50px;
-    word-wrap: break-word;
     font-size: x-small;
     display: inline-block;
+    overflow: hidden;
 
 }
 
