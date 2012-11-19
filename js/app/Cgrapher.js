@@ -96,7 +96,11 @@ Cgrapher.prototype.start = function() {
 	var fGraph = function() {
 		that._graph();
 	};
-	if (!this.cTools) { return false; };
+	if (!this.cTools || !this.cTools.selected) { 
+	    $(document).trigger('shojs-error', ['no-tool-selectionned']);
+	    console.error('No tool selectionned!');
+	    return false; 
+	};
 	if ('_pregraph' in this.cTools.selected) {
 	    this.cTools.selected._pregraph(this);
 	}

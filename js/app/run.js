@@ -23,7 +23,23 @@ function _ok_to_build() {
 	parent : cSurface
     });
     var cGrapher = new Cgrapher(cToolbox, cSurface);
-    
+    $(document).bind('shojs-error', function(e, d) {
+	if (d != 'no-tool-selectionned') { return false; }
+	var t = $('<div title="Select tool first!">');
+	t.append('<p>You must select a tool before drawing onto surface</p>');
+	t.dialog({
+	    modal: true,
+	    resizable: false,
+	    buttons: {
+		Ok: function() {
+		    $(this).dialog('close');
+		}
+	    },
+	});
+	//alert('You must first select a tool in toolbar');
+    });
+    //var cMetaSurface = new Cmetasurface();
+    //cMetaSurface.attach_surface(cSurface);
     $('#menu-top').menu({});
 
     $('#main-content').append(cToolbox.dom_get());

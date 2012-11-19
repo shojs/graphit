@@ -10,7 +10,7 @@ function Clayer_manager(parent) {
     this.rootElm = null;
     this.dom_build();
     $(document).bind('shojs-update', function(e, d) {
-	console.log('Receiving update', e, d);
+	//console.log('Receiving update', e, d);
 	d.caller.redraw(true);
     });
     this.add(new Clayer(this, '_stack_up'));
@@ -173,10 +173,10 @@ Clayer_manager.prototype.dom_build = function(parent, force) {
 	src : 'img/16x16_create_file.png',
 	width : 16,
 	height : 16,
-	title : 'Visibility: hide/show',
+	title : 'Create new layer',
 	callback_click : function(obj) {
 	    that.add(new Clayer(that));
-	    that.parent.redraw();
+	    //that.parent.redraw();
 	}
     });
     $(cmd).append(b_add.dom_get());

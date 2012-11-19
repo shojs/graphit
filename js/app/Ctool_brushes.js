@@ -163,9 +163,11 @@ var CTOOL_tools = {
 	},
 	compositeOperation: Ecomposite_operation.xor,
 	brush : CTOOL_brushes.circle,
-	_update : function() { },
+	_update : function() { 
+	   //
+	},
 	_pregraph: function(x, y, width, height) {
-	    console.log('pregraph');
+	    //console.log('pregraph');
 	    var c = this.parent.parent.layer_manager.special_layers.prefrag.cCanvas.data;
 	    var ctx = c.getContext('2d');
 	   
