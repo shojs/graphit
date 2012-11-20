@@ -2,7 +2,7 @@
 <html>
 <head>
 <!-- Google Analytics -->
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-36433517-1']);
@@ -14,91 +14,74 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
-</script> -->
-
-
-<meta http-equiv="cache-control" content="no-cache" />
-
+</script>
+<!--  Prevent caching -->
+<!-- <meta http-equiv="cache-control" content="no-cache" /> -->
+<!-- Encoding -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<!--  Favicon -->
 <link rel="icon" href="img/favicon.png" type="image/png" />
 <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
-<!-- 
-        JQUERY eggplant mint-choc excite-bike flick humanity ui-darkness smoothness
-     -->
-     <script type="text/javascript" src="js/lib/Clocal_storage.js"></script>
-     <script type="text/javascript" src="js/app/Cjquery_theme.js"></script>
-     <script type="text/javascript">
-     new Cjquery_theme_injector();
-     var shojs_to_inject = [
-     { n: 'Cparameter_widget', t: 'js', p: 'js/lib' , r: []},
-     { n: 'Cparameter', t: 'js', p: 'js/lib' , r: ['Cparameter_widget']},
-     { n: 'Cobject', t: 'js', p: 'js/lib' , r: ['Cparameter_parameter']},
-     ];
-     new Cscript_injector(shojs_to_inject);
-     </script>
 
-	
-<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
-<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
-
-<!-- 
-        JQUERY CSS
-     -->
-<link rel="Stylesheet" type="text/css"
-	href="plugin/jpicker/css/jPicker-1.1.6.css" />
-<script type="text/javascript" src="plugin/jpicker/jpicker-1.1.6.js">
-    
+<!--  Loading our scripts -->
+<script type="text/javascript" src="js/lib/Clocal_storage.js"></script>
+<script type="text/javascript" src="js/app/Cjquery_theme.js"></script>
+<script type="text/javascript">
+new Cjquery_theme_injector();
+var shojs_to_inject = [
+     /* LIB */
+     { n: 'Cparameter_widget', t: 'js', p: 'js/lib' },
+     { n: 'Cparameter', t: 'js', p: 'js/lib'},
+     { n: 'Cobject', t: 'js', p: 'js/lib'},
+     { n: 'Cmath', t: 'js', p: 'js/lib'},
+     { n: 'func', t: 'js', p: 'js/lib'},
+     { n: 'global', t: 'js', p: 'js/app'},   
+     { n: 'Cimage', t: 'js', p: 'js/lib'},   
+     { n: 'Ccolor', t: 'js', p: 'js/lib'},   
+     { n: 'Ccanvas', t: 'js', p: 'js/lib'},       
+     { n: 'Cregistry', t: 'js', p: 'js/lib'},   
+     { n: 'Cmouse_tracker', t: 'js', p: 'js/lib'}, 
+ 
+     /* APP */
+     { n: 'Cwidget', t: 'js', p: 'js/app'},   
+     { n: 'Ctool_brushes', t: 'js', p: 'js/app'},   
+     { n: 'Cbrush', t: 'js', p: 'js/app'},   
+     { n: 'Ctool', t: 'js', p: 'js/app'},   
+     { n: 'Clicense', t: 'js', p: 'js/app'},   
+     { n: 'Cgrapher', t: 'js', p: 'js/app'},   
+     { n: 'helper_draw', t: 'js', p: 'js/app'},   
+     { n: 'Cfrag', t: 'js', p: 'js/app'},   
+     { n: 'Clayer', t: 'js', p: 'js/app'},   
+     { n: 'Clayer_manager', t: 'js', p: 'js/app'},   
+     { n: 'Csurface', t: 'js', p: 'js/app'},   
+     { n: 'Cmetasurface', t: 'js', p: 'js/app'},   
+     { n: 'Cgrid', t: 'js', p: 'js/app'},   
+     { n: 'Ctoolbox_colorpicker', t: 'js', p: 'js/app'},   
+     { n: 'Ctoolbox', t: 'js', p: 'js/app'},   
+     
+     /* OUR CSS */
+     { n: 'style', t: 'css', p: 'css'}, 
+];
+new Cscript_injector(shojs_to_inject);
 </script>
 
+<!-- 
+    JQUERY
+ -->
+<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>   
 <!--
         JQUERY PLUGIN
     -->
 <!-- ColorPicker -->
 <link rel="stylesheet" media="screen" type="text/css"
-	href="plugin/colorpicker/css/colorpicker.css" />
+    href="plugin/colorpicker/css/colorpicker.css" />
 <script type="text/javascript"
-	src="plugin/colorpicker/js/colorpicker.js"></script>
+    src="plugin/colorpicker/js/colorpicker.js"></script>
 <script type="text/javascript" src="plugin/jquery.hotkeys-0.7.9.min.js"></script>
 <script type="text/javascript" src="plugin/jquery.editinplace.js"></script>
 <link rel="Stylesheet" type="text/css" href="plugin/FeedEk/FeedEk.css" />
 <script type="text/javascript" src="plugin/FeedEk/FeedEk.js"></script>
-<!-- 
-        CSS
-     -->
-<link rel="stylesheet" href="css/style.css" type="text/css" />
-
-<!--
-        APP
--->
-<!-- <script type="text/javascript" src="js/lib/Cparameter_widget.js"></script>
-<script type="text/javascript" src="js/lib/Cparameter.js"></script> 
-<script type="text/javascript" src="js/lib/Cobject.js"></script> -->
-<script type="text/javascript" src="js/lib/Cmath.js"></script>
-<script type="text/javascript" src="js/lib/func.js"></script>
-<script type="text/javascript" src="js/app/global.js"></script>
-<script type="text/javascript" src="js/lib/Cimage.js"></script>
-<script type="text/javascript" src="js/lib/Ccolor.js"></script>
-
-<script type="text/javascript" src="js/lib/Ccanvas.js"></script>
-<script type="text/javascript" src="js/lib/Cregistry.js"></script>
-<script type="text/javascript" src="js/lib/Cmouse_tracker.js"></script>
-
-<script type="text/javascript" src="js/app/Cwidget.js"></script>
-
-<script type="text/javascript" src="js/app/Ctool_brushes.js"></script>
-<script type="text/javascript" src="js/app/Cbrush.js"></script>
-<script type="text/javascript" src="js/app/Ctool.js"></script>
-<script type="text/javascript" src="js/app/Clicense.js"></script>
-<script type="text/javascript" src="js/app/Cgrapher.js"></script>
-<script type="text/javascript" src="js/app/helper_draw.js"></script>
-<script type="text/javascript" src="js/app/Cfrag.js"></script>
-<script type="text/javascript" src="js/app/Clayer.js"></script>
-<script type="text/javascript" src="js/app/Clayer_manager.js"></script>
-<script type="text/javascript" src="js/app/Csurface.js"></script>
-<script type="text/javascript" src="js/app/Cmetasurface.js"></script>
-<script type="text/javascript" src="js/app/Cgrid.js"></script>
-<script type="text/javascript" src="js/app/Ctoolbox_colorpicker.js"></script>
-<script type="text/javascript" src="js/app/Ctoolbox.js"></script>
 
 
 <script type="text/javascript" src="js/app/run.js"></script>
@@ -106,16 +89,17 @@
 <title>GraphIt: Javascript online drawing</title>
 </head>
 <body>
+    
 	<div id="main-content"></div>
 	<div class="shojs-menu-dialog" title="Menu">
 		<div class="shojs-menu" title="Menu">
-		  <div>
-			<ul id="shojs-menu-top">
-				<li><a href="#" id="button-select-by-color">(test) select
-						black color</a></li>
-				<li><a href="#" id="button-save">save</a></li>
-				<li><a href="#" id="button-about">about</a></li>
-			</ul>
+			<div>
+				<ul id="shojs-menu-top">
+					<li><a href="#" id="button-select-by-color">(test) select
+							black color</a></li>
+					<li><a href="#" id="button-save">save</a></li>
+					<li><a href="#" id="button-about">about</a></li>
+				</ul>
 			</div>
 		</div>
 	</div>

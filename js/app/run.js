@@ -9,11 +9,6 @@ var E_LAYERLABEL = new Object({
     prefrag : '_prefrag',
 });
 
-$(function() {
-    $(this).bind("contextmenu", function(e) {
-	e.preventDefault();
-    });
-});
 
 var cRegistry = new Cregistry();
 
@@ -68,28 +63,11 @@ function _ok_to_build() {
 	var dom = about.dom_get();
 	$('body').append(dom);
     });
-//    $('.draggable').draggable({
-//	handle : 'ui-widget-header',
-//	snap : true,
-//	snapMode : 'both',
-//	cancel : '.not-draggable',
-// });
-//    $('#group-feed-placeholder').FeedEk({
-//	FeedUrl : 'http://github.com/shojs/graphit/commits/gh-pages.atom',
-//	MaxCout : 5,
-//	ShowDesc : true,
-//	ShowPubDate : false,
-//    });
-//    $('#rss-feed').dialog({
-//	resizable : true,
-//	width : 600,
-//	height : 300,
-//    });
-//
-//    $(document).tooltip({
-//	tooltipClass : 'tootltip-small'
-//    });
-//    isFileSupported();
+    $(function() {
+	    $(this).bind("contextmenu", function(e) {
+		e.preventDefault();
+	    });
+	});
 }
 $(document)
 	.ready(

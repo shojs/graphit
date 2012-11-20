@@ -75,10 +75,10 @@ Ctool.prototype.update = function(elapsed) {
 	this._update.call(this);
 	var that = this;
 	if (this.changeCursor && this.parent.parent.rootElm) {
-	   console.log(this.cCursor.data.toDataURL(), this);
-	    console.log($(this.parent.parent));
+	   //console.log(this.cCursor.data.toDataURL(), this);
+	    //console.log($(this.parent.parent));
 	    e = this.parent.parent.rootElm.find('.canvas');
-	    console.log("e", e, this.cCursor, this.cCanvas);
+	    //console.log("e", e, this.cCursor, this.cCanvas);
 	    e.css('background-color', 'red');
 	    e.parent().css('cursor', "url('"+ this.cCursor.data.toDataURL() + "') "+dsize+" "+dsize+", auto");
 	}

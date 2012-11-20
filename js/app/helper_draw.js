@@ -29,7 +29,7 @@ var cDraw = {
 	    ctx.lineWidth = options.lineWidth;
 	}
 	if (options.strokeStyle) {
-	    console.log('STROKE');
+	    //console.log('STROKE');
 	    ctx.strokeStyle = options.strokeStyle.clone().set('a', 1).to_rgba();
 	    ctx.stroke();
 	}
