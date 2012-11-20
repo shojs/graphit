@@ -10,9 +10,10 @@ var E_LAYERLABEL = new Object({
 });
 
 
-var cRegistry = new Cregistry();
+var cRegistry;
 
 function _ok_to_build() {
+    cRegistry = new Cregistry();
     var widgetWidth = 250;
     var cSurface = new Csurface('surface-01', 640, 480);
     var cToolbox = new Ctoolbox(CTOOL_tools, {

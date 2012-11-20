@@ -12,34 +12,57 @@ Cjquery_theme_injector.prototype.init = function(name) {
 	this.theme = ntheme;
     } else {
 	this.ls.set(this.key, name);
-    }    
+    }
 };
 
 Cjquery_theme_injector.prototype.inject_script = function(name) {
     var e = document.createElement('link');
     e.setAttribute('rel', 'stylesheet');
-    var src = 'http://code.jquery.com/ui/1.9.1/themes/'+name+'/jquery-ui.css';
+    var src = 'http://code.jquery.com/ui/1.9.1/themes/' + name
+	    + '/jquery-ui.css';
     e.setAttribute('href', src);
     console.log("[Injecting/css]", src);
     document.getElementsByTagName('head')[0].appendChild(e);
 };
 
-
-
+var JQTHEMES = [ 'base', 'black-tie', 'blitzer', 'cupertino' ];
 function Cjquery_theme() {
-    
-} 
+    this.className = 'Cjquery-theme';
+    this.label = 'theme';
+    this.key = 'shojs-jquery-theme';
+    var parent = {
+	className : this.className,
+	label : this.label
+    };
+    this.pTheme = new Cparameter_select({
+	type : Eparameter_type.select,
+	label : 'them',
+	choices : {
+	    base : 'base',
+	    black_tie : 'black-tie',
+	    blitzer : 'blitzer',
+	    cupertino : 'cupertino',
+	},
+	def : 'base'
+    });
+    for (p in this.parameters) {
+	this.parameters[p]._init();
+    }
+}
 
-
+Cjquery_theme.prototype.dom_build = function() {
+    var d = $('<div title="Theme chooser"/>');
+    d.append(this.pTheme.dom_get());
+};
 
 function Cscript_injector(d) {
     this.parse(d);
 }
 
 Cscript_injector.prototype.parse = function(d) {
-    for(var i = 0; i < d.length; i++) {
+    for ( var i = 0; i < d.length; i++) {
 	this.inject(d[i]);
-    }    
+    }
 };
 
 Cscript_injector.prototype.inject = function(h) {
@@ -53,7 +76,7 @@ Cscript_injector.prototype.inject = function(h) {
     if (h.t == 'js') {
 	if (!('defer' in h) || h.defer) {
 	    msg += "[defered]";
-	    e.setAttribute('defer', 'defer');
+	    e.setAttribute('defer', true);
 	}
 	e.setAttribute('type', 'text/javascript');
 	e.setAttribute('src', src);
