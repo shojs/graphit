@@ -40,6 +40,13 @@ function Csurface(id, width, height) {
     this.need_redraw = true;
     this.layer_manager.select(this.layer_manager.layers[0]);
 
+    $(document).bind('shojs-surface-update', function(e, d) {
+	console.log('got update', e, d);
+	if (d == 'grid-option-change') {
+	    that.update_grid();
+	}
+	that.redraw(true);
+    });
     this.cGrid = new Cgrid({
 	parent: this,
 	callback_slide: function(value) {
@@ -53,6 +60,7 @@ function Csurface(id, width, height) {
 	    that.update_grid.call(that, this);
 	}
     });
+
     this.update_grid();
     //this.dom_get();
 }

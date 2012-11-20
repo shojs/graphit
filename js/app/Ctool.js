@@ -177,16 +177,18 @@ Ctool.prototype.dom_build_options = function() {
 	    this.set(value);
 	    this.parent.update();
 	};
-	if (param.type == undefined || param.type == Eparameter_type.numeric) {
-	    widget_slider_ex(param, $r, param);
-	} else if (param.type == Eparameter_type.select) {
-	    // console.log('Build select parameter');
-	    widget_select_ex($r, param);
-
-	} else {
-	    console.error('Unknow parameter type', param.type);
-	    return null;
-	}
+	$r.append(param.dom_get());
+//	if (param.type == undefined || param.type == Eparameter_type.numeric) {
+//	    widget_slider_ex(param, $r, param);
+//	} else if (param.type == Eparameter_type.select) {
+//	    // console.log('Build select parameter');
+//	    //widget_select_ex($r, param);
+//	    $r.append(param.dom_get());
+//
+//	} else {
+//	    console.error('Unknow parameter type', param.type);
+//	    return null;
+//	}
     }
     this.optElm = $r;
     return $r;

@@ -1,6 +1,5 @@
 /*******************************************************************************
  * 
- * @returns
  */
 function Cobject(options, permitted) {
 	this.parent = null;
@@ -32,7 +31,7 @@ Cobject.prototype.parse_options = function(options, permitted) {
 //				console.log('  - injecting ', label);
 				this[label] = options[label];
 			} else {
-				console.warn('Needed property <<', label, '>> ');
+				//console.warn('Needed property <<', label, '>> ');
 			}
 		}
 	}
@@ -50,7 +49,8 @@ Cobject.prototype.getContext = function(type) {
     }
     console.error('Cannot return context for this object... no cCanvas');
     return null;
-}
+};
+
 Cobject.prototype.add_parameter = function(options) {
 	if (!('parent' in options)) {
 		options.parent = this;

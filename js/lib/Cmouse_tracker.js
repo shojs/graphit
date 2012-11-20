@@ -3,6 +3,7 @@ function Cminmax(min, max) {
     this.max = max;
     this.last = null;
 };
+
 Cminmax.prototype.init = function(v) {
     this.min = this.max = this.last = v;
 };
@@ -20,7 +21,7 @@ Cminmax.prototype.cmp = function(v) {
     }
     this.last = v;
     return true;
-}
+};
 
 /*******************************************************************************
  * Object to hold mouse position
@@ -42,11 +43,7 @@ Cmouse_tracker_point.prototype.constructor = new Cvector2d(0,0,0);
  * Tracking mouse movement
  * 
  * @author %AUTHOR
- * @param set_mouse
- * @param c_push
- * @param c_release
- * @param c_track
- * @returns
+ * @param options
  */
 function Cmouse_tracker(options) {
 	Cobject.call(this, options, ['parent', 'callback_move', 'callback_track']);
@@ -165,7 +162,7 @@ Cmouse_tracker.prototype.release = function() {
 
 /**
  * 
- * @returns
+ * @return {Boolean}
  */
 Cmouse_tracker.prototype.is_pushed = function() {
 	return this.pushed;
@@ -173,7 +170,7 @@ Cmouse_tracker.prototype.is_pushed = function() {
 
 /**
  * 
- * @returns {String}
+ * @return {String}
  */
 Cmouse_tracker.prototype.to_s = function() {
 	var str = 'Cmouse_tracker: ' + this.x + ' / ' + this.y;

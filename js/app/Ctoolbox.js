@@ -57,7 +57,7 @@ Ctoolbox.prototype.load = function(olist) {
 		olist[label].parent = this;
 		var t = new Ctool(olist[label]);
 		t.update();
-		this.tools.push(t);	    console.log('label', label);
+		this.tools.push(t);	   
 		if (label == 'pen') {
 	
 		    selected = t;

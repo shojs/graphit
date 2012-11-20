@@ -1,7 +1,7 @@
 function Cgrid(options) {
-    Cobject.call(this, options, ['parent', 'callback_slide', 'callback_change']);
     this.className = 'Cgrid';
     this.label = 'grid';
+    Cobject.call(this, options, ['parent', 'callback_slide', 'callback_change']);
 }
 
 Cgrid.prototype = Object.create(Cobject.prototype);
@@ -13,12 +13,17 @@ Cgrid.prototype.init = function() {
     this.isVisible = this.isVisible || true;
     // TODO: Parameters are not auto loaded
     // TODO: Too tricky ...
+    var that = this;
+    var change = function() {
+	console.log('Change');
+	$(document).trigger('shojs-surface-update', ['grid-option-change']);
+    };
     var parent = { className: this.className, label: this.label};
     this.parameters = {
-	    width: new Cparameter_numeric({parent: parent, label: 'width', min: 1, max: 100, def: 100, step:1}),
-	    height: new Cparameter_numeric({parent: parent, label: 'height', min: 1, max: 100, def: 100, step:1}),
-	    lineWidth: new Cparameter_numeric({parent: parent, label: 'lineWidth', min: 1, max: 10, def: 1, step:1}),
-	    visibility: new Cparameter_checkbox({parent: parent, type: Eparameter_type.checkbox, parent: this, label: 'visibility', def: true}),
+	    width: new Cparameter_numeric({parent: parent, label: 'width', min: 1, max: 100, def: 100, step:1, callback_change: change, callback_slide: change}),
+	    height: new Cparameter_numeric({parent: parent, label: 'height', min: 1, max: 100, def: 100, step:1, callback_change: change, callback_slide: change}),
+	    lineWidth: new Cparameter_numeric({parent: parent, label: 'lineWidth', min: 1, max: 10, def: 1, step:1, callback_change: change, callback_slide: change}),
+	    visibility: new Cparameter_checkbox({parent: parent, type: Eparameter_type.checkbox, label: 'visibility', def: true, callback_change: change}),
     };
     for (p in this.parameters) {
 	this.parameters[p]._init();
@@ -56,25 +61,7 @@ Cgrid.prototype.dom_build = function() {
     g.addClass('group');
     for (label in this.parameters) {
 	var param = this.parameters[label];
-	if ('callback_change' in this) {
-	    param.callback_change = this.callback_change;
-	}
-	if ('callback_slide' in this) {
-	    param.callback_slide = this.callback_slide;
-	}
-	//console.log('Param type: ', param.type);
-	if (param.type == undefined || param.type == Eparameter_type.numeric) {
-	    widget_slider_ex(param, g, param);
-	} else if (param.type == Eparameter_type.select) {
-	    widget_select_ex(g, param);
-
-	} else if (param.type == Eparameter_type.checkbox) {
-	    widget_checkbox_ex(g, param);
-
-	} else {
-	    console.error('Unknow parameter type', param.type);
-	    return null;
-	}
+	r.append(param.dom_get());
     }
     r.append(g);
     r.dialog({ resizable: false, width: 250});

@@ -8,7 +8,6 @@ function Cjquery_theme_injector(name) {
 
 Cjquery_theme_injector.prototype.init = function(name) {
     var ntheme = this.ls.get(this.key);
-    console.log('get', ntheme);
     if (ntheme) {
 	this.name = ntheme;
     } else {

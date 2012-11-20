@@ -66,15 +66,14 @@ Clayer_manager.prototype.add = function(layer) {
 	layer.label = this.layers.length;
 	this.layers.push(layer);
     }
-    //this.selected = layer;
     if (!match && this.rootElm) {
 
 	var group = $(this.rootElm).find('.group-layers');
 	var $lElm = $(layer.dom_get(this.layers.length - 1));
 	group.prepend($lElm);
     }
-    //this.select(layer);
-    $(document).trigger('shojs-update', { who: 'layer-manager', what: 'add-layer', caller: this});
+    $(document).trigger('shojs-update', 
+	    { who: 'layer-manager', what: 'add-layer', caller: this});
     return layer;
 };
 
@@ -164,7 +163,6 @@ Clayer_manager.prototype.move_up = function(id) {
 };
 
 Clayer_manager.prototype.select = function(obj) {
-    console.log('Selecting layer');
     var index = this.exists(obj);
     if (index === undefined || index < 0 || index > this.layers.length) {
 	console.error('Layer index out of range: ' + index);
