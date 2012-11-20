@@ -69,23 +69,25 @@ Ctool.prototype.update = function(elapsed) {
 	return false;
     }
     var dsize = size / 2;
-    this.cCanvas = new Ccanvas({width:size, height: size});
+    this.cCanvas = new Ccanvas({
+	width : size,
+	height : size
+    });
     this.ctx = this.cCanvas.getContext('2d');
     this.brush.update.call(this, this);
- 
+
     if ('_update' in this) {
 	this._update.call(this);
 	var that = this;
 
     }
-	if (this.changeCursor && this.parent.parent.rootElm) {
-		   //console.log(this.cCursor.data.toDataURL(), this);
-		    //console.log($(this.parent.parent));
-		    e = this.parent.parent.rootElm.find('.canvas');
-		    //console.log("e", e, this.cCursor, this.cCanvas);
-		    //e.css('background-color', 'red');
-		    e.parent().css('cursor', "url('"+ this.cCursor.data.toDataURL() + "') "+dsize+" "+dsize+", auto");
-		}
+    if (this.changeCursor && this.parent.parent.rootElm) {
+	var e = this.parent.parent.rootElm.find('.canvas');
+	e.parent().css(
+		'cursor',
+		"url('" + this.cCursor.data.toDataURL() + "') " + dsize + " "
+			+ dsize + ", auto");
+    }
     this.need_update = false;
 };
 
@@ -157,7 +159,6 @@ Ctool.prototype.dom_build_tool = function() {
     });
     return $(img.dom_get());
 };
-
 
 /**
  * 

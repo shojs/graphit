@@ -2,6 +2,9 @@
  * 
  */
 function Cobject(options, permitted) {
+    	if (options == undefined) {
+    	    return;
+    	}
 	this.parent = null;
 	this.parameters = {};
 	this._class_init(options, permitted);
@@ -20,7 +23,7 @@ Cobject.prototype.parse_options = function(options, permitted) {
     	    return;
     	}
     	permitted = permitted || [];
-    	var mandatory = ['className'];
+    	var mandatory = ['className', 'label'];
     	for (var i = 0; i < mandatory.length; i++) {
     	    if (!( mandatory[i] in options) && !options[mandatory[i]]){
     		console.error('Missing ' + mandatory[i] +' in Cobject parameters');

@@ -6,6 +6,7 @@ function Ccanvas(options) {
 	options.bg_color = new Ccolor(0, 0, 0, 0);
     }
     options.className = 'Ccanvas';
+    options.label = 'canvas';
     Cobject.call(this, options, ['width', 'height', 'bg_color']);
     this.data = document.createElement('canvas');
     this.data.setAttribute('width', this.width);

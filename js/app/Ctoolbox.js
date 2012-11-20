@@ -9,6 +9,7 @@
 function Ctoolbox(olist, options) {
 	this.olist = olist;
 	options.className = 'Ctoolbox';
+	options.label = 'toolbox';
 	Cobject.call(this, options, ['parent']);
 }
 
@@ -39,10 +40,10 @@ Ctoolbox.prototype.init = function() {
 	this.elmPreview = null;
 	this.elmOptions = null;
 	this.rootElm = null;
-	$(document).bind('shojs-tool-update', function(e, d) {
+    	this.bind_trigger(this, 'update', function(e,d) {
 	    if (that.selected) 
 		that.selected.update();
-	});
+    	});
 	this.load(this.olist);
 	this.dom_build();
 };
@@ -52,9 +53,11 @@ Ctoolbox.prototype.init = function() {
  * @param olist
  */
 Ctoolbox.prototype.load = function(olist) {
+    	var that = this;
     	var selected = null;
+
 	var change = function () {
-	    $(document).trigger('shojs-tool-update', ['grid-option-change']);
+	    that.send_trigger('update');
 	};
 	// We are parsing availble tools
 	for (label in olist) {

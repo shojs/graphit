@@ -47,6 +47,7 @@ Cmouse_tracker_point.prototype.constructor = new Cvector2d(0,0,0);
  */
 function Cmouse_tracker(options) {
     	options.className = 'Cmouse_tracker';
+    	options.label = 'mousetracker';
 	Cobject.call(this, options, ['parent', 'callback_move', 'callback_track']);
 
 	this.x = 0;

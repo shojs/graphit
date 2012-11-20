@@ -7,6 +7,7 @@
  */
 function Cfrag(options) {
     	options.className = 'Cfrag';
+    	options.label = 'frag';
     	Cobject.call(this, options, ['parent', 'position', 'width', 'height', 'color']);
     	if (!this.color) this.color = new Ccolor(0,0,0,0);
 	this.cCanvas = new Ccanvas({width: this.width, height: this.height, bg_color: this.color});

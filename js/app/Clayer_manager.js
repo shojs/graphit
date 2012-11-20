@@ -5,14 +5,18 @@
  */
 
 function Clayer_manager(parent) {
-    this.parent = parent;
+    var that = this;
+    Cobject.call(this, { 
+	parent: parent, 
+	className: 'Clayer_manager',
+	label: 'layermanager',
+    }, ['parent', 'label']);
     this.layers = new Array();
     this.special_layers = new Object();
     this.selected = null;
-    this.rootElm = null;
     this.dom_build();
-    $(document).bind('shojs-update', function(e, d) {
-	d.caller.redraw(true);
+    this.bind_trigger(this, 'update', function(e,v) {
+	that.redraw();
     });
     this.add(new Clayer(this, '_stack_up'));
     this.add(new Clayer(this, '_stack_down'));
@@ -20,6 +24,8 @@ function Clayer_manager(parent) {
     var l = this.add(new Clayer(this, 'background'));
 };
 
+Clayer_manager.prototype = Object.create(Cobject.prototype);
+Clayer_manager.prototype.constructor = new Cobject();
 /**
  * 
  */
@@ -70,11 +76,15 @@ Clayer_manager.prototype.add = function(layer) {
 	var $lElm = $(layer.dom_get(this.layers.length - 1));
 	group.prepend($lElm);
     }
-    $(document).trigger('shojs-update', 
-	    { who: 'layer-manager', what: 'add-layer', caller: this});
+    this.send_trigger('update');
     return layer;
 };
 
+/**
+ * 
+ * @param layer
+ * @returns
+ */
 Clayer_manager.prototype.exists = function(layer) {
     var i = 0;
     var found = false;
@@ -89,6 +99,10 @@ Clayer_manager.prototype.exists = function(layer) {
     return null;
 };
 
+/**
+ * 
+ * @param layer
+ */
 Clayer_manager.prototype.remove = function(layer) {
     var selected = this.selected;
     var idx = this.exists(layer);
@@ -103,6 +117,11 @@ Clayer_manager.prototype.remove = function(layer) {
     this.parent.redraw(true);
 };
 
+/**
+ * 
+ * @param id
+ * @returns
+ */
 Clayer_manager.prototype.get_layer = function(id) {
     if (cMath.isint(id)) {
 	return this.layers[id];
@@ -110,6 +129,11 @@ Clayer_manager.prototype.get_layer = function(id) {
     return this.special_layers[id];
 };
 
+/**
+ * 
+ * @param id
+ * @returns
+ */
 Clayer_manager.prototype.get_index_by_uid = function(id) {
     for ( var i = 0; i < this.layers.length; i++) {
 	if (this.layers[i].uid == id) {
@@ -134,13 +158,16 @@ Clayer_manager.prototype.move_down = function(id) {
     this.layers[idx] = tmp;
     this.select(this.selected);
     this._build_layer_preview('.group-layers');
-    $(document).trigger('shojs-update', 
-	    { who: 'layer-manager', what: 'move-layer-down', caller: this});
+    this.send_trigger('update');
     return true;
 };
 
+/**
+ * 
+ * @param id
+ * @returns {Boolean}
+ */
 Clayer_manager.prototype.move_up = function(id) {
-
     if (this.layers.length == 1) {
 	return false;
     }
@@ -155,11 +182,15 @@ Clayer_manager.prototype.move_up = function(id) {
     this.layers[idx] = tmp;
     this.select(this.selected);
     this._build_layer_preview('.group-layers');
-    $(document).trigger('shojs-update', 
-	    { who: 'layer-manager', what: 'move-layer-up', caller: this});
+    this.send_trigger('update');
     return true;
 };
 
+/**
+ * 
+ * @param obj
+ * @returns {Boolean}
+ */
 Clayer_manager.prototype.select = function(obj) {
     var index = this.exists(obj);
     if (index === undefined || index < 0 || index > this.layers.length) {
@@ -168,9 +199,7 @@ Clayer_manager.prototype.select = function(obj) {
     }
     this.build_layer_stack(index);
     this.selected = this.layers[index];
-
-    $(document).trigger('shojs-update', 
-	    { who: 'layer-manager', what: 'select-layer', caller: this});
+    this.send_trigger('update');
     return true;
 };
 
