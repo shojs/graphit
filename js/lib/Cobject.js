@@ -19,11 +19,21 @@ Cobject.prototype._class_init = function(options, permitted) {
 };
 
 Cobject.prototype.parse_options = function(options, permitted) {
-	//console.log(' -> Parsing Object options');
+    	permitted = permitted || [];
+    	var mandatory = ['className'];
+    	for (var i = 0; i < mandatory.length; i++) {
+    	    if (!( mandatory[i] in options) && !options[mandatory[i]]){
+    		console.error('Missing ' + mandatory[i] +' in Cobject parameters');
+    	    } else {
+    		permitted.push(mandatory[i]);
+    	    }
+	
+    	}
 	if (!options) {
 		console.error('No options set');
 		return false;
 	}
+	
 	if (permitted && typeof permitted === 'object') {
 		for ( var i = 0; i < permitted.length; i++) {
 			var label = permitted[i];
@@ -49,6 +59,12 @@ Cobject.prototype.getContext = function(type) {
     }
     console.error('Cannot return context for this object... no cCanvas');
     return null;
+};
+
+Cobject.prototype.get_trigger_name = function(type) {
+    var n = 'shojs' + this.className + label + '-' + type;
+    console.log('Trigger['+type+']', n);
+    return n;
 };
 
 Cobject.prototype.add_parameter = function(options) {

@@ -3,6 +3,7 @@
  * 
  */
 function Ctoolbox_colorpicker(color, options) {
+    	options.className = 'Ctoolbox_colorpicker';
 	Cobject.call(this, options, [ 'parent', 'label', 'callback_onchange' ]);
 	if (color && !(color instanceof Ccolor)) {
 		console.error('color parameter is not an instance of Ccolor');

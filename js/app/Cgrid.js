@@ -1,7 +1,7 @@
 function Cgrid(options) {
-    this.className = 'Cgrid';
-    this.label = 'grid';
-    Cobject.call(this, options, ['parent', 'callback_slide', 'callback_change']);
+    options.className = 'Cgrid';
+    options.label = 'grid';
+    Cobject.call(this, options, ['parent', 'callback_slide', 'callback_change', 'label']);
 }
 
 Cgrid.prototype = Object.create(Cobject.prototype);
@@ -20,10 +20,10 @@ Cgrid.prototype.init = function() {
     };
     var parent = { className: this.className, label: this.label};
     this.parameters = {
-	    width: new Cparameter_numeric({parent: parent, label: 'width', min: 1, max: 100, def: 100, step:1, callback_change: change, callback_slide: change}),
-	    height: new Cparameter_numeric({parent: parent, label: 'height', min: 1, max: 100, def: 100, step:1, callback_change: change, callback_slide: change}),
-	    lineWidth: new Cparameter_numeric({parent: parent, label: 'lineWidth', min: 1, max: 10, def: 1, step:1, callback_change: change, callback_slide: change}),
-	    visibility: new Cparameter_checkbox({parent: parent, type: Eparameter_type.checkbox, label: 'visibility', def: true, callback_change: change}),
+	    width: new Cparameter_numeric({parent: this, label: 'width', min: 1, max: 100, def: 100, step:1, callback_change: change, callback_slide: change}),
+	    height: new Cparameter_numeric({parent: this, label: 'height', min: 1, max: 100, def: 100, step:1, callback_change: change, callback_slide: change}),
+	    lineWidth: new Cparameter_numeric({parent: this, label: 'lineWidth', min: 1, max: 10, def: 1, step:1, callback_change: change, callback_slide: change}),
+	    visibility: new Cparameter_checkbox({parent: this, type: Eparameter_type.checkbox, label: 'visibility', def: true, callback_change: change}),
     };
     for (p in this.parameters) {
 	this.parameters[p]._init();

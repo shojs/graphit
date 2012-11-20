@@ -19,6 +19,7 @@ function Clayer(parent, label, p_composite_operation) {
 	composiste_operation = Ecomposite_operation['source-over'];
     }
     Cobject.call(this, {
+	className: 'Clayer',
 	parent : parent,
 	label : label,
 	composite_operation : composite_operation,
@@ -142,7 +143,6 @@ Clayer.prototype.dom_build = function() {
     var $c = $(canvas);
     $td.click(function() {
 	var e = $(this).parents('.group-layers');
-	console.log(e);
 	e.find('.layer').removeClass(
 		'selected');
 	$(this).parents('.layer').addClass('selected');
@@ -257,7 +257,6 @@ Clayer.prototype.redraw = function(bool) {
 	} else {
 	    this.ctx.globalCompositeOperation = 'source-over';
 	}
-
 	this.ctx.drawImage(scanvas, 0, 0, width, height, x, y, width, height);
 	this.ctx.restore();
     }
@@ -313,26 +312,25 @@ Clayer.prototype.stack_frags = function(p_start, p_end) {
  */
 Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx, ty,
 	compositeOperation) {
-    var frag = new Cfrag(this, new Object({
-	x : sx,
-	y : sy
-    }), swidth, sheight);
+    //console.log('drawImage', canvas.toDataURL());
+    var frag = new Cfrag({
+	parent: this,
+	position: {x: sx, y:sy},
+    	width: swidth,
+    	height: sheight
+    });
     frag.drawImage(canvas, sx, sy, swidth, sheight, 0, 0);
-    this.ctx.save();
-    this.ctx.beginPath();
-    this.ctx.rect(sx, sy, swidth, sheight);
-    this.ctx.strokeRect(sx, sy, swidth, sheight);
-    this.ctx.clip();
+    this.frags.push(frag);
+//    this.ctx.save();
+//    this.ctx.beginPath();
+//    this.ctx.rect(sx, sy, swidth, sheight);
+//    this.ctx.strokeRect(sx, sy, swidth, sheight);
+//    this.ctx.clip();
     if (compositeOperation) {
 	this.ctx.globalCompositeOperation = compositeOperation;
 	frag.downCompositeOperation = compositeOperation;
     }
-    this.frags.push(frag);
-    // FIXME: Invalid parameters cause exception on safari
-    //console.log(sx, sy, swidth, sheight, tx, ty);
-    this.ctx.drawImage(frag.cCanvas.data, 0, 0, swidth, sheight, sx, sy,
-	    swidth, sheight);
-    this.ctx.restore();
+//    this.ctx.restore();
     this.redraw();
 };
 

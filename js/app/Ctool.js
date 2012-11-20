@@ -10,9 +10,13 @@ function Ctool(options) {
     this.need_update = true;
     this.rootElm = null;
     this.optElm = null;
-    this.label = null;
-    this.className = 'Ctool';
+    //options.label = ';
+    console.log('label', options.label);
+    options.className = 'Ctool';
     this.changeCursor = true;
+    for (p in options.parameters) {
+	options.parameters[p].parent = this;
+    }
     Cobject.call(this, options, [ 'parent', 'brush', 'label', '_pregraph',
 	    '_graph', '_postgraph', '_update', 'compositeOperation' ]);
     return this;
@@ -74,15 +78,16 @@ Ctool.prototype.update = function(elapsed) {
     if ('_update' in this) {
 	this._update.call(this);
 	var that = this;
-	if (this.changeCursor && this.parent.parent.rootElm) {
-	   //console.log(this.cCursor.data.toDataURL(), this);
-	    //console.log($(this.parent.parent));
-	    e = this.parent.parent.rootElm.find('.canvas');
-	    //console.log("e", e, this.cCursor, this.cCanvas);
-	    e.css('background-color', 'red');
-	    e.parent().css('cursor', "url('"+ this.cCursor.data.toDataURL() + "') "+dsize+" "+dsize+", auto");
-	}
+
     }
+	if (this.changeCursor && this.parent.parent.rootElm) {
+		   //console.log(this.cCursor.data.toDataURL(), this);
+		    //console.log($(this.parent.parent));
+		    e = this.parent.parent.rootElm.find('.canvas');
+		    //console.log("e", e, this.cCursor, this.cCanvas);
+		    //e.css('background-color', 'red');
+		    e.parent().css('cursor', "url('"+ this.cCursor.data.toDataURL() + "') "+dsize+" "+dsize+", auto");
+		}
     this.need_update = false;
 };
 
@@ -130,7 +135,7 @@ Ctool.prototype.dom_build = function(force) {
     if (this.rootElm && !force) {
 	return this;
     }
-    var $r = $(document.createElement('div'));
+    var $r = $('<div />');
     $r.append(this.dom_build_tool());
     this.rootElm = $r;
     return this;
@@ -169,26 +174,7 @@ Ctool.prototype.dom_build_options = function() {
     $r.addClass('not-draggable');
     for (label in this.parameters) {
 	var param = this.parameters[label];
-	param.callback_slide = function(value) {
-	    this.set(value);
-	    this.parent.update();
-	};
-	param.callback_change = function(value) {
-	    this.set(value);
-	    this.parent.update();
-	};
 	$r.append(param.dom_get());
-//	if (param.type == undefined || param.type == Eparameter_type.numeric) {
-//	    widget_slider_ex(param, $r, param);
-//	} else if (param.type == Eparameter_type.select) {
-//	    // console.log('Build select parameter');
-//	    //widget_select_ex($r, param);
-//	    $r.append(param.dom_get());
-//
-//	} else {
-//	    console.error('Unknow parameter type', param.type);
-//	    return null;
-//	}
     }
     this.optElm = $r;
     return $r;

@@ -5,30 +5,26 @@
  * @param width
  * @param height
  */
-function Cfrag(parent, position, width, height) {
-	this.position = position;
-	this.cCanvas = new Ccanvas(width, height, new Ccolor(0,0,0,0));
+function Cfrag(options) {
+    	Cobject.call(this, options, ['parent', 'position', 'width', 'height', 'color']);
+    	if (!this.color) this.color = new Ccolor(0,0,0,0);
+	this.cCanvas = new Ccanvas(this.width, this.height, this.color);
 	this.ctx = this.getContext();
 };
+
+Cfrag.prototype = Object.create(Cobject.prototype);
+Cfrag.prototype.constructor = new Cobject();
 
 Cfrag.prototype.getContext = function(t) {
 	return this.cCanvas.getContext('2d');
 };
 
-Cfrag.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx,
-		ty) {
+Cfrag.prototype.drawImage = function(source, sx, sy, swidth, sheight, tx, ty) {
     	var dcanvas = this.cCanvas.data;
-//    	if (sx < 0 || sx > dcanvas.width) {
-//    	    console.error('sx out of bound', sx, dcanvas);
-//    	    cMath.clamp(0, sx, dcanvas.width-1);
-//    	}
-//    	if (sy < 0 || sy > dcanvas.height) {
-//    	    console.error('sy out of bound', sy,dcanvas);
-//    	    cMath.clamp(0, sy, dcanvas.height-1);
-//    	}
-    	var dctx = canvas.getContext('2d');
+    	var ctx = this.cCanvas.data.getContext('2d');
+    	//console.log('frag src', source.toDataURL());
     	try {
-	this.cCanvas.ctx.drawImage(canvas, 
+    	    ctx.drawImage(source, 
 		sx, sy, swidth, sheight, 
 		0, 0, dcanvas.width, dcanvas.height);
     	} catch (e) {

@@ -78,12 +78,13 @@ Cparameter_numeric.prototype.dom_build = function() {
 	input.attr('value', this.value);
 	input.css('width: 2em');
 	input.change(function() {
-		var that = $(this);
-		var value = that.attr('value');
-		var p = that.parents('.sliderex').find('.slider');
+		var t = $(this);
+		var value = t.attr('value');
+		var p = t.parents('.sliderex').find('.slider');
 		p.slider('option', 'value', value);
-		if ('callback_change' in options && typeof(options.callback_change) == 'function') {
-			options.callback_change.call(obj, value);
+		that.set(value);
+		if ('callback_change' in that) {
+		    that.callback_change.call(that, value);
 		}
 	});
 	input.spinner();

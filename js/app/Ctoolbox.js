@@ -8,6 +8,7 @@
  */
 function Ctoolbox(olist, options) {
 	this.olist = olist;
+	options.className = 'Ctoolbox';
 	Cobject.call(this, options, ['parent']);
 }
 
@@ -38,6 +39,10 @@ Ctoolbox.prototype.init = function() {
 	this.elmPreview = null;
 	this.elmOptions = null;
 	this.rootElm = null;
+	$(document).bind('shojs-tool-update', function(e, d) {
+	    if (that.selected) 
+		that.selected.update();
+	});
 	this.load(this.olist);
 	this.dom_build();
 };
@@ -47,24 +52,40 @@ Ctoolbox.prototype.init = function() {
  * @param olist
  */
 Ctoolbox.prototype.load = function(olist) {
-	var selected = null;
+    	var selected = null;
+	var change = function () {
+	    $(document).trigger('shojs-tool-update', ['grid-option-change']);
+	};
+	// We are parsing availble tools
 	for (label in olist) {
-		//console.log('--> Loading tool', label);
 		if (!('brush' in olist[label])) {
 			console.error('Tool need brush');
 			continue;
 		}
 		olist[label].parent = this;
+		// We are installing parameter callback who keep track of change
+		for (p in olist[label].parameters) {
+		    olist[label].parameters[p].callback_change = change;
+		    olist[label].parameters[p].callback_slide = change;
+		}
+		// We are creating our tool from hash
 		var t = new Ctool(olist[label]);
 		t.update();
-		this.tools.push(t);	   
+		this.tools.push(t);
+		// Selecting pen
 		if (label == 'pen') {
-	
+		    console.log('selecting pen');
 		    selected = t;
 		}
 	}
 	this.selected = selected;
 	this.select_tool(this.selected);
+};
+/**
+ * 
+ */
+Ctoolbox.prototype.trigger_update = function() {
+    
 };
 
 /**

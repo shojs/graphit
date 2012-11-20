@@ -18,8 +18,6 @@ function Clayer_manager(parent) {
     this.add(new Clayer(this, '_stack_down'));
     var g = this.add(new Clayer(this, '_grid'));
     var l = this.add(new Clayer(this, 'background'));
-    this.layerstack_up = null;
-    this.layerstack_bottom = null;
 };
 
 /**

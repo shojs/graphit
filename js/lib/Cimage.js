@@ -6,7 +6,8 @@ var Eloading_status = {
 };
 
 function Cimage(options) {
-	Cobject.call(this, options, {}) ;
+    	options.className = 'Cimage';
+	Cobject.call(this, options, []) ;
 	this.options = options;
 	this.data = null;
 	this.status = Eloading_status.none;

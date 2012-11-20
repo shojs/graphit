@@ -56,9 +56,9 @@ Cparameter_select.prototype.dom_build = function() {
 	that.set(this.value);
 	that.rootElm.find('option').each(function() {
 	    var e = $(this);
-	    e.attr('selected', false);
+	   // e.attr('selected', false);
 	});
-	$(this).attr('selected', true);
+	//$(this).attr('selected', true);
 	if ('callback_change' in that) {
 	    that.callback_change.call(that, this.value);
 	}

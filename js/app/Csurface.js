@@ -6,6 +6,7 @@
  */
 function Csurface(id, width, height) {
     Cobject.call(this, {
+	className: 'Csurface',
 	width : width,
 	height : height
     }, [ 'width', 'height' ]);
@@ -41,7 +42,6 @@ function Csurface(id, width, height) {
     this.layer_manager.select(this.layer_manager.layers[0]);
 
     $(document).bind('shojs-surface-update', function(e, d) {
-	console.log('got update', e, d);
 	if (d == 'grid-option-change') {
 	    that.update_grid();
 	}

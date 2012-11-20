@@ -98,7 +98,11 @@
 <title>GraphIt: Javascript online drawing</title>
 </head>
 <body>
+<div id="candecoke" width="100" height="100">candecoke</div>
 	<div id="main-content"></div>
+	<div>
+	<output id="shojs-file-list"><ul>test</ul></output> 
+	</div>
 	<div class="shojs-menu-dialog" title="Menu">
 		<div class="shojs-menu" title="Menu">
 			<div>
@@ -107,6 +111,12 @@
 							black color</a></li>
 					<li><a href="#" id="button-save">save</a></li>
 					<li><a href="#" id="button-about">about</a></li>
+					<li>
+					   <form>
+					       <label for="shojs-open-file">Open File</label>
+					       <input type="file" id="shojs-open-file" name="files1[]" multiple></input>
+					       </form>
+					</li>
 				</ul>
 			</div>
 		</div>

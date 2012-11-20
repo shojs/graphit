@@ -52,7 +52,6 @@ Cparameter_checkbox.prototype._set = function(v) {
 	    this.rootElm.find('input').removeAttr('checked');
 	}
     }
-    console.log('set value', this.value);
 };
 
 /**
@@ -67,7 +66,6 @@ Cparameter.prototype.dom_build = function() {
     var s = $('<input />');
     s.attr('type', 'checkbox');
     s.attr('title', label);
-    console.log(this.value, true);
     if (this.value) {
 	s[0].checked = 'checked';
     }

@@ -48,14 +48,11 @@ Cgrapher.prototype._graph = function() {
 };
 
 Cgrapher.prototype.stop = function() {
-    	// TODO Clean fragment size...
 	if (!this.timer) {
 		console.warn('Grapher is not started');
 		return false;
 	}
 	clearInterval(this.timer);
-//	var lmouse = this.cSurface.layer_manager.special_layers.mouse;
-//	lmouse.ctx.fillStyle = 'rgba(255,0,0,0.1)';
 	var cs = this.cSurface;
 	var selected = cs.layer_manager.selected;
 	var dcanvas = selected.cCanvas.data;

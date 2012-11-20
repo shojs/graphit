@@ -70,6 +70,61 @@ function _ok_to_build() {
 		e.preventDefault();
 	    });
 	});
+    
+    function handleFileSelect(evt) {
+	    var files = evt.target.files; // FileList object
+	    console.log("plop");
+	    // files is a FileList of File objects. List some properties.
+	    var output = [];
+	    for (var i = 0, f; f = files[i]; i++) {
+	      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+	                  f.size, ' bytes, last modified: ',
+	                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+	                  '</li>');
+	    }
+	    document.getElementById('shojs-file-list').innerHTML = '<ul>' + output.join('') + '</ul>';
+	    console.log(files);
+	    var file = files[0];
+	     // Only process image files.
+	      if (!file.type.match('image.*')) {
+	        console.log("Error: you can only load file");
+	        return false;
+	      }
+
+	      var reader = new FileReader();
+	      console.log('BOOM')
+	      reader.onload = (function(theFile) {
+		  return function(e) {
+		      //var c = $('<canvas>');
+		      var r = $('#candecoke');
+		      r.empty();
+		      var c = $('<canvas>');
+
+		      console.log("Loaded", e);
+		      var img = $('<img />');
+		      img[0].src = e.target.result;
+		      c.width = img.width;
+		      c.height = img.height;
+		      var ctx =  c[0].getContext('2d');
+		      console.log('Can de coke', c);
+		      width = img.width;
+		      height = img.height;
+		      ctx.drawImage(img[0], 0, 0, width, height);  
+		      ctx.drawImage(img[0], 0, 0);
+		      cSurface.layer_manager.selected.drawImage(c[0], 0, 0, width, height, 0, 0, width, height);
+		   
+		        
+		      r.append(c);
+		      r.append(img);
+		  };
+		  
+	      }) (file);
+	    //cSurface.cCanvas.load(files[0].name);
+	      reader.readAsDataURL(file);
+	      
+    	}
+    		
+	  document.getElementById('shojs-open-file').addEventListener('change', handleFileSelect, false);
 }
 $(document)
 	.ready(

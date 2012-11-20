@@ -85,6 +85,8 @@ Cparameter.prototype.dom_get = function(force) {
 };
 
 Cparameter.prototype.make_registry_key = function() {
+    	if (!this.parent.className) console.log('parent', this.parent);
+    	if (!this.parent.label) console.log('parent', this.parent);
 	var classname = this.parent.className || 'global';
 	var label = this.parent.label || 'test';
 	var key = classname + '-' + label + '-' + this.label;

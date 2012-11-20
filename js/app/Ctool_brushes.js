@@ -9,22 +9,23 @@ var CTOOL_brushes = {
 	    var dsize = this.cCanvas.data.width / 2;
 	    this.cCursor = new Ccanvas(this.cCanvas.width, this.cCanvas.height);
 
-	    cDraw.circle({ 
-		dcanvas: this.cCursor.data, 
-		x: dsize, 
-		y: dsize, 
-		r: dsize,
-		fillStyle: new Ccolor(255,0,0,0.1),
-		strokeStyle: new Ccolor(255,0,0,1),
-	    	lineWidth: 1,
+	    cDraw.circle({
+		dcanvas : this.cCursor.data,
+		x : dsize,
+		y : dsize,
+		r : dsize,
+		fillStyle : new Ccolor(255, 0, 0, 0.1),
+		strokeStyle : new Ccolor(255, 0, 0, 1),
+		lineWidth : 1,
 
 	    });
-	    cDraw.circle({ 
-		dcanvas: this.cCanvas.data, 
-		x: dsize, 
-		y: dsize, 
-		r: dsize,
-		fillStyle: color});
+	    cDraw.circle({
+		dcanvas : this.cCanvas.data,
+		x : dsize,
+		y : dsize,
+		r : dsize,
+		fillStyle : color
+	    });
 	},
 
     },
@@ -32,17 +33,17 @@ var CTOOL_brushes = {
 };
 
 var Ecomposite_operation = {
-	'source-over': 'source-over',
-	'source-in': 'source-in',
-	'source-out': 'source-out',
-	'source-atop': 'source-atop',
-	'lighter': 'lighter',
-	'xor': 'xor',
-	'destination-over': 'destination-over',
-	'destination-in': 'destination-in',
-	'destination-out': 'destination-out',
-	'destination-atop': 'destination-atop',
-	'darker': 'darker',
+    'source-over' : 'source-over',
+    'source-in' : 'source-in',
+    'source-out' : 'source-out',
+    'source-atop' : 'source-atop',
+    'lighter' : 'lighter',
+    'xor' : 'xor',
+    'destination-over' : 'destination-over',
+    'destination-in' : 'destination-in',
+    'destination-out' : 'destination-out',
+    'destination-atop' : 'destination-atop',
+    'darker' : 'darker',
 };
 /**
  * 
@@ -106,8 +107,8 @@ var CTOOL_tools = {
 	},
 
     },
-    /**************************************************************************
-     * BRUSH 
+    /***************************************************************************
+     * BRUSH
      **************************************************************************/
     brush : {
 	label : 'brush',
@@ -135,18 +136,22 @@ var CTOOL_tools = {
 	    },
 	},
 	brush : CTOOL_brushes.circle,
-	_update : function() { return true; },
+	_update : function() {
+	    return true;
+	},
 	_graph : function(grapher, p1, p2) {
 	    var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.cCanvas.data;
 	    var ctx = dcanvas.getContext('2d');
 	    var scanvas = this.cCanvas.data;
 	    var dw = scanvas.width / 2;
 	    var dh = scanvas.height / 2;
-	    //console.log(dw, dh);
+	    // console.log(dw, dh);
 	    var dctx = scanvas.getContext('2d');
 	    var pression = this.get_parameter('pression');
 	    var points = cMath.linear_interpolation(p1, p2, 100 / pression);
-	    if (points.length <= 0) {return false;}
+	    if (points.length <= 0) {
+		return false;
+	    }
 	    for ( var i = 0; i < points.length; i++) {
 		ctx.save();
 		ctx.translate(points[i].x - dw, points[i].y - dh);
@@ -156,9 +161,9 @@ var CTOOL_tools = {
 	    return true;
 	},
     },
-    /**************************************************************************
+    /***************************************************************************
      * Eraser
-     *************************************************************************/
+     **************************************************************************/
     eraser : {
 	label : 'eraser',
 	parameters : {
@@ -177,20 +182,25 @@ var CTOOL_tools = {
 		step : 0.01
 	    },
 	},
-	compositeOperation: Ecomposite_operation.xor,
+	compositeOperation : Ecomposite_operation.xor,
 	brush : CTOOL_brushes.circle,
-	_update : function() { 
-	   //
+	_update : function() {
+	    //
 	},
-	_pregraph: function(x, y, width, height) {
-	    //console.log('pregraph');
+	_pregraph : function(x, y, width, height) {
+	    // console.log('pregraph');
 	    var c = this.parent.parent.layer_manager.special_layers.prefrag.cCanvas.data;
 	    var ctx = c.getContext('2d');
-	   
-	   var dc = this.parent.parent.layer_manager.selected.cCanvas.data;
-	  
-	   ctx.drawImage(dc, 0,0, dc.width, dc.height);
-	   //console.log('Copied layer', dc.toDataURL());
+	    var lm = this.parent.parent.layer_manager;
+	    var dc;
+	    if (lm.special_layers.stack_down) {
+		dc = lm.special_layers.stack_down.cCanvas.data;
+		ctx.drawImage(dc, 0, 0, dc.width, dc.height);
+	    }
+	    dc = lm.selected.cCanvas.data;
+	    // ctx.clearRect(0,0, c.width, c.height);
+	    ctx.drawImage(dc, 0, 0, dc.width, dc.height);
+	    // console.log('Copied layer', dc.toDataURL());
 
 	},
 	_graph : function(grapher, p1, p2) {
@@ -213,18 +223,23 @@ var CTOOL_tools = {
 	    ctx.restore();
 	    return true;
 	},
-	_postgraph: function(x, y, width, height) {
+	_postgraph : function(x, y, width, height) {
 	    var l = this.parent.parent.layer_manager.selected;
 	    var f = this.parent.parent.layer_manager.special_layers.prefrag;
 	    var nf = f.clone();
+	    nf.ctx.save();
+	    nf.ctx.clearRect(0, 0, nf.cCanvas.data.width,
+		    nf.cCanvas.data.height);
 	    nf.ctx.globalCompositeOption = 'xor';
-	    nf.ctx.drawImage(f.cCanvas.data, 0, 0,  f.cCanvas.data.width, f.cCanvas.data.height);	    
-	    l.drawImage(
-			nf.cCanvas.data, x, y, width,
-			height, 0, 0, 'source-in');
-	},
-	
-    },
+	    nf.ctx.drawImage(f.cCanvas.data, 0, 0, f.cCanvas.data.width,
+		    f.cCanvas.data.height);
 
+	    l
+		    .drawImage(nf.cCanvas.data, x, y, width, height, 0, 0,
+			    'source-in');
+	    nf.ctx.restore();
+	},
+
+    },
 
 };
