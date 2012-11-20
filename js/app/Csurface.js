@@ -5,28 +5,32 @@
  * @returns
  */
 function Csurface(id, width, height) {
+    var that = this;
     Cobject.call(this, {
 	className: 'Csurface',
+	label: 'surface',
 	width : width,
 	height : height
-    }, [ 'width', 'height' ]);
-    console.log('-> Creating surface WxH', width, height);
-    this.id = id;
+    }, [ 'width', 'height', 'label' ]);
+    // Some variables
+    this.need_redraw = false; 
+    // Our canvas
     this.cCanvas = new Ccanvas({width: this.width, height: this.height});
-    this.cTools = null;
-    this.cGraph = null;
-    this.label = 'Surface';
-    this.className = 'Csurface';
-    var that = this;
-
-    this.need_redraw = false;
+    this.cCanvas.clear(new Ccolor(0, 0, 0, 1));
+    // Our toolbox
+    this.cToolbox = new Ctoolbox(CTOOL_tools, { parent : this });
+    // Our grapher
+    this.cGrapher = new Cgrapher(this.cToolbox, this);
+    this.bind_trigger(this.cGrapher, 'update', function(e, d) {
+	that.send_trigger('update');
+    });
+    // Our layer manager
     this.layer_manager = new Clayer_manager(this);
     this.layer_manager.add(new Clayer(this.layer_manager, E_LAYERLABEL.mouse));
-    this.layer_manager
-	    .add(new Clayer(this.layer_manager, E_LAYERLABEL.prefrag));
+    this.layer_manager.add(new Clayer(this.layer_manager, E_LAYERLABEL.prefrag));
     this.layer_manager.add(new Clayer(this.layer_manager));
-    this.cCanvas.clear(new Ccolor(0, 0, 0, 1));
-    var that = this;
+    this.layer_manager.select(this.layer_manager.layers[0]);
+    // Our mouse
     this.cMouse = new Cmouse_tracker({
 	parent : this,
 	callback_move : function() {
@@ -37,16 +41,7 @@ function Csurface(id, width, height) {
 	    $(that.cMouse.rootElm).find('.var-y').empty().append(y);
 	},
     });
-    this.rootElm = null;
-    this.need_redraw = true;
-    this.layer_manager.select(this.layer_manager.layers[0]);
-
-    $(document).bind('shojs-surface-update', function(e, d) {
-	if (d == 'grid-option-change') {
-	    that.update_grid();
-	}
-	that.redraw(true);
-    });
+    // Our grid
     this.cGrid = new Cgrid({
 	parent: this,
 	callback_slide: function(value) {
@@ -60,9 +55,12 @@ function Csurface(id, width, height) {
 	    that.update_grid.call(that, this);
 	}
     });
-
+    this.bind_trigger(this.cGrid, 'update', function(e, d) {
+	console.log('[Trigger/received]', e, d);
+	    that.update_grid();
+	that.send_trigger('update');
+    });
     this.update_grid();
-    //this.dom_get();
 }
 
 Csurface.prototype = Object.create(Cobject.prototype);

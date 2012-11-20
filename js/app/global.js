@@ -1,3 +1,5 @@
+var SHOJS_DEBUG = true;
+
 function Cuid() {
 	this.num_created = 0;
 	this.prefix = 'sho';

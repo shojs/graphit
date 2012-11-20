@@ -15,8 +15,7 @@ Cgrid.prototype.init = function() {
     // TODO: Too tricky ...
     var that = this;
     var change = function() {
-	console.log('Change');
-	$(document).trigger('shojs-surface-update', ['grid-option-change']);
+	that.send_trigger('update');
     };
     var parent = { className: this.className, label: this.label};
     this.parameters = {

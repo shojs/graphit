@@ -9,7 +9,6 @@ function Cobject(options, permitted) {
 }
 
 Cobject.prototype._class_init = function(options, permitted) {
-	//this.options = {};
 	this.uid = UID.get();
 	console.log('UID', this.uid);
 	this.parse_options(options, permitted);
@@ -35,10 +34,9 @@ Cobject.prototype.parse_options = function(options, permitted) {
 		for ( var i = 0; i < permitted.length; i++) {
 			var label = permitted[i];
 			if (label in options) {
-//				console.log('  - injecting ', label);
 				this[label] = options[label];
 			} else {
-				//console.warn('Needed property <<', label, '>> ');
+				console.warn('Needed property <<', label, '>> ');
 			}
 		}
 	}
@@ -60,9 +58,21 @@ Cobject.prototype.getContext = function(type) {
 };
 
 Cobject.prototype.get_trigger_name = function(type) {
-    var n = 'shojs' + this.className + label + '-' + type;
-    console.log('Trigger['+type+']', n);
+    var n = 'shojs-' + this.className + '-' + this.label + '-' + type;
+    n = n.toLowerCase();
     return n;
+};
+
+Cobject.prototype.send_trigger = function (type, d) {
+    var n = this.get_trigger_name(type);
+    console.log('[trigger/send]', n);
+    $(document).trigger(n, d);
+};
+
+Cobject.prototype.bind_trigger = function(osrc, type, callback) {
+    var name = osrc.get_trigger_name(type);
+    console.debug('[trigger/bind]', name);
+    $(document).bind(name, function(e, d) { callback.call(this, e, d); } );
 };
 
 Cobject.prototype.add_parameter = function(options) {

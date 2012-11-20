@@ -16,10 +16,8 @@ function _ok_to_build() {
     cRegistry = new Cregistry();
     var widgetWidth = 250;
     var cSurface = new Csurface('surface-01', 640, 480);
-    var cToolbox = new Ctoolbox(CTOOL_tools, {
-	parent : cSurface
-    });
-    var cGrapher = new Cgrapher(cToolbox, cSurface);
+
+
     $(document).bind('shojs-error', function(e, d) {
 	if (d != 'no-tool-selectionned') { return false; }
 	var t = $('<div class="dialog-error" title="Select tool first!">');
@@ -41,7 +39,7 @@ function _ok_to_build() {
     $('#shojs-menu-top').menu({});
     $('.shojs-menu-dialog').dialog({ autoOpen: true, resizable: true, draggable: true, width: 250, zIndex: 0, position: 'left', dialogClass: 'shojs-dialog'});
     var diag_s = cSurface.dom_get().dialog({autoOpen: true, resizable: true, draggable: true, width: cSurface.width + 100, zIndex:1, position: 'middle top', stack: false, dialogClass: 'shojs-dialog'});
-    var diag_t = cToolbox.dom_get().dialog({autoOpen: true, resizable: true, draggable: true, width: widgetWidth, zIndex: 0,position: 'left top', dialogClass: 'shojs-dialog'});
+    var diag_t = cSurface.cToolbox.dom_get().dialog({autoOpen: true, resizable: true, draggable: true, width: widgetWidth, zIndex: 0,position: 'left top', dialogClass: 'shojs-dialog'});
     var diag_lm = cSurface.layer_manager.dom_get().dialog({autoOpen: true, resizable: true, draggable: true, width: widgetWidth, zIndex: 0, position: { offset: '0 10', my: "left top", at: "right top", of: diag_s }, dialogClass: 'shojs-dialog'});
     var diag_mt= cSurface.cMouse.dom_get().dialog({autoOpen: true, resizable: true, draggable: true, width: widgetWidth, zIndex: 0, position: { offset: '0 10', my: "left top", at: "bottom left", of: diag_lm }, dialogClass: 'shojs-dialog'});
     

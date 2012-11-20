@@ -10,18 +10,21 @@ var Egrapher_mode = {
  * @returns
  */
 
-function Cgrapher(cTools, cSurface) {
-	this.set(cTools, cSurface);
+function Cgrapher(cToolbox, cSurface) {
+    	Cobject.call(this, {
+    	    className: 'Cgrapher',
+    	    label: 'grapher',
+    	    cToolbox: cToolbox,
+    	    cSurface: cSurface,
+    	}, ['label', 'cToolbox', 'cSurface']);
 	this.reset_index();
 	this.timer = null;
-	cSurface.cGrapher = this;
+//	cSurface.cGrapher = this;
 	this.mode = Egrapher_mode.continuous;
 }
 
-Cgrapher.prototype.set = function(cTools, cSurface) {
-	this.cTools = cTools;
-	this.cSurface = cSurface;
-};
+Cgrapher.prototype = Object.create(Cobject.prototype);
+Cgrapher.prototype.constructor = new Cobject();
 
 Cgrapher.prototype.reset_index = function() {
 	this.index = 0;
@@ -39,7 +42,7 @@ Cgrapher.prototype._graph = function() {
 	var p1 = this.cSurface.cMouse.points[this.index];
 	var p2 = this.cSurface.cMouse.points[(this.index + 1)];
 	//console.log(p1, p2);
-	if (this.cTools.selected.graph(this, p1, p2)) {
+	if (this.cToolbox.selected.graph(this, p1, p2)) {
 	    this.cSurface.redraw(true);
 	}
 	this.index++;
@@ -52,11 +55,15 @@ Cgrapher.prototype.stop = function() {
 		console.warn('Grapher is not started');
 		return false;
 	}
+	// Clearing our timer
 	clearInterval(this.timer);
+	this.timer = null;
+	
+	// We are drawing our prefrag layer into our current layer
 	var cs = this.cSurface;
 	var selected = cs.layer_manager.selected;
 	var dcanvas = selected.cCanvas.data;
-	var size = (this.cTools.selected.parameters.size.value);
+	var size = (this.cToolbox.selected.parameters.size.value);
 	var dsize = size / 2;
 	var width = (cs.cMouse.maxx - cs.cMouse.minx) + size;
 	var height = (cs.cMouse.maxy - cs.cMouse.miny) + size;
@@ -66,8 +73,8 @@ Cgrapher.prototype.stop = function() {
 	var y = cs.cMouse.miny - dsize;
 	if (y < 0) { y = 0;}
 	if ((y + height) > dcanvas.height) { height = dcanvas.height - y;}
-	if ('_postgraph' in this.cTools.selected) {
-	    this.cTools.selected._postgraph(x, y, 
+	if ('_postgraph' in this.cToolbox.selected) {
+	    this.cToolbox.selected._postgraph(x, y, 
 		    width, height, 0, 0, width, height);
 	} else {
 	    cs.layer_manager.selected.drawImage(
@@ -76,11 +83,14 @@ Cgrapher.prototype.stop = function() {
 			height, 0, 0);
 	}
 	cs.layer_manager.selected.redraw();
+	// We are clearing our prefrag layer so it's ready for next draw
 	cs.layer_manager.special_layers.prefrag = 
 	    new Clayer(cs.layer_manager, '_prefrag');
-	this.timer = null;
+	
+	// Reseting index that represent where we are into recorded points
 	this.index = 0;
-	cs.redraw(true);
+	// We are triggering surface update
+	this.send_trigger('update');
 	return true;
 };
 
@@ -93,13 +103,13 @@ Cgrapher.prototype.start = function() {
 	var fGraph = function() {
 		that._graph();
 	};
-	if (!this.cTools || !this.cTools.selected) { 
+	if (!this.cToolbox || !this.cToolbox.selected) { 
 	    $(document).trigger('shojs-error', ['no-tool-selectionned']);
 	    console.error('No tool selectionned!');
 	    return false; 
 	};
-	if ('_pregraph' in this.cTools.selected) {
-	    this.cTools.selected._pregraph(this);
+	if ('_pregraph' in this.cToolbox.selected) {
+	    this.cToolbox.selected._pregraph(this);
 	}
 	this.timer = window.setInterval(fGraph, DRAWGLOB.graphing_interval);
 	return true;

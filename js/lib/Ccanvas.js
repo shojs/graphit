@@ -7,7 +7,6 @@ function Ccanvas(options) {
     }
     options.className = 'Ccanvas';
     Cobject.call(this, options, ['width', 'height', 'bg_color']);
-    // console.log('Creating new Ccanvas WxH', width, height);
     this.data = document.createElement('canvas');
     this.data.setAttribute('width', this.width);
     this.data.setAttribute('height', this.height);
@@ -19,7 +18,7 @@ Ccanvas.prototype = Object.create(Cobject.prototype);
 Ccanvas.prototype.constructor = new Cobject();
 
 Ccanvas.prototype.clone = function() {
-    var c = new Ccanvas(this.width, this.height, this.background_color);
+    var c = new Ccanvas({width: this.width, height: this.height, bg_color: this.bg_color });
 };
 
 Ccanvas.prototype.get_pixel_color = function(data, x, y, Ecolor) {
