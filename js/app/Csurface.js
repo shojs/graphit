@@ -12,7 +12,7 @@ function Csurface(id, width, height) {
     }, [ 'width', 'height' ]);
     console.log('-> Creating surface WxH', width, height);
     this.id = id;
-    this.cCanvas = new Ccanvas(this.width, this.height);
+    this.cCanvas = new Ccanvas({width: this.width, height: this.height});
     this.cTools = null;
     this.cGraph = null;
     this.label = 'Surface';

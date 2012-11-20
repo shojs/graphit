@@ -1,15 +1,33 @@
-function Ccanvas(width, height, background_color) {
-    // console.log('Creating new Ccanvas WxH', width, height);
-    if (background_color instanceof Ccolor) {
-	this.background_color = background_color;
-    } else {
-	this.background_color = new Ccolor(0, 0, 0, 0);
+function Ccanvas(options) {
+    if (!options) {
+	console.error('Missing << {} >> parameter for Ccanvas');
     }
+    if (!('bg_color' in options) || !(options.bg_color instanceof Ccolor)) {
+	options.bg_color = new Ccolor(0, 0, 0, 0);
+    }
+    options.className = 'Ccanvas';
+    Cobject.call(this, options, ['width', 'height', 'bg_color']);
+    // console.log('Creating new Ccanvas WxH', width, height);
     this.data = document.createElement('canvas');
-    this.data.setAttribute('width', width);
-    this.data.setAttribute('height', height);
+    this.data.setAttribute('width', this.width);
+    this.data.setAttribute('height', this.height);
     this.ctx = this.data.getContext('2d');
-    this.clear(this.background_color);
+    this.clear(this.bg_color);
+};
+
+Ccanvas.prototype = Object.create(Cobject.prototype);
+Ccanvas.prototype.constructor = new Cobject();
+
+Ccanvas.prototype.clone = function() {
+    var c = new Ccanvas(this.width, this.height, this.background_color);
+};
+
+Ccanvas.prototype.get_pixel_color = function(data, x, y, Ecolor) {
+    return data.data[((x * (data.width * 4)) + (y * 4) + Ecolor)];
+};
+
+Ccanvas.prototype.getCanvas = function() {
+    return this.data;
 };
 
 Ccanvas.prototype.getContext = function(type) {
@@ -19,9 +37,7 @@ Ccanvas.prototype.getContext = function(type) {
     return this.data.getContext(type);
 };
 
-Ccanvas.prototype.getCanvas = function() {
-    return this.data;
-}
+
 
 Ccanvas.prototype.clear = function(color) {
     if (color instanceof Ccolor) {
@@ -51,9 +67,6 @@ var Ergb_color = {
     alpha : 3,
 };
 
-Ccanvas.prototype.get_pixel_color = function(data, x, y, Ecolor) {
-    return data.data[((x * (data.width * 4)) + (y * 4) + Ecolor)];
-};
 
 Ccanvas.prototype.select_by_color = function(color) {
     console.log('Selecting by color', color);

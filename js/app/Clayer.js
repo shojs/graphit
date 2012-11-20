@@ -31,7 +31,7 @@ function Clayer(parent, label, p_composite_operation) {
     // TODO: it's a bit ugly to get layer size this way
     var width = parent.parent.width;
     var height = parent.parent.height;
-    this.cCanvas = new Ccanvas(width, height);
+    this.cCanvas = new Ccanvas({width: width, height: height });
     this.ctx = this.cCanvas.getContext('2d');
     this.rootElm = null;
 };

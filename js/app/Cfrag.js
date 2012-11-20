@@ -9,7 +9,7 @@ function Cfrag(options) {
     	options.className = 'Cfrag';
     	Cobject.call(this, options, ['parent', 'position', 'width', 'height', 'color']);
     	if (!this.color) this.color = new Ccolor(0,0,0,0);
-	this.cCanvas = new Ccanvas(this.width, this.height, this.color);
+	this.cCanvas = new Ccanvas({width: this.width, height: this.height, bg_color: this.color});
 	this.ctx = this.getContext();
 };
 

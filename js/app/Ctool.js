@@ -71,7 +71,7 @@ Ctool.prototype.update = function(elapsed) {
 	return false;
     }
     var dsize = size / 2;
-    this.cCanvas = new Ccanvas(size, size);
+    this.cCanvas = new Ccanvas({width:size, height: size});
     this.ctx = this.cCanvas.getContext('2d');
     this.brush.update.call(this, this);
  

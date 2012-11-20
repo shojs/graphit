@@ -7,7 +7,7 @@ var CTOOL_brushes = {
 		color.a = tool.parameters.opacity.value;
 	    }
 	    var dsize = this.cCanvas.data.width / 2;
-	    this.cCursor = new Ccanvas(this.cCanvas.width, this.cCanvas.height);
+	    this.cCursor = new Ccanvas({width: this.cCanvas.width, height: this.cCanvas.height});
 
 	    cDraw.circle({
 		dcanvas : this.cCursor.data,
