@@ -176,7 +176,7 @@ Cparameter_select.prototype.dom_build = function() {
 	// console.log('choice', param.choices[c]);
 	var o = $('<option/>');
 	o.attr('value', this.choices[c]);
-	if (this.value == c) {
+	if (this.value == this.choices[c]) {
 	    o.attr('selected', 'selected');
 	}
 	o.append(document.createTextNode(this.choices[c]));
@@ -184,6 +184,11 @@ Cparameter_select.prototype.dom_build = function() {
     }
     s.change(function() {
 	that.set(this.value);
+	that.rootElm.find('option').each(function() {
+	    var e = $(this);
+	    e.attr('selected', false);
+	});
+	$(this).attr('selected', true);
 	if ('callback_change' in that) {
 	    that.callback_change.call(that, this.value);
 	}
