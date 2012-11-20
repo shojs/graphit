@@ -30,11 +30,11 @@ function Cparameter(options) {
 
 	this.init(options);
 	//this.reset();
-	this._init();
+	this._init(options);
 	return this;
 }
 
-Cparameter.prototype._init = function() {
+Cparameter.prototype._init = function(options) {
     	if (this.bAutosave) {
     	    var label = this.make_registry_key();
     	    var v = cRegistry.get(label);
@@ -44,6 +44,10 @@ Cparameter.prototype._init = function() {
     	} else {
     	    this._set(this.def);
     	}
+    	this.rootElm = null;
+        if (options && 'callback_change' in options && typeof options.callback_change == 'function') {
+    		this.callback_change = options.callback_change;
+        }
 };
 
 Cparameter.prototype.set = function(value) {
@@ -77,6 +81,13 @@ Cparameter.prototype.get = function(k) {
 
 Cparameter.prototype._get = function(value) {
     return value;
+};
+
+Cparameter.prototype.dom_get = function(force) {
+    if (this.rootElm && force != undefined && !force) {
+	return this.rootElm;
+    }
+    return this.dom_build().rootElm;
 };
 
 Cparameter.prototype.make_registry_key = function() {
@@ -146,15 +157,42 @@ Cparameter_select.prototype.init = function(options) {
     this.def = options.def;
     this.label = options.label;
     for (label in options.choices) {
-	//console.log('option', label);
 	this.choices[label] = options.choices[label];
     }
+
 };
 
 Cparameter_select.prototype._set = function(value) {
     this.value = value;
 };
 
+Cparameter_select.prototype.dom_build = function() {
+    var that = this;
+    var r = $(document.createElement('div'));
+    r.addClass('selectex parameter');
+    r.append('<h6>' + this.label + '</h6>');
+    var s = $('<select />');
+    for (c in this.choices) {
+	// console.log('choice', param.choices[c]);
+	var o = $('<option/>');
+	o.attr('value', this.choices[c]);
+	if (this.value == c) {
+	    o.attr('selected', 'selected');
+	}
+	o.append(document.createTextNode(this.choices[c]));
+	s.append(o);
+    }
+    s.change(function() {
+	that.set(this.value);
+	if ('callback_change' in that) {
+	    that.callback_change.call(that, this.value);
+	}
+
+    });
+    r.append(s);
+    this.rootElm = r;
+    return this;
+}
 /**
  * 
  * @param options

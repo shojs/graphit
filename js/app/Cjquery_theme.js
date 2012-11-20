@@ -1,5 +1,5 @@
 function Cjquery_theme_injector(name) {
-    this.key = 'shojs-jquery-theme';
+    this.key = 'cjquery-theme-chooser-name';
     this.name = name || 'south-street';
     this.ls = new Clocal_storage();
     this.init(this.name);
@@ -8,10 +8,12 @@ function Cjquery_theme_injector(name) {
 
 Cjquery_theme_injector.prototype.init = function(name) {
     var ntheme = this.ls.get(this.key);
+    console.log('get', ntheme);
     if (ntheme) {
-	this.theme = ntheme;
+	this.name = ntheme;
     } else {
 	this.ls.set(this.key, name);
+	this.name = name;
     }
 };
 
@@ -28,7 +30,7 @@ Cjquery_theme_injector.prototype.inject_script = function(name) {
 var JQTHEMES = [ 'base', 'black-tie', 'blitzer', 'cupertino' ];
 function Cjquery_theme() {
     this.className = 'Cjquery-theme';
-    this.label = 'theme';
+    this.label = 'chooser';
     this.key = 'shojs-jquery-theme';
     var parent = {
 	className : this.className,
@@ -36,23 +38,58 @@ function Cjquery_theme() {
     };
     this.pTheme = new Cparameter_select({
 	type : Eparameter_type.select,
-	label : 'them',
+	parent : this,
+	label : 'name',
 	choices : {
+
 	    base : 'base',
 	    black_tie : 'black-tie',
 	    blitzer : 'blitzer',
 	    cupertino : 'cupertino',
+	    dark_hive: 'dark-hive',
+	    dot_luv: 'dot-luv',
+	    eggplant: 'eggplant',
+	    excite_bike: 'excite-bike',
+	    flick: 'flick',
+	    hot_sneaks: 'hot-sneaks',
+	    humanity: 'humanity',
+	    le_frog: 'le-frog',
+	    mint_choc: 'mint-choc',
+	    overcast: 'overcast',
+	    pepper_grinder: 'pepper-grinder',
+	    redmond: 'redmond',
+	    smoothness: 'smoothness',
+	    south_street: 'south-street',
+	    start: 'start',
+	    sunny: 'sunny',
+	    swanky_purse: 'swanky-purse',
+	    trontastic: 'trontastic',
+	    ui_darkness: 'ui-darkness',
+	    ui_lightness: 'ui-lightness',
+	    vader: 'vader',
 	},
-	def : 'base'
+	def : 'base',
+	callback_change: function() {
+	    window.location.reload();
+	}
     });
-    for (p in this.parameters) {
-	this.parameters[p]._init();
-    }
+    this.pTheme._init();
+    this.rootElm = null;
+    return this;
 }
 
 Cjquery_theme.prototype.dom_build = function() {
     var d = $('<div title="Theme chooser"/>');
     d.append(this.pTheme.dom_get());
+    this.rootElm = d;
+    return this;
+};
+
+Cjquery_theme.prototype.dom_get = function(force) {
+    if (this.rootElm && force != undefined && !force) {
+	return this.rootElm;
+    }
+    return this.dom_build().rootElm;
 };
 
 function Cscript_injector(d) {

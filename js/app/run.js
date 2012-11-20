@@ -46,7 +46,8 @@ function _ok_to_build() {
     var diag_mt= cSurface.cMouse.dom_get().dialog({autoOpen: true, resizable: true, draggable: true, width: widgetWidth, zIndex: 0, position: { offset: '0 10', my: "left top", at: "bottom left", of: diag_lm }, dialogClass: 'shojs-dialog'});
     
       
-    
+    var diag_tc = new Cjquery_theme().dom_get().dialog({autoOpen: true, resizable: true, draggable: true, width: widgetWidth, zIndex: 0, position: { offset: '0 10', my: "left top", at: "bottom left", of: diag_lm }, dialogClass: 'shojs-dialog'});
+   
     var diag_g = cSurface.cGrid.dom_get().dialog({autoOpen: true, resizable: true, draggable: true, width: widgetWidth, zIndex: 0, position: { offset: '0 15', my: "left top", at: "left bottom", of: diag_t }, dialogClass: 'shojs-dialog'});;
 
     $('.shojs-dialog').resizable({
