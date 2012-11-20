@@ -10,8 +10,6 @@ function Ctool(options) {
     this.need_update = true;
     this.rootElm = null;
     this.optElm = null;
-    //options.label = ';
-    console.log('label', options.label);
     options.className = 'Ctool';
     this.changeCursor = true;
     for (p in options.parameters) {

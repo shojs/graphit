@@ -10,7 +10,7 @@ function Cobject(options, permitted) {
 
 Cobject.prototype._class_init = function(options, permitted) {
 	this.uid = UID.get();
-	console.log('UID', this.uid);
+	if (SHOJS_DEBUG > 10) console.log('UID', this.uid);
 	this.parse_options(options, permitted);
 };
 
@@ -71,7 +71,7 @@ Cobject.prototype.send_trigger = function (type, d) {
 
 Cobject.prototype.bind_trigger = function(osrc, type, callback) {
     var name = osrc.get_trigger_name(type);
-    console.debug('[trigger/bind]', name);
+    console.debug('[trigger/bind]', this.className, ' => ', name);
     $(document).bind(name, function(e, d) { callback.call(this, e, d); } );
 };
 

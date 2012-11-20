@@ -36,7 +36,7 @@ function Cparameter(options) {
 Cparameter.prototype._init = function(options) {
     	if (this.bAutosave) {
     	    var label = this.make_registry_key();
-    	    console.log('Loading parameter', label);
+    	    if (SHOJS_DEBUG > 10) console.log('Loading parameter', label);
     	    var v = cRegistry.get(label);
     	    if (v != undefined) {
     		this._set(v);
@@ -51,7 +51,7 @@ Cparameter.prototype._init = function(options) {
     	    var m = exp.exec(k);
     	    if (!m) { continue; }
     	    if (options[k] && typeof options[k] == 'function') {
-    		console.log('Installing callback for parameter[' + this.type + ']', k);
+    		if (SHOJS_DEBUG > 10) console.log('Installing callback for parameter[' + this.type + ']', k);
     		this[k] = options[k];
     	    }
         }

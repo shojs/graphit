@@ -1,4 +1,4 @@
-var SHOJS_DEBUG = true;
+var SHOJS_DEBUG = 5;
 
 function Cuid() {
 	this.num_created = 0;
