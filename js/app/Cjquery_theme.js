@@ -76,7 +76,7 @@ Cscript_injector.prototype.inject = function(h) {
     if (h.t == 'js') {
 	if (!('defer' in h) || h.defer) {
 	    msg += "[defered]";
-	    e.setAttribute('defer', true);
+	    //e.setAttribute('defer', true);
 	}
 	e.setAttribute('type', 'text/javascript');
 	e.setAttribute('src', src);
