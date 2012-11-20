@@ -7,8 +7,24 @@ var CTOOL_brushes = {
 		color.a = tool.parameters.opacity.value;
 	    }
 	    var dsize = this.cCanvas.data.width / 2;
-	    helper_draw_circle(this.cCanvas, dsize, dsize, dsize,
-		    color.to_rgba());
+	    this.cCursor = new Ccanvas(this.cCanvas.width, this.cCanvas.height);
+
+	    cDraw.circle({ 
+		dcanvas: this.cCursor.data, 
+		x: dsize, 
+		y: dsize, 
+		r: dsize,
+		fillStyle: new Ccolor(255,0,0,0.1),
+		strokeStyle: new Ccolor(255,0,0,1),
+	    	lineWidth: 1,
+
+	    });
+	    cDraw.circle({ 
+		dcanvas: this.cCanvas.data, 
+		x: dsize, 
+		y: dsize, 
+		r: dsize,
+		fillStyle: color});
 	},
 
     },

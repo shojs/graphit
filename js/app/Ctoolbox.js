@@ -117,27 +117,24 @@ Ctoolbox.prototype.dom_build_colorpickers = function($root) {
  */
 Ctoolbox.prototype.dom_build = function() {
 	var that = this;
-	var root = document.createElement('div');
-	var $r = $(root);
-	$r.addClass('toolbox ' + DRAWGLOB.css_draggable_class);
-	helper_build_header($r, 'toolbox', 'Tools');
-	$r.addClass('draggable toolbox');
-	var $group = $(document.createElement('div'));
-	$group.addClass('group-tools group not-draggable');
+	var r = $('<div title="Toolbox"/>');
+	r.addClass('toolbox');
+	var g = $('<div />');
+	g.addClass('group-tools group');
 	/* Tool */
 	for ( var i = 0; i < this.tools.length; i++) {
 		var tool = this.tools[i];
-		$group.append(tool.dom_get());
+		g.append(tool.dom_get());
 	}
-	$r.append($group);
+	r.append(g);
 	/* Color picker */
-	$group = $(document.createElement('div'));
-	$group.addClass('group group-colorpicker not-draggable');
-	var $cp = $(document.createElement('div'));
-	$cp.addClass('group colorpicker-colors');
-	this.dom_build_colorpickers($cp);
-	$group.append($cp);
-	$group.append(	$(new Cimage({
+	g = $('<div/>');
+	g.addClass('group group-colorpicker not-draggable');
+	var cp = $('<div/>');
+	cp.addClass('group colorpicker-colors');
+	this.dom_build_colorpickers(cp);
+	g.append(cp);
+	g.append(	$(new Cimage({
 		src : 'img/16x16_toggle_color.png',
 		callback_onload : function(obj) {
 			;
@@ -147,17 +144,17 @@ Ctoolbox.prototype.dom_build = function() {
 		},
 		label: 'Switch color'
 	}).dom_get()));
-	$r.append($group);
+	r.append(g);
 	/* Options */
-	$group = $(document.createElement('div'));
-	$group.addClass('group-options group');
+	g = $(document.createElement('div'));
+	g.addClass('group-options group');
 	//$group.append('<span style="font-size: x-small">[ OPTIONS ]</span>');
-	$r.append($group);
+	r.append(g);
 	/* Preview */
-	$group = $(document.createElement('div'));
-	$group.addClass('group-preview group');
-	$group.append('<span style="font-size: x-small">[ PREVIEW ]</span>');
-	$r.append($group);
-	this.rootElm = $r;
+	g = $('<div/>');
+	g.addClass('group-preview group');
+	g.append('<span style="font-size: x-small">[ PREVIEW ]</span>');
+	r.append(g);
+	this.rootElm = r;
 	return this;
 };

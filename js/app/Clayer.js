@@ -95,6 +95,13 @@ Clayer.prototype.dom_build = function() {
     var $r = $(root);
     $r.attr('id', this.uid);
     $r.addClass('layer');
+    var tabs = $('<div/>');
+    tabs.attr('id', this.uid);
+    var ul = $('<ul />');
+    ul.append('<li><a href="#'+this.uid+'-1">layer</a></li>');
+    ul.append('<li><a href="#'+this.uid+'-2">option</a></li>');
+    tabs.append(ul);
+    var tab1 = $('<div id="'+this.uid+'-1"/>');
     var button = new Cimage({
 	src : 'img/16x16_eye.png',
 	width : '16px',
@@ -182,7 +189,13 @@ Clayer.prototype.dom_build = function() {
     $td.append(b_trash.dom_get());
     $tr.append($td);
     $t.append($tr);
-    $r.append($t);
+    tab1.append($t);
+    tabs.append(tab1);
+    var tab2 = $('<div id="'+this.uid+'-2"/>');
+    tab2.append('<p>Layer option</p>');
+    tabs.append(tab2);
+    $r.append(tabs);
+    tabs.tabs();
     this.rootElm = $r;
     return this;
 };

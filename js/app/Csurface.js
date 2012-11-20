@@ -15,7 +15,7 @@ function Csurface(id, width, height) {
     this.cTools = null;
     this.cGraph = null;
     this.label = 'Surface';
-    this.className = 'Csurface'
+    this.className = 'Csurface';
     var that = this;
 
     this.need_redraw = false;
@@ -54,7 +54,7 @@ function Csurface(id, width, height) {
 	}
     });
     this.update_grid();
-    this.dom_get();
+    //this.dom_get();
 }
 
 Csurface.prototype = Object.create(Cobject.prototype);
@@ -83,16 +83,15 @@ Csurface.prototype.update_grid = function() {
  */
 Csurface.prototype.dom_build = function() {
     var that = this;
-    var root = document.createElement('div');
-    var $r = $(root);
-    $r.addClass('surface ' + DRAWGLOB.css_draggable_class);
-    var $g = $(document.createElement('div'));
-    helper_build_header($r, ' ', 'Surface');
+    var r = $('<div title="Surface"/>');
+    
+    r.addClass('surface');
+    var g = $('<div/>');
     var canvas = this.cCanvas.data;
     var $c = $(canvas);
     $c.width = this.width;
     $c.height = this.height;
-    $c.addClass('canvas not-draggable');
+    $c.addClass('canvas');
     $c.mousedown(function(e) {
 	that.callback_mousedown(e, that);
     });
@@ -112,16 +111,14 @@ Csurface.prototype.dom_build = function() {
 	    that.cMouse.paused = false;
 	}
     });
-    this.dom_mouse = this.cMouse.get_dom();
-    $g.append($c);
-    $r.append($g);
+    g.append($c);
+    r.append(g);
     // TODO Putting back undo
     $(document).bind('keydown', 'Ctrl+z', function() {
 	that.undo();
     });
-    $r.append($g);
-    this.cGrid.dom_get();
-    this.rootElm = $r;
+    r.append(g);
+    this.rootElm = r;
     return this;
 };
 

@@ -35,6 +35,14 @@ Ccolor.prototype.set_rgb = function(color) {
 	return this;
 };
 
+Ccolor.prototype.set = function(k, v) {
+    if (k in this) {
+	this[k] = v;
+	return this;
+    }
+    console.error('Invalid key', k);
+    return null;
+}
 /**
  * Parse rgba string and fill object properties
  * @param rgba

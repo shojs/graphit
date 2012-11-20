@@ -74,6 +74,7 @@ Ctoolbox_colorpicker.prototype.dom_build = function(bool) {
 		onSubmit : function(hsb, hex, rgb) {
 			update.call(this, rgb);
 		},
+		zIndex: 10,
 	});
 	this.rootElm = $r;
 	return this;

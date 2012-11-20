@@ -21,12 +21,11 @@ Cmetasurface.prototype.attach_surface = function(pSurface) {
 };
 
 Cmetasurface.prototype.dom_build = function() {
-    var r = $(document.createElement('div'));
-    r.attr('title', 'Meta surface');
+    var r = $('<div title="Meta surface"/>');
     var g = $('<div />');
     g.addClass('metasurface-container');
     r.append(g);
-    r.dialog();
+    r.dialog({});
     this.rootElm = r;
     return this;
 };

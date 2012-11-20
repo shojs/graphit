@@ -114,15 +114,3 @@ Cimage.prototype.callback_click = function() {
 };
 
 
-//Cimage.prototype.dom_build = function() {
-//	var that = this;
-//	var img = document.createElement('img');
-//	img.src = this.options.src;
-//	var $i = $(img);
-//	$i.click(function() { that.callback_click(); });
-//	this.rootElm = $(img);
-//	return this;
-//};
-
-
-

@@ -72,7 +72,6 @@ function Cmouse_tracker(options) {
 	this.interval = null;
 	this.points = new Array();
 	this.rootElm = null;
-	this.dom_get();
 	return this;
 }
 
@@ -144,20 +143,16 @@ Cmouse_tracker.prototype.dom_build = function() {
 	r.addClass('mousetracker');
 	var group = document.createElement('div');
 	var $g = $(group);
-	$g.addClass('group not-draggable');
+//	$g.addClass('group not-draggable');
 	$g.append('<div class="hold-var"><h6>x:&nbsp;</h6><span class="var-x">' + this.x
 			+ '</span></div>');
 	$g.append('<div class="hold-var"><h6>y:&nbsp;</h6><span class="var-y">' + this.y
 			+ '</span></div>');
 	r.append($g);
-	r.dialog({width: 150, height: 150});
 	this.rootElm = r;
 	return this;
 };
 
-Cmouse_tracker.prototype.get_dom = function() {
-	return this.rootElm;
-};
 /**
  * 
  */

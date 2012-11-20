@@ -1,5 +1,5 @@
 function Ccanvas(width, height, background_color) {
-    //console.log('Creating new Ccanvas WxH', width, height);
+    // console.log('Creating new Ccanvas WxH', width, height);
     if (background_color instanceof Ccolor) {
 	this.background_color = background_color;
     } else {
@@ -116,7 +116,7 @@ Ccanvas.prototype.select_by_color = function(color) {
     console.log('total line', total, pixel);
     // console.log(dc.toDataURL());
     var inv = new Ccanvas(width, height, new Ccolor(0, 0, 0, 1));
-    //inv.to_bitmask(dc);
+    // inv.to_bitmask(dc);
     this.ctx.clearRect(0, 0, width, height);
     this.ctx.drawImage(dc, 0, 0, width, height);
     this.ctx.restore();
@@ -154,7 +154,7 @@ Ccanvas.prototype.to_bitmask = function(src) {
 	    dcx.save();
 	    dcx.translate(j, i);
 	    if (alpha == 1) {
-		dcx.clearRect(0,0,1,1);
+		dcx.clearRect(0, 0, 1, 1);
 
 		// console.log('alpha buh', c);
 	    } else {
@@ -169,6 +169,26 @@ Ccanvas.prototype.to_bitmask = function(src) {
     this.ctx.drawImage(can, 0, 0, width, height);
 
 };
+
+Ccanvas.prototype.load = function(src) {
+    var that = this;
+    this.image_loading = new Cimage({
+	src : src,
+	callback_onload : function() {
+	    console.log('Image loaded', this);
+	    var w = cMath.clamp(1, this.rootElm.width, that.data.width);
+	    var h = cMath.clamp(1, this.rootElm.height, that.data.height);
+	    that.data.getContext('2d').drawImage(
+		    this.rootElm, 0, 0,
+		    w, h);
+	    that.image_loading = null;
+	},
+	callback_onerror : function() {
+	    console.log('Failed to load image', this);
+	    that.image_loading = null;
+	}
+    });
+}
 
 Ccanvas.prototype.clear = function(color) {
     if (!(color instanceof Ccolor)) {
