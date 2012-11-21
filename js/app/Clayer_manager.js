@@ -278,9 +278,13 @@ Clayer_manager.prototype.dom_exists = function(domLayer) {
  */
 Clayer_manager.prototype.redraw = function(force) {
     for ( var i = 0; i < this.layers.length; i++) {
+//	if (!this.layers[i].visible) {
+//	    console.log('Discarding hidden layer', i);
+//	    continue;
+//	}
 	this.layers[i].redraw(force);
     }
-
+    this.send_trigger('redraw');
 };
 
 /**

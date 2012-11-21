@@ -6,7 +6,7 @@
 var SHOJS_DEBUG = 1;
 
 function Cuid() {
-    this.prefix = 'sho';
+    this.prefix = '';
     this.id = null;
     this.stats = {
 	count: { label: 'Number of UID generated', type: 'int' , value: 0 }    
@@ -27,11 +27,11 @@ Cuid.prototype.get = function(maxtry) {;
     if (maxtry == undefined) {
 	maxtry == 3;
     }
-    var str = this.prefix + '-';
-    for ( var i = 0; i < 4; i++) {
+    var str = '';this.prefix + '-';
+    for ( var i = 0; i < 2; i++) {
 	str += this.get_frag() + '-';
     }
-    str += 'uid';
+    str += '';
     var e = document.getElementById(str);
     if (e) {
 	console.error('UID already present in dom');

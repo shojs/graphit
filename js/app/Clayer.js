@@ -14,6 +14,7 @@ var E_DRAWCOMPOSITION = new Object({
  * @returns
  */
 function Clayer(parent, label, p_composite_operation) {
+    var that = this;
     var composite_operation = p_composite_operation;
     if (!composite_operation) {
 	composiste_operation = Ecomposite_operation['source-over'];
@@ -33,7 +34,10 @@ function Clayer(parent, label, p_composite_operation) {
     var height = parent.parent.height;
     this.cCanvas = new Ccanvas({width: width, height: height });
     this.ctx = this.cCanvas.getContext('2d');
-    this.rootElm = null;
+    this.bind_trigger(this, 'redraw_preview', function(e, d) {
+	if (SHOJS_DEBUG > 4) console.debug('[Trigger/received]', e.type);
+	that.redraw_preview();
+    });
 };
 Clayer.prototype = Object.create(Cobject.prototype);
 Clayer.prototype.constructor = new Cobject();
@@ -43,7 +47,7 @@ Clayer.prototype.clone = function() {
     var l = new Clayer(this.parent, this.label, this.composition);
     l.visible = this.visible;
     l.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
-    l.need_redraw = this.need_redraw;
+    l.need_redraw = false;
     l.rootElm = this.rootElm;
     return l;
 };
@@ -56,6 +60,7 @@ Clayer.prototype.discard_frag = function() {
     // console.log('length: ' + this.frags.length);
     this.need_redraw = true;
     return this.frags.pop();
+    this.send_trigger('update');
 };
 
 /**
@@ -68,14 +73,14 @@ Clayer.prototype.dom_get = function(index) {
 
 Clayer.prototype.set_visibility = function(b) {
     if (b) {
-	this.bIsVisible = true;
+	this.visibility = true;
     } else {
-	this.bIsVisible = false;
+	this.visibility = false;
     }
 };
 
 Clayer.prototype.toggle_visibility = function() {
-    if (this.bIsVisible == true) {
+    if (this.visibility == true) {
 	return this.set_visibility(false);
     } else {
 	return this.set_visibility(true);
@@ -99,16 +104,18 @@ Clayer.prototype.dom_build = function() {
     var tabs = $('<div/>');
     tabs.attr('id', this.uid);
     var ul = $('<ul />');
-    ul.append('<li><a href="#'+this.uid+'-1">layer</a></li>');
-    ul.append('<li><a href="#'+this.uid+'-2">option</a></li>');
+    ul.append('<li><a href="#'+this.guid('tab', 1)+'">layer</a></li>');
+    ul.append('<li><a href="#'+this.guid('tab', 2)+'">option</a></li>');
+    ul.append('<li><a href="#'+this.guid('tab', 3)+'">stats</a></li>');
     tabs.append(ul);
-    var tab1 = $('<div id="'+this.uid+'-1"/>');
+    var tab1 = $('<div id="'+this.guid('tab', 1)+'"/>');
     var button = new Cimage({
 	src : 'img/16x16_eye.png',
 	width : '16px',
 	height : '16px',
 	callback_click : function(obj) {
 	    that.toggle_visibility();
+	    that.parent.send_trigger('update');
 	    console.log("Clicked: ", obj);
 	}
     });
@@ -191,9 +198,15 @@ Clayer.prototype.dom_build = function() {
     $t.append($tr);
     tab1.append($t);
     tabs.append(tab1);
-    var tab2 = $('<div id="'+this.uid+'-2"/>');
+    var tab2 = $('<div id="'+this.guid('tab', 2)+'"/>');
     tab2.append('<p>Layer option</p>');
     tabs.append(tab2);
+    var tab3 = $('<div id="'+this.guid('tab', 3)+'"/>');
+    tab3.append('<p>Total fragment: <span id="'+this.guid('stat', 'total-fragment')+'">'+this.frags.length+'</span></p>');
+    this.bind_trigger(this, 'redraw_preview', function(e, d) {
+	tab3.find('span').empty().append(that.frags.length);
+    });
+    tabs.append(tab3);
     $r.append(tabs);
     tabs.tabs();
     this.rootElm = $r;
@@ -260,7 +273,8 @@ Clayer.prototype.redraw = function(bool) {
 	this.ctx.drawImage(scanvas, 0, 0, width, height, x, y, width, height);
 	this.ctx.restore();
     }
-    this.redraw_preview();
+    this.send_trigger('redraw_preview');
+    //this.redraw_preview();
     this.need_redraw = false;
     return true;
 };

@@ -51,12 +51,18 @@ Cobject.prototype.parse_options = function(options, permitted) {
 	return true;
 };
 
-
+Cobject.prototype.guid = function(type, what) {
+    what = what? '-' + what: '';
+    var s = '' + this.className + '-' + this.uid + what;
+    return s.toLowerCase();
+};
 
 Cobject.prototype.get_trigger_name = function(type) {
-    var n = 'shojs-' + this.className + '-' + this.label + '-' + type;
-    n = n.toLowerCase();
-    return n;
+    return this.guid('trigger', type);
+//    var n = 'shojs-' + this.className + '-' + this.label + '-' + type;
+//    n = this.className + '-' + this.uid  + type;
+//    n = n.toLowerCase();
+//    return n;
 };
 
 Cobject.prototype.send_trigger = function (type, d) {

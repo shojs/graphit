@@ -14,7 +14,7 @@ var CTOOL_brushes = {
 		x : dsize,
 		y : dsize,
 		r : dsize,
-		fillStyle : new Ccolor(255, 0, 0, 0.1),
+		fillStyle : new Ccolor(255, 0, 0, 0.4),
 		strokeStyle : new Ccolor(255, 0, 0, 1),
 		lineWidth : 1,
 
@@ -27,7 +27,9 @@ var CTOOL_brushes = {
 		fillStyle : color
 	    });
 	},
-
+	rectangle: function() {
+	    
+	}
     },
 
 };

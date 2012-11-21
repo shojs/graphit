@@ -25,12 +25,17 @@ function Csurface(id, width, height) {
 	if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
 	that.send_trigger('update');
     });
+
     // Our layer manager
     this.layer_manager = new Clayer_manager(this);
     this.layer_manager.add(new Clayer(this.layer_manager, E_LAYERLABEL.mouse));
     this.layer_manager.add(new Clayer(this.layer_manager, E_LAYERLABEL.prefrag));
     this.layer_manager.add(new Clayer(this.layer_manager));
     this.layer_manager.select(this.layer_manager.layers[0]);
+    this.bind_trigger(this.layer_manager, 'update', function(e, d) {
+	if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
+	that.send_trigger('update');
+    });
     // Our mouse
     this.cMouse = new Cmouse_tracker({
 	parent : this,
@@ -48,20 +53,23 @@ function Csurface(id, width, height) {
 	callback_slide: function(value) {
 	    this.set(value);
 	    console.log('slide');
-	    that.update_grid.call(that, this);
+	    this.send_trigger('update');
 	},
 	callback_change: function(value) {
 	    this.set(value);
 	    console.log('Change');
-	    that.update_grid.call(that, this);
+	    this.send_trigger('update');
 	}
     });
     this.bind_trigger(this.cGrid, 'update', function(e, d) {
 	if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
-	    that.update_grid();
-	that.send_trigger('update');
+	that.update_grid();
     });
-    this.update_grid();
+    // Surface is waitin surface update to redraw 
+    this.bind_trigger(this, 'update', function(e, d) {
+	that.redraw();
+    });
+    
 }
 
 Csurface.prototype = Object.create(Cobject.prototype);
@@ -82,7 +90,8 @@ Csurface.prototype.update_grid = function() {
     if (this.cGrid.get_parameter('visibility')) {
 	this.cGrid.draw(grid.cCanvas.data,0,0,this.cCanvas.data.width, this.cCanvas.data.height);
     }
-    this.redraw(true);
+    this.need_redraw = true;
+    this.send_trigger('update');
 };
 /**
  * 
@@ -185,6 +194,7 @@ Csurface.prototype.redraw = function(force, dcanvas) {
 		0, 0, canvas.width, canvas.height);
     }
     tctx.restore();
+    this.send_trigger('redraw');
     this.need_redraw = false;
     return true;
 };
@@ -196,7 +206,8 @@ Csurface.prototype.clear = function() {
     for ( var i = 0; i < this.layer_manager.layers.length; i++) {
 	this.layer_manager.layers[i].clear();
     }
-    this.redraw();
+    this.need_redraw = true;
+    this.send_trigger('update');
 };
 
 /**
@@ -225,6 +236,7 @@ Csurface.prototype.callback_mouseup = function(e, obj) {
     if (!this.cMouse.is_pushed()) {
 	console.warn('Mouse not pushed');
 	return false;
+	
     }
     this.cGrapher.stop();
     this.redraw(true);

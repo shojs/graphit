@@ -63,6 +63,17 @@ Ccolor.prototype.from_rgba = function(rgba) {
 	return this;
 };
 
+
+Ccolor.prototype.inverse = function() {
+    console.log(this);
+  var rat = 1.0/255;
+  this.r = Math.round((1.0 - (this.r * rat))*255);
+  this.g = Math.round((1.0 - (this.g * rat))*255);
+  this.b = Math.round((1.0 - (this.b * rat))*255);
+  console.log(this);
+  return this;
+};
+
 /**
  * Read color from pixel data (context.getImageData.data...) 
  * @param p_data Our pixel array
