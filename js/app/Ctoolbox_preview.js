@@ -7,7 +7,6 @@ function Ctoolbox_preview(options) {
 	if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
 	var ctx = that.rootElm.find('canvas')[0].getContext('2d');
 	var color = that.parent.fg_color.color.clone().inverse();
-	//color.a = 1;
 	that.cCanvas.clear(color);
 	that.cCanvas.copy(that.parent.selected.cCanvas);
 	

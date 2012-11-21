@@ -65,11 +65,11 @@ function Csurface(id, width, height) {
 	if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
 	that.update_grid();
     });
-    // Surface is waitin surface update to redraw 
+    // Surface is waiting surface update to redraw 
     this.bind_trigger(this, 'update', function(e, d) {
 	that.redraw();
     });
-    
+    this.update_grid();
 }
 
 Csurface.prototype = Object.create(Cobject.prototype);
