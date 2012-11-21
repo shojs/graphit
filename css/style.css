@@ -36,17 +36,16 @@ body {
 }
 
 .about {
-	width: 600px;
+
 	margin: auto;
-	position: absolute;
-	top: 100px;
-	left: 100px;
+
 }
 
 .about .text {
 	height: 200px;
 	overflow-y: auto;
 	overflow-x: none;
+    white-space:pre-line;
 }
 
 .about .text>a:link {
@@ -305,9 +304,11 @@ li {
 	font-size: xx-small;
 	text-transform: capitalize;
 }
+.group-license: {
+
+}
 .group-license .text {
-	font-size: x-small;
-	white-space: pre-line;
+
 }
 .group-license a:link {
     color: green;

@@ -6,20 +6,18 @@ function Clicense() {
 
 Clicense.prototype.dom_build = function() {
 	if (this.rootElm) { return this; }
-	var root = document.createElement("div");
-	var $r = $(root);
-	$r.addClass('about ' + DRAWGLOB.css_draggable_class);
-	helper_build_header($r, ' ', 'About');
-	var $g = $(document.createElement('div'));
-	$g.addClass('ui-widget-content group-license not-draggable');
-	var img = document.createElement('img');
-	img.src = this.logo;
+	var $r = $('<div title="License"/>');
+	$r.addClass('about ');
+	var $g = $('<div />');
+	$g.addClass('group-license');
+	var img = $('<img />');
+	img[0].src = this.logo;
 	$g.append(img);
 	$g.append('<p>Source code: <a href="#code" onclick="window.open(\'http://github.com/shojs/graphit/\'); return false;">github</a></p>');
-	$g.append('<p>Documentation: <a href="#doc" onclick="window.open(\'https://github.com/shojs/graphit/wiki\')">Wiki</a></p>');
+	$g.append('<p>Documentation: <a href="#doc" onclick="window.open(\'http://github.com/shojs/graphit/wiki\');return false;">Wiki</a></p>');
 	$g.append('<h6>License</h6>');
-	var $txt = $(document.createElement('p'));
-	$txt.addClass('ui-widget-content text');
+	var $txt = $('<p />');
+	$txt.addClass('text');
 	$txt.append("" +
 "                    GNU GENERAL PUBLIC LICENSE" + 
 "                       Version 3, 29 June 2007" +

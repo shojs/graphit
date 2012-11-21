@@ -102,8 +102,8 @@ function _ok_to_build() {
     });
     $('#button-about').click(function() {
 	var about = new Clicense();
-	var dom = about.dom_get();
-	$('body').append(dom);
+	widget_factory(about.dom_get(), {width: 600});
+	
     });
 
     /*
