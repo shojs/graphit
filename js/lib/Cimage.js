@@ -34,25 +34,25 @@ Cimage.prototype.dom_build = function(p_src, force) {
 		console.warn('No source for image');
 		return false;
 	}
-	var img = document.createElement('img');
+	var img = $('<img/>');
 	img.onload = function() { that.callback_onload(); };
 	img.onerror = function() { that.callback_onerror(); };
 //	console.log(opt);
 	if ('label' in opt && opt.label != undefined) {
-		img.setAttribute('alt', this.options.label);
-		img.setAttribute('title', this.options.label);
+		img.attr('alt', this.options.label);
+		img.attr('title', this.options.label);
 	}
 	if ('width' in opt && opt.width != undefined) {
 		//console.log('set width', opt.width);
-		img.setAttribute('width', opt.width);
+		img.attr('width', opt.width);
 	}
 	if ('height' in opt && opt.height != undefined) {
-		img.setAttribute('height', opt.height);
+		img.attr('height', opt.height);
 	}
 	if ('src' in opt && opt.src) {
-		img.setAttribute('src', opt.src);
+		img.attr('src', opt.src);
 	}
-	$(img).click(function() { that.callback_click(); });
+	img.click(function() { that.callback_click(); });
 	this.rootElm = img;
 	return this;
 };

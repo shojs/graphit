@@ -233,7 +233,7 @@ Clayer_manager.prototype.dom_build = function(parent, force) {
     });
     r.append(b_add.dom_get());
     var group = $('<ul />');
-    group.addClass('group-layers group');
+    group.addClass('group-layers ui-widget-content');
     //main.append(cmd);
     r.append(group);
     r.append(main);

@@ -22,6 +22,7 @@ function Csurface(id, width, height) {
     // Our grapher
     this.cGrapher = new Cgrapher(this.cToolbox, this);
     this.bind_trigger(this.cGrapher, 'update', function(e, d) {
+	if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
 	that.send_trigger('update');
     });
     // Our layer manager
@@ -56,7 +57,7 @@ function Csurface(id, width, height) {
 	}
     });
     this.bind_trigger(this.cGrid, 'update', function(e, d) {
-	console.log('[Trigger/received]', e, d);
+	if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
 	    that.update_grid();
 	that.send_trigger('update');
     });
@@ -76,7 +77,7 @@ Csurface.prototype.set_current_layer = function(layer) {
 
 Csurface.prototype.update_grid = function() {
     var grid = this.layer_manager.get_layer('grid');
-    var ctx = grid.getContext('2d');
+    var ctx = grid.cCanvas.getContext();
     ctx.clearRect(0, 0, grid.cCanvas.data.width, grid.cCanvas.data.height);
     if (this.cGrid.get_parameter('visibility')) {
 	this.cGrid.draw(grid.cCanvas.data,0,0,this.cCanvas.data.width, this.cCanvas.data.height);
@@ -247,16 +248,13 @@ Csurface.prototype.callback_mousemove = function(e, obj) {
  * @returns {___anonymous5807_5851}
  */
 Csurface.prototype.save_as_json = function() {
-
-    var data = {
-	label : this.label,
-	layers : [],
-    };
-    for ( var i = 0; i < this.layer_manager.layers.length; i++) {
-	data.layers.push(this.layer_manager.layers[i].to_json());
-    }
+//    var data = {
+//	label : this.label,
+//	layers : [],
+//    };
+//    for ( var i = 0; i < this.layer_manager.layers.length; i++) {
+//	data.layers.push(this.layer_manager.layers[i].to_json());
+//    }
     var w = window.open(this.cCanvas.data.toDataURL());
-    // w.document.location.href=JSON.stringify(data);
-    console.log(data);
     return data;
 };

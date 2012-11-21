@@ -142,7 +142,7 @@ Cmouse_tracker.prototype.dom_build = function() {
 	r.addClass('mousetracker');
 	var group = document.createElement('div');
 	var $g = $(group);
-//	$g.addClass('group not-draggable');
+	$g.addClass('ui-widget-content');
 	$g.append('<div class="hold-var"><h6>x:&nbsp;</h6><span class="var-x">' + this.x
 			+ '</span></div>');
 	$g.append('<div class="hold-var"><h6>y:&nbsp;</h6><span class="var-y">' + this.y

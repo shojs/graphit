@@ -104,7 +104,7 @@ Cgrapher.prototype.start = function() {
 		that._graph();
 	};
 	if (!this.cToolbox || !this.cToolbox.selected) { 
-	    $(document).trigger('shojs-error', ['no-tool-selectionned']);
+	    this.send_trigger('error', 'no-tool-selectionned');
 	    console.error('No tool selectionned!');
 	    return false; 
 	};

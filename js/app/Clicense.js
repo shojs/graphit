@@ -11,7 +11,7 @@ Clicense.prototype.dom_build = function() {
 	$r.addClass('about ' + DRAWGLOB.css_draggable_class);
 	helper_build_header($r, ' ', 'About');
 	var $g = $(document.createElement('div'));
-	$g.addClass('group group-license not-draggable');
+	$g.addClass('ui-widget-content group-license not-draggable');
 	var img = document.createElement('img');
 	img.src = this.logo;
 	$g.append(img);
@@ -19,7 +19,7 @@ Clicense.prototype.dom_build = function() {
 	$g.append('<p>Documentation: <a href="#doc" onclick="window.open(\'https://github.com/shojs/graphit/wiki\')">Wiki</a></p>');
 	$g.append('<h6>License</h6>');
 	var $txt = $(document.createElement('p'));
-	$txt.addClass('group text');
+	$txt.addClass('ui-widget-content text');
 	$txt.append("" +
 "                    GNU GENERAL PUBLIC LICENSE" + 
 "                       Version 3, 29 June 2007" +

@@ -39,7 +39,7 @@ Cobject.prototype.parse_options = function(options, permitted) {
 			if (label in options) {
 				this[label] = options[label];
 			} else {
-				console.warn('Needed property <<', label, '>> ');
+			    if (SHOJS_DEBUG > 10) console.warn('Needed property <<', label, '>> ');
 			}
 		}
 	}
@@ -51,14 +51,7 @@ Cobject.prototype.parse_options = function(options, permitted) {
 	return true;
 };
 
-Cobject.prototype.getContext = function(type) {
-    type = type || '2d';
-    if ('cCanvas' in this) {
-	return this.cCanvas.data.getContext(type);
-    }
-    console.error('Cannot return context for this object... no cCanvas');
-    return null;
-};
+
 
 Cobject.prototype.get_trigger_name = function(type) {
     var n = 'shojs-' + this.className + '-' + this.label + '-' + type;
@@ -68,13 +61,13 @@ Cobject.prototype.get_trigger_name = function(type) {
 
 Cobject.prototype.send_trigger = function (type, d) {
     var n = this.get_trigger_name(type);
-    console.log('[trigger/send]', n);
+    if (SHOJS_DEBUG > 4) console.log('[trigger/send]', n);
     $(document).trigger(n, d);
 };
 
 Cobject.prototype.bind_trigger = function(osrc, type, callback) {
     var name = osrc.get_trigger_name(type);
-    console.debug('[trigger/bind]', this.className, ' => ', name);
+    if (SHOJS_DEBUG > 4) console.debug('[trigger/bind]', this.className, ' => ', name);
     $(document).bind(name, function(e, d) { callback.call(this, e, d); } );
 };
 

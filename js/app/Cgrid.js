@@ -57,7 +57,7 @@ Cgrid.prototype.dom_build = function() {
     r.attr('title', this.label);
     r.addClass('grid');
     var g = $('<div />');
-    g.addClass('group');
+    g.addClass('ui-widget-content');
     for (label in this.parameters) {
 	var param = this.parameters[label];
 	r.append(param.dom_get());

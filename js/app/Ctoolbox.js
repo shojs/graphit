@@ -7,10 +7,17 @@
  * - brush preview 
  */
 function Ctoolbox(olist, options) {
-	this.olist = olist;
+	var that = this;
+    	this.olist = olist;
 	options.className = 'Ctoolbox';
 	options.label = 'toolbox';
 	Cobject.call(this, options, ['parent']);
+	this.elmPreview = null;
+	this.elmOptions = null;
+	this.bind_trigger(this, 'update', function(e, d) {
+	    if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
+	    that.update();
+	});
 }
 
 Ctoolbox.prototype = Object.create(Cobject.prototype);
@@ -23,24 +30,24 @@ Ctoolbox.prototype.init = function() {
 	var that = this;
 	this.selected = null;
 	this.tools = new Array();
+	this.preview = new Ctoolbox_preview({parent: this});
 	this.fg_color = new Ctoolbox_colorpicker(new Ccolor(255, 255, 255, 1), {
 		parent : this,
 		callback_onchange : function(rgb) {
-			this.parent.selected.update();
+			that.send_trigger('update');
 		},
 		label: 'Foreground color',
 	});
 	this.bg_color = new Ctoolbox_colorpicker(new Ccolor(0, 0, 0, 1), {
 		parent : this,
 		callback_onchange : function(rgb) {
-			this.parent.selected.update();
+			that.send_trigger('update');
 		},
 		label: 'Background color'
 	});
-	this.elmPreview = null;
-	this.elmOptions = null;
-	this.rootElm = null;
+
     	this.bind_trigger(this, 'update', function(e,d) {
+    	    if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
 	    if (that.selected) 
 		that.selected.update();
     	});
@@ -87,8 +94,11 @@ Ctoolbox.prototype.load = function(olist) {
 /**
  * 
  */
-Ctoolbox.prototype.trigger_update = function() {
-    
+Ctoolbox.prototype.update = function() {
+    if (!this.selected) {
+	return false;
+    }
+    this.selected.update();
 };
 
 /**
@@ -108,6 +118,7 @@ Ctoolbox.prototype.select_tool = function(cTool) {
 	$g.append(cTool.dom_build_options());
 	this.selected = cTool;
 	cTool.update();
+	this.send_trigger('update');
 	return true;
 };
 
@@ -121,7 +132,7 @@ Ctoolbox.prototype.switch_color = function() {
 	var $holder = this.rootElm.find('.colorpicker-colors');
 	$holder.children('.colorpicker').detach();
 	this.dom_build_colorpickers($holder);
-	this.selected.update();
+	this.send_trigger('update');
 };
 
 /**
@@ -144,7 +155,7 @@ Ctoolbox.prototype.dom_build = function() {
 	var r = $('<div title="Toolbox"/>');
 	r.addClass('toolbox');
 	var g = $('<div />');
-	g.addClass('group-tools group');
+	g.addClass('group-tools ui-widget-content');
 	/* Tool */
 	for ( var i = 0; i < this.tools.length; i++) {
 		var tool = this.tools[i];
@@ -153,9 +164,9 @@ Ctoolbox.prototype.dom_build = function() {
 	r.append(g);
 	/* Color picker */
 	g = $('<div/>');
-	g.addClass('group group-colorpicker not-draggable');
+	g.addClass('ui-widget-content group-colorpicker');
 	var cp = $('<div/>');
-	cp.addClass('group colorpicker-colors');
+	cp.addClass('ui-widget-content colorpicker-colors');
 	this.dom_build_colorpickers(cp);
 	g.append(cp);
 	g.append(	$(new Cimage({
@@ -166,19 +177,19 @@ Ctoolbox.prototype.dom_build = function() {
 		callback_click : function(obj) {
 			that.switch_color();
 		},
-		label: 'Switch color'
-	}).dom_get()));
-	r.append(g);
-	/* Options */
-	g = $(document.createElement('div'));
-	g.addClass('group-options group');
-	//$group.append('<span style="font-size: x-small">[ OPTIONS ]</span>');
+		label: 'Switch color',
+	}).dom_get().addClass('switch')));
 	r.append(g);
 	/* Preview */
 	g = $('<div/>');
-	g.addClass('group-preview group');
-	g.append('<span style="font-size: x-small">[ PREVIEW ]</span>');
+	g.addClass('group-preview ui-widget-content');
+	g.append(this.preview.dom_get());
 	r.append(g);
+	/* Options */
+	g = $(document.createElement('div'));
+	g.addClass('group-options ui-widget-content');
+	r.append(g);
+	/* setting rootElm */
 	this.rootElm = r;
 	return this;
 };

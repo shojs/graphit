@@ -70,7 +70,6 @@ Cparameter.prototype.dom_build = function() {
 	s[0].checked = 'checked';
     }
     s.change(function() {
-	console.log(this);
 	that.set(this.checked);
 	if ('callback_change' in that) {
 	    that.callback_change.call(that, s[0].checked);

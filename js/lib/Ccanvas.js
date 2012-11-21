@@ -1,3 +1,8 @@
+/**
+ * A class holding a canvas element
+ * @param options
+ * @returns
+ */
 function Ccanvas(options) {
     if (!options) {
 	console.error('Missing << {} >> parameter for Ccanvas');
@@ -7,19 +12,48 @@ function Ccanvas(options) {
     }
     options.className = 'Ccanvas';
     options.label = 'canvas';
-    Cobject.call(this, options, ['width', 'height', 'bg_color']);
+    Cobject.call(this, options, ['width', 'height', 'bg_color', 'src']);
     this.data = document.createElement('canvas');
     this.data.setAttribute('width', this.width);
     this.data.setAttribute('height', this.height);
     this.ctx = this.data.getContext('2d');
     this.clear(this.bg_color);
+    if (this.src) {
+	this.load(this.src);
+    }
 };
 
 Ccanvas.prototype = Object.create(Cobject.prototype);
 Ccanvas.prototype.constructor = new Cobject();
 
 Ccanvas.prototype.clone = function() {
-    var c = new Ccanvas({width: this.width, height: this.height, bg_color: this.bg_color });
+    var c = new Ccanvas({
+	width: this.width, 
+	height: this.height, 
+	bg_color: this.bg_color });
+    c.copy(this);
+    return c;
+};
+
+Ccanvas.prototype.get_width = function() {
+    return this.data.width;
+};
+
+Ccanvas.prototype.get_height = function() {
+    return this.data.height;
+};
+
+Ccanvas.prototype.copy = function(cCanvas, bResize) {
+    var ctx = this.data.getContext('2d');
+    if (bResize != 'undefined' && bResize) {
+	ctx.drawImage(cCanvas.data, 0, 0, cCanvas.get_width(), cCanvas.get_height(), 0,0, this.get_width(), this.get_height());
+    } else {
+	var dwidth = cCanvas.get_width() > this.get_width()? this.get_width(): cCanvas.get_width();
+	var dheight = cCanvas.get_height() > this.get_height()? this.get_height(): cCanvas.get_height();
+	var offx = (this.get_width() > dwidth)? (this.get_width() - dwidth)/2 : 0;
+	var offy = (this.get_height() > dheight)? (this.get_height() - dheight)/2 : 0;
+	ctx.drawImage(cCanvas.data, 0, 0, dwidth, dheight, offx, offy, dwidth, dheight);
+    };
 };
 
 Ccanvas.prototype.get_pixel_color = function(data, x, y, Ecolor) {
@@ -30,26 +64,25 @@ Ccanvas.prototype.getCanvas = function() {
     return this.data;
 };
 
-Ccanvas.prototype.getContext = function(type) {
-    if (!type) {
-	type = '2d';
+Cobject.prototype.getContext = function(type) {
+    type = type || '2d';
+    if ('data' in this) {
+	return this.data.getContext(type);
     }
-    return this.data.getContext(type);
+    console.error('Cannot return context for this object... no cCanvas');
+    return null;
 };
 
-
-
 Ccanvas.prototype.clear = function(color) {
-    if (color instanceof Ccolor) {
-	this.background_color = color;
-    }
-    if (this.background_color.a == 0) {
-	this.ctx.clearRect(0, 0, this.data.width, this.data.height);
+    color = color || new Ccolor(0,0,0,0);
+    var ctx = this.getContext();
+    if (color.a == 0) {
+	ctx.clearRect(0, 0, this.data.width, this.data.height);
     } else {
-	this.ctx.save();
-	this.ctx.fillStyle = this.background_color.to_rgba();
-	this.ctx.fillRect(0, 0, this.data.width, this.data.height);
-	this.ctx.restore();
+	ctx.save();
+	ctx.fillStyle = color.to_rgba();
+	ctx.fillRect(0, 0, this.data.width, this.data.height);
+	ctx.restore();
     }
 };
 
@@ -201,19 +234,10 @@ Ccanvas.prototype.load = function(src) {
 	    that.image_loading = null;
 	}
     });
-}
-
-Ccanvas.prototype.clear = function(color) {
-    if (!(color instanceof Ccolor)) {
-	console.error('Fist parameter is not a Ccolor instance');
-	return false;
-    }
-    if (color.a == 0) {
-	this.ctx.clearRect(0, 0, this.data.width, this.data.height);
-    } else {
-	this.ctx.fillStyle = color.to_rgba();
-	this.ctx.fillRect(0, 0, this.data.width, this.data.height);
-    }
-    return true;
-
 };
+
+Ccanvas.prototype.dom_build = function() {
+   this.rootElm = this.data;
+   return this;
+};
+
