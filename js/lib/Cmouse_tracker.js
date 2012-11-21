@@ -59,7 +59,7 @@ function Cmouse_tracker(options) {
 		minx : 0,
 		maxx : this.parent.width,
 		miny : 0,
-		maxy : this.parent.height,
+		maxy : this.parent.height
 	});
 	this.minx = this.minmax.maxx;
 	this.maxx = 0;
@@ -77,6 +77,9 @@ function Cmouse_tracker(options) {
 Cmouse_tracker.prototype = Object.create(Cobject.prototype);
 Cmouse_tracker.prototype.constructor = new Cobject();
 
+/**
+ * 
+ */
 Cmouse_tracker.prototype.reset = function() {
 	this.minx = this.minmax.maxx;
 	this.maxx = 0;

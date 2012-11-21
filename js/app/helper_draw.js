@@ -36,8 +36,7 @@ var cDraw = {
 	ctx.closePath();
 	ctx.restore();
 	return true;
-    },
-
+    }
 };
 
 //function helper_draw_circle(canvas, x, y, r, color) {

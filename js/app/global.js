@@ -25,9 +25,9 @@ Cuid.prototype.get_frag = function() {
 Cuid.prototype.get = function(maxtry) {;
     this.stats.count.value++;
     if (maxtry == undefined) {
-	maxtry == 3;
+	maxtry = 3;
     }
-    var str = '';this.prefix + '-';
+    var str = '';
     for ( var i = 0; i < 2; i++) {
 	str += this.get_frag() + '-';
     }

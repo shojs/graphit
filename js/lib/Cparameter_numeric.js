@@ -12,7 +12,7 @@ Cparameter_numeric.prototype = Object.create(Cparameter.prototype);
 Cparameter_numeric.prototype.constructor = new Cparameter();
 
 Cparameter_numeric.prototype.init = function(options) {
-	this.checks = new Object({ label: 1, min: 1, max: 1, def: 1, step: 1,});
+	this.checks = new Object({ label: 1, min: 1, max: 1, def: 1, step: 1});
 	for (k in this.checks) {
 		if (!(k in options) || options[k] === undefined) {
 			console.error('Missing parameter key/value', options, k);

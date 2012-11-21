@@ -97,7 +97,7 @@ var Ergb_color = {
     red : 0,
     green : 1,
     blue : 2,
-    alpha : 3,
+    alpha : 3
 };
 
 

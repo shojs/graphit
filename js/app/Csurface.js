@@ -45,7 +45,7 @@ function Csurface(id, width, height) {
 	callback_track : function(x, y) {
 	    $(that.cMouse.rootElm).find('.var-x').empty().append(x);
 	    $(that.cMouse.rootElm).find('.var-y').empty().append(y);
-	},
+	}
     });
     // Our grid
     this.cGrid = new Cgrid({

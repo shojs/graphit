@@ -1,6 +1,6 @@
 var Egrapher_mode = {
 	continuous: 1,
-	endpoint: 2,
+	endpoint: 2
 };
 /**
  * 
@@ -15,11 +15,10 @@ function Cgrapher(cToolbox, cSurface) {
     	    className: 'Cgrapher',
     	    label: 'grapher',
     	    cToolbox: cToolbox,
-    	    cSurface: cSurface,
+    	    cSurface: cSurface
     	}, ['label', 'cToolbox', 'cSurface']);
 	this.reset_index();
 	this.timer = null;
-//	cSurface.cGrapher = this;
 	this.mode = Egrapher_mode.continuous;
 }
 

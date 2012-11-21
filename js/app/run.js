@@ -6,7 +6,7 @@ var E_LAYERLABEL = new Object({
     current : '_current',
     mouse : '_mouse',
     grid : '_gris',
-    prefrag : '_prefrag',
+    prefrag : '_prefrag'
 });
 
 
@@ -30,7 +30,7 @@ function _ok_to_build() {
 		Ok: function() {
 		    $(this).dialog('close');
 		}
-	    },
+	    }
 	});
 	//alert('You must first select a tool in toolbar');
     });
@@ -45,7 +45,7 @@ function _ok_to_build() {
 		width : 250, 
 		zIndex: 10,
 		dialogClass: 'shojs-dialog',
-		stack: true,
+		stack: true
 	};
 	for (var label in mandatory) {
 	    if (!(label in options)) {
@@ -64,32 +64,32 @@ function _ok_to_build() {
     
     /* TOOLBOX */
     var d_tb = widget_factory(cSurface.cToolbox.dom_get(), {
-	position: 'left top',
+	position: 'left top'
     });
     /* LAYER MANAGER */
     widget_factory(cSurface.layer_manager.dom_get(), {
-	position:  {  my: "right top", at: "right bottom", of: d_tb, collision: 'fit' }, 
+	position:  {  my: "right top", at: "right bottom", of: d_tb, collision: 'fit' }
     });
     /* SURFACE */
     widget_factory(cSurface.dom_get(), {
 	width: cSurface.width + 100, 
 	position: 'middle middle', 
-	stack: false, 
+	stack: false
     });
     /* THEME CHOOSER */
     var d_tc = widget_factory(new Cjquery_theme().dom_get(), {
 	height: 60, 
-	position: 'right top', 
+	position: 'right top'
     });
     
     /* GRID */
     var d_g = widget_factory(cSurface.cGrid.dom_get(), { 
-	position: { my: "right top", at: "right bottom", of: d_tc, collision: 'fit'},
+	position: { my: "right top", at: "right bottom", of: d_tc, collision: 'fit'}
     });
     /* MOUSE */
     widget_factory(cSurface.cMouse.dom_get(), {
 	height: 120,
-	position: {  my: "right top", at: "right bottom", of: d_g, collision: 'fit' }, 
+	position: {  my: "right top", at: "right bottom", of: d_g, collision: 'fit' }
     });
     /* 
      * BUTTONS

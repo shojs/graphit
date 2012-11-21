@@ -3,8 +3,7 @@
  */
 var E_DRAWCOMPOSITION = new Object({
     'source-in' : 'source-in',
-    'source-over' : 'source-over',
-
+    'source-over' : 'source-over'
 });
 
 /*******************************************************************************
@@ -25,7 +24,7 @@ function Clayer(parent, label, p_composite_operation) {
 	label : label,
 	composite_operation : composite_operation,
 	visible: false,
-	need_redraw: true,
+	need_redraw: true
     }, ['parent', 'label', 'composite_operation', 'need_redraw', 'visible']);
     this.uid = UID.get();
     this.frags = new Array();
@@ -59,8 +58,8 @@ Clayer.prototype.clone = function() {
 Clayer.prototype.discard_frag = function() {
     // console.log('length: ' + this.frags.length);
     this.need_redraw = true;
-    return this.frags.pop();
     this.send_trigger('update');
+    return this.frags.pop();
 };
 
 /**
@@ -239,9 +238,6 @@ Clayer.prototype.redraw = function(bool) {
     if ('compositeOperation' in this) {
 	this.ctx.compositeOperation = this.compositeOperation;
     }
-    if (this.frags.length > 10) {
-	;
-    }
     var dwidth = this.cCanvas.data.width;
     var dheight = this.cCanvas.data.height;
     for ( var i = 0; i < this.frags.length; i++) {
@@ -351,6 +347,6 @@ Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx, ty,
 Clayer.prototype.to_json = function() {
     return {
 	label : this.data,
-	data : this.cCanvas.data.toDataURL(),
+	data : this.cCanvas.data.toDataURL()
     };
 };

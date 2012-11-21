@@ -9,7 +9,7 @@ function Clayer_manager(parent) {
     Cobject.call(this, { 
 	parent: parent, 
 	className: 'Clayer_manager',
-	label: 'layermanager',
+	label: 'layermanager'
     }, ['parent', 'label']);
     this.layers = new Array();
     this.special_layers = new Object();
@@ -106,8 +106,8 @@ Clayer_manager.prototype.exists = function(layer) {
 Clayer_manager.prototype.remove = function(layer) {
     var selected = this.selected;
     var idx = this.exists(layer);
-    if (selected == layer && idx > 1) {
-	selected == this.layers[idx - 1]; 
+    if ((selected == layer) && (idx > 1)) {
+	selected = this.layers[idx - 1]; 
     }
     if (idx === undefined) {
 	console.error('Cannot remove undefined element');

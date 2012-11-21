@@ -1,5 +1,5 @@
 var Ecolor = {
-	transparent_black: 'rgba(0,0,0,0)',
+	transparent_black: 'rgba(0,0,0,0)'
 };
 
 /**
@@ -17,7 +17,8 @@ function Ccolor(r, g, b, a) {
 	this.a = a;
 }
 
-/* Convert Ccolor object to rgba string: rgba(r,g,b,a)
+/**
+ *  Convert Ccolor object to rgba string: rgba(r,g,b,a)
  * @return string
  */
 Ccolor.prototype.to_rgba = function() {

@@ -16,8 +16,7 @@ var CTOOL_brushes = {
 		r : dsize,
 		fillStyle : new Ccolor(255, 0, 0, 0.4),
 		strokeStyle : new Ccolor(255, 0, 0, 1),
-		lineWidth : 1,
-
+		lineWidth : 1
 	    });
 	    cDraw.circle({
 		dcanvas : this.cCanvas.data,
@@ -30,8 +29,7 @@ var CTOOL_brushes = {
 	rectangle: function() {
 	    
 	}
-    },
-
+    }
 };
 
 var Ecomposite_operation = {
@@ -45,7 +43,7 @@ var Ecomposite_operation = {
     'destination-in' : 'destination-in',
     'destination-out' : 'destination-out',
     'destination-atop' : 'destination-atop',
-    'darker' : 'darker',
+    'darker' : 'darker'
 };
 /**
  * 
@@ -78,7 +76,7 @@ var CTOOL_tools = {
 		    square : 'square'
 		},
 		def : 'round'
-	    },
+	    }
 	// linejoin: { type: Eparameter_type.select, label: 'linejoin', choices:
 	// { bevel: 'bevel', round: 'round', miter: 'mitter' }, def: 'round' },
 	},
@@ -106,7 +104,7 @@ var CTOOL_tools = {
 	    ctx.closePath();
 	    ctx.restore();
 	    return true;
-	},
+	}
 
     },
     /***************************************************************************
@@ -135,7 +133,7 @@ var CTOOL_tools = {
 		max : 100,
 		def : 100,
 		step : 0.01
-	    },
+	    }
 	},
 	brush : CTOOL_brushes.circle,
 	_update : function() {
@@ -161,7 +159,7 @@ var CTOOL_tools = {
 		ctx.restore();
 	    }
 	    return true;
-	},
+	}
     },
     /***************************************************************************
      * Eraser
@@ -182,7 +180,7 @@ var CTOOL_tools = {
 		max : 100,
 		def : 100,
 		step : 0.01
-	    },
+	    }
 	},
 	compositeOperation : Ecomposite_operation.xor,
 	brush : CTOOL_brushes.circle,
@@ -240,8 +238,6 @@ var CTOOL_tools = {
 		    .drawImage(nf.cCanvas.data, x, y, width, height, 0, 0,
 			    'source-in');
 	    nf.ctx.restore();
-	},
-
-    },
-
+	}
+    }
 };

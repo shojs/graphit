@@ -36,7 +36,7 @@ Ctoolbox.prototype.init = function() {
 		callback_onchange : function(rgb) {
 			that.send_trigger('update');
 		},
-		label: 'Foreground color',
+		label: 'Foreground color'
 	});
 	this.bg_color = new Ctoolbox_colorpicker(new Ccolor(0, 0, 0, 1), {
 		parent : this,
@@ -177,7 +177,7 @@ Ctoolbox.prototype.dom_build = function() {
 		callback_click : function(obj) {
 			that.switch_color();
 		},
-		label: 'Switch color',
+		label: 'Switch color'
 	}).dom_get().addClass('switch')));
 	r.append(g);
 	/* Preview */
