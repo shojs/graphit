@@ -22,10 +22,11 @@ Cobject.prototype.load = function(src) {
   this.src = src;
   var xhr = new XMLHttpRequest();
   xhr.open('GET', src, true);
-  xhr.responseType = 'arraybuffer';
+  xhr.responseType = 'blob'; //'arraybuffer';
   
   var that = this;
   xhr.onload = function(e) {
+      console.log('Loaded');
       //var ui8a = new Uint8Array(this.response);
       that.response = this;
       if ('callback_success' in that) {
@@ -38,6 +39,7 @@ Cobject.prototype.load = function(src) {
 	  that.callback_error(that, this);
       } 
   };
+  xhr.send();
 };
 
 
