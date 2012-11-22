@@ -19,7 +19,7 @@ function Ccanvas(options) {
     this.ctx = this.data.getContext('2d');
     this.clear(this.bg_color);
     if (this.src) {
-	this.load(this.src);
+    	this.load(this.src);
     }
 };
 

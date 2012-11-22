@@ -8,9 +8,9 @@
  * @param permitted
  */
 function Cobject(options, permitted) {
-    	if (options == undefined) {
-    	    return;
-    	}
+	if (options == undefined) {
+		return;
+	}
 	this.parent = null;
 	this.parameters = {};
 	this._class_init(options, permitted);
@@ -25,6 +25,7 @@ function Cobject(options, permitted) {
  */
 Cobject.prototype._class_init = function(options, permitted) {
 	this.uid = UID.get();
+	this.callback = {};
 	if (SHOJS_DEBUG > 10) console.log('UID', this.uid);
 	this.parse_options(options, permitted);
 	return this;
@@ -37,34 +38,49 @@ Cobject.prototype._class_init = function(options, permitted) {
  * @returns {Boolean}
  */
 Cobject.prototype.parse_options = function(options, permitted) {
-    	if (options == undefined) {
-    	    console.warn("No << {} >> argument passed to new Cobject");
-    	    return;
-    	}
-    	permitted = permitted || [];
-    	var mandatory = ['className', 'label'];
-    	for (var i = 0; i < mandatory.length; i++) {
-    	    if (!( mandatory[i] in options) && !options[mandatory[i]]){
-    		console.error('Missing ' + mandatory[i] +' in Cobject parameters');
-    		return false;
-    	    } else {
-    		permitted.push(mandatory[i]);
-    	    }
-	
-    	}
+	if (options == undefined) {
+		console.warn("No << {} >> argument passed to new Cobject");
+		return;
+	}
+	permitted = permitted || [];
+	var mandatory = [
+			'className', 'label'
+	];
+	for ( var i = 0; i < mandatory.length; i++) {
+		if (!(mandatory[i] in options) && !options[mandatory[i]]) {
+			console.error('Missing ' + mandatory[i] + ' in Cobject parameters');
+			return false;
+		} else {
+			permitted.push(mandatory[i]);
+		}
+
+	}
 	if (permitted && typeof permitted === 'object') {
 		for ( var i = 0; i < permitted.length; i++) {
 			var label = permitted[i];
 			if (label in options) {
 				this[label] = options[label];
 			} else {
-			    if (SHOJS_DEBUG > 10) console.warn('Needed property <<', label, '>> ');
+				if (SHOJS_DEBUG > 10) console.warn('Needed property <<', label,
+						'>> ');
 			}
 		}
 	}
 	if ('parameters' in options) {
 		for (plabel in options.parameters) {
 			this.add_parameter(options.parameters[plabel]);
+		}
+	}
+	var pat = /^callback_(.*)$/;
+	for ( var label in options) {
+		var m = pat.exec(label);
+		if (!m) {
+
+		} else if (m[1] in this.callback) {
+			console.error('Callback', m[1], 'already installed skipping...');
+		} else {
+			//console.log('Installing callback: ' + this.className + ' ' + m[1]);;
+			this.callback[m[1]] = options[label];
 		}
 	}
 	return true;
@@ -76,9 +92,9 @@ Cobject.prototype.parse_options = function(options, permitted) {
  * @returns <String>
  */
 Cobject.prototype.guid = function(type, what) {
-    what = what? '-' + what: '';
-    var s = '' + this.className + '-' + this.uid + what;
-    return s.toLowerCase();
+	what = what ? '-' + what : '';
+	var s = '' + this.className + '-' + this.uid + what;
+	return s.toLowerCase();
 };
 
 /**
@@ -87,7 +103,7 @@ Cobject.prototype.guid = function(type, what) {
  * @returns
  */
 Cobject.prototype.get_trigger_name = function(type) {
-    return this.guid('trigger', type);
+	return this.guid('trigger', type);
 };
 
 /**
@@ -95,10 +111,10 @@ Cobject.prototype.get_trigger_name = function(type) {
  * @param type
  * @param d
  */
-Cobject.prototype.send_trigger = function (type, d) {
-    var n = this.get_trigger_name(type);
-    if (SHOJS_DEBUG > 4) console.log('[trigger/send]', n);
-    $(document).trigger(n, d);
+Cobject.prototype.send_trigger = function(type, d) {
+	var n = this.get_trigger_name(type);
+	if (SHOJS_DEBUG > 4) console.log('[trigger/send]', n);
+	$(document).trigger(n, d);
 };
 
 /**
@@ -108,9 +124,12 @@ Cobject.prototype.send_trigger = function (type, d) {
  * @param callback
  */
 Cobject.prototype.bind_trigger = function(osrc, type, callback) {
-    var name = osrc.get_trigger_name(type);
-    if (SHOJS_DEBUG > 4) console.debug('[trigger/bind]', this.className, ' => ', name);
-    $(document).bind(name, function(e, d) { callback.call(this, e, d); } );
+	var name = osrc.get_trigger_name(type);
+	if (SHOJS_DEBUG > 4) console.debug('[trigger/bind]', this.className,
+			' => ', name);
+	$(document).bind(name, function(e, d) {
+		callback.call(this, e, d);
+	});
 };
 
 /**
@@ -128,11 +147,11 @@ Cobject.prototype.add_parameter = function(options) {
 		return false;
 	}
 	if (!('type' in options) || options.type == Eparameter_type.numeric) {
-	    this.parameters[options.label] = new Cparameter_numeric(options);
-	} else if(options.type == Eparameter_type.select) {
-	    this.parameters[options.label] = new Cparameter_select(options);
+		this.parameters[options.label] = new Cparameter_numeric(options);
+	} else if (options.type == Eparameter_type.select) {
+		this.parameters[options.label] = new Cparameter_select(options);
 	} else {
-	    console.error('Unknown parameter type', options);
+		console.error('Unknown parameter type', options);
 	}
 	return true;
 };
@@ -153,7 +172,8 @@ Cobject.prototype.get_parameter = function(key) {
  * STUB
  */
 Cobject.prototype.init = function() {
-	;
+	//console.warn(this.className, 'Method init() need to be overidden in sub class');
+	return false;
 };
 
 /**
