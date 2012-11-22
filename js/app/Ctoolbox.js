@@ -18,6 +18,10 @@ function Ctoolbox(olist, options) {
 	    if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
 	    that.send_trigger('update');
 	});
+	this.bind_trigger(this.bg_color, 'update', function(e, d) {
+	    if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
+	    that.send_trigger('update');
+	});
 }
 
 Ctoolbox.prototype = Object.create(Cobject.prototype);
@@ -30,33 +34,35 @@ Ctoolbox.prototype.init = function() {
 	var that = this;
 	this.selected = null;
 	this.tools = new Array();
-	this.preview = new Ctoolbox_preview({parent: this});
+	this.preview = new Ctoolbox_preview({
+		parent : this
+	});
 	this.fg_color = new Ctoolbox_colorpicker(new Ccolor(255, 255, 255, 1), {
 		parent : this,
 		callback_onchange : function(rgb) {
 			that.send_trigger('update');
 		},
-		label: 'Foreground color'
+		label : 'Foreground color'
 	});
 	this.bg_color = new Ctoolbox_colorpicker(new Ccolor(0, 0, 0, 1), {
 		parent : this,
 		callback_onchange : function(rgb) {
 			that.send_trigger('update');
 		},
-		label: 'Background color'
+		label : 'Background color'
 	});
-
-    	this.bind_trigger(this, 'update', function(e,d) {
-    	    if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
-	    if (that.selected) 
-		that.selected.update();
-    	});
+	this.brush_manager = new Cbrush_manager();
+	this.bind_trigger(this, 'update', function(e, d) {
+		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
+		if (that.selected) that.selected.update();
+	});
 	this.load(this.olist);
 	this.dom_build();
 };
 
 /**
  * Load tools from hash
+ * 
  * @param olist
  */
 Ctoolbox.prototype.load = function(olist) {
@@ -186,8 +192,13 @@ Ctoolbox.prototype.dom_build = function() {
 	g.append(this.preview.dom_get());
 	r.append(g);
 	/* Options */
-	g = $(document.createElement('div'));
+	g = $('<div />');
 	g.addClass('group-options ui-widget-content');
+	r.append(g);
+	/* Options */
+	g = $('<div />');
+	g.addClass('group-brushmanager ui-widget-content');
+	g.append(this.brush_manager.dom_get());
 	r.append(g);
 	/* setting rootElm */
 	this.rootElm = r;

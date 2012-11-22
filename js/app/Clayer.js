@@ -103,11 +103,11 @@ Clayer.prototype.dom_build = function() {
     var tabs = $('<div/>');
     tabs.attr('id', this.uid);
     var ul = $('<ul />');
-    ul.append('<li><a href="#'+this.guid('tab', 1)+'">layer</a></li>');
-    ul.append('<li><a href="#'+this.guid('tab', 2)+'">option</a></li>');
-    ul.append('<li><a href="#'+this.guid('tab', 3)+'">stats</a></li>');
+    ul.append('<li><a href="#'+this.guid(1)+'">layer</a></li>');
+    ul.append('<li><a href="#'+this.guid(2)+'">option</a></li>');
+    ul.append('<li><a href="#'+this.guid(3)+'">stats</a></li>');
     tabs.append(ul);
-    var tab1 = $('<div id="'+this.guid('tab', 1)+'"/>');
+    var tab1 = $('<div id="'+this.guid(1)+'"/>');
     var button = new Cimage({
 	src : 'img/16x16_eye.png',
 	width : '16px',
@@ -197,11 +197,11 @@ Clayer.prototype.dom_build = function() {
     $t.append($tr);
     tab1.append($t);
     tabs.append(tab1);
-    var tab2 = $('<div id="'+this.guid('tab', 2)+'"/>');
+    var tab2 = $('<div id="'+this.guid(2)+'"/>');
     tab2.append('<p>Layer option</p>');
     tabs.append(tab2);
-    var tab3 = $('<div id="'+this.guid('tab', 3)+'"/>');
-    tab3.append('<p>Total fragment: <span id="'+this.guid('stat', 'total-fragment')+'">'+this.frags.length+'</span></p>');
+    var tab3 = $('<div id="'+this.guid(3)+'"/>');
+    tab3.append('<p>Total fragment: <span id="'+this.guid('total-fragment')+'">'+this.frags.length+'</span></p>');
     this.bind_trigger(this, 'redraw_preview', function(e, d) {
 	tab3.find('span').empty().append(that.frags.length);
     });

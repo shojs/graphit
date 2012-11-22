@@ -30,7 +30,6 @@ Cgrapher.prototype.reset_index = function() {
 };
 
 Cgrapher.prototype._graph = function() {
-	//console.log('Graph');
 	var numpoint = this.cSurface.cMouse.points.length;
 	if (numpoint <= 2) {
 		return false;
@@ -38,28 +37,23 @@ Cgrapher.prototype._graph = function() {
 	if (this.index >= (numpoint - 1)) {
 		return false;
 	}
-
 	var p1 = this.cSurface.cMouse.points[this.index];
 	var p2 = this.cSurface.cMouse.points[(this.index + 1)];
-	//console.log(p1, p2);
 	if (this.cToolbox.selected.graph(this, p1, p2)) {
 		if (!this.last_redraw || ((Date.now() - this.last_redraw) > (1000 /60)) ) {
 			this.last_redraw = Date.now();
 			this.cSurface.redraw(1);
-		} else {
-			console.log('Skipping')
 		}
-	    //this.cSurface.redraw(1);
 	}
 	this.index++;
 };
 
 Cgrapher.prototype.stop = function() {
 
-//	if (!this.timer) {
-//		console.warn('Grapher is not started');
-//		return false;
-//	}
+	if (!this.timer) {
+		console.warn('Grapher is not started');
+		return false;
+	}
 	// Clearing our timer
 	clearInterval(this.timer);
 	clearInterval(this.timer_update);
@@ -96,9 +90,6 @@ Cgrapher.prototype.stop = function() {
 	
 	// Reseting index that represent where we are into recorded points
 	this.index = 0;
-	// We are triggering surface update
-	//this.send_trigger('update');
-	//this.cSurface.redraw();
 	return true;
 };
 
@@ -108,27 +99,11 @@ Cgrapher.prototype.start = function() {
 		return false;
 	}
 	var that = this;
-	var fGraph = function() {
-		//that._graph();
-		that.timer = window.setInterval(function() {that._graph(); }, 5);
-	};
 	if (!this.cToolbox || !this.cToolbox.selected) { 
 	    this.send_trigger('error', 'no-tool-selectionned');
 	    console.error('No tool selectionned!');
 	    return false; 
 	};
-	var fUpdate = function() {
-		console.log('update');
-		that.cSurface.redraw();
-		that._graph();
-		//that.timer_update = window.setInterval(function() { that.cSurface.redraw(); }, 1000 / 60);
-	};
-	if ('_pregraph' in this.cToolbox.selected) {
-	    this.cToolbox.selected._pregraph(this);
-	}
-	fGraph();
-	//fUpdate();
-	
-	//§§this.timer = window.setInterval(fGraph, DRAWGLOB.graphing_interval);
+	that.timer = window.setInterval(function() {that._graph(); }, 5);
 	return true;
 };

@@ -92,20 +92,18 @@ function _ok_to_build() {
 		return dom;
 	};
 
-	$('#shojs-menu-top').menu({});
-	widget_factory($('.shojs-menu-dialog'), {
-		position : 'right'
-	});
+
 
 	/* TOOLBOX */
 	var d_tb = widget_factory(cSurface.cToolbox.dom_get(), {
-		position : 'left top'
+		position : 'left top',
+		height: 310,
 	});
 	/* LAYER MANAGER */
 	widget_factory(cSurface.layer_manager.dom_get(), {
 		position : {
-			my : "right top",
-			at : "right bottom",
+			my : "left top",
+			at : "left bottom",
 			of : d_tb,
 			collision : 'fit'
 		}
@@ -132,7 +130,7 @@ function _ok_to_build() {
 		}
 	});
 	/* MOUSE */
-	widget_factory(cSurface.cMouse.dom_get(), {
+	var d_mt = widget_factory(cSurface.cMouse.dom_get(), {
 		height : 120,
 		position : {
 			my : "right top",
@@ -140,6 +138,15 @@ function _ok_to_build() {
 			of : d_g,
 			collision : 'fit'
 		}
+	});
+	
+	$('#shojs-menu-top').menu({});
+	widget_factory($('.shojs-menu-dialog'), {
+		position : {
+		my: 'right top',
+		at: 'right bottom',
+		of: d_mt},
+
 	});
 	/*
 	 * BUTTONS

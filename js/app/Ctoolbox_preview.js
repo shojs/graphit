@@ -1,16 +1,18 @@
 function Ctoolbox_preview(options) {
-    var that = this;
-    options.className = 'Ctoolbox_preview';
-    options.label = 'toolboxpreview';
-    Cobject.call(this, options, ['parent']);
-    this.bind_trigger(this.parent, 'update', function(e,d) {
-	if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
-	var ctx = that.rootElm.find('canvas')[0].getContext('2d');
-	var color = that.parent.fg_color.color.clone().inverse();
-	that.cCanvas.clear(color);
-	that.cCanvas.copy(that.parent.selected.cCanvas);
-	
-    });
+	var that = this;
+	options.className = 'Ctoolbox_preview';
+	options.label = 'toolboxpreview';
+	Cobject.call(this, options, [
+		'parent'
+	]);
+	this.bind_trigger(this.parent, 'update', function(e, d) {
+		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
+		var ctx = that.rootElm.find('canvas')[0].getContext('2d');
+		var color = that.parent.fg_color.color.clone().inverse();
+		that.cCanvas.clear(color);
+		that.cCanvas.copy(that.parent.selected.cCanvas);
+
+	});
 }
 
 Ctoolbox_preview.prototype = Object.create(Cobject.prototype);

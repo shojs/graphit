@@ -1,42 +1,57 @@
-//function Cbrush(options) {
-//	Cobject.call(this);
-//	this.options = {};
-//	if (options) {
-//		this.set_options(options);
-//	}
-//}
-//
-//Cbrush.prototype = Object.create(Cobject.prototype);
-//Cbrush.prototype.constructor = new Cobject();
-//
-//Cbrush.prototype.set_options = function(options) {
-//	if (options == this.options) {
-//		console.warn('Same object don\'t replace');
-//		return true;
-//	}
-//	this.options = options;
-//	this.set_canvas();
-//};
-//
-//Cbrush.prototype.set_canvas = function() {
-//	this.cCanvas = null;
-//};
-//
-//function Cbrush_circle(options) {
-//	Cbrush.call(this, options);
-//}
-//
-//Cbrush_circle.prototype = Object.create(Cbrush.prototype);
-//Cbrush_circle.prototype.constructor = new Cbrush();
-//
-//var circle_options = {
-//		size: 10,
-//};
-//var circle_options2 = {
-//		size: 15,
-//};
-//
-//var cBrush_circle = new Cbrush_circle(circle_options);
-//cBrush_circle.set_options(circle_options);
+/**
+ * Class  Cbrush
+ * [jsgraph] 22 nov. 2012
+ */
 
+var Ebrush_type = {
+		js: 1,
+		gbr: 2,
+};
 
+function Cbrush(options) {
+	options.className = "Cbrush";
+	options.label = "brush";
+	Cobject.call(this, options, ['name', 'type']);
+}
+
+/* Inheritance */
+Cbrush.prototype = Object.create(Cobject.prototype);
+Cbrush.prototype.constructor = new Cobject();
+
+/**
+ *
+ */
+Cbrush.prototype.init = function(options) {
+	console.log('Adding brush', this.type, this.name);
+	if (!this.type || !this.name) {
+		console.error("Cbrush need <<type>> and <<name>> parameter");
+		return false;
+	}
+	if (this.type == Ebrush_type.js) {
+		this._load_js(options);
+	} else if (this.type == Ebrush_type.gbr) {
+		console.log('Parsing Gimp Brush');
+		this._load_gbr(options);
+	} else {
+		console.error('Unknow Cbrush type', this.type);
+		return false;
+	}
+	return true;
+};
+
+/**
+ *
+ */
+Cbrush.prototype._load_js = function(options) {
+	console.log('Parsing javascript brush');
+	if (!('update' in this.callback)) {
+		
+	}
+};
+
+/**
+ *
+ */
+Cbrush.prototype._load_gbr = function(dumbopt) {
+	// dumb comment
+};

@@ -14,7 +14,7 @@ function Cobject(options, permitted) {
 	this.parent = null;
 	this.parameters = {};
 	this._class_init(options, permitted);
-	this.init();
+	this.init(options, permitted);
 }
 
 /**
@@ -91,7 +91,7 @@ Cobject.prototype.parse_options = function(options, permitted) {
  * @param what
  * @returns <String>
  */
-Cobject.prototype.guid = function(type, what) {
+Cobject.prototype.guid = function(what) {
 	what = what ? '-' + what : '';
 	var s = '' + this.className + '-' + this.uid + what;
 	return s.toLowerCase();
@@ -103,7 +103,7 @@ Cobject.prototype.guid = function(type, what) {
  * @returns
  */
 Cobject.prototype.get_trigger_name = function(type) {
-	return this.guid('trigger', type);
+	return this.guid(type);
 };
 
 /**
@@ -182,8 +182,13 @@ Cobject.prototype.init = function() {
  * @returns
  */
 Cobject.prototype.dom_get = function(force) {
-	if (this.rootElm && !force) {
-		return this.rootElm;
+	var rootElm = this.rootElm;
+	if (force || !rootElm) {
+		rootElm = this.dom_build().rootElm;
 	}
-	return this.dom_build().rootElm;
+	var r = $('<div />');
+	r.attr('id', this.uid);
+	r.attr('title', this.label);
+	r.append(rootElm);
+	return r;
 };
