@@ -32,19 +32,19 @@ function _ok_to_build() {
 
 		});
 	};
-	for ( var i = 0; i < files.length; i++) {
-		var src = 'brushes/' + files[i] + '.gbr';
-		var f = new Cfile_GBR({
-			src : src,
-			callback_success : function(response) {
-				console.log('File loaded: ' + this.src);
-				brush_widget(this);
-			},
-			callback_error : function(response) {
-				console.log('error binary file', response);
-			}
-		});
-	}
+//	for ( var i = 0; i < files.length; i++) {
+//		var src = 'brushes/' + files[i] + '.gbr';
+//		var f = new Cfile_GBR({
+//			src : src,
+//			callback_success : function(response) {
+//				console.log('File loaded: ' + this.src);
+//				brush_widget(this);
+//			},
+//			callback_error : function(response) {
+//				console.log('error binary file', response);
+//			}
+//		});
+//	}
 
 
 	cRegistry = new Cregistry();

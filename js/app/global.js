@@ -56,7 +56,7 @@ var UID = new Cuid();
  * @returns
  */
 function Cdraw_glob() {
-    this.graphing_interval = 5;
+    this.graphing_interval = 30;
 };
 
 var DRAWGLOB = new Cdraw_glob();

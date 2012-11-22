@@ -14,9 +14,9 @@ function Ctoolbox(olist, options) {
 	Cobject.call(this, options, ['parent']);
 	this.elmPreview = null;
 	this.elmOptions = null;
-	this.bind_trigger(this, 'update', function(e, d) {
+	this.bind_trigger(this.fg_color, 'update', function(e, d) {
 	    if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
-	    that.update();
+	    that.send_trigger('update');
 	});
 }
 

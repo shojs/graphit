@@ -65,8 +65,9 @@ Ctoolbox_colorpicker.prototype.dom_build = function(bool) {
 		that.color.set_rgb(rgb);
 		that.clear(that.color);
 		ctx.drawImage(c, 0, 0, c.width, c.height);
-		var cb;
-		(cb = that.callback_exists('onchange')) && cb.call(that, rgb);
+//		var cb;
+//		(cb = that.callback_exists('onchange')) && cb.call(that, rgb);
+		that.send_trigger('update');
 	};
 	$(img).ColorPicker({
 		onChange : function(hsb, hex, rgb) {

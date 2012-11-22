@@ -58,8 +58,8 @@ Clayer.prototype.clone = function() {
 Clayer.prototype.discard_frag = function() {
     // console.log('length: ' + this.frags.length);
     this.need_redraw = true;
-    this.send_trigger('update');
     return this.frags.pop();
+    this.send_trigger('update');
 };
 
 /**
@@ -341,7 +341,7 @@ Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx, ty,
 	frag.downCompositeOperation = compositeOperation;
     }
 //    this.ctx.restore();
-    this.redraw();
+    //this.redraw();
 };
 
 Clayer.prototype.to_json = function() {

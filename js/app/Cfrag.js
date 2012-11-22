@@ -15,6 +15,7 @@ function Cfrag(options) {
 };
 
 Cfrag.prototype = Object.create(Cobject.prototype);
+
 Cfrag.prototype.constructor = new Cobject();
 
 Cfrag.prototype.getContext = function(t) {
