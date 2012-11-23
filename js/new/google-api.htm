@@ -45,6 +45,7 @@
 
       // Use a button to handle authentication the first time.
       function handleClientLoad() {
+    	console.log('Handle client load');
         gapi.client.setApiKey(apiKey);
         window.setTimeout(checkAuth,1);
       }
