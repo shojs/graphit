@@ -19,13 +19,13 @@
 -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset='utf-8' />
-  </head>
-  <body>
-    <!--Add a button for the user to click to initiate auth sequence -->
-    <button id="authorize-button" style="visibility: hidden">Authorize</button>
-    <script type="text/javascript">
+<head>
+<meta charset='utf-8' />
+</head>
+<body>
+	<!--Add a button for the user to click to initiate auth sequence -->
+	<button id="authorize-button" style="visibility: hidden">Authorize</button>
+	<script type="text/javascript">
       // Enter a client ID for a web application from the Google Developer Console.
       // The provided clientId will only work if the sample is run directly from
       // https://google-api-javascript-client.googlecode.com/hg/samples/authSample.html
@@ -46,7 +46,10 @@
       // Use a button to handle authentication the first time.
       function handleClientLoad() {
     	console.log('Handle client load');
-        gapi.client.setApiKey(apiKey);
+        if (!gapi.client.setApiKey(apiKey)) {
+        	console.error('API KEY Error');
+        	throw 'API KEY ERROR';
+        }
         window.setTimeout(checkAuth,1);
       }
 
@@ -73,33 +76,24 @@
 
       // Load the API and make an API call.  Display the results on the screen.
       function makeApiCall() {
-    	 gapi.client.load('drive', 'v2', function() {});
-    	 var request = gapi.client.request({
-    		   path : '/drive/v2/files',
-    		   method: 'GET',
-    		   params : {
-    			   maxResults: 10
-    		   }
+    	 gapi.client.load("drive", "v2", function() {
+    		   var request = gapi.client.request({
+    			   "path" : "/drive/v2/files",
+    			   "method": "GET",
+    			   "params" : {
+    				    "maxResults": 10
+    			    }
+    		   });
+    		   request.execute(function(resp) { 
+    			   console.log(resp, data); 
+    			   });
     	 });
-    	 request.execute(function(resp) { console.log(resp, data); });
-        /* api.client.load('plus', 'v1', function() {
-          var request = gapi.client.drive.get({
-            'userId': 'me'
-          });
-          request.execute(function(resp) {
-            var heading = document.createElement('h4');
-            var image = document.createElement('img');
-            image.src = resp.image.url;
-            heading.appendChild(image);
-            heading.appendChild(document.createTextNode(resp.displayName));
-
- */            document.getElementById('content').appendChild(heading);
-          });
-        });
       }
+      
     </script>
-    <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
-    <div id="content"></div>
-    <p>Retrieves your profile name using the Google Plus API.</p>
-  </body>
+	<script
+		src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+	<div id="content"></div>
+	<p>Retrieves your profile name using the Google Plus API.</p>
+</body>
 </html>
