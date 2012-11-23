@@ -63,6 +63,7 @@
 			<!--
         APP
 -->
+            <script type="text/javascript" src="js/lib/Cexception.js"></script>
             <script type="text/javascript" src="js/lib/Cuid.js"></script>
 			<script type="text/javascript" src="js/lib/Cparameter.js"></script>
 			<script type="text/javascript" src="js/lib/Cparameter_select.js"></script>
@@ -101,39 +102,23 @@
 			<script type="text/javascript" src="js/app/Cfile_GBR.js"></script>
 			<script type="text/javascript" src="js/app/Cbrush.js"></script>
             <script type="text/javascript" src="js/app/Cbrush_manager.js"></script>
+            <script type="text/javascript" src="js/app/Cgraphit.js"></script>
 			<script type="text/javascript" src="js/app/run.js"></script>
 			<!-- MINIFYJS:STOP -->
 			<title>GraphIt: Javascript online drawing</title>
 </head>
 <body>
-<!-- 	<div id="candecoke" width="100" height="100">candecoke</div>
-	<div id="main-content"></div>
-	<div>
-		<output id="shojs-file-list">
-		<ul>test
-		</ul>
-		</output>
-	</div> -->
 	<div class="shojs-menu-dialog" title="Menu">
 		<div class="shojs-menu" title="Menu">
 			<div>
 				<ul id="shojs-menu-top">
-
 					<li><a href="#" id="button-save">save</a></li>
 					<li><a href="#" id="button-about">about</a></li>
-					<li>
-						<form>
-							<label for="shojs-open-file">(Test) Open File</label>
-							<input type="file" id="shojs-open-file" name="files1[]" multiple></input>
-						</form>
-					</li>
-					<li><a href="#" id="button-select-by-color">(test) select
-							black color</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
-	<div id="rss-feedd" title="Atom Feed">
+	<div id="rss-feedd" style="visibility: hidden" title="Atom Feed">
 		<div id="group-feed-placeholderd" class="group-feed"></div>
 	</div>
 </body>

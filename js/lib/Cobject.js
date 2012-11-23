@@ -23,12 +23,29 @@ function Cobject(options, permitted) {
  * @param permitted
  * @returns {Cobject}
  */
+
 Cobject.prototype._class_init = function(options, permitted) {
 	this.uid = UID.get();
 	this.callback = {};
 	if (SHOJS_DEBUG > 10) console.log('UID', this.uid);
 	this.parse_options(options, permitted);
 	return this;
+};
+
+/**
+ * INIT STUB 
+ */
+Cobject.prototype.init = function() {
+	//console.warn(this.className, 'Method init() need to be overidden in sub class');
+	return false;
+};
+
+/**
+ *
+ */
+Cobject.prototype.exception = function(label) {
+	console.log('exception', this.className, label);
+	cE.deliver(this.className, label);
 };
 
 /**
@@ -167,13 +184,6 @@ Cobject.prototype.get_parameter = function(key) {
 		return null;
 	}
 	return this.parameters[key].value;
-};
-/**
- * STUB
- */
-Cobject.prototype.init = function() {
-	//console.warn(this.className, 'Method init() need to be overidden in sub class');
-	return false;
 };
 
 /**

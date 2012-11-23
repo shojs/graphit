@@ -15,13 +15,17 @@ function Cparameter(options) {
     	    //console.warn('Constructor call without options parameter'); 
     	    return null; 
     	}
-	this.bAutosave = true;
+	this.bAutosave = ('bAutosave' in options ? options.bAutosave: true);
 	this.parent = options.parent;
 	this.type = options.type;
 	this.def = options.def;
 	this.label = options.label;
 	if (!options.parent) { 
 		console.error('Ctool_parameter require parent in options {...}');
+		return null;
+	}
+	if (!options.label) { 
+		console.error('Ctool_parameter require label in options {...}');
 		return null;
 	}
 	if (!options.type) {

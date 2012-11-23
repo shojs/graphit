@@ -4,16 +4,26 @@
  * @param height
  * @returns
  */
-function Csurface(id, width, height) {
+function Csurface(options) {
 	var that = this;
-	Cobject.call(this, {
-		className : 'Csurface',
-		label : 'surface',
-		width : width,
-		height : height
-	}, [
+	options = options || {};
+	options.className = 'Csurface';
+	options.label = 'surface',
+
+	Cobject.call(this, options, [
 			'width', 'height', 'label'
 	]);
+	// We are checking width and height
+	var cwidth = this.width || 0;
+	var cwidth = cMath.clamp(1, cwidth, 1920);
+	if (this.width != cwidth) {
+		this.exception('invalid_width');
+	}
+	var cheight = this.height || 0;
+	var cheight = cMath.clamp(1, this.height, 1920);
+	if (this.height != cheight) {
+		this.exception('invalid_height');
+	}
 	// Some variables
 	this.need_redraw = false;
 	// Our canvas
@@ -22,16 +32,6 @@ function Csurface(id, width, height) {
 		height : this.height
 	});
 	this.cCanvas.clear(new Ccolor(0, 0, 0, 1));
-	// Our toolbox
-	this.cToolbox = new Ctoolbox(CTOOL_tools, {
-		parent : this
-	});
-	// Our grapher
-	this.cGrapher = new Cgrapher(this.cToolbox, this);
-	this.bind_trigger(this.cGrapher, 'update', function(e, d) {
-		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
-		that.redraw(1);
-	});
 
 	// Our layer manager
 	this.layer_manager = new Clayer_manager(this);
@@ -77,7 +77,21 @@ function Csurface(id, width, height) {
 	this.bind_trigger(this, 'update', function(e, d) {
 		that.redraw(1);
 	});
+	// show
+	this.bind_trigger(this, 'show', function(e, d) {
+		if (!d) {
+			console.log('width', that.cCanvas.get_width());
+			widget_factory(that.dom_get(), {
+			width : that.cCanvas.get_width() + 100,
+			//height: that.cCanvas.height + 100,
+			zIndex: 0,
+			stack: false,
+			}).show();
+		}
+	});
+
 	this.update_grid();
+	return this;
 }
 
 Csurface.prototype = Object.create(Cobject.prototype);
@@ -135,6 +149,9 @@ Csurface.prototype.dom_build = function() {
 		if (that.cMouse.is_pushed()) {
 			that.cMouse.paused = false;
 		}
+	});
+	$c.mouseenter(function(e) {
+		that.send_trigger('surface_selected', that);
 	});
 	g.append($c);
 	r.append(g);
@@ -231,7 +248,7 @@ Csurface.prototype.callback_mousedown = function(e, obj) {
 		return false;
 	}
 	this.cMouse.push();
-	this.cGrapher.start();
+	this.cGraphit.cGrapher.start();
 	return true;
 };
 
@@ -247,7 +264,7 @@ Csurface.prototype.callback_mouseup = function(e, obj) {
 		return false;
 
 	}
-	this.cGrapher.stop();
+	this.cGraphit.cGrapher.stop();
 	this.redraw(true);
 	this.cMouse.release();
 	return true;
@@ -262,6 +279,18 @@ Csurface.prototype.callback_mousemove = function(e, obj) {
 	var $o = $(obj.cCanvas.data).offset();
 	this.cMouse.move(e.pageX - $o.left, e.pageY - $o.top);
 };
+
+/**
+ *
+ */
+Csurface.prototype.attach_graphit = function(cGraphit) {
+	if (!cGraphit || !(cGraphit instanceof Cgraphit)) {
+		console.error('Can\'t attach null or none Ctoolbox instance');
+		return false;
+	}
+	this.cGraphit = cGraphit;
+};
+
 
 /**
  * 

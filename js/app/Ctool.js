@@ -74,20 +74,14 @@ Ctool.prototype.update = function(elapsed) {
 	height : size
     });
     this.ctx = this.cCanvas.getContext('2d');
-    this.brush.update.call(this, this);
-
+    var cBrush = this.parent.brush_manager.selected;
+    var scanvas = cBrush.cCanvas.data;
+    this.ctx.drawImage(scanvas, 0, 0, scanvas.width, scanvas.height, 0, 0, this.cCanvas.get_width(), this.cCanvas.get_height())
+    //this.brush.callback_update.call(this, this);
     if ('_update' in this) {
 	this._update.call(this);
-	var that = this;
+    }
 
-    }
-    if (this.changeCursor && this.parent.parent.rootElm) {
-	var e = this.parent.parent.rootElm.find('.canvas');
-	e.parent().css(
-		'cursor',
-		"url('" + this.cCursor.data.toDataURL() + "') " + dsize + " "
-			+ dsize + ", auto");
-    }
     this.need_update = false;
 };
 
@@ -146,22 +140,22 @@ Ctool.prototype.dom_build = function(force) {
  * @returns
  */
 Ctool.prototype.dom_build_tool = function() {
-    var that = this;
-    var img = new Cimage({
-	src : 'img/32x32_tool_' + this.label + '.png',
-	callback_onload : function(obj) {
-	    ;
-	},
-	callback_click : function(obj) {
-	    that.callback_click.call(that, obj);
-	},
-	label : this.label
-    });
-    return $(img.dom_get());
+	var that = this;
+	var img = new Cimage({
+		src : 'img/32x32_tool_' + this.label + '.png',
+		callback_onload : function(obj) {
+			;
+		},
+		callback_click : function(obj) {
+			that.send_trigger('tool_selected', that);
+			//that.callback_click.call(that, obj);
+		},
+		label : this.label
+	});
+	return $(img.dom_get().addClass('group tool'));
 };
 
 /**
- * 
  * @returns
  */
 Ctool.prototype.dom_build_options = function() {

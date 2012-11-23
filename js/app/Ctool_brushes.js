@@ -1,8 +1,16 @@
 var CTOOL_brushes = {
 	circle : {
-		update : function(obj) {
-			var color = this.parent.fg_color.color.clone();
-			var tool = this.parent.selected;
+		width : 100,
+		height : 100,
+		callback_update : function() {
+			var toolbox = this.parent.parent;
+			if (!(toolbox instanceof Ctoolbox)) {
+				console.error('Brush parent of parent must be a toolbox');
+				return false;
+			}
+			console.log('toolbox', toolbox);
+			var color = toolbox.fg_color.color.clone();
+			var tool = toolbox.selected;
 			if (tool && 'opacity' in tool.parameters) {
 				color.a = tool.parameters.opacity.value;
 			}
@@ -29,9 +37,82 @@ var CTOOL_brushes = {
 				fillStyle : color
 			});
 		},
-		rectangle : function() {
+	},
+	scircle : {
+		width : 100,
+		height : 100,
+		callback_update : function() {
+			var toolbox = this.parent.parent;
+			if (!(toolbox instanceof Ctoolbox)) {
+				console.error('Brush parent of parent must be a toolbox');
+				return false;
+			}
+			console.log('toolbox', toolbox);
+			var color = toolbox.fg_color.color.clone();
+			var tool = toolbox.selected;
+			if (tool && 'opacity' in tool.parameters) {
+				color.a = tool.parameters.opacity.value;
+			}
+			var dsize = this.cCanvas.data.width / 2;
+			this.cCursor = new Ccanvas({
+				width : this.cCanvas.width,
+				height : this.cCanvas.height
+			});
 
+			cDraw.circle({
+				dcanvas : this.cCursor.data,
+				x : dsize,
+				y : dsize,
+				r : dsize,
+				fillStyle : new Ccolor(255, 0, 0, 0.4),
+				strokeStyle : new Ccolor(255, 0, 0, 1),
+				lineWidth : 1
+			});
+			cDraw.circle({
+				dcanvas : this.cCanvas.data,
+				x : dsize,
+				y : dsize,
+				r : dsize,
+				strokeStyle : color
+			});
+		},
+	},
+	rectangle : {
+		width : 100,
+		height : 100,
+		callback_update : function() {
+			console.log('Update rectangle', this);
+			var toolbox = this.parent.parent;
+			if (!(toolbox instanceof Ctoolbox)) {
+				console.error('Brush parent of parent must be a toolbox');
+				return false;
+			}
+			console.log('toolbox', toolbox);
+			var color = toolbox.fg_color.color.clone();
+			var tool = toolbox.selected;
+			if (tool && 'opacity' in tool.parameters) {
+				color.a = tool.parameters.opacity.value;
+			}
+			var size = this.cCanvas.data.width;
+			this.cCursor = new Ccanvas({
+				width : this.cCanvas.width,
+				height : this.cCanvas.height
+			});
+			
+			var ctx = this.cCursor.getContext();
+			ctx.save();
+			ctx.clearRect(0,0, size, size);
+			ctx.strokeStyle = color.to_rgba();
+			ctx.strokeRect(0,0, size, size);
+			ctx.restore();
+			ctx = this.cCanvas.getContext();
+			ctx.save();
+			ctx.clearRect(0,0, size, size);
+			ctx.fillStyle = color.to_rgba();
+			ctx.fillRect(0,0, size, size);
+			ctx.restore();
 		}
+
 	}
 };
 
@@ -85,7 +166,7 @@ var CTOOL_tools = {
 		},
 		brush : CTOOL_brushes.circle,
 		_graph : function(grapher, p1, p2) {
-			var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.cCanvas.data;
+			var dcanvas = grapher.parent.selected.layer_manager.special_layers.prefrag.cCanvas.data;
 			var ctx = dcanvas.getContext('2d');
 			var size = this.parameters.size.value;
 			// console.log('size', size);
@@ -143,7 +224,7 @@ var CTOOL_tools = {
 			return true;
 		},
 		_graph : function(grapher, p1, p2) {
-			var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.cCanvas.data;
+			var dcanvas = grapher.parent.selected.layer_manager.special_layers.prefrag.cCanvas.data;
 			var ctx = dcanvas.getContext('2d');
 			var scanvas = this.cCanvas.data;
 			var dw = scanvas.width / 2;
@@ -207,7 +288,7 @@ var CTOOL_tools = {
 
 		},
 		_graph : function(grapher, p1, p2) {
-			var dcanvas = grapher.cSurface.layer_manager.special_layers.prefrag.cCanvas.data;
+			var dcanvas = grapher.parent.selected.layer_manager.special_layers.prefrag.cCanvas.data;
 			var ctx = dcanvas.getContext('2d');
 			grapher.cSurface.layer_manager.special_layers.prefrag.down_composite_operation = Ecomposite_operation['source-in'];
 			ctx.globalCompositeOperation = Ecomposite_operation['destination-out'];

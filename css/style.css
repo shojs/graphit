@@ -22,7 +22,7 @@ body {
 	text-align: center;
 }
 
-.draggable {
+/* .draggable {
 	display: inline-block;
 	margin: 1px 5px 10px 1px;
 	z-index: 10;
@@ -33,8 +33,7 @@ body {
 	float: left;
 	clear: left;
 	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7);
-}
-
+} */
 .about {
 	margin: auto;
 }
@@ -76,9 +75,17 @@ body {
 	background-color: #ddd;
 	background-image: linear-gradient(#E5E5E5, #CFCFCF);
 }
+.group.tool {
+	background-color: rgba(0,0,0,0);
+}
 
-.group-tools>div.selected {
+.group-brush.selected {
+    background-color: rgba(0,0,0,0);
+}
+
+.group.selected {
 	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7);
+	margin: 1px;
 }
 
 .group-tools>div {
@@ -87,6 +94,24 @@ body {
 	-moz-border-radius: 6px;
 	border-radius: 6px;
 	display: inline-block;
+}
+
+.group-brush {
+	width: 30px;
+	font-size: xx-small;
+	word-wrap: break;
+	overflow: hidden;
+	margin: auto 0.1em;
+	float: left;
+}
+
+.group-brush canvas {
+	width: 20px;
+	display: inline-block;
+}
+
+.group-new-surface>input {
+	width: 8em;
 }
 
 .hold-var {
@@ -126,12 +151,6 @@ body {
 	font-size: x-small;
 }
 
-.layer-manager>.selected {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
-	border-color: black;
-}
-
 .layer .label {
 	font-size: x-small;
 	width: 100px;
@@ -145,11 +164,6 @@ body {
 
 .group-layers {
 	overflow: hidden;
-}
-
-.group-layers>.selected {
-	background-color: #404040;
-	color: #EEE;
 }
 
 .layer-manager {
@@ -257,6 +271,7 @@ body {
 .shojs-menu-dialog {
 	overflow: hide;
 	scrollbar: none;
+	font-size: small;
 }
 
 .colorpicker-colors  canvas {

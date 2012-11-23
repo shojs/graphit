@@ -78,6 +78,9 @@ Clayer_manager.prototype.add = function(layer) {
 		var $lElm = $(layer.dom_get(this.layers.length - 1));
 		group.prepend($lElm);
 	}
+	if (!this.selected) {
+		this.selected = layer;
+	}
 	this.send_trigger('update');
 	return layer;
 };

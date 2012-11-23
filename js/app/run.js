@@ -9,8 +9,43 @@ var E_LAYERLABEL = new Object({
 });
 
 var cRegistry;
-
+var cGraphit;
 function _ok_to_build() {
+	cRegistry = new Cregistry();
+	cGraphit = new Cgraphit();
+	cGraphit.widget_new_surface();
+	cGraphit.dom_get();
+	$('#shojs-menu-top').menu({});
+	widget_factory($('.shojs-menu-dialog'), {
+		position : 'left top',
+		width: 100
+	});
+	/*
+	 * BUTTONS
+	 */
+	$('#button-save').click(function() {
+		cSurface.save_as_json();
+	});
+	$('#button-select-by-color').click(function() {
+		cSurface.cCanvas.select_by_color(new Ccolor(0, 0, 0, 1));
+	});
+	$('#button-about').click(function() {
+		var about = new Clicense();
+		widget_factory(about.dom_get(), {
+			width : 600
+		});
+
+	});
+
+	/*
+	 * Prevent right click
+	 */
+	$(function() {
+		$(this).bind("contextmenu", function(e) {
+			e.preventDefault();
+		});
+	});
+	return;
 	var files = [
 			'Legacy/galaxy', 'Legacy/pepper', 'Legacy/confetti',
 			'Legacy/dunes', 'Legacy/galaxy-big', 'Media/Bristles-01',
@@ -47,7 +82,7 @@ function _ok_to_build() {
 //	}
 
 
-	cRegistry = new Cregistry();
+
 	var widgetWidth = 250;
 	var cSurface = new Csurface('surface-01', 640, 480);
 
@@ -71,7 +106,7 @@ function _ok_to_build() {
 	});
 	// var cMetaSurface = new Cmetasurface();
 	// cMetaSurface.attach_surface(cSurface);
-	var widget_factory = function(dom, options) {
+	var widget_factorym = function(dom, options) {
 		this.options = options;
 		var mandatory = {
 			autoOpen : true,
@@ -97,7 +132,7 @@ function _ok_to_build() {
 	/* TOOLBOX */
 	var d_tb = widget_factory(cSurface.cToolbox.dom_get(), {
 		position : 'left top',
-		height: 310,
+		height: 350,
 	});
 	/* LAYER MANAGER */
 	widget_factory(cSurface.layer_manager.dom_get(), {
@@ -140,39 +175,7 @@ function _ok_to_build() {
 		}
 	});
 	
-	$('#shojs-menu-top').menu({});
-	widget_factory($('.shojs-menu-dialog'), {
-		position : {
-		my: 'right top',
-		at: 'right bottom',
-		of: d_mt},
 
-	});
-	/*
-	 * BUTTONS
-	 */
-	$('#button-save').click(function() {
-		cSurface.save_as_json();
-	});
-	$('#button-select-by-color').click(function() {
-		cSurface.cCanvas.select_by_color(new Ccolor(0, 0, 0, 1));
-	});
-	$('#button-about').click(function() {
-		var about = new Clicense();
-		widget_factory(about.dom_get(), {
-			width : 600
-		});
-
-	});
-
-	/*
-	 * Prevent right click
-	 */
-	$(function() {
-		$(this).bind("contextmenu", function(e) {
-			e.preventDefault();
-		});
-	});
 
 	// var b2s = function(b, i, d) {
 	// var t = 0;

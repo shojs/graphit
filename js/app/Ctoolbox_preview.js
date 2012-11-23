@@ -5,13 +5,23 @@ function Ctoolbox_preview(options) {
 	Cobject.call(this, options, [
 		'parent'
 	]);
-	this.bind_trigger(this.parent, 'update', function(e, d) {
+	this.bind_trigger(this, 'update', function(e, d) {
 		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
+		console.log('UPDATING PREVIEW');
 		var ctx = that.rootElm.find('canvas')[0].getContext('2d');
 		var color = that.parent.fg_color.color.clone().inverse();
+		color.a = 1;
 		that.cCanvas.clear(color);
-		that.cCanvas.copy(that.parent.selected.cCanvas);
-
+		var ctx = that.cCanvas.getContext();
+		var scanvas = that.parent.brush_manager.selected.cCanvas.data;
+		var cTool = that.parent.selected;
+		var size = cTool.get_parameter('size');
+		var width = (size > that.cCanvas.get_width()? that.cCanvas.get_width(): size);
+		var height = (size > that.cCanvas.get_height()? that.cCanvas.get_height(): size);
+		console.log('size', width, height);
+		var offset = (that.cCanvas.get_width() - (size)) / 2;
+		ctx.drawImage(scanvas, 0, 0, scanvas.width, scanvas.height, offset,offset, width, height);
+//		that.cCanvas.copy(that.parent.brush_manager.selected.cCanvas);
 	});
 }
 

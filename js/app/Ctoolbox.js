@@ -14,13 +14,17 @@ function Ctoolbox(olist, options) {
 	Cobject.call(this, options, ['parent']);
 	this.elmPreview = null;
 	this.elmOptions = null;
-	this.bind_trigger(this.fg_color, 'update', function(e, d) {
+	this.bind_trigger(this.fg_color, 'color_selected', function(e, d) {
 	    if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
-	    that.send_trigger('update');
+	    that.update();
 	});
-	this.bind_trigger(this.bg_color, 'update', function(e, d) {
+	this.bind_trigger(this.bg_color, 'color_selected', function(e, d) {
 	    if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
-	    that.send_trigger('update');
+	    that.update();
+	});
+	
+	this.bind_trigger(this, 'switch_color', function(e, d) {
+		that.switch_color();
 	});
 }
 
@@ -34,27 +38,52 @@ Ctoolbox.prototype.init = function() {
 	var that = this;
 	this.selected = null;
 	this.tools = new Array();
+	
+	/* 
+	 * BRUSH PREVIEW 
+	 */
 	this.preview = new Ctoolbox_preview({
 		parent : this
 	});
+	
+	/* 
+	 * Foreground color
+	 */
 	this.fg_color = new Ctoolbox_colorpicker(new Ccolor(255, 255, 255, 1), {
 		parent : this,
 		callback_onchange : function(rgb) {
-			that.send_trigger('update');
+			this.send_trigger('update', that);
 		},
 		label : 'Foreground color'
 	});
+	this.bind_trigger(this.fg_color, 'update', function(e, d) {
+		that.update();
+	});
+	/* 
+	 * Background color 
+	 */
 	this.bg_color = new Ctoolbox_colorpicker(new Ccolor(0, 0, 0, 1), {
 		parent : this,
+		label : 'Background color',
 		callback_onchange : function(rgb) {
-			that.send_trigger('update');
+			this.send_trigger('update', that);
 		},
 		label : 'Background color'
 	});
-	this.brush_manager = new Cbrush_manager();
+	this.bind_trigger(this.bg_color, 'update', function(e, d) {
+		that.update();
+	});
+	/*
+	 *  Brush manager
+	 */
+	this.brush_manager = new Cbrush_manager({parent : this});
+	this.bind_trigger(this.brush_manager, 'update', function(e, d) {
+		that.update();
+	});
+	
 	this.bind_trigger(this, 'update', function(e, d) {
 		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
-		if (that.selected) that.selected.update();
+		that.update();
 	});
 	this.load(this.olist);
 	this.dom_build();
@@ -85,26 +114,22 @@ Ctoolbox.prototype.load = function(olist) {
 		    olist[label].parameters[p].callback_slide = change;
 		}
 		// We are creating our tool from hash
-		var t = new Ctool(olist[label]);
-		t.update();
-		this.tools.push(t);
-		// Selecting pen
-		if (label == 'pen') {
-		    console.log('selecting pen');
-		    selected = t;
+		var cTool = new Ctool(olist[label]);
+		cTool.update();
+		this.tools.push(cTool);
+		if (!this.selected) {
+			this.selected = cTool;
 		}
 	}
-	this.selected = selected;
-	this.select_tool(this.selected);
 };
 /**
  * 
  */
 Ctoolbox.prototype.update = function() {
-    if (!this.selected) {
-	return false;
-    }
+	console.log('UPDATE TOOLBOX');
     this.selected.update();
+	this.brush_manager.selected.callback.update.call(this.brush_manager.selected);
+    this.preview.send_trigger('update');
 };
 
 /**
@@ -116,15 +141,21 @@ Ctoolbox.prototype.select_tool = function(cTool) {
     	    console.warn('Can\'t select undefined tool'); 
     	    return false;
     	}
-	var $t = $(cTool.rootElm);
-	$t.parent().children('div').removeClass('selected');
-	$t.addClass('selected');
-	var $g = $t.parents('.toolbox').find('.group-options');
-	$g.children('div').detach();// empty();
-	$g.append(cTool.dom_build_options());
+//		that.select_tool(tTool);
+//		var e = $(tTool.rootElm);
+//		console.log(that);
+//
+//		
+//		that.selected = tTool;
+		
+	var e = $(cTool.rootElm);
+	e.parents('.group-tools').find('.tool').removeClass('selected');
+	e.children('.tool').addClass('selected');
+	var g = e.parents('.toolbox').find('.group-options');
+	g.children('div').detach();// empty();
+	g.append(cTool.dom_build_options());
 	this.selected = cTool;
 	cTool.update();
-	this.send_trigger('update');
 	return true;
 };
 
@@ -157,15 +188,30 @@ Ctoolbox.prototype.dom_build_colorpickers = function($root) {
  * @returns {Ctoolbox}
  */
 Ctoolbox.prototype.dom_build = function() {
+	console.log('---- BUILDING TOOLBAR');
 	var that = this;
 	var r = $('<div title="Toolbox"/>');
 	r.addClass('toolbox');
 	var g = $('<div />');
-	g.addClass('group-tools ui-widget-content');
-	/* Tool */
+	g.addClass('group group-tools ui-widget-content');
+	/* Adding Tools */
 	for ( var i = 0; i < this.tools.length; i++) {
-		var tool = this.tools[i];
-		g.append(tool.dom_get());
+		var cTool = this.tools[i];
+		/* Binding each tool_selected event */
+		cTool.bind_trigger(cTool, 'tool_selected', function(e, tTool) {
+			if (!(tTool instanceof Ctool)) {
+				console.error('Trigger tool_selected must pass a Ctool argument');
+				return false;
+			}
+			that.select_tool(tTool);
+			return true;
+		});
+		var e = cTool.dom_get();
+		if (this.selected == cTool) {
+			cTool.rootElm.children('.tool').addClass('selected');
+		}
+		/* Append our tool */
+		g.append(e);
 	}
 	r.append(g);
 	/* Color picker */
@@ -181,7 +227,7 @@ Ctoolbox.prototype.dom_build = function() {
 			;
 		},
 		callback_click : function(obj) {
-			that.switch_color();
+			that.send_trigger('switch_color');
 		},
 		label: 'Switch color'
 	}).dom_get().addClass('switch')));

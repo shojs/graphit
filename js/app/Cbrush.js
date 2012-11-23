@@ -3,15 +3,15 @@
  * [jsgraph] 22 nov. 2012
  */
 
-var Ebrush_type = {
+var Ebrush_type = new Cenum({
 		js: 1,
 		gbr: 2,
-};
+});
 
 function Cbrush(options) {
 	options.className = "Cbrush";
 	options.label = "brush";
-	Cobject.call(this, options, ['name', 'type']);
+	Cobject.call(this, options, ['parent', 'name', 'type']);
 }
 
 /* Inheritance */
@@ -36,17 +36,41 @@ Cbrush.prototype.init = function(options) {
 		console.error('Unknow Cbrush type', this.type);
 		return false;
 	}
-	return true;
+	return this.init_canvas(options);
+};
+
+/**
+ *
+ */
+Cbrush.prototype.init_canvas = function(options) {
+	var canvas = new Ccanvas({width: options.data.width, height: options.data.height});
+	canvas.clear(new Ccolor(0,0,0,0));
+	this.cCanvas = canvas;
+	this.callback.update.call(this, this.parent);
+};
+
+/**
+ *
+ */
+Cbrush.prototype.update = function() {
+	this.callback.update.call(this, this.parent);
 };
 
 /**
  *
  */
 Cbrush.prototype._load_js = function(options) {
-	console.log('Parsing javascript brush');
-	if (!('update' in this.callback)) {
-		
+	if (!('callback_update' in options.data)) {
+		console.error('Javascript brush must contain a callback_update function');
+		return false;
 	}
+	this.callback.update = options.data.callback_update;
+	if (!('width' in options.data) || !('height' in options.data)) {
+		console.error('Javascript brush need width and height property');
+		return false;
+	}
+	console.log('Parsing javascript brush');
+	return true;
 };
 
 /**
@@ -54,4 +78,26 @@ Cbrush.prototype._load_js = function(options) {
  */
 Cbrush.prototype._load_gbr = function(dumbopt) {
 	// dumb comment
+};
+
+
+	
+/**
+ *
+ */
+Cbrush.prototype.dom_build = function() {
+	var that = this;
+	var r = $('<div />');
+	var g = $('<div />');
+	g.addClass('group-brush group');
+	g.append('<label>'+Ebrush_type.key_by_value(this.type)+' / '+this.name+'</label>');
+	g.append(this.cCanvas.dom_get());
+	r.append(g);
+	r.click(function() {
+			that.send_trigger('brush_selected', that);
+			var g = $(this).parents('.group-brushmanager').find('.group-brush').removeClass('selected');
+			$(this).children('.group-brush').addClass('selected');
+	});
+	this.rootElm = r;
+	return this;
 };
