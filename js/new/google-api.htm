@@ -73,8 +73,17 @@
 
       // Load the API and make an API call.  Display the results on the screen.
       function makeApiCall() {
-        gapi.client.load('plus', 'v1', function() {
-          var request = gapi.client.plus.people.get({
+    	 gapi.client.load('drive', 'v2', function() {});
+    	 var request = gapi.client.request({
+    		   path : '/drive/v2/files',
+    		   method: 'GET',
+    		   params : {
+    			   maxResults: 10
+    		   }
+    	 });
+    	 request.execute(function(resp) { console.log(resp, data); });
+        /* api.client.load('plus', 'v1', function() {
+          var request = gapi.client.drive.get({
             'userId': 'me'
           });
           request.execute(function(resp) {
@@ -84,7 +93,7 @@
             heading.appendChild(image);
             heading.appendChild(document.createTextNode(resp.displayName));
 
-            document.getElementById('content').appendChild(heading);
+ */            document.getElementById('content').appendChild(heading);
           });
         });
       }
