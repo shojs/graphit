@@ -141,7 +141,6 @@ Ctoolbox.prototype.load = function(olist) {
  * 
  */
 Ctoolbox.prototype.update = function() {
-	console.log('UPDATE TOOLBOX');
     this.selected.update();
 	this.brush_manager.selected.callback.update.call(this.brush_manager.selected);
     this.preview.send_trigger('update');
@@ -203,7 +202,6 @@ Ctoolbox.prototype.dom_build_colorpickers = function($root) {
  * @returns {Ctoolbox}
  */
 Ctoolbox.prototype.dom_build = function() {
-	console.log('---- BUILDING TOOLBAR');
 	var that = this;
 	var r = $('<div title="Toolbox"/>');
 	r.addClass('toolbox');

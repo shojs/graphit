@@ -18,7 +18,6 @@ Cmenu_entry.prototype.constructor = new Cobject();
 Cmenu_entry.prototype.dom_build = function() {
 	var that = this;
 	var r = $('<li />');
-	console.log('Menu entry', this);
 	r.append('<a href="#"><p>' + this.label + '</p></a>');
 	r.click(function() {
 		that.callback.click.call(that, that);

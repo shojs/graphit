@@ -2,15 +2,14 @@ var CTOOL_brushes = {
 	circle : {
 		width : 100,
 		height : 100,
-		callback_update : function() {
-			var toolbox = this.parent.parent;
-			if (!(toolbox instanceof Ctoolbox)) {
+		callback_update : function(d) {
+			console.log('POLOM', d);
+			if (!(d.cToolbox instanceof Ctoolbox)) {
 				console.error('Brush parent of parent must be a toolbox');
 				return false;
 			}
-			var color = toolbox.fg_color.color.clone();
-			var tool = toolbox.selected;
-			if (tool && 'opacity' in tool.parameters) {
+			var color = d.fgColor.color.clone();
+			if ('opacity' in tool.parameters) {
 				color.a = tool.parameters.opacity.value;
 			}
 			var dsize = this.cCanvas.data.width / 2;
@@ -161,25 +160,19 @@ var CTOOL_tools = {
 		// { bevel: 'bevel', round: 'round', miter: 'mitter' }, def: 'round' },
 		},
 		brush : CTOOL_brushes.circle,
-		_graph : function(grapher, p1, p2) {
-			var dcanvas = grapher.parent.selected.layer_manager.special_layers.prefrag.cCanvas.data;
+		_graph : function(cMessage) {
+			var dcanvas = cMessage.cSurface.layer_manager.special_layers.prefrag.cCanvas.data;
 			var ctx = dcanvas.getContext('2d');
 			var size = this.parameters.size.value;
-			// console.log('size', size);
-
 			ctx.save();
 			ctx.lineWidth = Math.round(this.parameters.size.value);
-			var color = this.parent.fg_color.color.clone();
+			var color = cMessage.fgColor.color.clone();
 			color.a = this.parameters.opacity.value;
 			ctx.strokeStyle = color.to_rgba();
-			// console.log('params', this.parameters);
 			ctx.lineCap = this.parameters.linecap.value;
-			// ctx.lineJoin = this.parameters.linejoin.value;
-			// ctx.miterLimit = 1000;
 			ctx.beginPath();
-			ctx.moveTo(p1.x, p1.y);
-			ctx.lineTo(p2.x, p2.y);
-			// ctx.quadraticCurveTo(p1.x, p1.y, p2.x, p2.y);
+			ctx.moveTo(cMessage.A.x, cMessage.A.y);
+			ctx.lineTo(cMessage.B.x, cMessage.B.y);
 			ctx.stroke();
 			ctx.closePath();
 			ctx.restore();

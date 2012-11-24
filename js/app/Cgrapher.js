@@ -1,20 +1,40 @@
-var Egrapher_mode = {
-	continuous: 1,
-	endpoint: 2
-};
 /**
- * 
-
- * @param cTools
- * @param cSurface
+ * Holding data passed between grapher and tools
+ * @param options
  * @returns
+ */
+function Cgraphit_message(options) {
+	options = options || {};
+	options.className = 'Cmessage';
+	options.label = 'message';
+	Cobject.call(this, options, [
+			'cSurface', 'cMouse', 'cTool', 'cToolbox', 'points', 'fgColor',
+			'bgColor', 'cGrapher', 'index'
+	]);
+}
+
+Cgraphit_message.prototype = Object.create(Cobject.prototype);
+Cgraphit_message.prototype.constructor = new Cobject();
+
+
+var Egrapher_mode = {
+		continuous: 1,
+		endpoint: 2
+	};
+
+/**
+ * Cgrapher is responsible to record points and send data to the tools
+ * when mouse is pressed
+ * @param { Hash_parameter } mandatory: parent
  */
 
 function Cgrapher(options) {
 	options = options || {};
 	options.className = 'Cgrapher';
 	options.label = 'grapher';
-    	Cobject.call(this, options, ['parent']);
+	Cobject.call(this, options, [
+		'parent'
+	]);
 
 }
 
@@ -35,23 +55,24 @@ Cgrapher.prototype.reset_index = function() {
 	this.index = 0;
 };
 
-Cgrapher.prototype._graph = function() {
-	var cSurface = this.parent.selected;
-	var cMouse = cSurface.cMouse;
-	var cTool = this.parent.cToolbox.selected;
-	var numpoint = cMouse.points.length;
+Cgrapher.prototype._graph = function(d) {
+	var numpoint = d.points.length;
 	if (numpoint <= 2) {
 		return false;
 	}
 	if (this.index >= (numpoint - 1)) {
 		return false;
 	}
-	var p1 = cMouse.points[this.index];
-	var p2 = cMouse.points[(this.index + 1)];
-	if (cTool.graph(this, p1, p2)) {
-		if (!this.last_redraw || ((Date.now() - this.last_redraw) > (1000 /60)) ) {
+	var p1 = d.points[this.index];
+	var p2 = d.points[(this.index + 1)];
+	d.A = p1;
+	d.B = p2;
+	d.index = this.index;
+	if (d.cTool.graph(d)) {
+		if (!this.last_redraw
+				|| ((Date.now() - this.last_redraw) > (1000 / 60))) {
 			this.last_redraw = Date.now();
-			cSurface.redraw(1);
+			d.cSurface.redraw(1);
 		}
 	}
 	this.index++;
@@ -68,7 +89,7 @@ Cgrapher.prototype.stop = function() {
 	clearInterval(this.timer_update);
 	this.timer = null;
 	this.timer_update = null;
-	
+
 	// We are drawing our prefrag layer into our current layer
 	var cs = this.parent.selected;
 	var cMouse = cs.cMouse;
@@ -81,28 +102,34 @@ Cgrapher.prototype.stop = function() {
 	var width = (cMouse.maxx - cMouse.minx) + size;
 	var height = (cMouse.maxy - cMouse.miny) + size;
 	var x = cMouse.minx - dsize;
-	if (x < 0) { x = 0;} 
-	if ((x + width) > dcanvas.width) { width = dcanvas.width - x;}
+	if (x < 0) {
+		x = 0;
+	}
+	if ((x + width) > dcanvas.width) {
+		width = dcanvas.width - x;
+	}
 	var y = cMouse.miny - dsize;
-	if (y < 0) { y = 0;}
-	if ((y + height) > dcanvas.height) { height = dcanvas.height - y;}
+	if (y < 0) {
+		y = 0;
+	}
+	if ((y + height) > dcanvas.height) {
+		height = dcanvas.height - y;
+	}
 	if ('_postgraph' in cTool) {
-	    cTool._postgraph(x, y, 
-		    width, height, 0, 0, width, height);
+		cTool._postgraph(x, y, width, height, 0, 0, width, height);
 	} else {
-	    cLayer.drawImage(
-			cPrefrag.cCanvas.data, 
-			x, y, width,
-			height, 0, 0);
+		cLayer.drawImage(cPrefrag.cCanvas.data, x, y, width, height, 0, 0);
 	}
 	cLayer.redraw();
 	cs.redraw();
 	// We are clearing our prefrag layer so it's ready for next draw
-	cs.layer_manager.special_layers.prefrag = 
-	    new Clayer({ parent: cs.layer_manager, label: '_prefrag', 
-	    	width: cs.get_width(), 
-	    	height: cs.get_height()});
-	
+	cs.layer_manager.special_layers.prefrag = new Clayer({
+		parent : cs.layer_manager,
+		label : '_prefrag',
+		width : cs.get_width(),
+		height : cs.get_height()
+	});
+
 	// Reseting index that represent where we are into recorded points
 	this.index = 0;
 	return true;
@@ -114,11 +141,25 @@ Cgrapher.prototype.start = function() {
 		return false;
 	}
 	var that = this;
-	if (!this.parent.cToolbox || !this.parent.cToolbox.selected) { 
-	    this.send_trigger('error', 'no-tool-selectionned');
-	    console.error('No tool selectionned!');
-	    return false; 
-	};
-	that.timer = window.setInterval(function() {that._graph(); }, 5);
+	if (!this.parent.cToolbox || !this.parent.cToolbox.selected) {
+		this.send_trigger('error', 'no-tool-selectionned');
+		console.error('No tool selectionned!');
+		return false;
+	}
+	var parent = this.parent;
+	var cMessage = new Cgraphit_message({
+		cSurface : parent.selected,
+		cMouse : parent.selected.cMouse,
+		cTool : parent.cToolbox.selected,
+		cToolbox : parent.cToolbox,
+		points : parent.selected.cMouse.points,
+		fgColor : parent.cToolbox.fg_color,
+		bgColor : parent.cToolbox.bg_color,
+		cGrapher : this,
+		index : this.index,
+	});
+	that.timer = window.setInterval(function() {
+		that._graph(cMessage);
+	}, 5);
 	return true;
 };

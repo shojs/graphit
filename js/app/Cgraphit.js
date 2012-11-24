@@ -36,11 +36,9 @@ Cgraphit.prototype.init = function(options) {
 		that.surface_create(options);
 	});
 	this.bind_trigger(this, 'display_new_surface', function(e, options) {
-		console.log('New surface dialog', options);
 		that.dialog_new_surface().dialog('open').dialog('moveToTop');
 	});
 	this.bind_trigger(this, 'display_about', function(e, options) {
-		console.log('New about dialog', options);
 		that.dialog_about().dialog('open');
 	});
 
@@ -67,7 +65,7 @@ Cgraphit.prototype.init = function(options) {
 		parent : this
 	});
 	this.bind_trigger(this.cToolbox, 'update', function(e, d) {
-		console.log('Toolbar updated');
+		//#TODO console.log('Toolbar updated');
 	});
 	/* Grapher */
 	this.cGrapher = new Cgrapher({
@@ -137,7 +135,7 @@ Cgraphit.prototype.dialog_new_surface = function() {
 	var that = this;
 	var r = $('<div />').attr('title', 'New Csurface');
 	var g = $('<div />').addClass('group group-new-surface');
-	// @FIXME: BAD NAME FOR AUTOSAVE... too generic
+	// #FIXME: BAD NAME FOR AUTOSAVE... too generic
 	var width = new Cparameter_numeric({
 		label : 'width',
 		bAutosave : false,

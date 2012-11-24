@@ -184,7 +184,7 @@ Ctool.prototype.callback_click = function(obj) {
 };
 
 /* Graph one point */
-Ctool.prototype.graph = function(grapher, p1, p2) {
+Ctool.prototype.graph = function(cMessage) {
     /* Calling brush graph function */
-    return this._graph(grapher, p1, p2);
+    return this._graph(cMessage);
 };
