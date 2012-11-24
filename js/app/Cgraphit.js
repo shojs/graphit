@@ -69,32 +69,40 @@ Cgraphit.prototype.init = function(dumbopt) {
 			label : 'pen',
 			callback : function() {
 				that.cToolbox.select_tool_by_name('pen');
+				return false;
 			},
 		},
 		'p' : {
 			label : 'brush',
 			callback : function() {
 				that.cToolbox.select_tool_by_name('brush');
+				return false;
 			},
 		},
 		'Shift+e' : {
 			label : 'eraser',
 			callback : function() {
 				that.cToolbox.select_tool_by_name('eraser');
+				return false;
 			},
 		},
 		'Ctrl+z' : {
 			label : 'undo',
-			callback : function() {
+			callback : function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				e.stopImmediatePropagation();
 				if (!that.selected) {
 					console.warn('No surface selected to call undo');
 					return false;
 				}
 				that.selected.undo();
+				return false;
 			},
 		},
 	};
-	for (seq in this.keybindings) {
+	//$(document).unbind('keydown');;
+	for (var seq in this.keybindings) {
 		$(document).bind('keydown', seq, this.keybindings[seq].callback);
 	}
 };
