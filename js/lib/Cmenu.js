@@ -45,3 +45,15 @@ Cmenu.prototype.add = function(cEntry) {
 	}
 	this.entries[cEntry.label] = cEntry;
 };
+
+/**
+ *
+ */
+Cmenu.prototype.dom_build = function() {
+	var r = $('<ul />');
+	for (label in this.entries) {
+		r.append(this.entries[label].dom_get({noHeader: true}));
+	}
+	this.rootElm = r;
+	return this;
+};

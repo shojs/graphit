@@ -25,7 +25,7 @@ Cgraphit.prototype.constructor = new Cobject();
 /**
  * Intialize our Cgraphit object
  */
-Cgraphit.prototype.init = function(dumbopt) {
+Cgraphit.prototype.init = function(options) {
 	var that = this;
 	this.bind_trigger(this, 'create_surface', function(e, options) {
 		console.log('Creating surface', options);
@@ -224,7 +224,7 @@ Cgraphit.prototype.dom_build_add_surface = function(cSurface) {
 					} else {
 						// e.rootElm.parent().find('.surface').parent().dialog('close');
 					}
-				})
+				});
 				$(this).parent().find('.group-graphit-surface').removeClass(
 						'selected');
 
@@ -236,17 +236,20 @@ Cgraphit.prototype.dom_build_add_surface = function(cSurface) {
 /**
  * Builing our DOM rootElm
  */
-Cgraphit.prototype.dom_build = function(dumbopt) {
-	var widget = widget_factory(this.cToolbox.dom_get(), {})
+Cgraphit.prototype.dom_build = function() {
+	widget_factory(this.cToolbox.dom_get(), {});
 	var r = $('<div/>');
-	var g = $('<div class="group group-surfaces"/>');
+	var g = $('<div class="group group-menu"/>');
+	g.append(this.cMenu.dom_get());
+	g = $('<div class="group group-surfaces"/>');
 	cEach(this.surfaces, function(i, elm) {
 		var s = $('<div class="graphit-surface" />');
 		var c = new Ccanvas({width: 50, height: 50});
 		c.copy(elm.cCanvas, true);
-		s.append(c.get_dom());
+		s.append(c.dom_get());
 		g.append(s);
 	});
+ 
 	r.append(g);
 	this.rootElm = r;
 	return this;

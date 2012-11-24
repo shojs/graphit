@@ -12,3 +12,18 @@ function Cmenu_entry(options) {
 Cmenu_entry.prototype = Object.create(Cobject.prototype);
 Cmenu_entry.prototype.constructor = new Cobject();
 
+/**
+ *
+ */
+Cmenu_entry.prototype.dom_build = function() {
+	var that = this;
+	var r = $('<li />');
+	console.log('Menu entry', this);
+	r.append('<p>' + this.label + '</p>');
+	r.click(function() {
+		that.click.call(that, that);
+		that.send_trigger('menu_click', that);
+	});
+	this.rootElm = r;
+	return this;
+};

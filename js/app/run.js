@@ -16,27 +16,27 @@ function _ok_to_build() {
 	cGraphit = new Cgraphit();
 	//cGraphit.widget_new_surface();
 	widget_factory(cGraphit.dom_get(), { width: 100});
-	$('#shojs-menu-top').menu({});
-	widget_factory($('.shojs-menu-dialog'), {
-		position : 'left top',
-		width: 100
-	});
+//$('#shojs-menu-top').menu({});
+//	widget_factory($('.shojs-menu-dialog'), {
+//		position : 'left top',
+//		width: 100
+//	});
 	/*
 	 * BUTTONS
-	 */
-	$('#button-save').click(function() {
-		cSurface.save_as_json();
-	});
-	$('#button-select-by-color').click(function() {
-		cSurface.cCanvas.select_by_color(new Ccolor(0, 0, 0, 1));
-	});
-	$('#button-about').click(function() {
-		var about = new Clicense();
-		widget_factory(about.dom_get(), {
-			width : 600
-		});
-
-	});
+//	 */
+//	$('#button-save').click(function() {
+//		cSurface.save_as_json();
+//	});
+//	$('#button-select-by-color').click(function() {
+//		cSurface.cCanvas.select_by_color(new Ccolor(0, 0, 0, 1));
+//	});
+//	$('#button-about').click(function() {
+//		var about = new Clicense();
+//		widget_factory(about.dom_get(), {
+//			width : 600
+//		});
+//
+//	});
 
 	/*
 	 * Prevent right click
@@ -48,8 +48,8 @@ function _ok_to_build() {
 	});
 	//return;
 	var files = [
-			'Legacy/galaxy', 'Legacy/pepper', 'Legacy/confetti',
-			'Legacy/dunes', 'Legacy/galaxy-big', 'Media/Bristles-01',
+//			'Legacy/galaxy', 'Legacy/pepper', 'Legacy/confetti',
+//			'Legacy/dunes', 'Legacy/galaxy-big', 'Media/Bristles-01',
 //			'Media/Bristles-02', 'Media/Bristles-03', 'Media/Oils-01',
 //			'Media/Oils-02', 'Media/Oils-03', 'Sketch/Charcoal-01',
 //			'Sketch/Charcoal-02', 'Sketch/Pencil-Scratch',
@@ -133,8 +133,10 @@ $(document)
 								});
 
 					} else {
+						// We popup a modal dialog on error
 						try { 
 							_ok_to_build();
+							
 						} catch(e) {
 							console.log(e);
 							var msg = e;
@@ -143,7 +145,7 @@ $(document)
 							r.dialog({
 								modal: true
 							});
-							console.error(msg);
+							throw e;
 						}
 					}
 
