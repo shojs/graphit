@@ -52,8 +52,12 @@ Cmenu.prototype.add = function(cEntry) {
 Cmenu.prototype.dom_build = function() {
 	var r = $('<ul />');
 	for (label in this.entries) {
-		r.append(this.entries[label].dom_get({noHeader: true}));
+		console.log('append', label);
+		var e = this.entries[label].dom_get({noHeader: true});
+		console.log("e", e);
+		r.append(e);
 	}
+	r.menu();
 	this.rootElm = r;
 	return this;
 };

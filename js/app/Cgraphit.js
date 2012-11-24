@@ -35,21 +35,29 @@ Cgraphit.prototype.init = function(options) {
 		console.log('Creating surface', options);
 		that.surface_create(options);
 	});
+	this.bind_trigger(this, 'display_new_surface', function(e, options) {
+		console.log('New surface dialog', options);
+		that.dialog_new_surface().dialog('open').dialog('moveToTop');
+	});
+	this.bind_trigger(this, 'display_about', function(e, options) {
+		console.log('New about dialog', options);
+		that.dialog_about().dialog('open');
+	});
 
 	/* Menu */
 	this.cMenu = new Cmenu({
 		parent : this,
 		entries : {
+			new_surface : {
+				label : 'new',
+				callback_click : function() {
+					that.send_trigger('display_new_surface');
+				}
+			},
 			about : {
 				label : 'about',
 				callback_click : function() {
 					that.send_trigger('display_about');
-				}
-			},
-			new_surface : {
-				label : 'new',
-				callback_click : function() {
-					that.send_trigger('display_new surface');
 				}
 			}
 		},
@@ -112,9 +120,20 @@ Cgraphit.prototype.init = function(options) {
 };
 
 /**
+ *
+ */
+Cgraphit.prototype.dialog_about = function(dumbopt) {
+	if ('_widget_about' in this) return this._widget_about;
+	var r = new Clicense().dom_get();
+	r.dialog({width: 400, modal: true, closeOnEscape: true});
+	this._widget_about = r;
+	return r;
+};
+/**
  * Pop up a new Csurface widget (helper)
  */
-Cgraphit.prototype.widget_new_surface = function(dumbopt) {
+Cgraphit.prototype.dialog_new_surface = function() {
+	if ('_widget_new_surface' in this) { return this._widget_new_surface; }
 	var that = this;
 	var r = $('<div />').attr('title', 'New Csurface');
 	var g = $('<div />').addClass('group group-new-surface');
@@ -154,10 +173,12 @@ Cgraphit.prototype.widget_new_surface = function(dumbopt) {
 				// e.hide();
 			},
 			Cancel : function() {
-				$(this).remove();
+				$(this).dialog('close');
 			}
 		}
 	});
+	this._widget_new_surface = r;
+	return r;
 };
 
 /**
@@ -216,9 +237,7 @@ Cgraphit.prototype.dom_build_add_surface = function(cSurface) {
 			resize : true
 		});
 	});
-	s
-			.click(function() {
-				// that.selected.rootElm.parent().hide();
+	s.click(function() {
 				cSurface.send_trigger('surface_selected', cSurface);
 				cEach(that.surfaces, function(i, e) {
 					if (e == cSurface) {
@@ -241,10 +260,13 @@ Cgraphit.prototype.dom_build_add_surface = function(cSurface) {
  * Builing our DOM rootElm
  */
 Cgraphit.prototype.dom_build = function() {
-	widget_factory(this.cToolbox.dom_get(), {position: "right top"});
+	widget_factory(this.cToolbox.dom_get(), {
+		position : "right top"
+	});
 	var r = $('<div/>');
-	var g = $('<div class="group group-menu"/>');
+	var g = $('<div class="group group-menu" />');
 	g.append(this.cMenu.dom_get());
+	r.append(g);
 	g = $('<div class="group group-graphit-surfaces"/>');
 	cEach(this.surfaces, function(i, elm) {
 		var s = $('<div class="graphit-surface" />');
@@ -263,7 +285,8 @@ Cgraphit.prototype.dom_build = function() {
 			+ '<img style="border:0;width:44px;height:16px"'
 			+ '    src="http://jigsaw.w3.org/css-validator/images/vcss"'
 			+ '    alt="Valid CSS!" \/></a>');
-	badge.append('<a href="#http://www.w3.org/html/logo">'
+	badge
+			.append('<a href="#http://www.w3.org/html/logo">'
 					+ '<img src="http://www.w3.org/html/logo/downloads/HTML5_Logo_32.png" width="32" height="32" alt="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration" title="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration">'
 					+ '</a>');
 	r.append(badge);

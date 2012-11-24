@@ -287,6 +287,9 @@ body {
 	margin: auto;
 }
 
+.group-menu p {
+	font-size: small !important;
+}
 ul {
 	list-style-type: none;
 	padding: 0px;

@@ -19,9 +19,9 @@ Cmenu_entry.prototype.dom_build = function() {
 	var that = this;
 	var r = $('<li />');
 	console.log('Menu entry', this);
-	r.append('<p>' + this.label + '</p>');
+	r.append('<a href="#"><p>' + this.label + '</p></a>');
 	r.click(function() {
-		that.click.call(that, that);
+		that.callback.click.call(that, that);
 		that.send_trigger('menu_click', that);
 	});
 	this.rootElm = r;

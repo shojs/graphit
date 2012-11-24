@@ -61,12 +61,13 @@ Clicense.prototype.dom_build = function() {
 	    $txt.load(this.text);
 	} catch(e) {
 	    console.error('Cannot load full license', e);
+	    throw e;
 	}
 	var button = document.createElement('button');
 	$(button).append('Close');
 	$(button).button();
 	$(button).click(function(e, ui) {
-		$('.about').remove();
+		$r.dialog('close');
 	});
 	$g.append(button);
 	$r.append($g);

@@ -198,7 +198,7 @@ Cobject.prototype.add_parameter = function(options) {
 /**
  * Get parameter by key
  * @param key
- * @returns
+ * @return {value} Value of given key
  */
 Cobject.prototype.get_parameter = function(key) {
 	if (!('parameters' in this) || !(key in this.parameters)) {
@@ -213,10 +213,15 @@ Cobject.prototype.get_parameter = function(key) {
  * @param force
  * @returns
  */
-Cobject.prototype.dom_get = function(force) {
+Cobject.prototype.dom_get = function(options) {
+	options = options || {};
+	options.force = false;
 	var rootElm = this.rootElm;
-	if (force || !rootElm) {
+	if (options.force || !rootElm) {
 		rootElm = this.dom_build().rootElm;
+	}
+	if ('noHeader' in options && options.noHeader) {
+		return rootElm;
 	}
 	var r = $('<div />');
 	r.attr('id', this.uid);
