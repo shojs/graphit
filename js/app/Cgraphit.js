@@ -15,7 +15,11 @@ function Cgraphit(options) {
 	/* Building our dom so surface create can append new element */
 	this.dom_get();
 	/* We are creating a default surface */
-	this.surface_create({parent: this, width: 640, height: 480});
+	this.surface_create({
+		parent : this,
+		width : 640,
+		height : 480
+	});
 }
 
 /* Inheritance */
@@ -101,8 +105,8 @@ Cgraphit.prototype.init = function(options) {
 			},
 		},
 	};
-	//$(document).unbind('keydown');;
-	for (var seq in this.keybindings) {
+	// $(document).unbind('keydown');;
+	for ( var seq in this.keybindings) {
 		$(document).bind('keydown', seq, this.keybindings[seq].callback);
 	}
 };
@@ -195,7 +199,7 @@ Cgraphit.prototype.surface_create = function(options) {
  */
 Cgraphit.prototype.dom_build_add_surface = function(cSurface) {
 	var that = this;
-	var s = $('<div class="group group-graphit-surface" />');
+	var s = $('<div class="group graphit-surface" />');
 	var c = new Ccanvas({
 		width : 50,
 		height : 50
@@ -205,7 +209,7 @@ Cgraphit.prototype.dom_build_add_surface = function(cSurface) {
 		src : cSurface.cCanvas
 	});
 	s.append(c.dom_get());
-	this.rootElm.append(s);
+	this.rootElm.find('.group-graphit-surfaces').append(s);
 	cSurface.bind_trigger(cSurface, 'redraw_preview', function(e, eSurface) {
 		cSurface.canvas_preview.copy({
 			src : eSurface.cCanvas,
@@ -241,26 +245,28 @@ Cgraphit.prototype.dom_build = function() {
 	var r = $('<div/>');
 	var g = $('<div class="group group-menu"/>');
 	g.append(this.cMenu.dom_get());
-	g = $('<div class="group group-surfaces"/>');
+	g = $('<div class="group group-graphit-surfaces"/>');
 	cEach(this.surfaces, function(i, elm) {
 		var s = $('<div class="graphit-surface" />');
-		var c = new Ccanvas({width: 50, height: 50});
+		var c = new Ccanvas({
+			width : 50,
+			height : 50
+		});
 		c.copy(elm.cCanvas, true);
 		s.append(c.dom_get());
 		g.append(s);
 	});
-	
 	r.append(g);
-	r.append('<p>' +
-    '<a href="http://jigsaw.w3.org/css-validator/check/referer">' + 
-    '<img style="border:0;width:44px;height:16px"' +
-    '    src="http://jigsaw.w3.org/css-validator/images/vcss"' +
-    '    alt="Valid CSS!" \/></a></p>');
-	r.append('<p>' +
-		     '<a href="http://jigsaw.w3.org/css-validator/check/referer">' +
-	         '<img style="border:0;width:88px;height:31px"' +
-	         '  src="http://jigsaw.w3.org/css-validator/images/vcss"' + 
-	         '   alt="Valid CSS!" /></a></p>');
+	var badge = $('<div class="group group-badge">');
+	badge.append(''
+			+ '<a href="#http://jigsaw.w3.org/css-validator/check/referer">'
+			+ '<img style="border:0;width:44px;height:16px"'
+			+ '    src="http://jigsaw.w3.org/css-validator/images/vcss"'
+			+ '    alt="Valid CSS!" \/></a>');
+	badge.append('<a href="#http://www.w3.org/html/logo">'
+					+ '<img src="http://www.w3.org/html/logo/downloads/HTML5_Logo_32.png" width="32" height="32" alt="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration" title="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration">'
+					+ '</a>');
+	r.append(badge);
 	this.rootElm = r;
 	return this;
 };
