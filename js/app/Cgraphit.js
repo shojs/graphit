@@ -249,8 +249,13 @@ Cgraphit.prototype.dom_build = function() {
 		s.append(c.dom_get());
 		g.append(s);
 	});
- 
+	
 	r.append(g);
+	r.append('<p>' +
+    '<a href="http://jigsaw.w3.org/css-validator/check/referer">' + 
+    '<img style="border:0;width:44px;height:16px"' +
+    '    src="http://jigsaw.w3.org/css-validator/images/vcss"' +
+    '    alt="Valid CSS!" \/></a></p>');
 	this.rootElm = r;
 	return this;
 };
