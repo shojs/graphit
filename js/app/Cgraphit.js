@@ -8,7 +8,7 @@
 function Cgraphit(options) {
 	options = options || {};
 	options.className = "Cgraphit";
-	options.label = "Cgraphit";
+	options.label = "graphit";
 	this.surfaces = [];
 	this.selected = null;
 	Cobject.call(this, options, []);
@@ -241,7 +241,7 @@ Cgraphit.prototype.dom_build_add_surface = function(cSurface) {
  * Builing our DOM rootElm
  */
 Cgraphit.prototype.dom_build = function() {
-	widget_factory(this.cToolbox.dom_get(), {});
+	widget_factory(this.cToolbox.dom_get(), {position: "right top"});
 	var r = $('<div/>');
 	var g = $('<div class="group group-menu"/>');
 	g.append(this.cMenu.dom_get());

@@ -15,7 +15,7 @@ function _ok_to_build() {
 	cRegistry = new Cregistry();
 	cGraphit = new Cgraphit();
 	//cGraphit.widget_new_surface();
-	widget_factory(cGraphit.dom_get(), { width: 100});
+	widget_factory(cGraphit.dom_get(), { width: 100, position: 'left top'});
 //$('#shojs-menu-top').menu({});
 //	widget_factory($('.shojs-menu-dialog'), {
 //		position : 'left top',

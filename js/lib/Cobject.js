@@ -221,6 +221,8 @@ Cobject.prototype.dom_get = function(force) {
 	var r = $('<div />');
 	r.attr('id', this.uid);
 	r.attr('title', this.label);
+	var classname = this.className + '-' + this.label;
+	r.addClass(classname.toLowerCase());
 	r.append(rootElm);
 	return r;
 };
