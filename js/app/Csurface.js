@@ -17,12 +17,12 @@ function Csurface(options) {
 	var cwidth = this.width || 0;
 	var cwidth = cMath.clamp(1, cwidth, 1920);
 	if (this.width != cwidth) {
-		this.exception('invalid_width');
+		this.exception('invalid_width', this.width);
 	}
 	var cheight = this.height || 0;
 	var cheight = cMath.clamp(1, this.height, 1920);
 	if (this.height != cheight) {
-		this.exception('invalid_height');
+		this.exception('invalid_height', this.height);
 	}
 	// Some variables
 	this.need_redraw = false;
@@ -34,11 +34,11 @@ function Csurface(options) {
 	this.cCanvas.clear(new Ccolor(0, 0, 0, 1));
 
 	// Our layer manager
-	this.layer_manager = new Clayer_manager(this);
-	this.layer_manager.add(new Clayer(this.layer_manager, E_LAYERLABEL.mouse));
+	this.layer_manager = new Clayer_manager({parent: this});
+	this.layer_manager.add(new Clayer({parent: this.layer_manager, label: E_LAYERLABEL.mouse, width: this.width, height: this.height}));
 	this.layer_manager
-			.add(new Clayer(this.layer_manager, E_LAYERLABEL.prefrag));
-	this.layer_manager.add(new Clayer(this.layer_manager));
+			.add(new Clayer({parent: this.layer_manager, label: E_LAYERLABEL.prefrag, width: this.width, height: this.height}));
+	this.layer_manager.add(new Clayer({parent: this.layer_manager, width: this.width, height: this.height}));
 	this.layer_manager.select(this.layer_manager.layers[0]);
 	this.bind_trigger(this.layer_manager, 'update', function(e, d) {
 		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
@@ -80,12 +80,11 @@ function Csurface(options) {
 	// show
 	this.bind_trigger(this, 'show', function(e, d) {
 		if (!d) {
-			console.log('width', that.cCanvas.get_width());
 			widget_factory(that.dom_get(), {
 			width : that.cCanvas.get_width() + 100,
 			//height: that.cCanvas.height + 100,
 			zIndex: 0,
-			stack: false,
+			stack: true,
 			}).show();
 		}
 	});
@@ -122,47 +121,46 @@ Csurface.prototype.update_grid = function() {
  */
 Csurface.prototype.dom_build = function() {
 	var that = this;
-	var r = $('<div title="Surface"/>');
+	var r = $('<div title="(Ctrl-z) Undo"/>');
 
 	r.addClass('surface');
 	var g = $('<div/>');
 	var canvas = this.cCanvas.data;
-	var $c = $(canvas);
-	$c.width = this.width;
-	$c.height = this.height;
-	$c.addClass('canvas');
-	$c.mousedown(function(e) {
+	var c = $(canvas);
+	c.width = this.width;
+	c.height = this.height;
+	c.addClass('canvas');
+	c.attr('tabindex', 0); // So we can get focus and bind ctrl-z
+	c.mousedown(function(e) {
 		that.callback_mousedown(e, that);
 	});
-	$c.mouseup(function(e) {
+	c.mouseup(function(e) {
 		that.callback_mouseup(e, that);
 	});
-	$c.mousemove(function(e) {
+	c.mousemove(function(e) {
 		that.callback_mousemove(e, that);
 	});
-	$c.mouseout(function(e) {
+	c.mouseout(function(e) {
 		if (that.cMouse.is_pushed()) {
 			that.cMouse.paused = true;
 		}
 	});
-	$c.mouseover(function(e) {
+	c.mouseover(function(e) {
 		if (that.cMouse.is_pushed()) {
 			that.cMouse.paused = false;
 		}
 	});
-	$c.mouseenter(function(e) {
+	c.mouseenter(function(e) {
 		that.send_trigger('surface_selected', that);
 	});
-	g.append($c);
+	g.append(c);
 	r.append(g);
-	// TODO Putting back undo
-	$(document).bind('keydown', 'Ctrl+z', function() {
-		that.undo();
-	});
 	r.append(g);
+
 	this.rootElm = r;
 	return this;
 };
+
 
 /**
  * 
@@ -220,7 +218,7 @@ Csurface.prototype.redraw = function(force, dcanvas) {
 				0, canvas.width, canvas.height);
 	}
 	tctx.restore();
-	//this.send_trigger('redraw');
+	this.send_trigger('redraw_preview', this);
 	this.need_redraw = false;
 	return true;
 };
@@ -234,6 +232,22 @@ Csurface.prototype.clear = function() {
 	}
 	this.need_redraw = true;
 	this.send_trigger('update');
+};
+
+/**
+ * Returning width
+ * @return {width] Ccanvas width
+ */
+Csurface.prototype.get_width = function() {
+	return this.cCanvas.data.width;
+};
+
+/**
+ * Returning height
+ * @returns {height} Ccanvas height
+ */
+Csurface.prototype.get_height = function() {
+	return this.cCanvas.data.height;
 };
 
 /**

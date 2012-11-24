@@ -4,15 +4,15 @@
  * @returns
  */
 function Ccanvas(options) {
-    if (!options) {
-	console.error('Missing << {} >> parameter for Ccanvas');
-    }
-    if (!('bg_color' in options) || !(options.bg_color instanceof Ccolor)) {
-	options.bg_color = new Ccolor(0, 0, 0, 0);
-    }
+	options = options || {};
     options.className = 'Ccanvas';
     options.label = 'canvas';
     Cobject.call(this, options, ['width', 'height', 'bg_color', 'src']);
+    this.bg_color = this.bg_color || new Ccolor(0,0,0,0);
+    if (!this.width || this.width < 0 || this.width > 1920) this.exception('invalid_width', this.width);
+    if (!this.height || this.height < 0 || this.height > 1280) this.exception('invalid_height', this.height);
+    
+    
     this.data = document.createElement('canvas');
     this.data.setAttribute('width', this.width);
     this.data.setAttribute('height', this.height);
@@ -43,17 +43,29 @@ Ccanvas.prototype.get_height = function() {
     return this.data.height;
 };
 
-Ccanvas.prototype.copy = function(cCanvas, bResize) {
-    var ctx = this.data.getContext('2d');
-    if (bResize != 'undefined' && bResize) {
-	ctx.drawImage(cCanvas.data, 0, 0, cCanvas.get_width(), cCanvas.get_height(), 0,0, this.get_width(), this.get_height());
+Ccanvas.prototype.copy = function(opt) {
+    if (!opt.src || !(opt.src instanceof Ccanvas)) {
+    	this.exception('invalid_copy_source');
+    }
+    opt.resize = (opt.resize != undefined? opt.resize: false);
+	var ctx = this.data.getContext('2d');
+	ctx.save();
+    if (opt.resize != 'undefined' && opt.resize) {
+    	ctx.drawImage(opt.src.data, 0, 0, opt.src.get_width(), opt.src.get_height(), 0,0, this.get_width(), this.get_height());
+    } else if (opt.keepRatio) {
+    	/*@TODO: keep ratio is bugged ...*/
+    	var width = this.data.width;
+    	var ratio = (opt.src.get_width() / opt.src.get_height()) / width;
+    	var height = this.data.height * ratio;
+    	ctx.drawImage(opt.src.data,0,0,opt.src.get_width(),opt.src.get_height(),0,0,width,height);
     } else {
-	var dwidth = cCanvas.get_width() > this.get_width()? this.get_width(): cCanvas.get_width();
-	var dheight = cCanvas.get_height() > this.get_height()? this.get_height(): cCanvas.get_height();
-	var offx = (this.get_width() > dwidth)? (this.get_width() - dwidth)/2 : 0;
-	var offy = (this.get_height() > dheight)? (this.get_height() - dheight)/2 : 0;
-	ctx.drawImage(cCanvas.data, 0, 0, dwidth, dheight, offx, offy, dwidth, dheight);
+    	var dwidth = opt.src.get_width() > this.get_width()? this.get_width(): opt.src.get_width();
+    	var dheight = opt.src.get_height() > this.get_height()? this.get_height(): opt.src.get_height();
+    	var offx = (this.get_width() > dwidth)? (this.get_width() - dwidth)/2 : 0;
+    	var offy = (this.get_height() > dheight)? (this.get_height() - dheight)/2 : 0;
+	ctx.drawImage(opt.src.data, 0, 0, dwidth, dheight, offx, offy, dwidth, dheight);
     };
+    ctx.restore();
 };
 
 Ccanvas.prototype.get_pixel_color = function(data, x, y, Ecolor) {

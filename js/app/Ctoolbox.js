@@ -90,6 +90,21 @@ Ctoolbox.prototype.init = function() {
 };
 
 /**
+ *
+ */
+Ctoolbox.prototype.select_tool_by_name = function(name) {
+	var that = this;
+	return cEach(this.tools, function(i, e) {
+		if (e.label == name) {
+			that.select_tool(e);
+			this.stop();
+			this.ret = true;
+		}
+		return false;
+	});
+};
+
+/**
  * Load tools from hash
  * 
  * @param olist

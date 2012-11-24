@@ -8,7 +8,6 @@ var CTOOL_brushes = {
 				console.error('Brush parent of parent must be a toolbox');
 				return false;
 			}
-			console.log('toolbox', toolbox);
 			var color = toolbox.fg_color.color.clone();
 			var tool = toolbox.selected;
 			if (tool && 'opacity' in tool.parameters) {
@@ -47,7 +46,6 @@ var CTOOL_brushes = {
 				console.error('Brush parent of parent must be a toolbox');
 				return false;
 			}
-			console.log('toolbox', toolbox);
 			var color = toolbox.fg_color.color.clone();
 			var tool = toolbox.selected;
 			if (tool && 'opacity' in tool.parameters) {
@@ -81,13 +79,11 @@ var CTOOL_brushes = {
 		width : 100,
 		height : 100,
 		callback_update : function() {
-			console.log('Update rectangle', this);
 			var toolbox = this.parent.parent;
 			if (!(toolbox instanceof Ctoolbox)) {
 				console.error('Brush parent of parent must be a toolbox');
 				return false;
 			}
-			console.log('toolbox', toolbox);
 			var color = toolbox.fg_color.color.clone();
 			var tool = toolbox.selected;
 			if (tool && 'opacity' in tool.parameters) {

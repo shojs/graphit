@@ -22,7 +22,6 @@ Cbrush.prototype.constructor = new Cobject();
  *
  */
 Cbrush.prototype.init = function(options) {
-	console.log('Adding brush', this.type, this.name);
 	if (!this.type || !this.name) {
 		console.error("Cbrush need <<type>> and <<name>> parameter");
 		return false;
@@ -69,7 +68,6 @@ Cbrush.prototype._load_js = function(options) {
 		console.error('Javascript brush need width and height property');
 		return false;
 	}
-	console.log('Parsing javascript brush');
 	return true;
 };
 

@@ -4,9 +4,10 @@
  * @param y
  * @returns
  */
-function Cpoint(x, y) {
-    this.x = x;
-    this.y = y;
+function Cpoint(pos) {
+	pos = pos || {x: 0, y: 0};
+    this.x = pos.x;
+    this.y = pos.y;
 }
 
 /**
@@ -15,8 +16,8 @@ function Cpoint(x, y) {
  * @param y
  * @returns
  */
-function Cvector2d(x, y) {
-    Cpoint.call(this, x, y);
+function Cvector2d(pos) {
+    Cpoint.call(this, pos);
 }
 
 Cvector2d.prototype = Object.create(Cpoint.prototype);
@@ -56,7 +57,7 @@ Cvector2d.prototype.vadd = function(v) {
 };
 
 Cvector2d.prototype.clone = function() {
-    return new Cvector2d(this.x, this.y);
+    return new Cvector2d(this);
 };
 
 /**

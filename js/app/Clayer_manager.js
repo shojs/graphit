@@ -1,17 +1,17 @@
 /*******************************************************************************
- * 
- * @returns
+ * This class manage Csurface layers
+ * Each layers is composed of n-fragments, that's how undo is implemented
  */
 
-function Clayer_manager(parent) {
+function Clayer_manager(options) {
 	var that = this;
-	Cobject.call(this, {
-		parent : parent,
-		className : 'Clayer_manager',
-		label : 'layermanager'
-	}, [
-			'parent', 'label'
-	]);
+	options = options || {};
+	options.className = 'Clayer_manager';
+	options.label = 'layermanager';
+	Cobject.call(this, options, ['parent']);
+	if (!this.parent) {
+		this.exception('no_parent_parameter');
+	}
 	this.layers = new Array();
 	this.special_layers = new Object();
 	this.selected = null;
@@ -19,30 +19,17 @@ function Clayer_manager(parent) {
 	this.bind_trigger(this, 'update', function(e, v) {
 		that.redraw();
 	});
-	this.add(new Clayer(this, '_stack_up'));
-	this.add(new Clayer(this, '_stack_down'));
-	var g = this.add(new Clayer(this, '_grid'));
-	var l = this.add(new Clayer(this, 'background'));
+	var width = this.parent.get_width();
+	var height = this.parent.get_height();
+	this.add(new Clayer({parent: this, label: '_stack_up', width: width, height: height}));
+	this.add(new Clayer({parent: this, label: '_stack_down', width: width, height: height}));
+	var g = this.add(new Clayer({parent: this, label: '_grid', width: width, height: height}));
+	var l = this.add(new Clayer({parent: this, label: 'background', width: width, height: height}));
 };
 
 Clayer_manager.prototype = Object.create(Cobject.prototype);
 Clayer_manager.prototype.constructor = new Cobject();
-/**
- * 
- */
-Clayer_manager.prototype.layer_stack = function(start, end) {
-	if (start > end) {
-		return null;
-	}
-	var l = new Clayer(this, 'stack');
-	var canvas;
-	for ( var i = start; i <= end; i++) {
-		canvas = this.layers[i].cCanvas.data;
-		l.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
-	}
-	return l;
 
-};
 
 /**
  * 
@@ -83,6 +70,26 @@ Clayer_manager.prototype.add = function(layer) {
 	}
 	this.send_trigger('update');
 	return layer;
+};
+
+/**
+ * 
+ */
+Clayer_manager.prototype.layer_stack = function(start, end) {
+	if (start > end) {
+		return null;
+	}
+	var width = this.parent.get_width();
+	var height = this.parent.get_height();
+	var cLayer = new Clayer({parent: this, label: 'stack', width: width, height: height});
+	var ctx = cLayer.cCanvas.getContext();
+	var canvas;
+	for ( var i = start; i <= end; i++) {
+		canvas = this.layers[i].cCanvas.data;
+		ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+	}
+	return cLayer;
+
 };
 
 /**
@@ -229,7 +236,7 @@ Clayer_manager.prototype.dom_build = function(parent, force) {
 		height : 16,
 		title : 'Create new layer',
 		callback_click : function(obj) {
-			that.add(new Clayer(that));
+			that.add(new Clayer({parent: that}));
 			//that.parent.redraw();
 		}
 	});

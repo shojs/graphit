@@ -7,6 +7,7 @@
 function callback_stub() {
 	;// console.log('callback - stub');
 }
+
 function helper_get_classname(obj) {
 	if (typeof obj === "undefined") return "undefined";
 	if (obj === null) return "null";
@@ -20,6 +21,7 @@ function helper_bound_value(val, min, max) {
 }
 
 var near_zero_tolerance = 0.01;
+
 function near_zero(v) {
 	// console.log('Near zero:', v);
 	if (v < near_zero_tolerance && v > -near_zero_tolerance) {
@@ -70,7 +72,7 @@ function getObjectClass(obj) {
  * @returns {Boolean}
  */
 function cEach(thing, cback) {
-	this.ret = null;
+	this.ret = false;
 	this.run = true;
 	if (thing == undefined) {
 		console.error('Cannot iterate over null thing');
@@ -99,7 +101,7 @@ function cEach(thing, cback) {
 			cback.call(this, elm, thing[elm]);
 		}
 	} else {
-		console.error('Invalid each thing @#!');
+		this.exception('invalid_thing');
 	}
 	return this.ret;
 };

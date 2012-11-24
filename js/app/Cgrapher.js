@@ -15,20 +15,27 @@ function Cgrapher(options) {
 	options.className = 'Cgrapher';
 	options.label = 'grapher';
     	Cobject.call(this, options, ['parent']);
-	this.reset_index();
-	this.timer = null;
-	this.mode = Egrapher_mode.continuous;
+
 }
 
 Cgrapher.prototype = Object.create(Cobject.prototype);
 Cgrapher.prototype.constructor = new Cobject();
+
+/**
+ *
+ */
+Cgrapher.prototype.init = function() {
+	if (!this.parent) this.exception('no_parent_argument');
+	this.reset_index();
+	this.timer = null;
+	this.mode = Egrapher_mode.continuous;
+};
 
 Cgrapher.prototype.reset_index = function() {
 	this.index = 0;
 };
 
 Cgrapher.prototype._graph = function() {
-	console.log(this);
 	var cSurface = this.parent.selected;
 	var cMouse = cSurface.cMouse;
 	var cTool = this.parent.cToolbox.selected;
@@ -63,7 +70,6 @@ Cgrapher.prototype.stop = function() {
 	this.timer_update = null;
 	
 	// We are drawing our prefrag layer into our current layer
-	console.log(this);
 	var cs = this.parent.selected;
 	var cMouse = cs.cMouse;
 	var cLayer = cs.layer_manager.selected;
@@ -93,7 +99,9 @@ Cgrapher.prototype.stop = function() {
 	cs.redraw();
 	// We are clearing our prefrag layer so it's ready for next draw
 	cs.layer_manager.special_layers.prefrag = 
-	    new Clayer(cs.layer_manager, '_prefrag');
+	    new Clayer({ parent: cs.layer_manager, label: '_prefrag', 
+	    	width: cs.get_width(), 
+	    	height: cs.get_height()});
 	
 	// Reseting index that represent where we are into recorded points
 	this.index = 0;
@@ -106,7 +114,6 @@ Cgrapher.prototype.start = function() {
 		return false;
 	}
 	var that = this;
-	console.log(this);
 	if (!this.parent.cToolbox || !this.parent.cToolbox.selected) { 
 	    this.send_trigger('error', 'no-tool-selectionned');
 	    console.error('No tool selectionned!');

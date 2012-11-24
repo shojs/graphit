@@ -30,15 +30,13 @@ Cminmax.prototype.cmp = function(v) {
  * @param y
  * @returns {Object}
  */
-function Cmouse_tracker_point(x, y) {
-    	Cvector2d.call(this, x, y);
-	this.x = x;
-	this.y = y;
+function Cmouse_tracker_point(pos) {
+    	Cvector2d.call(this, pos);
 	this.time = Date.now();
 }
 
 Cmouse_tracker_point.prototype = Object.create(Cvector2d.prototype);
-Cmouse_tracker_point.prototype.constructor = new Cvector2d(0,0,0);
+Cmouse_tracker_point.prototype.constructor = new Cvector2d({x: 0, y: 0});
 /*******************************************************************************
  * Tracking mouse movement
  * 
@@ -122,7 +120,7 @@ Cmouse_tracker.prototype.push = function() {
 			return null;
 		}
 		if (this.paused) { return null;}
-		var cp = new Cmouse_tracker_point(that.x, that.y);
+		var cp = new Cmouse_tracker_point(that);
 		var lp = that.points[that.points.length - 1];
 		/* We are not storing same point twice */
 //		if (lp && lp.x == cp.x && lp.y == cp.y) {

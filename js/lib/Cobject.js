@@ -8,8 +8,14 @@
  * @param permitted
  */
 function Cobject(options, permitted) {
+	cUid = new Cuid();
 	if (options == undefined) {
 		return;
+	}
+	if (!(options instanceof Object)) {		
+		var msg = "[Cobject/Constructor] Options must be hash aka Object";
+		console.error(msg, this);
+		throw msg;
 	}
 	this.parent = null;
 	this.parameters = {};
@@ -25,7 +31,7 @@ function Cobject(options, permitted) {
  */
 
 Cobject.prototype._class_init = function(options, permitted) {
-	this.uid = UID.get();
+	this.uid = cUid.get();
 	this.callback = {};
 	if (SHOJS_DEBUG > 10) console.log('UID', this.uid);
 	this.parse_options(options, permitted);
@@ -41,11 +47,29 @@ Cobject.prototype.init = function() {
 };
 
 /**
+ * Throwing exception with a given label and using this.className
+ */
+Cobject.prototype.exception = function(label, msg) {
+	SHOJS_EXCEPTION.deliver(this, label, msg);
+};
+
+/**
  *
  */
-Cobject.prototype.exception = function(label) {
-	console.log('exception', this.className, label);
-	cE.deliver(this.className, label);
+Cobject.prototype.intercept = function(e) {
+	throw e;
+	if (!this.is_our_exception(e)) {
+		throw e;
+	}
+};
+/**
+ *
+ */
+Cobject.prototype.is_our_exception = function(e) {
+	if (!('type' in e) || e.type != 'shojs-exception') {
+		return false;
+	}
+	return true;
 };
 
 /**
@@ -65,8 +89,7 @@ Cobject.prototype.parse_options = function(options, permitted) {
 	];
 	for ( var i = 0; i < mandatory.length; i++) {
 		if (!(mandatory[i] in options) && !options[mandatory[i]]) {
-			console.error('Missing ' + mandatory[i] + ' in Cobject parameters');
-			return false;
+			this.exception('missing_mandatory_parameter', mandatory[i]);
 		} else {
 			permitted.push(mandatory[i]);
 		}
@@ -96,7 +119,6 @@ Cobject.prototype.parse_options = function(options, permitted) {
 		} else if (m[1] in this.callback) {
 			console.error('Callback', m[1], 'already installed skipping...');
 		} else {
-			//console.log('Installing callback: ' + this.className + ' ' + m[1]);;
 			this.callback[m[1]] = options[label];
 		}
 	}

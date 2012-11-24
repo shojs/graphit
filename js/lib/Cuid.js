@@ -42,4 +42,3 @@ Cuid.prototype.init = function() {
     this.id = this.get();
 };
 
-var UID = new Cuid();

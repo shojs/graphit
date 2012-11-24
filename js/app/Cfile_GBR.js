@@ -239,6 +239,7 @@ Cfile_GBR.prototype.parse_response = function(response) {
 	});
 	/*
 	 * Clearing canvas with transparent black 
+	 * #TODO It's not transparent black ...
 	 */
 	canvas.clear(new Ccolor(0, 0, 0, 1));
 	/*
