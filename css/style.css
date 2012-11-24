@@ -1,6 +1,6 @@
 body {
 	margin: 0;
-	padding: auto;
+	padding: 0;
 	background-image: url(../img/grid50.png);
 	-moz-user-select: none;
 	-khtml-user-select: none;
@@ -41,7 +41,6 @@ body {
 .about .text {
 	height: 200px;
 	overflow-y: auto;
-	overflow-x: none;
 	white-space: pre-line;
 }
 
@@ -52,7 +51,6 @@ body {
 .widget_draw_brush {
 	width: 250px;
 	float: left;
-	cleat: both;
 }
 
 .surface  div {
@@ -102,7 +100,6 @@ body {
 .group-brush {
 	width: 30px;
 	font-size: xx-small;
-	word-wrap: break;
 	overflow: hidden;
 	margin: auto 0.1em;
 	float: left;
@@ -157,7 +154,6 @@ body {
 .layer .label {
 	font-size: x-small;
 	width: 100px;
-	overflow-wrap: text-overflow;
 }
 
 .layer  canvas {
@@ -272,8 +268,6 @@ body {
 }
 
 .shojs-menu-dialog {
-	overflow: hide;
-	scrollbar: none;
 	font-size: small;
 }
 
@@ -332,25 +326,12 @@ li {
 	text-transform: capitalize;
 }
 
-.group-license: {
-	
-}
-
-.group-license .text {
-	
-}
 
 .group-license a:link {
 	color: green;
 	text-transform: lowercase;
 }
 
-#rss-feed:parent {
-	width: 400px;
-	height: 300px;
-	x-overflow: none;
-	y-overflow: auto;
-}
 
 .ItemContent {
 	height: 100px;
