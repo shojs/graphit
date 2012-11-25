@@ -45,7 +45,7 @@ Cbrush.prototype.init_canvas = function(options) {
 	var canvas = new Ccanvas({width: options.data.width, height: options.data.height});
 	canvas.clear(new Ccolor(0,0,0,0));
 	this.cCanvas = canvas;
-	this.callback.update.call(this, this.parent);
+	//this.callback.update.call(this, this.parent);
 };
 
 /**

@@ -2,13 +2,14 @@ var CTOOL_brushes = {
 	circle : {
 		width : 100,
 		height : 100,
-		callback_update : function(d) {
-			console.log('POLOM', d);
-			if (!(d.cToolbox instanceof Ctoolbox)) {
+		callback_update : function() {
+			var toolbox = this.parent.parent;
+			if (!(toolbox instanceof Ctoolbox)) {
 				console.error('Brush parent of parent must be a toolbox');
 				return false;
 			}
-			var color = d.fgColor.color.clone();
+			var color = toolbox.fg_color.color.clone();
+			var tool = toolbox.selected;
 			if ('opacity' in tool.parameters) {
 				color.a = tool.parameters.opacity.value;
 			}
@@ -93,18 +94,18 @@ var CTOOL_brushes = {
 				width : this.cCanvas.width,
 				height : this.cCanvas.height
 			});
-			
+
 			var ctx = this.cCursor.getContext();
 			ctx.save();
-			ctx.clearRect(0,0, size, size);
+			ctx.clearRect(0, 0, size, size);
 			ctx.strokeStyle = color.to_rgba();
-			ctx.strokeRect(0,0, size, size);
+			ctx.strokeRect(0, 0, size, size);
 			ctx.restore();
 			ctx = this.cCanvas.getContext();
 			ctx.save();
-			ctx.clearRect(0,0, size, size);
+			ctx.clearRect(0, 0, size, size);
 			ctx.fillStyle = color.to_rgba();
-			ctx.fillRect(0,0, size, size);
+			ctx.fillRect(0, 0, size, size);
 			ctx.restore();
 		}
 
@@ -212,21 +213,22 @@ var CTOOL_tools = {
 		_update : function() {
 			return true;
 		},
-		_graph : function(grapher, p1, p2) {
-			var dcanvas = grapher.parent.selected.layer_manager.special_layers.prefrag.cCanvas.data;
+		_graph : function(cMessage) {
+			var dcanvas = cMessage.cSurface.layer_manager.special_layers.prefrag.cCanvas.data;
 			var ctx = dcanvas.getContext('2d');
 			var scanvas = this.cCanvas.data;
 			var dw = scanvas.width / 2;
 			var dh = scanvas.height / 2;
-			// console.log(dw, dh);
 			var dctx = scanvas.getContext('2d');
 			var pression = this.get_parameter('pression');
-			var points = cMath.linear_interpolation(p1, p2, 100 / pression);
+			var points = cMath.linear_interpolation(cMessage.A, cMessage.B,
+					100 / pression);
 			if (points.length <= 0) {
 				return false;
 			}
 			for ( var i = 0; i < points.length; i++) {
 				ctx.save();
+				points[i].round();
 				ctx.translate(points[i].x - dw, points[i].y - dh);
 				ctx.drawImage(scanvas, 0, 0, scanvas.width, scanvas.height);
 				ctx.restore();
@@ -276,17 +278,18 @@ var CTOOL_tools = {
 			// console.log('Copied layer', dc.toDataURL());
 
 		},
-		_graph : function(grapher, p1, p2) {
-			var dcanvas = grapher.parent.selected.layer_manager.special_layers.prefrag.cCanvas.data;
+		_graph : function(cMessage) {
+			var dcanvas = cMessage.cSurface.layer_manager.special_layers.prefrag.cCanvas.data;
 			var ctx = dcanvas.getContext('2d');
-			grapher.cSurface.layer_manager.special_layers.prefrag.down_composite_operation = Ecomposite_operation['source-in'];
+			cMessage.cSurface.layer_manager.special_layers.prefrag.down_composite_operation = Ecomposite_operation['source-in'];
 			ctx.globalCompositeOperation = Ecomposite_operation['destination-out'];
 			var scanvas = this.cCanvas.data;
 			var dw = scanvas.width / 2;
 			var dh = scanvas.height / 2;
-			var dctx = scanvas.getContext('2d');
+			// var dctx = scanvas.getContext('2d');
 			var pression = this.get_parameter('pression') || 100;
-			var points = cMath.linear_interpolation(p1, p2, (100 / pression));
+			var points = cMath.linear_interpolation(cMessage.A, cMessage.B,
+					(100 / pression));
 			for ( var i = 0; i < points.length; i++) {
 				ctx.save();
 				ctx.translate(points[i].x - dw, points[i].y - dh);
@@ -296,21 +299,20 @@ var CTOOL_tools = {
 			ctx.restore();
 			return true;
 		},
-		_postgraph : function(x, y, width, height) {
-			var l = this.parent.parent.layer_manager.selected;
-			var f = this.parent.parent.layer_manager.special_layers.prefrag;
-			var nf = f.clone();
-			nf.ctx.save();
-			nf.ctx.clearRect(0, 0, nf.cCanvas.data.width,
-					nf.cCanvas.data.height);
-			nf.ctx.globalCompositeOption = 'xor';
-			nf.ctx.drawImage(f.cCanvas.data, 0, 0, f.cCanvas.data.width,
-					f.cCanvas.data.height);
 
-			l
-					.drawImage(nf.cCanvas.data, x, y, width, height, 0, 0,
-							'source-in');
-			nf.ctx.restore();
+		_postgraph : function(x, y, width, height) {
+			var cSurface = this.parent.parent.selected.layer_manager.selected;
+			var f = this.parent.parent.selected.layer_manager.special_layers.prefrag;
+			var nf = f.clone();
+			var ctx = nf.cCanvas.getContext('2d');
+			ctx.save();
+			ctx.clearRect(0, 0, nf.cCanvas.data.width, nf.cCanvas.data.height);
+			ctx.globalCompositeOption = 'xor';
+			ctx.drawImage(f.cCanvas.data, 0, 0, f.cCanvas.data.width,
+					f.cCanvas.data.height);
+			cSurface.drawImage(nf.cCanvas.data, x, y, width, height, 0, 0,
+					'source-in');
+			ctx.restore();
 		}
 	}
 };

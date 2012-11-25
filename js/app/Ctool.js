@@ -186,5 +186,12 @@ Ctool.prototype.callback_click = function(obj) {
 /* Graph one point */
 Ctool.prototype.graph = function(cMessage) {
     /* Calling brush graph function */
-    return this._graph(cMessage);
+	try {
+		return this._graph(cMessage);
+	} catch(e) {
+		this.intercept(e);
+		console.error('Exception: Invalid Graph function for this tool <<< ', e, ' >>>');
+		throw e;
+	}
+	return false;
 };

@@ -1,3 +1,4 @@
+
 /**
  * A point in space
  * @param x
@@ -5,16 +6,25 @@
  * @returns
  */
 function Cpoint(pos) {
+	if (pos != undefined && (!('x' in pos) || !('y' in pos))) {
+		throw new Cexception_message({
+			className: 'Cpoint',
+			error: 'invalid_component', 
+			additional: pos});
+	}
 	pos = pos || {x: 0, y: 0};
     this.x = pos.x;
     this.y = pos.y;
 }
 
+Cpoint.prototype.round = function() {
+    this.x = Math.round(this.x);
+    this.y = Math.round(this.y);
+};
+
 /**
  * A 2d vector
- * @param x
- * @param y
- * @returns
+ * @param {x, y} Position must be an object with x and y properties
  */
 function Cvector2d(pos) {
     Cpoint.call(this, pos);
@@ -60,10 +70,12 @@ Cvector2d.prototype.clone = function() {
     return new Cvector2d(this);
 };
 
+
 /**
  * Global math Object
  */
 var cMath = {
+	
 	/**
 	 * Return distance between point A and B
 	 * @param A
@@ -75,6 +87,7 @@ var cMath = {
 	var inty = B.y - A.y;
 	return Math.sqrt(intx * intx) + (inty * inty);
     },
+    
     /**
      * Check that n is an integer
      * @param n
@@ -83,6 +96,7 @@ var cMath = {
     isint : function(n) {
 	return typeof n === 'number' && n % 1 == 0;
     },
+    
     /**
      * Return interpolated list of points
      * 
@@ -96,23 +110,19 @@ var cMath = {
 	var v = new Cvector2d();
 	v.from_point(A, B);
 	var distance = v.magnitude();
-	if (distance == 0) {
-	    return points;
-	}
+	if (distance == 0) { return points; }
 	v.normalize();
 	var lp = A.clone();
 	v.smul(step);
-	var nstep = step;// distance / step;
-	//console.log('distance', distance, 'nstep:', nstep);
 	points.push(A);
 	for ( var i = 0; i <= distance; i += step) {
 	    lp.vadd(v);
-	    points.push(new Cpoint(lp.x, lp.y ));
+	    points.push(new Cpoint({x: lp.x, y: lp.y}));
 	}
 	points.push(B);
-	//console.log(points);
 	return points;
     },
+    
     /**
      * Return borned value: lo < value < hi
      * @param value

@@ -50,14 +50,18 @@ Cobject.prototype.init = function() {
  * Throwing exception with a given label and using this.className
  */
 Cobject.prototype.exception = function(label, msg) {
-	SHOJS_EXCEPTION.deliver(this, label, msg);
+	throw new Cexception_message({
+		className: this.className,
+		label: label,
+		additional: msg,
+		object: this,
+	});
 };
 
 /**
  *
  */
 Cobject.prototype.intercept = function(e) {
-	throw e;
 	if (!this.is_our_exception(e)) {
 		throw e;
 	}

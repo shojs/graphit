@@ -58,16 +58,18 @@ Clayer.prototype.init = function() {
 
 Clayer.prototype.clone = function() {
 	var canvas = this.cCanvas.data;
-	var l = new Clayer({
+	var cLayer = new Clayer({
 		parent : this.parent,
 		label : this.label,
-		composite_operation : this.composite_operation
+		composite_operation : this.composite_operation,
+		width: this.width,
+		height: this.height
 	});
-	l.visible = this.visible;
-	l.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
-	l.need_redraw = false;
-	l.rootElm = this.rootElm;
-	return l;
+	cLayer.visible = this.visible;
+	cLayer.cCanvas.getContext().drawImage(canvas, 0, 0, canvas.width, canvas.height);
+	cLayer.need_redraw = false;
+	cLayer.rootElm = this.rootElm;
+	return cLayer;
 };
 
 /**
@@ -355,7 +357,7 @@ Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx, ty,
 	// this.ctx.strokeRect(sx, sy, swidth, sheight);
 	// this.ctx.clip();
 	if (compositeOperation) {
-		this.ctx.globalCompositeOperation = compositeOperation;
+		//this.cCanvas.getContext('2d').globalCompositeOperation = compositeOperation;
 		frag.downCompositeOperation = compositeOperation;
 	}
 	// this.ctx.restore();
