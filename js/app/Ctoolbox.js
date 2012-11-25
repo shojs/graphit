@@ -14,6 +14,11 @@ function Ctoolbox(olist, options) {
 	Cobject.call(this, options, ['parent']);
 	this.elmPreview = null;
 	this.elmOptions = null;
+	this.dialog_options = {
+			modal: false,
+			width: 250,
+			stack: false
+	};
 	this.bind_trigger(this.fg_color, 'color_selected', function(e, d) {
 	    if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
 	    that.update();
@@ -169,7 +174,7 @@ Ctoolbox.prototype.select_tool = function(cTool) {
 	g.children('div').detach();// empty();
 	g.append(cTool.dom_build_options());
 	this.selected = cTool;
-	cTool.update();
+	this.update();
 	return true;
 };
 
@@ -183,7 +188,7 @@ Ctoolbox.prototype.switch_color = function() {
 	var $holder = this.rootElm.find('.colorpicker-colors');
 	$holder.children('.colorpicker').detach();
 	this.dom_build_colorpickers($holder);
-	this.send_trigger('update');
+	this.send_trigger('update_foreground_color');
 };
 
 /**

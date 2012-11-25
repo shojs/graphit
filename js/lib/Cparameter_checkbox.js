@@ -3,15 +3,15 @@
  * @param options
  */
 function Cparameter_checkbox(options) {
-    options.type = Eparameter_type.checkbox;
-    Cparameter.call(this, options);
+	options.type = Eparameter_type.checkbox;
+	Cparameter.call(this, options);
 }
 
 Cparameter_checkbox.prototype = Object.create(Cparameter.prototype);
 Cparameter_checkbox.prototype.constructor = new Cparameter();
 
 Cparameter_checkbox.prototype.init = function(options) {
-    this.choices = {};
+	this.choices = {};
 
 };
 
@@ -21,14 +21,11 @@ Cparameter_checkbox.prototype.init = function(options) {
  * @returns {Boolean}
  */
 Cparameter_checkbox.prototype._get = function(value) {
-    if (value == 'true')
-	return true;
-    else if (value == 'false')
-	return false;
-    else if (value)
-	return true;
-    else
-	return false;
+	if (value == 'true') return true;
+	else if (value == 'false') return false;
+	else if (value) return true;
+	else
+		return false;
 };
 
 /**
@@ -36,22 +33,22 @@ Cparameter_checkbox.prototype._get = function(value) {
  * @param v
  */
 Cparameter_checkbox.prototype._set = function(v) {
-    if (v == 'false' || !v) {
-	v = false;
-    } else {
-	v = true;
-    }
-    if (v) {
-	this.value = true;
-	if (this.rootElm) {
-	    this.rootElm.find('input').attr('checked', 'checked');
+	if (v == 'false' || !v) {
+		v = false;
+	} else {
+		v = true;
 	}
-    } else {
-	this.value = false;
-	if (this.rootElm) {
-	    this.rootElm.find('input').removeAttr('checked');
+	if (v) {
+		if (this.rootElm) {
+			this.rootElm.find('input').attr('checked', 'checked');
+		}
+	} else {
+		this.value = false;
+		if (this.rootElm) {
+			this.rootElm.find('input').removeAttr('checked');
+		}
 	}
-    }
+	return v;
 };
 
 /**
@@ -59,23 +56,23 @@ Cparameter_checkbox.prototype._set = function(v) {
  * @returns {Cparameter}
  */
 Cparameter.prototype.dom_build = function() {
-    var that = this;
-    var r = $('<div />');
-    r.addClass('selectex parameter');
-    r.append('<h6>' + this.label + '</h6>');
-    var s = $('<input />');
-    s.attr('type', 'checkbox');
-    s.attr('title', label);
-    if (this.value) {
-	s[0].checked = 'checked';
-    }
-    s.change(function() {
-	that.set(this.checked);
-	if ('callback_change' in that) {
-	    that.callback_change.call(that, s[0].checked);
+	var that = this;
+	var r = $('<div />');
+	r.addClass('selectex parameter');
+	r.append('<h6>' + this.label + '</h6>');
+	var s = $('<input />');
+	s.attr('type', 'checkbox');
+	s.attr('title', label);
+	if (this.value) {
+		s[0].checked = 'checked';
 	}
-    });
-    r.append(s);
-    this.rootElm = r;
-    return that;
+	s.change(function() {
+		that.set(this.checked);
+		if ('callback_change' in that) {
+			that.callback_change.call(that, s[0].checked);
+		}
+	});
+	r.append(s);
+	this.rootElm = r;
+	return that;
 };

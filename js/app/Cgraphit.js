@@ -9,9 +9,10 @@ function Cgraphit(options) {
 	options = options || {};
 	options.className = "Cgraphit";
 	options.label = "graphit";
+	options.widgets = {};
 	this.surfaces = [];
 	this.selected = null;
-	Cobject.call(this, options, []);
+	Cobject.call(this, options, ['widgets']);
 	/* Building our dom so surface create can append new element */
 	this.dom_get();
 	/* We are creating a default surface */
@@ -35,16 +36,17 @@ Cgraphit.prototype.init = function(options) {
 		console.log('Creating surface', options);
 		that.surface_create(options);
 	});
+	/* Update trigger binding */
+	
+	/* Menu trigger binding */
 	this.bind_trigger(this, 'display_new_surface', function(e, options) {
 		that.dialog_new_surface().dialog('open').dialog('moveToTop');
 	});
-	this.bind_trigger(this, 'display_about', function(e, options) {
-		that.dialog_about().dialog('open');
+	this.bind_trigger(this, 'display_widget', function(e, cElm) {
+		that.get_widget(cElm).dialog('open').dialog('moveToTop');
 	});
-	this.bind_trigger(this, 'display_theme', function(e, options) {
-		that.dialog_theme().dialog('open');
-	});
-
+	this.wJquerytheme = new Cjquery_theme();
+	this.wAbout = new Clicense();
 	/* Menu */
 	this.cMenu = new Cmenu({
 		parent : this,
@@ -56,15 +58,21 @@ Cgraphit.prototype.init = function(options) {
 				}
 			},
 			theme: {
+				label: T('menu_toolbox'),
+				callback_click : function() {
+					that.send_trigger('display_widget', that.cToolbox);
+				}
+			},
+			toolbox: {
 				label: T('menu_theme'),
 				callback_click : function() {
-					that.send_trigger('display_theme');
+					that.send_trigger('display_widget', that.wJquerytheme);
 				}
 			},
 			about : {
 				label : T('menu_about'),
 				callback_click : function() {
-					that.send_trigger('display_about');
+					that.send_trigger('display_widget', that.wAbout);
 				}
 			}
 		},
@@ -129,28 +137,29 @@ Cgraphit.prototype.init = function(options) {
 /**
  *
  */
-Cgraphit.prototype.dialog_about = function(dumbopt) {
-	if ('_widget_about' in this) return this._widget_about;
-	var r = new Clicense().dom_get();
-	r.dialog({width: 400, modal: true, closeOnEscape: true});
-	this._widget_about = r;
+Cgraphit.prototype.get_widget = function(cWidget) {
+	if (cWidget.label in this.widgets) {
+		return this.widgets[cWidget.label];
+	}
+	var opt = {
+			closeOnEscape: true,
+			modal: true,
+	};
+	if ('dialog_options' in cWidget) {
+		for (label in cWidget['dialog_options']) {
+			opt[label] = cWidget['dialog_options'][label];
+		};
+	}
+	var r = cWidget.dom_get().dialog(opt);
+	this.widgets[cWidget.label] = r;
 	return r;
 };
-/**
-*
-*/
-Cgraphit.prototype.dialog_theme = function(dumbopt) {
-	if ('_widget_theme' in this) return this._widget_theme;
-	var r = new Cjquery_theme().dom_get();
-	r.dialog({width: 400, modal: true, closeOnEscape: true});
-	this._widget_theme = r;
-	return r;
-};
+
 /**
  * Pop up a new Csurface widget (helper)
  */
 Cgraphit.prototype.dialog_new_surface = function() {
-	if ('_widget_new_surface' in this) { return this._widget_new_surface; }
+	if ('new_surface' in this.widgets) { return this.widgets.new_surface; }
 	var that = this;
 	var r = $('<div />').attr('title', 'New Csurface');
 	var g = $('<div />').addClass('group group-new-surface');
@@ -194,7 +203,7 @@ Cgraphit.prototype.dialog_new_surface = function() {
 			}
 		}
 	});
-	this._widget_new_surface = r;
+	this.widgets.new_surface = r;
 	return r;
 };
 
@@ -277,9 +286,9 @@ Cgraphit.prototype.dom_build_add_surface = function(cSurface) {
  * Builing our DOM rootElm
  */
 Cgraphit.prototype.dom_build = function() {
-	widget_factory(this.cToolbox.dom_get(), {
-		position : "right top"
-	});
+//	widget_factory(this.cToolbox.dom_get(), {
+//		position : "right top"
+//	});
 	var r = $('<div/>');
 	var g = $('<div class="group group-menu" />');
 	g.append(this.cMenu.dom_get());

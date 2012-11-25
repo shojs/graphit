@@ -16,6 +16,10 @@ function Cexception_message(opt) {
 			invalid_menu_entry: "Your are trying to add non Cmenu_entry object",
 			label_already_present: "Label already set in this menu"
 		},
+		Ctool: {
+			no_size_parameter: "Each tool require a size Cparameter"
+		},
+		
 	};
 	this.type = 'shojs-exception';
 	this.className = opt.className;

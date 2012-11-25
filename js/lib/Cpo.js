@@ -8,8 +8,9 @@ function Cpo(options) {
 				menu_new_surface: 'New cSurface',
 				menu_theme: 'Theme',
 				menu_about: 'About',
+				menu_toolbox: 'Toolbox',
 				foreground_color: 'Foreground color',
-				background_color: 'Background color'
+				background_color: 'Background color',
 			},
 			fr: {
 				menu_new_surface: 'Créer cSurface',
@@ -23,7 +24,7 @@ function Cpo(options) {
 	options.className = "Cpo";
 	options.label = "po";
 	options.def = 'en';
-	Cobject.call(this, options, ['lang']);
+	Cobject.call(this, options, ['lang', 'def']);
 }
 
 /* Inheritance */

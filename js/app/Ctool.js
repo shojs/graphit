@@ -64,10 +64,7 @@ Ctool.prototype.update = function(elapsed) {
 	return false;
     }
     var size = this.get_parameter('size');
-    if (!size) {
-	console.error("All tools need << size >> parameter");
-	return false;
-    }
+    if (!size) this.exception('no_size_parameter', this.label);
     var dsize = size / 2;
     this.cCanvas = new Ccanvas({
 	width : size,

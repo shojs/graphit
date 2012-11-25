@@ -1,13 +1,33 @@
+/**
+ * Clocal_storage
+ * This is just a layer for accessing a key/value registry.
+ * If browser support local storage we use it, else we are
+ * using simple hash
+ * 
+ * It's a bit tricky because we install our store as class data
+ * so we can acces it like this: <pre>Clocal_storage._store</pre>
+ * @returns
+ */
 function Clocal_storage() {
 	this.className = 'Clocal_storage';
-	this.store = {};
-	if (this.test_compatibility()) {
-		this.store = window.localStorage;
-		if (!this.test_insert()) {
-			this.store = {};
-		}
-	}
+	this.first_install();
 }
+
+/**
+ *
+ */
+Clocal_storage.prototype.first_install = function(dumbopt) {
+	if ('_store' in Clocal_storage) return;
+	console.log('Installing our DataStore');
+	if (this.test_compatibility()) {
+		Clocal_storage._store = window.localStorage;
+		if (!this.test_insert()) {
+			Clocal_storage._store = {};
+		}
+	} else {
+		Clocal_storage._store = {};
+	}
+};
 
 Clocal_storage.prototype.test_compatibility = function() {
 	if (('localStorage' in window) && window['localStorage'] != null) {
@@ -20,13 +40,14 @@ Clocal_storage.prototype.test_compatibility = function() {
 /**
  *
  */
-Clocal_storage.prototype.test_insert = function(dumbopt) {
+Clocal_storage.prototype.test_insert = function() {
+	var key = '_____TEST_INSERT_VALUE_____';
 	try {
-		this.set('test_insert_value', 'test_insert_value');
+		this.set(key, key);
 	} catch(e) {
 		return false;
 	}
-	this.remove('test_insert_value');
+	this.remove(key);
 	return true;
 };
 
@@ -34,28 +55,28 @@ Clocal_storage.prototype.test_insert = function(dumbopt) {
  *
  */
 Clocal_storage.prototype.remove = function(key) {
-	if ('removeItem' in this.store) {
-		return this.store.removeItem(key);
-	} else {
-		delete this.store[key];
-	}
+	if ('removeItem' in Clocal_storage._store) {
+		return Clocal_storage._store.removeItem(key);
+	} 
+	delete Clocal_storage._store[key];
 };
 
 Clocal_storage.prototype.get = function(k) {
-	if (this.store && k in this.store)
-		return this.store[k];
+	if (Clocal_storage._store && k in Clocal_storage._store)
+		return Clocal_storage._store[k];
 	return null;
 };
 
 Clocal_storage.prototype.set = function(k, v) {
-	if (!this.store)
+	if (!Clocal_storage._store)
 		return null;
 	try {
-		if ('removeItem' in this.store) {
+		if ('removeItem' in Clocal_storage._store) {
 			console.log('Removing item from store', k);
-			this.store.removeItem(k);
+			Clocal_storage._store.removeItem(k);
 		}
-		this.store[k] = v;
+		console.log('Setting item into store', k, v);
+		Clocal_storage._store[k] = v;
 	} catch(e) {
 		var me = new Cexception_message({
 			label: 'store_new_value_failed',

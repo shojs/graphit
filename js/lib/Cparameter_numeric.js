@@ -28,8 +28,7 @@ Cparameter_numeric.prototype._get = function(v) {
 };
 
 Cparameter_numeric.prototype._set = function(v) {
-	v = parseFloat(v);
-	this.value = v;
+	return parseFloat(v);
 };
 
 Cparameter_numeric.prototype.dom_build = function() {

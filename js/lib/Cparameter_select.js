@@ -29,9 +29,9 @@ Cparameter_select.prototype.init = function(options) {
  * Calle by parent class when setting parameter value
  *
  */
-Cparameter_select.prototype._set = function(value) {
-    this.value = value;
-};
+//Cparameter_select.prototype._set = function(value) {
+//    return value;
+//};
 
 /**
  * Build our html element
