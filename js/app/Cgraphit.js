@@ -12,7 +12,9 @@ function Cgraphit(options) {
 	options.widgets = {};
 	this.surfaces = [];
 	this.selected = null;
-	Cobject.call(this, options, ['widgets']);
+	Cobject.call(this, options, [
+		'widgets'
+	]);
 	/* Building our dom so surface create can append new element */
 	this.dom_get();
 	/* We are creating a default surface */
@@ -37,7 +39,7 @@ Cgraphit.prototype.init = function(options) {
 		that.surface_create(options);
 	});
 	/* Update trigger binding */
-	
+
 	/* Menu trigger binding */
 	this.bind_trigger(this, 'display_new_surface', function(e, options) {
 		that.dialog_new_surface().dialog('open').dialog('moveToTop');
@@ -49,30 +51,41 @@ Cgraphit.prototype.init = function(options) {
 	this.wAbout = new Clicense();
 	/* Menu */
 	this.cMenu = new Cmenu({
-		parent : this,
+		parent : null,
+		type : 'css',
+		label : "graphit_menu",
 		entries : {
-			new_surface : {
-				label : T('menu_new_surface'),
-				callback_click : function() {
-					that.send_trigger('display_new_surface');
+			files : {
+				label : T('menu_file'),
+				entries : {
+					new_surface : {
+						label : T('menu_new_surface'),
+						callback_click : function() {
+							that.send_trigger('display_new_surface');
+						}
+					},
+					theme : {
+						label : T('menu_toolbox'),
+						callback_click : function() {
+							that.send_trigger('display_widget', that.cToolbox);
+						}
+					},
+					toolbox : {
+						label : T('menu_theme'),
+						callback_click : function() {
+							that.send_trigger('display_widget',
+									that.wJquerytheme);
+						}
+					},
 				}
 			},
-			theme: {
-				label: T('menu_toolbox'),
-				callback_click : function() {
-					that.send_trigger('display_widget', that.cToolbox);
-				}
-			},
-			toolbox: {
-				label: T('menu_theme'),
-				callback_click : function() {
-					that.send_trigger('display_widget', that.wJquerytheme);
-				}
-			},
-			about : {
-				label : T('menu_about'),
-				callback_click : function() {
-					that.send_trigger('display_widget', that.wAbout);
+			help: {
+				label: T('menu_help'),
+				about : {
+					label : T('menu_about'),
+					callback_click : function() {
+						that.send_trigger('display_widget', that.wAbout);
+					}
 				}
 			}
 		},
@@ -82,7 +95,7 @@ Cgraphit.prototype.init = function(options) {
 		parent : this
 	});
 	this.bind_trigger(this.cToolbox, 'update', function(e, d) {
-		//#TODO console.log('Toolbar updated');
+		// #TODO console.log('Toolbar updated');
 	});
 	/* Grapher */
 	this.cGrapher = new Cgrapher({
@@ -135,20 +148,27 @@ Cgraphit.prototype.init = function(options) {
 };
 
 /**
- *
+ * Return DOM corresponding to a given widget We are storing each widget into
+ * this.widgets
+ * 
+ * @param {cWidget}
+ *            An object having dom_get method
  */
 Cgraphit.prototype.get_widget = function(cWidget) {
+	if (!('dom_get' in cWidget)) this.exception('method_object_missing',
+			'dom_get');
 	if (cWidget.label in this.widgets) {
 		return this.widgets[cWidget.label];
 	}
 	var opt = {
-			closeOnEscape: true,
-			modal: true,
+		closeOnEscape : true,
+		modal : true,
 	};
 	if ('dialog_options' in cWidget) {
 		for (label in cWidget['dialog_options']) {
 			opt[label] = cWidget['dialog_options'][label];
-		};
+		}
+		;
 	}
 	var r = cWidget.dom_get().dialog(opt);
 	this.widgets[cWidget.label] = r;
@@ -159,7 +179,9 @@ Cgraphit.prototype.get_widget = function(cWidget) {
  * Pop up a new Csurface widget (helper)
  */
 Cgraphit.prototype.dialog_new_surface = function() {
-	if ('new_surface' in this.widgets) { return this.widgets.new_surface; }
+	if ('new_surface' in this.widgets) {
+		return this.widgets.new_surface;
+	}
 	var that = this;
 	var r = $('<div />').attr('title', 'New Csurface');
 	var g = $('<div />').addClass('group group-new-surface');
@@ -216,7 +238,7 @@ Cgraphit.prototype.surface_create = function(options) {
 	options.parent = this;
 	var s = null;
 	try {
-		s = new Csurface(options);
+		s = new Csurface_workspace(options);
 	} catch (e) {
 		this.intercept(e);
 		console.error('Cannot create surface, Exception <<< ', e, ' >>>');
@@ -231,12 +253,13 @@ Cgraphit.prototype.surface_create = function(options) {
 		cSurface.rootElm.parent().dialog('open');
 
 	});
+	widget_factory(s.dom_get(), {
+		width : (parseInt(options.width) + 100)
+	});
 	this.surfaces.push(s);
 	if (!this.selected) {
 		this.selected = s;
 	}
-
-	s.send_trigger('show');
 	this.dom_build_add_surface(s);
 	return true;
 };
@@ -244,13 +267,14 @@ Cgraphit.prototype.surface_create = function(options) {
 /**
  * Helper that build a single Csurface element that we can append to rootElm
  */
-Cgraphit.prototype.dom_build_add_surface = function(cSurface) {
+Cgraphit.prototype.dom_build_add_surface = function(cSurface_workspace) {
 	var that = this;
 	var s = $('<div class="group graphit-surface" />');
 	var c = new Ccanvas({
 		width : 50,
 		height : 50
 	});
+	var cSurface = cSurface_workspace.cSurface;
 	cSurface.canvas_preview = c;
 	c.copy({
 		src : cSurface.cCanvas
@@ -263,7 +287,8 @@ Cgraphit.prototype.dom_build_add_surface = function(cSurface) {
 			resize : true
 		});
 	});
-	s.click(function() {
+	s
+			.click(function() {
 				cSurface.send_trigger('surface_selected', cSurface);
 				cEach(that.surfaces, function(i, e) {
 					if (e == cSurface) {
@@ -286,11 +311,12 @@ Cgraphit.prototype.dom_build_add_surface = function(cSurface) {
  * Builing our DOM rootElm
  */
 Cgraphit.prototype.dom_build = function() {
-//	widget_factory(this.cToolbox.dom_get(), {
-//		position : "right top"
-//	});
+	// widget_factory(this.cToolbox.dom_get(), {
+	// position : "right top"
+	// });
 	var r = $('<div/>');
 	var g = $('<div class="group group-menu" />');
+//	widget_factory(this.cMenu.dom_get(), {});
 	g.append(this.cMenu.dom_get());
 	r.append(g);
 	g = $('<div class="group group-graphit-surfaces"/>');

@@ -5,9 +5,10 @@
 function Cmenu(options) {
 	options = options || {};
 	options.className = "Cmenu";
-	options.label = "menu";
+	options.label = options.label || "menu";
+	options.type = options.type || 'jquery';
 	this.entries = {};
-	Cobject.call(this, options, []);
+	Cobject.call(this, options, ['type', 'parent']);
 }
 
 /* Inheritance */
@@ -21,14 +22,15 @@ Cmenu.prototype.constructor = new Cobject();
 Cmenu.prototype.init = function(options) {
 	for(var label in options.entries) {
 		options.entries[label].parent = this;
-		this.add(new Cmenu_entry(options.entries[label]));
+		options.entries[label].type = this.type;
+		this.add(new Cmenu(options.entries[label]));
 	}
 };
 /**
  *
  */
-Cmenu.prototype.exists = function(cEntry) {
-	if (cEntry.label in this.entries) {
+Cmenu.prototype.exists = function(cMenu) {
+	if (cMenu.label in this.entries) {
 		return true;
 	}
 	return false;
@@ -36,26 +38,85 @@ Cmenu.prototype.exists = function(cEntry) {
 /**
  *
  */
-Cmenu.prototype.add = function(cEntry) {
-	if (!cEntry || !(cEntry instanceof Cmenu_entry)) {
-		this.exception('invalid_menu_entry', cEntry);
+Cmenu.prototype.add = function(cMenu) {
+	if (!cMenu || !(cMenu instanceof Cmenu)) {
+		this.exception('invalid_menu_entry', cMenu);
 	}
-	if (this.exists(cEntry)) {
-		this.exception('label_already_present', cEntry.label);
+	if (this.exists(cMenu)) {
+		this.exception('label_already_present', cMenu.label);
 	}
-	this.entries[cEntry.label] = cEntry;
+	this.entries[cMenu.label] = cMenu;
+};
+
+/**
+ * #TODO This dom_build is the ugliest one, well one of the less pretty ...
+ */
+Cmenu.prototype.dom_build = function() {
+	var that = this;
+	var r;
+	if (parent in this && this.parent instanceof Cmenu) {
+		r = this.parent.rootElm;
+		r.find('ul').removeClass('cssMenu');
+	} else {
+		r = $('<ul />');
+		if (this.type == 'css') {
+			r.addClass("cssMenum cssMenu");
+		}
+	}
+	for (var label in this.entries) {
+		var cEntry = this.entries[label];
+		var a = $('<a href="#" title="'+cEntry.label+'"/>');
+		if (cEntry.type == 'css') {
+			a.addClass('cssMenui');
+		}
+		a.attr('label', label);
+		if ('click' in cEntry.callback) {
+			cEntry.install_callback(a); 
+		}
+		var c = $('<li />');
+		if (this.type == 'css') {
+			if (cEntry.type == 'css') c.addClass('cssMenui');
+		}
+		if (cEntry.count_childs() > 0) {
+			a.append('<span>' + label + '</span>');
+			c.append(a);
+			var e = cEntry.dom_get({noHeader: true});
+			c.append(e);
+		} else {
+			a.append(label);
+			c.append(a);
+		}
+		r.append(c);
+	}
+	if (!this.parent || !(this.parent instanceof Cmenu)) {
+		var f = $('<div />');
+		f.append(r);
+		f.append('<a href="#" style="display:none"></a>');
+		r = f;
+	}
+	this.rootElm = r;
+	return this;
 };
 
 /**
  *
  */
-Cmenu.prototype.dom_build = function() {
-	var r = $('<ul />');
-	for (label in this.entries) {
-		var e = this.entries[label].dom_get({noHeader: true});
-		r.append(e);
+Cmenu.prototype.install_callback = function(elm) {
+	var that = this;
+	elm.click(function() {
+		that.callback.click();
+	});
+};
+
+/**
+ *
+ */
+Cmenu.prototype.count_childs = function() {
+	var i = 0;
+	for (c in this.entries) {
+//		if (this.entries.hasOwnProperty(c)) 
+//		{ continue;}
+		i++;
 	}
-	r.menu();
-	this.rootElm = r;
-	return this;
+	return i;
 };

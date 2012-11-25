@@ -287,9 +287,10 @@ body {
 	margin: auto;
 }
 
-.group-menu p {
+/* .group-menu p {
 	font-size: small !important;
-}
+} */
+/* 
 ul {
 	list-style-type: none;
 	padding: 0px;
@@ -301,7 +302,7 @@ li {
 	list-style-position: outside;
 	margin: 0;
 }
-
+ */
 .group-colorpicker img {
 	display: inline;
 	border-width: 1px;
@@ -319,10 +320,10 @@ li {
 	background-image: url(../img/32x32_tool_background.png);
 }
 
-.menu {
+/* .menu {
 	width: 200px;
 	font-size: small;
-}
+} */
 
 .ui-tooltip {
 	font-size: xx-small;

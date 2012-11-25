@@ -2,7 +2,10 @@ function Cexception_message(opt) {
 	/*
 	 * EXCEPTION DATA (GLOBAL)
 	 */
-	EXCEPTION = {
+	Cexception_message.EXCEPTION = {
+		_ALL: {
+			method_object_missing: "This object doesn't have the required method (See additional)"
+		},
 		Csurface: {
 			invalid_width: "The specified width is invalid 0 < width < 1920",
 			invalid_height: "The specified height is invalid 0 < height < 1920"
@@ -21,14 +24,19 @@ function Cexception_message(opt) {
 		},
 		
 	};
+	var E = Cexception_message.EXCEPTION;
 	this.type = 'shojs-exception';
 	this.className = opt.className;
 	this.label = opt.label;
 	this.additional = opt.additional;
 	this.object = opt.object;
 	this.original = opt.original;
-	if (this.className in EXCEPTION && label in EXCEPTION[this.className]) {
-		this.message = EXCEPTION[this.className][label];
+	this.message = null;
+	if (this.className in E && this.label in E[this.className]) {
+		this.message = E[this.className][this.label];
+	}
+	if (!this.message && this.label in E['_ALL']) {
+		this.message = E['_ALL'][this.label];
 	}
 }
 
@@ -47,7 +55,11 @@ Cexception_message.prototype.to_s = function(opt) {
 		if (!this.hasOwnProperty(label)) {
 			continue;
 		}
-		str += label + ': ' + this[label] + nl;
+		if (typeof this[label] == 'object' && this[label]) {
+			str += label + ': ' + this[label].toString() + nl;
+		} else {
+			str += label + ': ' + this[label] + nl;
+		}
 	}
 	return str;
 };

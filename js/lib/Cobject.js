@@ -1,11 +1,12 @@
 /**
- * Our base class
+ * @constructor
+ * This is our base class, majority of our object inherits method from it.
  * - uid for all objects
  * - send/bind trigger
  * - generic methods
  *  
- * @param options
- * @param permitted
+ * @param {Hash} options Hash encapsulating our object property
+ * @param {Array} permitted Array of options that we must parse
  */
 function Cobject(options, permitted) {
 	cUid = new Cuid();
@@ -30,7 +31,8 @@ function Cobject(options, permitted) {
 }
 
 /**
- * Class initialization
+ * Called each time a new object is created
+ * @private
  * @param options
  * @param permitted
  * @returns {Cobject}
@@ -40,55 +42,66 @@ Cobject.prototype._class_init = function(options, permitted) {
 	this.uid = cUid.get();
 	this.callback = {};
 	if (SHOJS_DEBUG > 10) console.log('UID', this.uid);
-	this.parse_options(options, permitted);
+	this._parse_options(options, permitted);
 	return this;
 };
 
 /**
- * INIT STUB 
+	This is a STUB. When new instance of Cobject or derived class is
+	created this method is called.
+	@param {Hash} options Hash from constructor
+	@param {Array} permitted Array from constructor
  */
-Cobject.prototype.init = function() {
-	//console.warn(this.className, 'Method init() need to be overidden in sub class');
+Cobject.prototype.init = function(options, permited) {
 	return false;
 };
 
 /**
  * Throwing exception with a given label and using this.className
+ * @param {String} label A label that can match a message in our exception
+ * @param {Object} additional Additional information that we want to pass 
  */
-Cobject.prototype.exception = function(label, msg) {
-	throw new Cexception_message({
+Cobject.prototype.exception = function(label, additional) {
+	var e = new Cexception_message({
 		className: this.className,
 		label: label,
 		additional: msg,
-		object: this,
+		object: this
 	});
+	console.error(e.to_s());
+	throw e;
 };
 
 /**
- *
+ * 
+ * @deprecated
  */
 Cobject.prototype.intercept = function(e) {
 	if (!this.is_our_exception(e)) {
 		throw e;
 	}
 };
+
 /**
- *
+ * @deprecated
+ * Return true if this exception have been created by us
+ * @param {Exception} e A
  */
-Cobject.prototype.is_our_exception = function(e) {
-	if (!('type' in e) || e.type != 'shojs-exception') {
-		return false;
+Cobject.prototype.is_our_exception = function(exception) {
+	if (exception instanceof Cexception_message) {
+		return true;
 	}
-	return true;
+	return false;
 };
 
 /**
- * Parsing options
- * @param options
- * @param permitted
- * @returns {Boolean}
+ * @private
+ * This method is reponsible for parsing option when object is created
+ * @param {Hash} options From constructor
+ * @param [Array] permiited From constructor
+ * @return {Boolean} True if no error, else false
  */
-Cobject.prototype.parse_options = function(options, permitted) {
+Cobject.prototype._parse_options = function(options, permitted) {
 	if (options == undefined) {
 		console.warn("No << {} >> argument passed to new Cobject");
 		return;
@@ -134,11 +147,11 @@ Cobject.prototype.parse_options = function(options, permitted) {
 	}
 	return true;
 };
+
 /**
  * Get Unique Identifier
- * @param type
- * @param what
- * @returns <String>
+ * @param {String} what string that can be append to our global UID
+ * @return {String} Global UID
  */
 Cobject.prototype.guid = function(what) {
 	what = what ? '-' + what : '';
@@ -148,67 +161,65 @@ Cobject.prototype.guid = function(what) {
 
 /**
  * Returning trigger name for a given action
- * @param type
- * @returns
+ * @param {String} type A given action ex: update, redraw, menu_select ...
+ * @return {String} A string representing our action (Globally unique)
  */
-Cobject.prototype.get_trigger_name = function(type) {
-	return this.guid(type);
+Cobject.prototype.get_trigger_name = function(action) {
+	return this.guid(action);
 };
 
 /**
- * Trigger event of type for this object
- * @param type
- * @param d
+ * Trigger event on document for a given action
+ * @param {String} action A string representing an action 
+ * @param {Blob} additional Additional data that we want to pass
  */
-Cobject.prototype.send_trigger = function(type, d) {
-	var n = this.get_trigger_name(type);
-	if (SHOJS_DEBUG > 4) console.log('[trigger/send]', n);
-	$(document).trigger(n, d);
+Cobject.prototype.send_trigger = function(action, additional) {
+	var name = this.get_trigger_name(action);
+	if (SHOJS_DEBUG > 4) console.log('[trigger/send]', name, additional);
+	$(document).trigger(name, additional);
 };
 
 /**
- * Binding trigger to this object
- * @param osrc
- * @param type
- * @param callback
+ * Bind trigger for a given action to 
+ * @param {Object} srcobj Source object (make trigger name from it)
+ * @param {String} action A given action
+ * @param {Function} callback A callback to execute when we trigger this action
  */
-Cobject.prototype.bind_trigger = function(osrc, type, callback) {
-	var name = osrc.get_trigger_name(type);
-	if (SHOJS_DEBUG > 4) console.debug('[trigger/bind]', this.className,
-			' => ', name);
-	$(document).bind(name, function(e, d) {
-		callback.call(this, e, d);
+Cobject.prototype.bind_trigger = function(srcobj, action, callback) {
+	var name = srcobj.get_trigger_name(action);
+	if (SHOJS_DEBUG > 4) console.debug('[trigger/bind]', action, this.className,' => ', name);
+	$(document).bind(name, function(event, data) {
+		callback.call(this, event, data);
 	});
 };
 
 /**
- * Adding parameters
- * Cparameter is a class to hold value (clamp, default, autoSave...)
- * @param options
- * @returns {Boolean}
+ * Add Cparameter_* to our object
+ * @param {Hash} options Our parameter option
+ * @return {Boolean} True on success
  */
 Cobject.prototype.add_parameter = function(options) {
 	if (!('parent' in options)) {
 		options.parent = this;
 	}
 	if (!('label' in options)) {
-		console.error('Parameters need label');
-		return false;
+		this.exception('parameter_need_label', options);
 	}
 	if (!('type' in options) || options.type == Eparameter_type.numeric) {
 		this.parameters[options.label] = new Cparameter_numeric(options);
 	} else if (options.type == Eparameter_type.select) {
 		this.parameters[options.label] = new Cparameter_select(options);
 	} else {
-		console.error('Unknown parameter type', options);
+		this.exception('unknow_parameter_type');
 	}
 	return true;
 };
 
+
 /**
- * Get parameter by key
- * @param key
- * @return {value} Value of given key
+ * Get a parameter value
+ * @param {String} key Parameter name
+ * @return {Blob} Parameter value
  */
 Cobject.prototype.get_parameter = function(key) {
 	if (!('parameters' in this) || !(key in this.parameters)) {
@@ -218,8 +229,10 @@ Cobject.prototype.get_parameter = function(key) {
 };
 
 /**
- * Retrieve dom element of this object
- * @param force
+ * Retrieve DOM element for this object
+ * If noHeader is false we are encompassing our result into <div />
+ * force option force dom_get to rebuild DOM element
+ * @param {Hash} options Options {noHeader: true/false, force: true/false}
  * @returns
  */
 Cobject.prototype.dom_get = function(options) {

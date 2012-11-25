@@ -9,6 +9,8 @@ function Cpo(options) {
 				menu_theme: 'Theme',
 				menu_about: 'About',
 				menu_toolbox: 'Toolbox',
+				menu_file: 'File',
+				menu_help: 'Help',
 				foreground_color: 'Foreground color',
 				background_color: 'Background color',
 			},
@@ -16,6 +18,8 @@ function Cpo(options) {
 				menu_new_surface: 'Créer cSurface',
 				menu_theme: 'Theme',
 				menu_about: 'A propos',
+				menu_file: 'Fichier',
+				menu_help: 'Aide',
 				foreground_color: 'Couleur principal',
 				background_color: 'Couleur de fond'
 		}
