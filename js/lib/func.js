@@ -55,7 +55,13 @@ function isFileSupported() {
 }
 
 function getLanguage() {
-	return (navigator.language) ? navigator.language : navigator.userLanguage;
+	var lang = (navigator.language) ? navigator.language : navigator.userLanguage;
+	var pat = /^\s*([^-]*)-([^\s]*)\s*$/;
+	var match = pat.exec(lang);
+	if (match) {
+		return match[1];
+	}
+	return lang;
 }
 
 /**

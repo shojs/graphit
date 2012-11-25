@@ -22,6 +22,7 @@ function Cexception_message(opt) {
 	this.label = opt.label;
 	this.additional = opt.additional;
 	this.object = opt.object;
+	this.original = opt.original;
 	if (this.className in EXCEPTION && label in EXCEPTION[this.className]) {
 		this.message = EXCEPTION[this.className][label];
 	}
