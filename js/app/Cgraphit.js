@@ -41,19 +41,28 @@ Cgraphit.prototype.init = function(options) {
 	this.bind_trigger(this, 'display_about', function(e, options) {
 		that.dialog_about().dialog('open');
 	});
+	this.bind_trigger(this, 'display_theme', function(e, options) {
+		that.dialog_theme().dialog('open');
+	});
 
 	/* Menu */
 	this.cMenu = new Cmenu({
 		parent : this,
 		entries : {
 			new_surface : {
-				label : 'new',
+				label : T('menu_new_surface'),
 				callback_click : function() {
 					that.send_trigger('display_new_surface');
 				}
 			},
+			theme: {
+				label: T('menu_theme'),
+				callback_click : function() {
+					that.send_trigger('display_theme');
+				}
+			},
 			about : {
-				label : 'about',
+				label : T('menu_about'),
 				callback_click : function() {
 					that.send_trigger('display_about');
 				}
@@ -125,6 +134,16 @@ Cgraphit.prototype.dialog_about = function(dumbopt) {
 	var r = new Clicense().dom_get();
 	r.dialog({width: 400, modal: true, closeOnEscape: true});
 	this._widget_about = r;
+	return r;
+};
+/**
+*
+*/
+Cgraphit.prototype.dialog_theme = function(dumbopt) {
+	if ('_widget_theme' in this) return this._widget_theme;
+	var r = new Cjquery_theme().dom_get();
+	r.dialog({width: 400, modal: true, closeOnEscape: true});
+	this._widget_theme = r;
 	return r;
 };
 /**

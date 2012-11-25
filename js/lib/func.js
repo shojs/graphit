@@ -53,6 +53,11 @@ function isFileSupported() {
 		console.error('The File APIs are not fully supported in this browser.');
 	}
 }
+
+function getLanguage() {
+	return (navigator.language) ? navigator.language : navigator.userLanguage;
+}
+
 /**
  * 
  * @param obj

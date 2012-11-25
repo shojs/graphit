@@ -54,7 +54,7 @@ Ctoolbox.prototype.init = function() {
 		callback_onchange : function(rgb) {
 			this.send_trigger('update', that);
 		},
-		label : 'Foreground color'
+		label : T('foreground_color')
 	});
 	this.bind_trigger(this.fg_color, 'update', function(e, d) {
 		that.update();
@@ -68,7 +68,7 @@ Ctoolbox.prototype.init = function() {
 		callback_onchange : function(rgb) {
 			this.send_trigger('update', that);
 		},
-		label : 'Background color'
+		label : T('background_color')
 	});
 	this.bind_trigger(this.bg_color, 'update', function(e, d) {
 		that.update();

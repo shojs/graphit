@@ -20,7 +20,13 @@ function Cobject(options, permitted) {
 	this.parent = null;
 	this.parameters = {};
 	this._class_init(options, permitted);
-	this.init(options, permitted);
+	try {
+		this.init(options, permitted);
+	} catch(e) {
+		this.intercept(e);
+		console.error('Cannot init object << ', this, ' >> Exception <<< ', e , ' >>>');
+		throw(e);
+	}
 }
 
 /**

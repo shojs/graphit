@@ -37,3 +37,4 @@ function widget_factory(dom, options) {
 	// dom.resizable( "option", "disabled", true);;
 	return dom;
 };
+

@@ -27,4 +27,24 @@ function Cexception_message(opt) {
 	}
 }
 
+/**
+ *
+ */
+Cexception_message.prototype.to_s = function(opt) {
+	var nl = "\n";
+	if (opt != undefined && 'format' in opt) {
+		if (opt.format == 'html') {
+			nl = '<br>' + nl;
+		}
+	}
+	var str = '[' + this.type + ']' + nl + nl;
+	for (label in this) {
+		if (!this.hasOwnProperty(label)) {
+			continue;
+		}
+		str += label + ': ' + this[label] + nl;
+	}
+	return str;
+};
+
 

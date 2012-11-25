@@ -10,8 +10,12 @@ var E_LAYERLABEL = new Object({
 
 var cRegistry;
 var cGraphit;
-
+var cPo;
+var T;
 function _ok_to_build() {
+	console.log("Language", getLanguage());
+	cPo = new Cpo({lang: getLanguage()});
+	T = function(str) { return cPo.get(str); };
 	cRegistry = new Cregistry();
 	cGraphit = new Cgraphit();
 	//cGraphit.widget_new_surface();
@@ -138,9 +142,14 @@ $(document)
 							_ok_to_build();
 							
 						} catch(e) {
-							console.log(e);
+							console.error(e);
 							var msg = e;
-							var r = $('<div title="Error" />');
+							var title = '[Error] ';
+							if (e instanceof Cexception_message) {
+								msg = e.to_s({format: 'html'});
+								title = title + e.className + '/' + e.label;
+							}
+							var r = $('<div title="'+title+'" />');
 							r.append($('<p>'+msg+'<p/>'));
 							r.dialog({
 								modal: true
