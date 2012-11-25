@@ -103,7 +103,6 @@ Cparameter.prototype._get = function(value) {
  *
  */
 Cparameter.prototype.get = function() {
-	console.log('get', this);
 	return this._get(this.value);
 };
 
@@ -115,10 +114,10 @@ Cparameter.prototype.dom_get = function(force) {
 };
 
 Cparameter.prototype.make_registry_key = function() {
-	if (!this.parent.className) console.log('parent', this.parent);
-	if (!this.parent.label) console.log('parent', this.parent);
-	var classname = this.parent.className || 'global';
-	var label = this.parent.label || 'test';
+	var classname = this.parent.className;
+	var label = this.parent.label;
+	if (!classname) this.exception('no_classname_in_parent');
+	if (!label) this.exception('no_label_in_parent');
 	var key = classname + '-' + label + '-' + this.label;
 	return key.toLowerCase();
 };

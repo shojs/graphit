@@ -72,10 +72,8 @@ Clocal_storage.prototype.set = function(k, v) {
 		return null;
 	try {
 		if ('removeItem' in Clocal_storage._store) {
-			console.log('Removing item from store', k);
 			Clocal_storage._store.removeItem(k);
 		}
-		console.log('Setting item into store', k, v);
 		Clocal_storage._store[k] = v;
 	} catch(e) {
 		var me = new Cexception_message({

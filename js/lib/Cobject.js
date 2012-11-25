@@ -211,7 +211,6 @@ Cobject.prototype.add_parameter = function(options) {
  * @return {value} Value of given key
  */
 Cobject.prototype.get_parameter = function(key) {
-	console.log(this);
 	if (!('parameters' in this) || !(key in this.parameters)) {
 		this.exception('accessing_unknow_parameter', key);
 	}
