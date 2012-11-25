@@ -1,6 +1,9 @@
 /**
  * 
  */
+"use strict";
+
+
 var E_LAYERLABEL = new Object({
 	current : '_current',
 	mouse : '_mouse',
@@ -18,29 +21,7 @@ function _ok_to_build() {
 	T = function(str) { return cPo.get(str); };
 	cRegistry = new Cregistry();
 	cGraphit = new Cgraphit();
-	//cGraphit.widget_new_surface();
 	widget_factory(cGraphit.dom_get(), { width: 100, position: 'left top'});
-//$('#shojs-menu-top').menu({});
-//	widget_factory($('.shojs-menu-dialog'), {
-//		position : 'left top',
-//		width: 100
-//	});
-	/*
-	 * BUTTONS
-//	 */
-//	$('#button-save').click(function() {
-//		cSurface.save_as_json();
-//	});
-//	$('#button-select-by-color').click(function() {
-//		cSurface.cCanvas.select_by_color(new Ccolor(0, 0, 0, 1));
-//	});
-//	$('#button-about').click(function() {
-//		var about = new Clicense();
-//		widget_factory(about.dom_get(), {
-//			width : 600
-//		});
-//
-//	});
 
 	/*
 	 * Prevent right click
@@ -85,11 +66,6 @@ function _ok_to_build() {
 		});
 	});
 
-
-
-	var widgetWidth = 250;
-	//var cSurface = new Csurface({label: 'surface-01', width: 640, height: 480});
-
 	$(document).bind('shojs-cgrapher-grapher-error', function(e, d) {
 		console.log('bind', e, d);
 		if (d != 'no-tool-selectionned') {
@@ -106,11 +82,10 @@ function _ok_to_build() {
 				}
 			}
 		});
-		// alert('You must first select a tool in toolbar');
 	});
 }
 /**
- * Executed when dom are fully loaded We are testing browser for canvas element
+ * Executed when DOM are fully loaded We are testing browser for canvas element
  * support
  */
 $(document)

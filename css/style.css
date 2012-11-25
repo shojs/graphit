@@ -110,6 +110,11 @@ body {
 	display: inline-block;
 }
 
+.group-menu{
+	width: 300px;
+	font-size: small;
+	float right;
+}
 .group-new-surface>input {
 	width: 8em;
 }

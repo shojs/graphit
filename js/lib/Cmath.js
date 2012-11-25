@@ -13,9 +13,24 @@ function Cpoint(pos) {
 			additional: pos});
 	}
 	pos = pos || {x: 0, y: 0};
-    this.x = pos.x;
-    this.y = pos.y;
+    //this.x = pos.x;
+    //this.y = pos.y;
+    Object.defineProperty(this, "x", {
+    	//writable: false,
+    	enumerable: true,
+    	configurable: true,
+    	set: function(_x) { x = x; }
+    });
+    Object.defineProperty(this, "y", {
+    	//writable: false,
+    	enumerable: true,
+    	configurable: true, 
+    	get: function() { return this.y; },
+    	set: function(y) { this.y = y; }
+    });
 }
+
+
 
 Cpoint.prototype.round = function() {
     this.x = Math.round(this.x);

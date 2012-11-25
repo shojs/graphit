@@ -3,7 +3,7 @@
  * 5 Verbose
  * 1 Normal
  */
-var SHOJS_DEBUG = 1;
+var SHOJS_DEBUG = 11;
 
 
 

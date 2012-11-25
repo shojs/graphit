@@ -11,6 +11,7 @@ function Cpo(options) {
 				menu_toolbox: 'Toolbox',
 				menu_file: 'File',
 				menu_help: 'Help',
+				menu_edition: 'Edition',
 				foreground_color: 'Foreground color',
 				background_color: 'Background color',
 			},
@@ -20,6 +21,7 @@ function Cpo(options) {
 				menu_about: 'A propos',
 				menu_file: 'Fichier',
 				menu_help: 'Aide',
+				menu_edition: 'Edition',
 				foreground_color: 'Couleur principal',
 				background_color: 'Couleur de fond'
 		}

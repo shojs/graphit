@@ -65,7 +65,7 @@ Cmenu.prototype.dom_build = function() {
 	}
 	for (var label in this.entries) {
 		var cEntry = this.entries[label];
-		var a = $('<a href="#" title="'+cEntry.label+'"/>');
+		var a = $('<a href="#" title=""/>');
 		if (cEntry.type == 'css') {
 			a.addClass('cssMenui');
 		}
@@ -77,23 +77,22 @@ Cmenu.prototype.dom_build = function() {
 		if (this.type == 'css') {
 			if (cEntry.type == 'css') c.addClass('cssMenui');
 		}
-		if (cEntry.count_childs() > 0) {
 			a.append('<span>' + label + '</span>');
 			c.append(a);
 			var e = cEntry.dom_get({noHeader: true});
 			c.append(e);
-		} else {
-			a.append(label);
-			c.append(a);
-		}
 		r.append(c);
+	}
+	if (this.type == 'jquery' && (!this.parent || !(this.parent instanceof Cmenu))) {
+		r.menu();
+		r.menu('enable');
 	}
 	if (!this.parent || !(this.parent instanceof Cmenu)) {
 		var f = $('<div />');
 		f.append(r);
-		f.append('<a href="#" style="display:none"></a>');
 		r = f;
 	}
+
 	this.rootElm = r;
 	return this;
 };

@@ -15,6 +15,9 @@ function Cgraphit(options) {
 	Cobject.call(this, options, [
 		'widgets'
 	]);
+	this.dialog_options = {
+			position: 'right top'
+	};
 	/* Building our dom so surface create can append new element */
 	this.dom_get();
 	/* We are creating a default surface */
@@ -52,7 +55,7 @@ Cgraphit.prototype.init = function(options) {
 	/* Menu */
 	this.cMenu = new Cmenu({
 		parent : null,
-		type : 'css',
+		type : 'jquery',
 		label : "graphit_menu",
 		entries : {
 			files : {
@@ -64,30 +67,46 @@ Cgraphit.prototype.init = function(options) {
 							that.send_trigger('display_new_surface');
 						}
 					},
-					theme : {
+
+					toolbox : {
 						label : T('menu_toolbox'),
 						callback_click : function() {
-							that.send_trigger('display_widget', that.cToolbox);
-						}
-					},
-					toolbox : {
-						label : T('menu_theme'),
-						callback_click : function() {
 							that.send_trigger('display_widget',
-									that.wJquerytheme);
+									that.cToolbox);
 						}
 					},
 				}
 			},
-			help: {
-				label: T('menu_help'),
-				about : {
-					label : T('menu_about'),
-					callback_click : function() {
-						that.send_trigger('display_widget', that.wAbout);
-					}
+			edition : {
+				label : T('menu_edition'),
+				entries : {
+					toolbox : {
+						label : T('menu_toolbox'),
+						callback_click : function() {
+							that.send_trigger('display_widget',
+									that.cToolbox);
+						}
+					},
 				}
-			}
+			},
+			help : {
+				label : T('menu_help'),
+				entries : {
+					theme : {
+						label : T('menu_theme'),
+						callback_click : function() {
+							that.send_trigger('display_widget', that.wJquerytheme);
+						}
+					},
+					about : {
+						label : T('menu_about'),
+						callback_click : function() {
+							that.send_trigger('display_widget', that.wAbout);
+						}
+					},
+				}
+			},
+
 		},
 	});
 	/* Toolbox */
@@ -314,11 +333,12 @@ Cgraphit.prototype.dom_build = function() {
 	// widget_factory(this.cToolbox.dom_get(), {
 	// position : "right top"
 	// });
-	var r = $('<div/>');
+	var r = $('<div />');
 	var g = $('<div class="group group-menu" />');
-//	widget_factory(this.cMenu.dom_get(), {});
+	// widget_factory(this.cMenu.dom_get(), {});
 	g.append(this.cMenu.dom_get());
-	r.append(g);
+	$('body').append(g);
+	// r.append(g);
 	g = $('<div class="group group-graphit-surfaces"/>');
 	cEach(this.surfaces, function(i, elm) {
 		var s = $('<div class="graphit-surface" />');
