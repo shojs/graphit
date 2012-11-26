@@ -6,9 +6,12 @@ var Eparameter_type = {
 	select : 2,
 	checkbox : 3
 };
+
 /******************************************************************************
- * 
- * @param options
+ * Class holding parameter
+ * Each parameter must have a default value (def)
+ * Sub class can override _set and _get
+ * @param {Hash} options Constructor hash
  */
 function Cparameter(options) {
 	if (!options) {
@@ -36,11 +39,16 @@ function Cparameter(options) {
 		options.type = Eparameter_type.numeric;
 	}
 	this.init(options);
-	this._init(options);
+	this.__post_init(options);
 	return this;
 }
 
-Cparameter.prototype._init = function(options) {
+/*
+ * Executed after init subclass must not overide this
+ * @private
+ * @param {Hash} Constructor hash
+ */
+Cparameter.prototype.__post_init = function(options) {
 	if (this.bAutosave) {
 		var label = this.make_registry_key();
 		if (SHOJS_DEBUG > 10) console.log('Loading parameter', label);
@@ -68,6 +76,13 @@ Cparameter.prototype._init = function(options) {
 	}
 };
 
+/**
+ * Set our parameter value
+ * We are calling _set before actually setting value to give sub class
+ * a chance to alterate value
+ * @param {Object} value
+ * @returns {Boolean}
+ */
 Cparameter.prototype.set = function(value) {
 	if (this.value == value) {
 		return false;
@@ -81,14 +96,21 @@ Cparameter.prototype.set = function(value) {
 };
 
 /**
- *
+ * Stub, called before set() on subclass
+ * @param {Object} value 
+ * @return {Object} our modified value
  */
 Cparameter.prototype._set = function(value) {
 	return value;
 };
 
+/**
+ * Setting parameter value to is default
+ * @return Parameter value
+ */
 Cparameter.prototype.reset = function() {
 	this.set(this.def);
+	return this.get();
 };
 
 Cparameter.prototype.get = function() {
