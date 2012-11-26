@@ -156,6 +156,8 @@ Cgraphit.prototype.init = function(options) {
 	for ( var seq in this.keybindings) {
 		$(document).bind('keydown', seq, this.keybindings[seq].callback);
 	}
+	// Display toolbox by default
+	this.send_trigger('display_widget', this.cToolbox);
 };
 
 /**

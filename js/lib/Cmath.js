@@ -15,15 +15,15 @@ function Cpoint(pos) {
 	pos = pos || {x: 0, y: 0};
     Object.defineProperty(this, "x", {
     	value: pos.x,
-    	writable: false,
+    	writable: true,
     	enumerable: true,
-    	configurable: true,
+    	configurable: false,
     });
     Object.defineProperty(this, "y", {
     	value: pos.y,
-    	writable: false,
+    	writable: true,
     	enumerable: true,
-    	configurable: true, 
+    	configurable: false, 
     });
 }
 
@@ -118,6 +118,7 @@ var cMath = {
      * @returns points
      */
     linear_interpolation : function(A, B, step) {
+    	step = 1;
 	var points = new Array();
 	var v = new Cvector2d();
 	v.from_point(A, B);
@@ -129,7 +130,7 @@ var cMath = {
 	points.push(A);
 	for ( var i = 0; i <= distance; i += step) {
 	    lp.vadd(v);
-	    points.push(new Cpoint({x: lp.x, y: lp.y}));
+	    points.push(new Cpoint(lp));
 	}
 	points.push(B);
 	return points;

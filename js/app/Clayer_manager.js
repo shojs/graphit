@@ -279,7 +279,7 @@ Clayer_manager.prototype.dom_exists = function(domLayer) {
 		return i;
 	}
 	return null;
-}
+};
 
 /**
  * 

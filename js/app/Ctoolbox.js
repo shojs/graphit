@@ -166,7 +166,7 @@ Ctoolbox.prototype.select_tool = function(cTool) {
 //
 //		
 //		that.selected = tTool;
-		
+	console.log('SELECTING TOOL');	
 	var e = $(cTool.rootElm);
 	e.parents('.group-tools').find('.tool').removeClass('selected');
 	e.children('.tool').addClass('selected');

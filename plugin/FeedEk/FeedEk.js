@@ -46,7 +46,7 @@
 				$('#' + idd).append(
 					'<div class="ItemDate">'
 						+ pubdt.toLocaleDateString()
-						+ '</div>')
+						+ '</div>');
 			    }
 			    if (def.ShowDesc) {
 				$('#' + idd).append(
@@ -61,5 +61,5 @@
 		    }
 		
 	});
-    }
+    };
 })(jQuery);

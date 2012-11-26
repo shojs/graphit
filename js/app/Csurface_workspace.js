@@ -32,11 +32,10 @@ Csurface_workspace.prototype.init = function(opt) {
  */
 Csurface_workspace.prototype.dom_build = function() {
 	var r = $('<div class="graphit-workspace"/>');
-	r.append(this.cSurface.dom_get());
-	r.append('<p>Menu</p>');
+	r.append(this.cSurface.dom_get());						
 	this.rootElm = r;
 	return this;
-};
+};			
 
 /**
  *

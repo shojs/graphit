@@ -25,7 +25,7 @@ var Egrapher_mode = {
 /**
  * Cgrapher is responsible to record points and send data to the tools
  * when mouse is pressed
- * @param { Hash_parameter } mandatory: parent
+ * @param {Hash} options Constructor hash
  */
 
 function Cgrapher(options) {
@@ -38,11 +38,12 @@ function Cgrapher(options) {
 
 }
 
+/* Inheritance */
 Cgrapher.prototype = Object.create(Cobject.prototype);
 Cgrapher.prototype.constructor = new Cobject();
 
 /**
- *
+ * Init
  */
 Cgrapher.prototype.init = function() {
 	if (!this.parent) this.exception('no_parent_argument');
@@ -51,33 +52,45 @@ Cgrapher.prototype.init = function() {
 	this.mode = Egrapher_mode.continuous;
 };
 
+/**
+ * Reset our index to zero
+ */
 Cgrapher.prototype.reset_index = function() {
 	this.index = 0;
 };
 
-Cgrapher.prototype._graph = function(d) {
-	var numpoint = d.points.length;
+/**
+ * Method actually called when grapher is started
+ * @param {Object} d Data passed to our grapher
+ * @returns {Boolean}
+ */
+Cgrapher.prototype._graph = function(cMessage) {
+	var numpoint = cMessage.points.length;
 	if (numpoint <= 2) {
 		return false;
 	}
 	if (this.index >= (numpoint - 1)) {
 		return false;
 	}
-	var p1 = d.points[this.index];
-	var p2 = d.points[(this.index + 1)];
-	d.A = p1;
-	d.B = p2;
-	d.index = this.index;
-	if (d.cTool.graph(d)) {
+	var p1 = cMessage.points[this.index];
+	var p2 = cMessage.points[(this.index + 1)];
+	cMessage.A = p1;
+	cMessage.B = p2;
+	cMessage.index = this.index;
+	if (cMessage.cTool.graph(cMessage)) {
 		if (!this.last_redraw
 				|| ((Date.now() - this.last_redraw) > (1000 / 60))) {
 			this.last_redraw = Date.now();
-			d.cSurface.redraw(1);
+			cMessage.cSurface.redraw(true);
 		}
 	}
 	this.index++;
 };
 
+/**
+ * Stop grapher
+ * @returns {Boolean}
+ */
 Cgrapher.prototype.stop = function() {
 
 	if (!this.timer) {
@@ -86,9 +99,9 @@ Cgrapher.prototype.stop = function() {
 	}
 	// Clearing our timer
 	clearInterval(this.timer);
-	clearInterval(this.timer_update);
+	//clearInterval(this.timer_update);
 	this.timer = null;
-	this.timer_update = null;
+	//this.timer_update = null;
 
 	// We are drawing our prefrag layer into our current layer
 	var cs = this.parent.selected;
@@ -135,6 +148,9 @@ Cgrapher.prototype.stop = function() {
 	return true;
 };
 
+/**
+ * Start grapher
+ */
 Cgrapher.prototype.start = function() {
 	if (this.timer) {
 		console.error('Grapher already started');
@@ -160,6 +176,6 @@ Cgrapher.prototype.start = function() {
 	});
 	that.timer = window.setInterval(function() {
 		that._graph(cMessage);
-	}, 5);
+	}, 20);
 	return true;
 };

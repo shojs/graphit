@@ -17,6 +17,13 @@ function Cdraw_glob() {
 
 var DRAWGLOB = new Cdraw_glob();
 
+
+/**
+ * Little helper for popin windows
+ * @param dom
+ * @param options
+ * @returns
+ */
 function widget_factory(dom, options) {
 	this.options = options;
 	var mandatory = {

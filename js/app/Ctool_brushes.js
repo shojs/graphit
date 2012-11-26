@@ -34,7 +34,7 @@ var CTOOL_brushes = {
 				y : dsize,
 				r : dsize,
 				fillStyle : color
-			});
+			});	
 		},
 	},
 	scircle : {
