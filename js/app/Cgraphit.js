@@ -38,7 +38,7 @@ Cgraphit.prototype.constructor = new Cobject();
 Cgraphit.prototype.init = function(options) {
 	var that = this;
 	this.bind_trigger(this, 'create_surface', function(e, options) {
-		console.log('Creating surface', options);
+		//console.log('Creating surface', options);
 		that.surface_create(options);
 	});
 	/* Update trigger binding */
@@ -65,14 +65,6 @@ Cgraphit.prototype.init = function(options) {
 						label : T('menu_new_surface'),
 						callback_click : function() {
 							that.send_trigger('display_new_surface');
-						}
-					},
-
-					toolbox : {
-						label : T('menu_toolbox'),
-						callback_click : function() {
-							that.send_trigger('display_widget',
-									that.cToolbox);
 						}
 					},
 				}
@@ -263,13 +255,13 @@ Cgraphit.prototype.surface_create = function(options) {
 		console.error('Cannot create surface, Exception <<< ', e, ' >>>');
 		return false;
 	}
-	this.bind_trigger(s, 'surface_selected', function(e, cSurface) {
+	this.bind_trigger(s.cSurface, 'surface_selected', function(e, cSurface) {
 		if (!(cSurface instanceof Csurface)) {
 			that.exception('invalid_surface_selected_parameter');
 		}
 		cSurface.attach_graphit(that);
 		that.selected = cSurface;
-		cSurface.rootElm.parent().dialog('open');
+		//cSurface.rootElm.parent().dialog('open');
 
 	});
 	widget_factory(s.dom_get(), {

@@ -5,7 +5,7 @@
 function Cpo(options) {
 	PO = {
 			en: {
-				menu_new_surface: 'New cSurface',
+				menu_new_surface: 'New',
 				menu_theme: 'Theme',
 				menu_about: 'About',
 				menu_toolbox: 'Toolbox',
@@ -16,7 +16,7 @@ function Cpo(options) {
 				background_color: 'Background color',
 			},
 			fr: {
-				menu_new_surface: 'Créer cSurface',
+				menu_new_surface: 'Nouveau',
 				menu_theme: 'Theme',
 				menu_about: 'A propos',
 				menu_file: 'Fichier',

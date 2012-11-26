@@ -24,9 +24,10 @@ Cgrid.prototype.init = function() {
 	    lineWidth: new Cparameter_numeric({parent: this, label: 'lineWidth', min: 1, max: 10, def: 1, step:1, callback_change: change, callback_slide: change}),
 	    visibility: new Cparameter_checkbox({parent: this, type: Eparameter_type.checkbox, label: 'visibility', def: true, callback_change: change})
     };
-    for (p in this.parameters) {
-	this.parameters[p]._init();
-    }
+    // # TODO Removing init, it's called __post_init now
+//    for (p in this.parameters) {
+//    	this.parameters[p]._init();
+//    }
     this.label = 'grid';
     this.rootElm = null;
 };

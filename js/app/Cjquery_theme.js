@@ -80,7 +80,8 @@ function Cjquery_theme() {
 			//window.location.reload();
 		}
 	});
-	this.pTheme._init();
+	// #TODO Why i called init on the first place
+	//this.pTheme._init();
 	this.rootElm = null;
 	return this;
 }

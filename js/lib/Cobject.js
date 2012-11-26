@@ -65,7 +65,7 @@ Cobject.prototype.exception = function(label, additional) {
 	var e = new Cexception_message({
 		className: this.className,
 		label: label,
-		additional: msg,
+		additional: additional,
 		object: this
 	});
 	console.error(e.to_s());
