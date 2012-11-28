@@ -146,6 +146,14 @@ body {
 	width: 8em;
 }
 
+.group-colorpicker {
+	text-align: center;	
+}
+
+.group-preview {
+	text-align: center;	
+}
+
 .hold-var {
 	font-size: x-small;
 	margin: auto;

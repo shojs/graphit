@@ -52,12 +52,15 @@ Cgraphit.prototype.init = function(options) {
 	});
 	this.wJquerytheme = new Cjquery_theme();
 	this.wAbout = new Clicense();
-	/* Menu */
+	/* 
+	 * Menu 
+	 */
 	this.cMenu = new Cmenu({
 		parent : null,
 		type : 'jquery',
 		label : "graphit_menu",
 		entries : {
+			/* FILES */
 			files : {
 				label : T('menu_file'),
 				entries : {
@@ -69,6 +72,7 @@ Cgraphit.prototype.init = function(options) {
 					},
 				}
 			},
+			/* Edition */
 			edition : {
 				label : T('menu_edition'),
 				entries : {
@@ -81,6 +85,7 @@ Cgraphit.prototype.init = function(options) {
 					},
 				}
 			},
+			/* Help */
 			help : {
 				label : T('menu_help'),
 				entries : {

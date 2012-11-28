@@ -4,6 +4,7 @@
  * @returns
  */
 function Ctool(options) {
+	var that = this;
 	options = options || {};
 	options.className = 'Ctool';
 	options.label = options.label || 'tool';
@@ -21,6 +22,13 @@ function Ctool(options) {
 			'parent', 'brush', 'label', '_pregraph', '_graph', '_postgraph',
 			'_update', 'compositeOperation'
 	]);
+	for (var p in this.parameters) {
+		console.log("Binding tool to parameter update", p);
+		this.bind_trigger(this.parameters[p], "update", function(e,d) {
+			console.log('update tool');
+			that.update();
+		});
+	}
 	return this;
 };
 
@@ -80,10 +88,11 @@ Ctool.prototype.update = function() {
 	this.ctx.drawImage(scanvas, 0, 0, scanvas.width, scanvas.height, 0, 0,
 			this.cCanvas.get_width(), this.cCanvas.get_height());
 	//this.brush.callback_update.call(this, this);
-	if ('_update' in this) {
-		this._update.call(this);
-	}
+//	if ('_update' in this) {
+//		this._update.call(this);
+//	}
 	this.need_update = false;
+	this.send_trigger('update');
 };
 
 /**
