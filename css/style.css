@@ -22,6 +22,33 @@ body {
 	text-align: center;
 }
 
+
+/* ALTER JQUERY MENU / Clearfix for the menu */
+/* .ui-menu:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+.group-menu  .ui-menu > .ui-menu-item {
+    display: inline-block;
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
+.ui-menu-item {
+	display: block;
+} */
+./* ui-menu .ui-menu-item {
+    display: inline-block;
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: auto;
+} */
 /* .draggable {
 	display: inline-block;
 	margin: 1px 5px 10px 1px;

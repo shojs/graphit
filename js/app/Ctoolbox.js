@@ -146,8 +146,8 @@ Ctoolbox.prototype.load = function(olist) {
  * 
  */
 Ctoolbox.prototype.update = function() {
-    this.selected.update();
 	this.brush_manager.selected.callback.update.call(this.brush_manager.selected);
+	this.selected.update();
     this.preview.send_trigger('update');
 };
 
@@ -241,13 +241,13 @@ Ctoolbox.prototype.dom_build = function() {
 	g.append(cp);
 	g.append(	$(new Cimage({
 		src : 'img/16x16_toggle_color.png',
-		callback_onload : function(obj) {
+		callback_success : function(obj) {
 			;
 		},
 		callback_click : function(obj) {
 			that.send_trigger('switch_color');
 		},
-		label: 'Switch color'
+		label: T('switch_color')
 	}).dom_get().addClass('switch')));
 	r.append(g);
 	/* Preview */

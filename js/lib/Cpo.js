@@ -14,6 +14,11 @@ function Cpo(options) {
 				menu_edition: 'Edition',
 				foreground_color: 'Foreground color',
 				background_color: 'Background color',
+				layers: 'Layers',
+				switch_color: 'Switch color',
+				tool_pencil: 'Pen',
+				tool_paintbrush: 'Brush',
+				tool_eraser: 'Eraser'
 			},
 			fr: {
 				menu_new_surface: 'Nouveau',
@@ -22,9 +27,15 @@ function Cpo(options) {
 				menu_file: 'Fichier',
 				menu_help: 'Aide',
 				menu_edition: 'Edition',
+				menu_toolbox: 'Outils',
 				foreground_color: 'Couleur principal',
-				background_color: 'Couleur de fond'
-		}
+				background_color: 'Couleur de fond',
+				layers: 'Calques',
+				switch_color: 'Echange de couleur',
+				tool_pencil: 'Crayon',
+				tool_paintbrush: 'Pinceau',
+				tool_eraser: 'Gomme'
+			}
 	};
 	options = options || {};
 	options.className = "Cpo";

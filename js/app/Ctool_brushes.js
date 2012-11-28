@@ -130,8 +130,8 @@ var Ecomposite_operation = {
  */
 var CTOOL_tools = {
 	/* PEN */
-	pen : {
-		label : 'pen',
+	pencil : {
+		label : 'pencil',
 		parameters : {
 			size : {
 				label : 'size',
@@ -184,8 +184,8 @@ var CTOOL_tools = {
 	/***************************************************************************
 	 * BRUSH
 	 **************************************************************************/
-	brush : {
-		label : 'brush',
+	paintbrush : {
+		label : 'paintbrush',
 		parameters : {
 			size : {
 				label : 'size',

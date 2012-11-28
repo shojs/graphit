@@ -31,7 +31,20 @@ Csurface_workspace.prototype.init = function(opt) {
  * DOM element
  */
 Csurface_workspace.prototype.dom_build = function() {
+	var that = this;
 	var r = $('<div class="graphit-workspace"/>');
+	var navbar = $('<div class="surfaceworkspace-navbar"/>');
+	navbar.append(new Cimage({
+		src: 'img/stock-layers-24.png',
+		width: 32,
+		height: 32,
+		label: T('layers'),
+		callback_click: function() {
+			that.cSurface.layer_manager.dom_get().dialog({autoOpen:true});
+			return false;
+		},
+	}).dom_get());
+	r.append(navbar);
 	r.append(this.cSurface.dom_get());						
 	this.rootElm = r;
 	return this;

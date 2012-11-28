@@ -229,6 +229,15 @@ Cobject.prototype.get_parameter = function(key) {
 };
 
 /**
+ * Return true if a callback exists with a given name
+ */
+Cobject.prototype.callback_exists = function(name) {
+	if (name in this.callback && typeof this.callback[name] == 'function') {
+		return true;
+	}
+	return false;
+};
+/**
  * Retrieve DOM element for this object
  * If noHeader is false we are encompassing our result into <div />
  * force option force dom_get to rebuild DOM element

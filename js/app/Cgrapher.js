@@ -133,8 +133,8 @@ Cgrapher.prototype.stop = function() {
 	} else {
 		cLayer.drawImage(cPrefrag.cCanvas.data, x, y, width, height, 0, 0);
 	}
-	cLayer.redraw();
-	cs.redraw();
+	//cLayer.redraw();
+	//cs.redraw();
 	// We are clearing our prefrag layer so it's ready for next draw
 	cs.layer_manager.special_layers.prefrag = new Clayer({
 		parent : cs.layer_manager,

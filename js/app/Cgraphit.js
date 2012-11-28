@@ -23,8 +23,8 @@ function Cgraphit(options) {
 	/* We are creating a default surface */
 	this.surface_create({
 		parent : this,
-		width : 640,
-		height : 480
+		width : 800,
+		height : 600
 	});
 }
 
@@ -263,8 +263,6 @@ Cgraphit.prototype.surface_create = function(options) {
 		}
 		cSurface.attach_graphit(that);
 		that.selected = cSurface;
-		//cSurface.rootElm.parent().dialog('open');
-
 	});
 	widget_factory(s.dom_get(), {
 		width : (parseInt(options.width) + 100)

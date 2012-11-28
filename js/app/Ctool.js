@@ -140,7 +140,7 @@ Ctool.prototype.dom_build = function(force) {
 Ctool.prototype.dom_build_tool = function() {
 	var that = this;
 	var img = new Cimage({
-		src : 'img/32x32_tool_' + this.label + '.png',
+		src : 'img/tools/stock-tool-' + this.label + '-22.png',
 		callback_onload : function(obj) {
 			;
 		},
@@ -148,7 +148,7 @@ Ctool.prototype.dom_build_tool = function() {
 			that.send_trigger('tool_selected', that);
 			//that.callback_click.call(that, obj);
 		},
-		label : this.label
+		label : T('tool_' + this.label)
 	});
 	return $(img.dom_get().addClass('group tool'));
 };
