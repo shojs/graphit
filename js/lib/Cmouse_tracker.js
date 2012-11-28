@@ -48,6 +48,7 @@ function Cmouse_tracker(options) {
     	options.label = 'mousetracker';
 	Cobject.call(this, options, ['parent', 'callback_move', 'callback_track']);
 
+	this.bounding = new Cbounding_rectangle({position: new Cpoint({x: 0, y: 0}), width: 0, height: 0});
 	this.x = 0;
 	this.y = 0;
 	this.cMinmaxX = new Cminmax(0, this.parent.width);
@@ -102,8 +103,9 @@ Cmouse_tracker.prototype.move = function(x, y) {
 //	}
 	this.x = x;
 	this.y = y;
-	if ('callback_track' in this) {
-	    this.callback_track.call(this, x, y);
+	var callback = this.callback_exists('track');
+	if (callback) {
+	    callback.call(this, x, y);
 	}
 	return this;
 };
@@ -126,6 +128,7 @@ Cmouse_tracker.prototype.push = function() {
 //		if (lp && lp.x == cp.x && lp.y == cp.y) {
 //				return false;
 //		}
+		//that.bounding.add_point(cp);
 		/* Storing our point */
 		that.points.push(cp);
 		that.minx = Math.min(that.minx, cp.x);

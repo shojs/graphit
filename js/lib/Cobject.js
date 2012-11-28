@@ -233,9 +233,9 @@ Cobject.prototype.get_parameter = function(key) {
  */
 Cobject.prototype.callback_exists = function(name) {
 	if (name in this.callback && typeof this.callback[name] == 'function') {
-		return true;
+		return this.callback[name];
 	}
-	return false;
+	return null;
 };
 /**
  * Retrieve DOM element for this object

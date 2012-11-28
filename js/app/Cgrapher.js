@@ -61,6 +61,7 @@ Cgrapher.prototype.reset_index = function() {
 
 /**
  * Method actually called when grapher is started
+ * @private
  * @param {Object} d Data passed to our grapher
  * @returns {Boolean}
  */
@@ -128,12 +129,14 @@ Cgrapher.prototype.stop = function() {
 	if ((y + height) > dcanvas.height) {
 		height = dcanvas.height - y;
 	}
-	if ('_postgraph' in cTool) {
-		cTool._postgraph(x, y, width, height, 0, 0, width, height);
-	} else {
+	var cMessage = new Cgraphit_message({
+		cSurface : cs,
+		cMouse: cs.cMouse,
+	});
+	if (!cTool.post_graph(cMessage, x, y, width, height, 0, 0, width, height)) {
 		cLayer.drawImage(cPrefrag.cCanvas.data, x, y, width, height, 0, 0);
 	}
-	//cLayer.redraw();
+		//cLayer.redraw();
 	//cs.redraw();
 	// We are clearing our prefrag layer so it's ready for next draw
 	cs.layer_manager.special_layers.prefrag = new Clayer({
@@ -174,7 +177,8 @@ Cgrapher.prototype.start = function() {
 		cGrapher : this,
 		index : this.index,
 	});
-	that.timer = window.setInterval(function() {
+	cMessage.cTool.pre_graph(cMessage);
+	this.timer = window.setInterval(function() {
 		that._graph(cMessage);
 	}, 5);
 	return true;
