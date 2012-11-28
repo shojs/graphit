@@ -176,6 +176,6 @@ Cgrapher.prototype.start = function() {
 	});
 	that.timer = window.setInterval(function() {
 		that._graph(cMessage);
-	}, 20);
+	}, 5);
 	return true;
 };
