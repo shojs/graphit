@@ -4,12 +4,15 @@
  * @returns
  */
 function Ctool(options) {
+	options = options || {};
+	options.className = 'Ctool';
+	options.label = options.label || 'tool';
 	this.brush = null;
 	this.cCanvas = null;
 	this.need_update = true;
 	this.rootElm = null;
 	this.optElm = null;
-	options.className = 'Ctool';
+
 	this.changeCursor = true;
 	for (p in options.parameters) {
 		options.parameters[p].parent = this;
@@ -183,14 +186,20 @@ Ctool.prototype.callback_click = function(obj) {
 
 /* Graph one point */
 Ctool.prototype.graph = function(cMessage) {
-	/* Calling brush graph function */
-	try {
-		return this._graph(cMessage);
-	} catch (e) {
-		this.intercept(e);
-		console.error('Exception: Invalid Graph function for this tool <<< ',
-				e, ' >>>');
-		throw e;
-	}
-	return false;
+	this.exceptions('method_must_be_overidden');
+};
+
+/**
+ * 
+ * @param cMessage
+ */
+Ctool.prototype.pre_graph = function(cMessage) {
+	
+};
+/**
+ * 
+ * @param cMessage
+ */
+Ctool.prototype.post_graph = function(cMessage) {
+	
 };

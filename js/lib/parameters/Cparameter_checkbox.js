@@ -4,6 +4,8 @@
  */
 function Cparameter_checkbox(options) {
 	options.type = Eparameter_type.checkbox;
+	options.className = 'Cparameter_checkbox';
+	options.autoSave = true;
 	Cparameter.call(this, options);
 }
 

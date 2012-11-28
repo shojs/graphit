@@ -10,6 +10,7 @@ var Eloading_status = {
  * @returns
  */
 function Cimage(options) {
+	options = options || {};
 	options.className = 'Cimage';
 	options.label = options.label || 'image';
 	Cobject.call(this, options, [

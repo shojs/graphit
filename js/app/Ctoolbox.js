@@ -1,33 +1,31 @@
 /*******************************************************************************
- * 
- * A class representing our toolbox
- * - list of tools
- * - fg/bg colorpicker
- * - options associated with tools
- * - brush preview 
+ * A class representing our toolbox - list of tools - fg/bg colorpicker -
+ * options associated with tools - brush preview
  */
 function Ctoolbox(olist, options) {
 	var that = this;
-    	this.olist = olist;
+	this.olist = olist;
 	options.className = 'Ctoolbox';
 	options.label = 'toolbox';
-	Cobject.call(this, options, ['parent']);
+	Cobject.call(this, options, [
+		'parent'
+	]);
 	this.elmPreview = null;
 	this.elmOptions = null;
 	this.dialog_options = {
-			modal: false,
-			width: 250,
-			stack: false
+		modal : false,
+		width : 250,
+		stack : false
 	};
 	this.bind_trigger(this.fg_color, 'color_selected', function(e, d) {
-	    if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
-	    that.update();
+		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
+		that.update();
 	});
 	this.bind_trigger(this.bg_color, 'color_selected', function(e, d) {
-	    if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
-	    that.update();
+		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
+		that.update();
 	});
-	
+
 	this.bind_trigger(this, 'switch_color', function(e, d) {
 		that.switch_color();
 	});
@@ -43,15 +41,15 @@ Ctoolbox.prototype.init = function() {
 	var that = this;
 	this.selected = null;
 	this.tools = new Array();
-	
-	/* 
-	 * BRUSH PREVIEW 
+
+	/*
+	 * BRUSH PREVIEW
 	 */
 	this.preview = new Ctoolbox_preview({
 		parent : this
 	});
-	
-	/* 
+
+	/*
 	 * Foreground color
 	 */
 	this.fg_color = new Ctoolbox_colorpicker(new Ccolor(255, 255, 255, 1), {
@@ -64,8 +62,8 @@ Ctoolbox.prototype.init = function() {
 	this.bind_trigger(this.fg_color, 'update', function(e, d) {
 		that.update();
 	});
-	/* 
-	 * Background color 
+	/*
+	 * Background color
 	 */
 	this.bg_color = new Ctoolbox_colorpicker(new Ccolor(0, 0, 0, 1), {
 		parent : this,
@@ -79,13 +77,15 @@ Ctoolbox.prototype.init = function() {
 		that.update();
 	});
 	/*
-	 *  Brush manager
+	 * Brush manager
 	 */
-	this.brush_manager = new Cbrush_manager({parent : this});
+	this.brush_manager = new Cbrush_manager({
+		parent : this
+	});
 	this.bind_trigger(this.brush_manager, 'update', function(e, d) {
 		that.update();
 	});
-	
+
 	this.bind_trigger(this, 'update', function(e, d) {
 		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
 		that.update();
@@ -115,58 +115,50 @@ Ctoolbox.prototype.select_tool_by_name = function(name) {
  * @param olist
  */
 Ctoolbox.prototype.load = function(olist) {
-    	var that = this;
-    	var selected = null;
-
-	var change = function () {
-	    that.send_trigger('update');
-	};
-	// We are parsing availble tools
-	for (label in olist) {
-		if (!('brush' in olist[label])) {
-			console.error('Tool need brush');
-			continue;
-		}
-		olist[label].parent = this;
-		// We are installing parameter callback who keep track of change
-		for (p in olist[label].parameters) {
-		    olist[label].parameters[p].callback_change = change;
-		    olist[label].parameters[p].callback_slide = change;
-		}
-		// We are creating our tool from hash
-		var cTool = new Ctool(olist[label]);
-		cTool.update();
-		this.tools.push(cTool);
-		if (!this.selected) {
-			this.selected = cTool;
-		}
-	}
+	/* Pencil */
+	var tool = new Ctool_pencil({
+		parent : this
+	});
+	this.tools.push(tool);
+	this.selected = tool;
+	/* Paintbrush */
+	tool = new Ctool_paintbrush({
+		parent : this
+	});
+	this.tools.push(tool);
+	/* Eraser */
+	tool = new Ctool_eraser({
+		parent : this
+	});
+	this.tools.push(tool);
 };
 /**
  * 
  */
 Ctoolbox.prototype.update = function() {
-	this.brush_manager.selected.callback.update.call(this.brush_manager.selected);
+	this.brush_manager.selected.callback.update
+			.call(this.brush_manager.selected);
 	this.selected.update();
-    this.preview.send_trigger('update');
+	this.preview.send_trigger('update');
 };
 
 /**
  * Select tool
+ * 
  * @param cTool
  */
 Ctoolbox.prototype.select_tool = function(cTool) {
-    	if (cTool == undefined) { 
-    	    console.warn('Can\'t select undefined tool'); 
-    	    return false;
-    	}
-//		that.select_tool(tTool);
-//		var e = $(tTool.rootElm);
-//		console.log(that);
-//
-//		
-//		that.selected = tTool;
-	console.log('SELECTING TOOL');	
+	if (cTool == undefined) {
+		console.warn('Can\'t select undefined tool');
+		return false;
+	}
+	// that.select_tool(tTool);
+	// var e = $(tTool.rootElm);
+	// console.log(that);
+	//
+	//		
+	// that.selected = tTool;
+	console.log('SELECTING TOOL');
 	var e = $(cTool.rootElm);
 	e.parents('.group-tools').find('.tool').removeClass('selected');
 	e.children('.tool').addClass('selected');
@@ -204,6 +196,7 @@ Ctoolbox.prototype.dom_build_colorpickers = function($root) {
 
 /**
  * Build html associted with this element
+ * 
  * @returns {Ctoolbox}
  */
 Ctoolbox.prototype.dom_build = function() {
@@ -216,14 +209,19 @@ Ctoolbox.prototype.dom_build = function() {
 	for ( var i = 0; i < this.tools.length; i++) {
 		var cTool = this.tools[i];
 		/* Binding each tool_selected event */
-		cTool.bind_trigger(cTool, 'tool_selected', function(e, tTool) {
-			if (!(tTool instanceof Ctool)) {
-				console.error('Trigger tool_selected must pass a Ctool argument');
-				return false;
-			}
-			that.select_tool(tTool);
-			return true;
-		});
+		cTool
+				.bind_trigger(
+						cTool,
+						'tool_selected',
+						function(e, tTool) {
+							if (!(tTool instanceof Ctool)) {
+								console
+										.error('Trigger tool_selected must pass a Ctool argument');
+								return false;
+							}
+							that.select_tool(tTool);
+							return true;
+						});
 		var e = cTool.dom_get();
 		if (this.selected == cTool) {
 			cTool.rootElm.children('.tool').addClass('selected');
@@ -239,7 +237,7 @@ Ctoolbox.prototype.dom_build = function() {
 	cp.addClass('ui-widget-content colorpicker-colors');
 	this.dom_build_colorpickers(cp);
 	g.append(cp);
-	g.append(	$(new Cimage({
+	g.append($(new Cimage({
 		src : 'img/16x16_toggle_color.png',
 		callback_success : function(obj) {
 			;
@@ -247,7 +245,7 @@ Ctoolbox.prototype.dom_build = function() {
 		callback_click : function(obj) {
 			that.send_trigger('switch_color');
 		},
-		label: T('switch_color')
+		label : T('switch_color')
 	}).dom_get().addClass('switch')));
 	r.append(g);
 	/* Preview */

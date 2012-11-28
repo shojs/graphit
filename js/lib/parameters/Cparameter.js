@@ -14,34 +14,29 @@ var Eparameter_type = {
  * @param {Hash} options Constructor hash
  */
 function Cparameter(options) {
-	if (!options) {
-		//console.warn('Constructor call without options parameter'); 
-		return null;
+	options = options || {};
+	options.className = options.className || 'Cparameter';
+	options.autoSave = options.autoSave || false;
+	options.label = options.label || 'parameter';
+	if ('parameters' in options) {
+		this.exception('no_parameter_for_me');
 	}
-	this.bAutosave = ('bAutosave' in options ? options.bAutosave : true);
-	if (this.bAutosave) {
+	Cobject.call(this, options, ['parent', 'type', 'def', 'label', 'autoSave']);
+	
+	if (this.autoSave) {
 		this.store = new Clocal_storage();
 	}
-	this.parent = options.parent;
-	this.type = options.type;
-	this.def = options.def;
-	this.label = options.label;
-
-	if (!options.parent) {
-		console.error('Ctool_parameter require parent in options {...}');
+	if (!options.parent && this.className != 'Cparameter') {
+		this.exception('mandatory_argument_missing', 'parent');
 		return null;
 	}
-	if (!options.label) {
-		console.error('Ctool_parameter require label in options {...}');
-		return null;
-	}
-	if (!options.type) {
-		options.type = Eparameter_type.numeric;
-	}
-	this.init(options);
 	this.__post_init(options);
 	return this;
 }
+
+/* Inheritance */
+Cparameter.prototype = Object.create(Cobject.prototype);
+Cparameter.prototype.constructor = new Cobject();
 
 /*
  * Executed after init subclass must not overide this
@@ -49,7 +44,7 @@ function Cparameter(options) {
  * @param {Hash} Constructor hash
  */
 Cparameter.prototype.__post_init = function(options) {
-	if (this.bAutosave) {
+	if (this.autoSave) {
 		var label = this.make_registry_key();
 		if (SHOJS_DEBUG > 10) console.log('Loading parameter', label);
 		var v = this.store.get(label);
@@ -88,10 +83,11 @@ Cparameter.prototype.set = function(value) {
 		return false;
 	}
 	this.value = this._set(value);
-	if (this.bAutosave) {
+	if (this.autoSave) {
 		var label = this.make_registry_key();
 		this.store.set(label, this.value);
 	}
+	this.send_trigger('update');
 	return true;
 };
 
@@ -128,12 +124,6 @@ Cparameter.prototype.get = function() {
 	return this._get(this.value);
 };
 
-Cparameter.prototype.dom_get = function(force) {
-	if (this.rootElm && force != undefined && !force) {
-		return this.rootElm;
-	}
-	return this.dom_build().rootElm;
-};
 
 Cparameter.prototype.make_registry_key = function() {
 	var classname = this.parent.className;

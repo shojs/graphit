@@ -351,17 +351,10 @@ Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx, ty,
 	});
 	frag.drawImage(canvas, sx, sy, swidth, sheight, 0, 0);
 	this.frags.push(frag);
-	// this.ctx.save();
-	// this.ctx.beginPath();
-	// this.ctx.rect(sx, sy, swidth, sheight);
-	// this.ctx.strokeRect(sx, sy, swidth, sheight);
-	// this.ctx.clip();
+	/* TODO: opying new frag on bottom of bottom stack*/
 	if (compositeOperation) {
-		//this.cCanvas.getContext('2d').globalCompositeOperation = compositeOperation;
 		frag.downCompositeOperation = compositeOperation;
 	}
-	// this.ctx.restore();
-	// this.redraw();
 };
 
 Clayer.prototype.to_json = function() {

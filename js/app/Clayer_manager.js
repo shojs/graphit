@@ -236,8 +236,10 @@ Clayer_manager.prototype.dom_build = function(parent, force) {
 		height : 16,
 		title : 'Create new layer',
 		callback_click : function(obj) {
-			that.add(new Clayer({parent: that}));
-			//that.parent.redraw();
+			that.add(new Clayer({
+				parent: that, 
+				width: that.parent.get_width(), 
+				height: that.parent.get_height()}));
 		}
 	});
 	r.append(b_add.dom_get());

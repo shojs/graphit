@@ -33,7 +33,7 @@ Csurface_workspace.prototype.init = function(opt) {
 Csurface_workspace.prototype.dom_build = function() {
 	var that = this;
 	var r = $('<div class="graphit-workspace"/>');
-	var navbar = $('<div class="surfaceworkspace-navbar"/>');
+	var navbar = $('<div class="navbar"/>');
 	navbar.append(new Cimage({
 		src: 'img/stock-layers-24.png',
 		width: 32,

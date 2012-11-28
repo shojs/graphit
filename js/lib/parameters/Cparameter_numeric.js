@@ -4,6 +4,8 @@
  */
 function Cparameter_numeric(options) {
     options.type = Eparameter_type.numeric;
+    options.className = 'Cparameter_numeric';
+    options.autoSave = true;
     Cparameter.call(this, options);
     return this;
 }
