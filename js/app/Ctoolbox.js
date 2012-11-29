@@ -117,7 +117,7 @@ Ctoolbox.prototype.load = function() {
 	var that = this;
 	var add_tool = function(tool) {
 		that.bind_trigger(tool, "update", function() {
-			console.log('UPDATE');
+			//console.log('UPDATE');
 			that.preview.send_trigger('update');
 		});
 		that.tools.push(tool);

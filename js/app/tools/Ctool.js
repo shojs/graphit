@@ -23,9 +23,8 @@ function Ctool(options) {
 			'_update', 'compositeOperation'
 	]);
 	for (var p in this.parameters) {
-		console.log("Binding tool to parameter update", p);
+		//console.log("Binding tool to parameter update", p);
 		this.bind_trigger(this.parameters[p], "update", function(e,d) {
-			console.log('update tool');
 			that.update();
 		});
 	}
