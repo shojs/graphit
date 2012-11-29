@@ -1,44 +1,51 @@
-function Cuid() {
-    this.prefix = '';
-    this.id = null;
-    this.stats = {
-	count: { label: 'Number of UID generated', type: 'int' , value: 0 }    
-    };
-    this.init();
+/**
+ * Generate Unique ID. Main usage of this uid is for binding element together with triggered event.
+ * We generate id that can't collide with other event.
+ * @param options
+ * @returns
+ */
+function Cuid(options) {
+	options = options || {};
+	Cuid.prefix = 'shojs-';
+	this.id = null;
+	this.init(options);
 }
 
-Cuid.prototype.get_frag = function() {
-    var max = 65535;
-    var i = Math.round(Math.random() * Date.now() / (max * 10));
-    var txt = i + '';
-    i = parseInt(txt.slice(0, 5));
-    return helper_format_number_length(i, 5);
-};
-
-Cuid.prototype.get = function(maxtry) {;
-    this.stats.count.value++;
-    if (maxtry == undefined) {
-	maxtry = 3;
-    }
-    var str = '';
-    for ( var i = 0; i < 2; i++) {
-	str += this.get_frag() + '-';
-    }
-    str += 'graphit';
-    var e = document.getElementById(str);
-    if (e) {
-	console.error('UID already present in dom');
-	maxtry--;
-	if (maxtry >= 0) {
-	    return this.get(maxtry);
+Cuid.prototype.init = function(options) {
+	if (!('count' in Cuid)) {
+		Cuid.count = 0;
+		Cuid.prefix = (options.prefix || 'shojs') + '-';
+		Cuid.postfix = (options.postfix || 'graphit');
 	}
-	console.error('Cannot make unique uid... aborting!');
-	return 'UID_ERROR';
-    }
-    return str;
 };
 
-Cuid.prototype.init = function() {
-    this.id = this.get();
+/**
+ * @private
+ * @returns
+ */
+Cuid.prototype.__get_frag = function() {
+	var max = 65535;
+	var i = Math.round(Math.random() * Date.now() / (max * 10));
+	var txt = i + '';
+	i = parseInt(txt.slice(0, 5));
+	return helper_format_number_length(i, 5);
 };
 
+/**
+ * 
+ * @param maxtry
+ * @returns
+ */
+Cuid.prototype.get = function(maxtry) {
+	if (maxtry == undefined) {
+		maxtry = 3;
+	}
+	var str = Cuid.prefix;
+	for ( var i = 0; i < 2; i++) {
+		str += this.__get_frag() + '-';
+	}
+	str += Cuid.postfix;
+	Cuid.count++;
+	Cuid.last_id = str;
+	return str;
+};

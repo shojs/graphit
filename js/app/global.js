@@ -15,7 +15,7 @@ function Cdraw_glob() {
     this.graphing_interval = 30;
 };
 
-var DRAWGLOB = new Cdraw_glob();
+//var DRAWGLOB = new Cdraw_glob();
 
 
 /**
@@ -41,7 +41,6 @@ function widget_factory(dom, options) {
 		}
 	}
 	dom.dialog(options);
-	// dom.resizable( "option", "disabled", true);;
 	return dom;
 };
 
