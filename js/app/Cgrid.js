@@ -22,7 +22,7 @@ Cgrid.prototype.init = function() {
 	    width: new Cparameter_numeric({parent: this, label: 'width', min: 1, max: 100, def: 100, step:1, callback_change: change, callback_slide: change}),
 	    height: new Cparameter_numeric({parent: this, label: 'height', min: 1, max: 100, def: 100, step:1, callback_change: change, callback_slide: change}),
 	    lineWidth: new Cparameter_numeric({parent: this, label: 'lineWidth', min: 1, max: 10, def: 1, step:1, callback_change: change, callback_slide: change}),
-	    visibility: new Cparameter_checkbox({parent: this, type: Eparameter_type.checkbox, label: 'visibility', def: true, callback_change: change})
+	    visibility: new Cparameter_checkbox({parent: this, type: Eparameter_type.checkbox, label: 'visibility', def: false, callback_change: change})
     };
     // # TODO Removing init, it's called __post_init now
 //    for (p in this.parameters) {

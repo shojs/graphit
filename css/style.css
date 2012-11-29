@@ -90,7 +90,7 @@ body {
 }
 
 .group {
-	margin: auto;
+	margin: 0 auto;
 	padding: 0;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
@@ -110,6 +110,18 @@ body {
 .group-brush.selected {
     background-color: rgba(0,0,0,0);
 }
+
+ul.group-layers  {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+}
+.group-layers > li {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+};
 
 .group.selected {
 	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7);

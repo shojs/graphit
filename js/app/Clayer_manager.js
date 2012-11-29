@@ -68,6 +68,9 @@ Clayer_manager.prototype.add = function(layer) {
 	if (!this.selected) {
 		this.selected = layer;
 	}
+	this.bind_trigger(layer, 'update', function(e, d) {
+		that.redraw();
+	});
 	this.send_trigger('update');
 	return layer;
 };
@@ -219,10 +222,7 @@ Clayer_manager.prototype.select = function(obj) {
  * @param force
  * @returns
  */
-Clayer_manager.prototype.dom_build = function(parent, force) {
-	if (!force && this.rootElm) {
-		return this.rootElm;
-	}
+Clayer_manager.prototype.dom_build = function() {
 	var that = this;
 	var r = $('<div />');
 	r.attr('title', 'Layer manager');
@@ -231,7 +231,7 @@ Clayer_manager.prototype.dom_build = function(parent, force) {
 
 	var cmd = $('<div />');
 	var b_add = new Cimage({
-		src : 'img/16x16_create_file.png',
+		src : 'img/stock-layer-24.png',
 		width : 16,
 		height : 16,
 		title : 'Create new layer',
@@ -301,7 +301,7 @@ Clayer_manager.prototype.redraw = function(force) {
 /**
  * 
  */
-Clayer_manager.prototype.dom_get = function() {
-	this.dom_build();
-	return this.rootElm;
-};
+//Clayer_manager.prototype.dom_get = function() {
+//	this.dom_build();
+//	return this.rootElm;
+//};

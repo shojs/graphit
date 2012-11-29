@@ -46,7 +46,7 @@ Ctool_eraser.prototype.pre_graph = function(cMessage) {
 	dc = lm.selected.cCanvas.data;
 	// ctx.clearRect(0,0, c.width, c.height);
 	ctx.drawImage(dc, 0, 0, dc.width, dc.height);
-	console.log('Copied layer', dc.toDataURL());
+	//console.log('Copied layer', dc.toDataURL());
 };
 /**
  * 
@@ -58,14 +58,14 @@ Ctool_eraser.prototype.post_graph = function(cMessage, x,y, width, height, dx, d
 	var f =  cMessage.cSurface.layer_manager.special_layers.prefrag;
 	var nf = f.clone();
 	var ctx = nf.cCanvas.getContext('2d');
-	var width = cMessage.cMouse.maxx - cMessage.cMouse.minx;
-	var height = cMessage.cMouse.maxy - cMessage.cMouse.miny;
+//	var width = cMessage.cMouse.maxx - cMessage.cMouse.minx;
+//	var height = cMessage.cMouse.maxy - cMessage.cMouse.miny;
 	ctx.save();
 	ctx.clearRect(0, 0, nf.cCanvas.data.width, nf.cCanvas.data.height);
 	ctx.globalCompositeOption = 'xor';
 	ctx.drawImage(f.cCanvas.data, 0, 0, f.cCanvas.data.width,
 			f.cCanvas.data.height);
-	console.log('WxH', width, height, cMessage);
+	//console.log('WxH', width, height, cMessage);
 	cSurface.drawImage(nf.cCanvas.data, x, y, width, height, 0, 0, 'source-in');
 	ctx.restore();
 };

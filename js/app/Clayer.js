@@ -128,12 +128,12 @@ Clayer.prototype.dom_build = function() {
 	tabs.append(ul);
 	var tab1 = $('<div id="' + this.guid(1) + '"/>');
 	var button = new Cimage({
-		src : 'img/16x16_eye.png',
-		width : '16px',
-		height : '16px',
+		src : 'img/stock-eye-20.png',
+//		width : '16px',
+//		height : '16px',
 		callback_click : function(obj) {
 			that.toggle_visibility();
-			that.parent.send_trigger('update');
+			that.send_trigger('update');
 			console.log("Clicked: ", obj);
 		}
 	});

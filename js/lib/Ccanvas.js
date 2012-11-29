@@ -31,7 +31,7 @@ Ccanvas.prototype.clone = function() {
 	width: this.width, 
 	height: this.height, 
 	bg_color: this.bg_color });
-    c.copy(this);
+    c.copy({src: this});
     return c;
 };
 

@@ -18,7 +18,10 @@ function Cpo(options) {
 				switch_color: 'Switch color',
 				tool_pencil: 'Pen',
 				tool_paintbrush: 'Brush',
-				tool_eraser: 'Eraser'
+				tool_eraser: 'Eraser',
+				right_click_to_save: 'Right click -> Save as',
+				save_image: 'Save image',
+				save: "Save",
 			},
 			fr: {
 				menu_new_surface: 'Nouveau',
@@ -34,7 +37,9 @@ function Cpo(options) {
 				switch_color: 'Echange de couleur',
 				tool_pencil: 'Crayon',
 				tool_paintbrush: 'Pinceau',
-				tool_eraser: 'Gomme'
+				tool_eraser: 'Gomme',
+				right_click_to_save: 'Clique droit -> Enregistrer l\'image sous',
+				save: 'Sauver'
 			}
 	};
 	options = options || {};
