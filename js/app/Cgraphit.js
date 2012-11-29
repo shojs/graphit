@@ -285,7 +285,7 @@ Cgraphit.prototype.surface_create = function(options) {
  */
 Cgraphit.prototype.dom_build_add_surface = function(cSurface_workspace) {
 	var that = this;
-	var s = $('<div class="group graphit-surface" />');
+	var s = $('<div class="group group-graphit-surface" />');
 	var c = new Ccanvas({
 		width : 50,
 		height : 50
@@ -303,12 +303,12 @@ Cgraphit.prototype.dom_build_add_surface = function(cSurface_workspace) {
 			resize : true
 		});
 	});
-	s
-			.click(function() {
+	s.click(function() {
 				cSurface.send_trigger('surface_selected', cSurface);
-				cEach(that.surfaces, function(i, e) {
-					if (e == cSurface) {
-						e.rootElm.parent().find('.surface').parent().dialog(
+				cEach(that.surfaces, function(i, cWorkspace) {
+					//console.log(e, cSurface);
+					if (cWorkspace.cSurface == cSurface) {
+						cWorkspace.rootElm.parent().dialog(
 								'open').dialog('moveToTop');
 
 					} else {

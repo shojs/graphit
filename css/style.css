@@ -268,6 +268,14 @@ ul.group-layers  {
 	overflow: hidden;
 }
 
+.navbar div,img{
+	display: inline-block;
+}
+.navbar {
+	margin: 0;
+	padding: 0;
+	text-align: right;
+}
 .sliderex input {
 	width: 2.5em;
 	margin: 0 0 0 1em;

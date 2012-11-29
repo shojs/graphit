@@ -31,7 +31,7 @@ function Csurface(options) {
 		width : this.width,
 		height : this.height
 	});
-	this.cCanvas.clear(new Ccolor(0, 0, 0, 1));
+	this.cCanvas.clear(new Ccolor(0, 0, 0, 0));
 
 	// Our layer manager
 	this.layer_manager = new Clayer_manager({parent: this});
