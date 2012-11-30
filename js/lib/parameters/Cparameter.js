@@ -16,7 +16,8 @@ var Eparameter_type = {
 function Cparameter(options) {
 	options = options || {};
 	options.className = options.className || 'Cparameter';
-	options.autoSave = options.autoSave || false;
+	options.autoSave = ('autoSave' in options && options.autoSave)? true: false;
+	console.log('autoSave', options.label, options.autoSave);
 	options.label = options.label || 'parameter';
 	if ('parameters' in options) {
 		this.exception('no_parameter_for_me');

@@ -5,7 +5,7 @@
 function Cparameter_select(options) {
     options.type = Eparameter_type.select;
     options.className = 'Cparameter_select';
-    options.autoSave = true;
+    options.autoSave = ('autoSave' in options && !options.autoSave)? false: true;
     Cparameter.call(this, options);
     
 }
