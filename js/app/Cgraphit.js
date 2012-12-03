@@ -334,8 +334,8 @@ Cgraphit.prototype.dom_build = function() {
 	var g = $('<div class="group group-menu" />');
 	// widget_factory(this.cMenu.dom_get(), {});
 	g.append(this.cMenu.dom_get());
-	$('body').prepend(g);
-	// r.append(g);
+	//$('body').prepend(g);
+	r.append(g);
 	g = $('<div class="group group-graphit-surfaces"/>');
 	cEach(this.surfaces, function(i, elm) {
 		var s = $('<div class="graphit-surface" />');

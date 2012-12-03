@@ -23,7 +23,7 @@ function _ok_to_build() {
 	T = function(str) { return cPo.get(str); };
 	//cRegistry = new Cregistry();
 	cGraphit = new Cgraphit();
-	widget_factory(cGraphit.dom_get(), { width: 100, position: 'left top'});
+	widget_factory(cGraphit.dom_get(), { width: 300, position: 'left top'});
 
 	/*
 	 * Prevent right click

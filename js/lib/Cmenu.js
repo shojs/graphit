@@ -1,6 +1,5 @@
 /**
- * Class  Cmenu
- * 06:40:06 / 24 nov. 2012 [jsgraph] sho 
+ * Class Cmenu 06:40:06 / 24 nov. 2012 [jsgraph] sho
  */
 function Cmenu(options) {
 	options = options || {};
@@ -8,19 +7,21 @@ function Cmenu(options) {
 	options.label = options.label || "menu";
 	options.type = options.type || 'jquery';
 	this.entries = {};
-	Cobject.call(this, options, ['type', 'parent']);
+	this.num_child = 0;
+	Cobject.call(this, options, [
+			'type', 'parent'
+	]);
 }
 
 /* Inheritance */
 Cmenu.prototype = Object.create(Cobject.prototype);
 Cmenu.prototype.constructor = new Cobject();
 
-
 /**
  *
  */
 Cmenu.prototype.init = function(options) {
-	for(var label in options.entries) {
+	for ( var label in options.entries) {
 		options.entries[label].parent = this;
 		options.entries[label].type = this.type;
 		this.add(new Cmenu(options.entries[label]));
@@ -46,6 +47,7 @@ Cmenu.prototype.add = function(cMenu) {
 		this.exception('label_already_present', cMenu.label);
 	}
 	this.entries[cMenu.label] = cMenu;
+	this.num_child++;
 };
 
 /**
@@ -56,35 +58,43 @@ Cmenu.prototype.dom_build = function() {
 	var r;
 	if (parent in this && this.parent instanceof Cmenu) {
 		r = this.parent.rootElm;
-		r.find('ul').removeClass('cssMenu');
+		// r.find('ul').removeClass('cssMenu');
 	} else {
 		r = $('<ul />');
-		if (this.type == 'css') {
-			r.addClass("cssMenum cssMenu");
-		}
+		// if (this.type == 'css') {
+		// r.addClass("cssMenum cssMenu");
+		// }
 	}
-	for (var label in this.entries) {
+	for ( var label in this.entries) {
 		var cEntry = this.entries[label];
 		var a = $('<a href="#" title=""/>');
-		if (cEntry.type == 'css') {
-			a.addClass('cssMenui');
-		}
+		// if (cEntry.type == 'css') {
+		// a.addClass('cssMenui');
+		// }
 		a.attr('label', label);
 		if ('click' in cEntry.callback) {
-			cEntry.install_callback(a); 
+			cEntry.install_callback(a);
 		}
 		var c = $('<li />');
-		if (this.type == 'css') {
-			if (cEntry.type == 'css') c.addClass('cssMenui');
-		}
-			a.append('<span>' + label + '</span>');
-			c.append(a);
-			var e = cEntry.dom_get({noHeader: true});
+		// if (this.type == 'css') {
+		// if (cEntry.type == 'css') c.addClass('cssMenui');
+		// }
+		var txt = $('<span>' + label + '</span>');
+		a.append(txt);
+		c.append(a);
+		if (cEntry.has_child()) {
+			var e = cEntry.dom_get({
+				noHeader : true
+			});
 			c.append(e);
+		}
 		r.append(c);
 	}
-	if (this.type == 'jquery' && (!this.parent || !(this.parent instanceof Cmenu))) {
-		r.menu();
+	if (this.type == 'jquery'
+			&& (!this.parent || !(this.parent instanceof Cmenu))) {
+		r.menu({
+			role : 'listbox'
+		});
 		r.menu('enable');
 	}
 	if (!this.parent || !(this.parent instanceof Cmenu)) {
@@ -95,6 +105,17 @@ Cmenu.prototype.dom_build = function() {
 
 	this.rootElm = r;
 	return this;
+};
+
+/**
+ *
+ */
+Cmenu.prototype.has_child = function() {
+	console.log('has_child', this.label, this.num_child);
+	if (this.num_child > 0) {
+		return true;
+	}
+	return false;
 };
 
 /**
@@ -113,8 +134,8 @@ Cmenu.prototype.install_callback = function(elm) {
 Cmenu.prototype.count_childs = function() {
 	var i = 0;
 	for (c in this.entries) {
-//		if (this.entries.hasOwnProperty(c)) 
-//		{ continue;}
+		// if (this.entries.hasOwnProperty(c))
+		// { continue;}
 		i++;
 	}
 	return i;

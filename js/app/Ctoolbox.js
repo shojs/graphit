@@ -14,7 +14,7 @@ function Ctoolbox(options) {
 	this.dialog_options = {
 		modal : false,
 		width : 250,
-		stack : false
+		stack : true
 	};
 	this.bind_trigger(this.fg_color, 'color_selected', function(e, d) {
 		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);

@@ -105,9 +105,16 @@ body {
 }
 
 .group-graphit-surface {
-	width: 100px;
-}
 
+}
+.group-graphit-surfaces {
+	    float: right;
+}
+.group-badge {
+	width: 150px;
+	clear: both;
+	float: left;
+}
 .group-graphit-authentication {
     overflow: visible;  
 }
@@ -152,12 +159,26 @@ ul.group-layers  {
 .group-brush canvas {
 	width: 20px;
 	display: inline-block;
+	width: 100%;
 }
 
-.group-menu{
-	width: 300px;
+.group-menu  {
+	width: 150px;
 	font-size: small;
-	float: left;
+	z-Index: 100;
+	display: block;
+	overflow: visible;
+	float:left;
+	clear: left;
+}
+
+.group-menu li > ul {
+	overflow: visible;
+	z-index: 100;
+    background-color: red;
+	
+
+
 }
 .group-new-surface>input {
 	width: 8em;
