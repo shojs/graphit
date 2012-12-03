@@ -2,8 +2,6 @@
 require_once('../googleIdentity/conf.php');
 
 class EasyRpService {
-	
-  private static $SERVER_URL = 'https://www.googleapis.com/rpc?key=AIzaSyBZ39Md7rznzZmePg0yX-YltS7vkvVH5mk';
 
   public static function getCurrentUrl() {
     $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
@@ -15,10 +13,16 @@ class EasyRpService {
     return $url;
   }
 
+  private static function getServerUrl() {
+  	$url = 'https://www.googleapis.com/rpc?key=' . GoogleIdentityConf::get('developerKey');
+  	//error_log('url: ' . $url);
+  	return $url;
+  }
+  
   private static function post($postData) {
     $ch = curl_init();
     curl_setopt_array($ch, array(
-        CURLOPT_URL => EasyRpService::$SERVER_URL,
+        CURLOPT_URL => self::getServerUrl(),
         CURLOPT_RETURNTRANSFER => 1,
         CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
         CURLOPT_POSTFIELDS => json_encode($postData)));
@@ -26,10 +30,9 @@ class EasyRpService {
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
     if ($http_code == '200' && !empty($response)) {
-      error_log('We got rp response');
       return json_decode($response, true);
     }
-    error_log('post returning null ' . $response);
+    //error_log('post returning null ' . $response);
     return NULL;
   }
 

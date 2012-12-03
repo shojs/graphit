@@ -1,7 +1,5 @@
 <?php 
     require_once('conf.php');
-    $GICONF = new GoogleIdentityConf();
-    error_log('LOGIN ' . $GICONF::toString())
 ?>
 <html>
 <head>
@@ -18,9 +16,9 @@
 <script type="text/javascript">
   $(function() {
     window.google.identitytoolkit.setConfig({
-        developerKey: '<?php echo $GICONF::get('developerKey'); ?>',
-        companyName: '<?php echo $GICONF::get('companyName'); ?>',
-        callbackUrl: '<?php echo $GICONF::get('callbackUrl'); ?>',
+        developerKey: '<?php echo GoogleIdentityConf::get('developerKey'); ?>',
+        companyName: '<?php echo GoogleIdentityConf::get('companyName'); ?>',
+        callbackUrl: '<?php echo GoogleIdentityConf::get('callbackUrl'); ?>',
         realm: "",
         userStatusUrl: "",
         loginUrl: "login.php",

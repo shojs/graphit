@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 function mlog() {
 	$str = '';
@@ -11,11 +11,8 @@ function mlog() {
 require_once('../lib/GoogleIdentity.php');
 require_once('conf.php');
 
-$state = isset($_GET['state'])? $_GET['state'] : 'start';
-mlog('state', $state);
+$state = isset($_GET['state']) ? $_GET['state'] : 'start';
 $GICONF = new GoogleIdentityConf();
-mlog('GOOGLE_IDENTITY_INDEX');
-mlog("Conf");
 $GI = new GoogleIdentity();
 $GI->start_session();
 
@@ -25,12 +22,11 @@ $email = $GI->getEmail();
 if ($context = $GI->getContext()) {
 	$target = $context['rp_target'];
 }
-
 if ($state != 'callback' && $GI->getEmail()) {
 	$state = 'logged';
 }
 ?>
-<?php if ($state == 'start' || $state == 'logged'): ?>
+ <?php if ($state == 'start' || $state == 'logged') : ?>
 <html>
 <head>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
@@ -72,14 +68,14 @@ $(function() {
      console.error('Cannot communicate wiht parent frame');
      conf = new CgraphitAuth();
    }
-		<?php
-		if ($GI->getEmail()) {
-			foreach ($_SESSION as $key => $value) {
-				echo 'conf.set(\'' . $key . '\', \'' . $value . '\');' . "\n";
-			}
+	<?php
+	if ($GI->getEmail()) {
+		foreach ($_SESSION as $key => $value) {
+			echo 'conf.set(\'' . $key . '\', \'' . $value . '\');' . "\n";
 		}
-		?>
-		conf.each(function(k,v) { console.log('ddd conf', k, v, conf.get(k)); });
+	}
+	?>
+	//conf.each(function(k,v) { console.log('conf', k, v, conf.get(k)); });
   var userData = {};
  <?php if ($GI->getEmail()) : ?>
  userData = {
@@ -99,12 +95,12 @@ $(function() {
  <div id='navbar' ></div>
 </body >
 </html>
-<?php elseif ($state == 'callback'): ?>
+<?php elseif ($state == 'callback') : ?>
 <?php
-$email = $GI->getEmail(); 
-if (!$email) {
-	$GI->destroy_session();
-echo <<<END
+	$email = $GI->getEmail();
+	if (!$email) {
+		$GI->destroy_session();
+		echo <<<END
   	 	<html>
   	 	<head>
   	 	<script type='text/javascript' src='https://ajax.googleapis.com/jsapi'></script>
@@ -120,10 +116,10 @@ echo <<<END
   	 	</body>
   	 	</html>
 END;
-} else {
-	$email = $result['verifiedEmail'];
-	$displayName = $result['displayName'];
-	echo <<<END
+	} else {
+		$email = $result['verifiedEmail'];
+		$displayName = $result['displayName'];
+		echo <<<END
 	 	<html>
 	 	<head>
 	 	<script type='text/javascript' src='https://ajax.googleapis.com/jsapi'></script>
@@ -142,6 +138,6 @@ END;
 	 	</body>
 	 	</html>
 END;
-}
+	}
 ?>
-<?php endif;?>
+<?php endif; ?>

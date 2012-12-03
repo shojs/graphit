@@ -52,10 +52,8 @@ class GoogleIdentity {
 	public static function start_session() {
 		$url = EasyRpService::getCurrentUrl();
 		$postData = @file_get_contents('php://input');
-		error_log($url . ' ' . $postData);
 		self::$result = EasyRpService::verify($url, $postData);
 		session_start();
-		//$_SESSION = array();
 		if (self::$result) {
 			foreach (self::$result as $key => $value) {
 				$_SESSION[$key] = $value;
