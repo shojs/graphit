@@ -14,6 +14,7 @@ function Ctoolbox(options) {
 	this.dialog_options = {
 		modal : false,
 		width : 250,
+		position: 'right top',
 		stack : true
 	};
 	this.bind_trigger(this.fg_color, 'color_selected', function(e, d) {
