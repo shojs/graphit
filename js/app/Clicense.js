@@ -1,6 +1,6 @@
 function Clicense() {
 	this.logo = 'img/gplv3-88x31.png';
-	this.text = '/license-gpl3.txt';
+	this.text = 'license-gpl3.txt';
 	this.rootElm = null;
 	this.dialog_options = {
 			width: 400
