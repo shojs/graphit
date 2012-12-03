@@ -4,22 +4,24 @@
 "use strict";
 
 
-var E_LAYERLABEL = new Object({
-	current : '_current',
-	mouse : '_mouse',
-	grid : '_gris',
-	prefrag : '_prefrag'
-});
+/* 
+ * Global variables 
+ */
+var cGraphit; /* Our main object */
+var cPo;      /* Traduction */
+var T;        /* proxy to method Cpo.get(str) */
+var cGraphitAuth; /* Our iframe store authentication information here */
 
-var cRegistry;
-var cGraphit;
-var cPo;
-var T;
 function _ok_to_build() {
 	console.log("Language", getLanguage());
+	cGraphitAuth = new CgraphitAuth({disable: true});
+	if (!cGraphitAuth.is_disable()) {
+		cGraphitAuth.dom_get().dialog({width: 800, height: 600 });
+		//console.error('Auth is disable');
+	}
 	cPo = new Cpo({lang: getLanguage()});
 	T = function(str) { return cPo.get(str); };
-	cRegistry = new Cregistry();
+	//cRegistry = new Cregistry();
 	cGraphit = new Cgraphit();
 	widget_factory(cGraphit.dom_get(), { width: 100, position: 'left top'});
 
@@ -84,6 +86,7 @@ function _ok_to_build() {
 		});
 	});
 }
+
 /**
  * Executed when DOM are fully loaded We are testing browser for canvas element
  * support
@@ -112,24 +115,12 @@ $(document)
 								});
 
 					} else {
-						// We popup a modal dialog on error
+						/* We popup a modal dialog on error */
 						try { 
 							_ok_to_build();
 							
 						} catch(e) {
-							console.error(e);
-							var msg = e;
-							var title = '[Error] ';
-							if (e instanceof Cexception_message) {
-								msg = e.to_s({format: 'html'});
-								title = title + e.className + '/' + e.label;
-							}
-							var r = $('<div title="'+title+'" />');
-							r.append($('<p>'+msg+'<p/>'));
-							r.dialog({
-								modal: true
-							});
-							throw e;
+							widget_exception(e);
 						}
 					}
 

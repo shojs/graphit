@@ -6,8 +6,9 @@ var Eloading_status = {
 };
 
 /**
- * @param options
- * @returns
+ * A html image element
+ * @param options Cobject hash arguments
+ * @return {Cimage} Cimage instance
  */
 function Cimage(options) {
 	options = options || {};
@@ -42,14 +43,14 @@ Cimage.prototype.dom_build = function() {
 		return this;
 	}
 	var img = $('<img />');
-	img.onload = function() {
-		that.callback_onload.call(that);
+	img[0].onload = function() {
+		return that.callback_onload.call(that);
 	};
-	img.onerror = function() {
+	img[0].onerror = function() {
 		return that.callback_onerror.call(that);
 	};
 	img.click(function(){
-		that.callback_click.call(that);
+		return that.callback_click.call(that);
 	});
 	// console.log(opt);
 	if ('label' in this && this.label != undefined) {

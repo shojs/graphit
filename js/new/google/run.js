@@ -3,7 +3,7 @@ function run() {
 
 	var G = new Cgoogle(
 			{
-				clientId : "284729814169-de07e4r2jhb6q2jmuk0ksu83v0m7o6se.apps.googleusercontent.com",
+				clientId : "YOUR_GOOGLE_CLIEND_ID",
 				authUrl : "https://accounts.google.com/o/oauth2/auth",
 				scopes : [ "https://www.googleapis.com/auth/drive" ]
 			});

@@ -44,14 +44,28 @@ Ccanvas.prototype.get_height = function() {
 };
 
 Ccanvas.prototype.copy = function(opt) {
-    if (!opt.src || !(opt.src instanceof Ccanvas)) {
+    if (!opt.src && (!(opt.src instanceof Ccanvas) || !(opt.src instanceof Cimage))) {
     	this.exception('invalid_copy_source');
+    }
+    var data = null;
+    var dw, dh, sw, sh = null;
+    dw = this.get_width();
+    dh = this.get_height();
+    if (opt.src instanceof Ccanvas) {
+    	data = opt.src.data;
+    	sw = opt.src.get_width();
+    	sh = opt.src.get_height();
+    } else {
+    	data = opt.src;
+    	sw = data.width;
+    	sh = data.height;
+    	console.log('sw, dw', sw, sh);
     }
     opt.resize = (opt.resize != undefined? opt.resize: false);
 	var ctx = this.data.getContext('2d');
 	ctx.save();
     if (opt.resize != 'undefined' && opt.resize) {
-    	ctx.drawImage(opt.src.data, 0, 0, opt.src.get_width(), opt.src.get_height(), 0,0, this.get_width(), this.get_height());
+    	ctx.drawImage(data, 0, 0, sw, sh, 0,0, dw, dh);
     } else if (opt.keepRatio) {
     	/*@TODO: keep ratio is bugged ...*/
     	var width = this.data.width;
@@ -59,11 +73,14 @@ Ccanvas.prototype.copy = function(opt) {
     	var height = this.data.height * ratio;
     	ctx.drawImage(opt.src.data,0,0,opt.src.get_width(),opt.src.get_height(),0,0,width,height);
     } else {
-    	var dwidth = opt.src.get_width() > this.get_width()? this.get_width(): opt.src.get_width();
-    	var dheight = opt.src.get_height() > this.get_height()? this.get_height(): opt.src.get_height();
-    	var offx = (this.get_width() > dwidth)? (this.get_width() - dwidth)/2 : 0;
-    	var offy = (this.get_height() > dheight)? (this.get_height() - dheight)/2 : 0;
-	ctx.drawImage(opt.src.data, 0, 0, dwidth, dheight, offx, offy, dwidth, dheight);
+    	var dwidth = sw > dw? dw: sw;
+    	var dheight = sh > dh? dh: sh;
+    	var offx = (dw > dwidth)? (dw - dwidth) /2 : 0;
+    	var offy = (dh > dheight)? (dh - dheight) /2 : 0;
+    	offx = offy = 0;
+
+    	ctx.drawImage(data, 0, 0, dwidth, dheight, offx, offy, dwidth, dheight);
+    	//console.log('Image', this.data.toDataURL());
     };
     ctx.restore();
 };

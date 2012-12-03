@@ -56,12 +56,11 @@ Clayer_manager.prototype.add = function(layer) {
 		layer.label = 'layer-' + match[1];
 		this.special_layers[match[1]] = layer;
 	} else {
-		layer.label = this.layers.length;
+		//layer.label = this.layers.length;
 		this.layers.push(layer);
 	}
 	if (!match && this.rootElm) {
-
-		var group = $(this.rootElm).find('.group-layers');
+		var group = this.rootElm.find('.group-layers');
 		var $lElm = $(layer.dom_get(this.layers.length - 1));
 		group.prepend($lElm);
 	}

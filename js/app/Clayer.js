@@ -16,6 +16,7 @@ function Clayer(options) {
 	options = options || {};
 	options.className = 'Clayer';
 	options.label = options.label || 'layer';
+	options.position = options.position || new Cvector2d({x: 0, y: 0});
 	options.composite_operation = options.composite_operation
 			|| Ecomposite_operation['source-over'];
 	options.visible = (options.visible != undefined ? options.visible : false);
@@ -146,8 +147,9 @@ Clayer.prototype.dom_build = function() {
 	$td.append(button.dom_get());
 	$tr.append($td);
 	$td = $(document.createElement('td'));
-	var $txt = $(document.createTextNode('Layer - ' + this.label));
-
+	var $txt = '<span>Layer - ' + this.label + '</span>';
+	$td.css('width', '100px');
+	$td.css('text-overflow', 'ellipsis');
 	$td.append($txt);
 	$td.editInPlace({
 		callback : function(original_element, html, originals) {
@@ -305,10 +307,10 @@ Clayer.prototype.clear = function() {
 /**
  * @returns
  */
-Clayer.prototype.get_canvas = function() {
-	this.redraw();
-	return this.canvas;
-};
+//Clayer.prototype.get_canvas = function() {
+//	this.redraw();
+//	return this.canvas;
+//};
 
 //Clayer.prototype.stack_frags = function(p_start, p_end) {
 //	var start = p_start;
@@ -342,10 +344,10 @@ Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx, ty,
 	// console.log('drawImage', canvas.toDataURL());
 	var frag = new Cfrag({
 		parent : this,
-		position : {
+		position : new Cvector2d({
 			x : sx,
 			y : sy
-		},
+		}),
 		width : swidth,
 		height : sheight
 	});
@@ -355,6 +357,13 @@ Clayer.prototype.drawImage = function(canvas, sx, sy, swidth, sheight, tx, ty,
 	if (compositeOperation) {
 		frag.downCompositeOperation = compositeOperation;
 	}
+};
+
+/**
+ *
+ */
+Clayer.prototype.copy = function(h) {
+	this.drawImage(h.src, 0,0, h.src.width, h.src.height, 0,0);
 };
 
 Clayer.prototype.to_json = function() {

@@ -61,7 +61,7 @@ Cobject.prototype.init = function(options, permited) {
  * @param {String} label A label that can match a message in our exception
  * @param {Object} additional Additional information that we want to pass 
  */
-Cobject.prototype.exception = function(label, additional) {
+Cobject.prototype.exception = function(label, additional, options) {
 	var e = new Cexception_message({
 		className: this.className,
 		label: label,
@@ -69,6 +69,10 @@ Cobject.prototype.exception = function(label, additional) {
 		object: this
 	});
 	console.error(e.to_s());
+	console.log('Options', options);
+	if (options && 'dialog' in options && options.dialog) {
+		widget_exception(e);
+	}
 	throw e;
 };
 
@@ -261,4 +265,30 @@ Cobject.prototype.dom_get = function(options) {
 	r.addClass(classname.toLowerCase());
 	r.append(rootElm);
 	return r;
+};
+
+
+/**
+ *
+ */
+Cobject.prototype.add_widget = function(name, rootElm) {
+	if (!name || !rootElm) {
+		this.exception('no_name_or_root_elm', { name: name, rootElm: rootElm});
+	}
+	if (!('widgets' in this)) { this.widgets = {}; }
+	if (name in this.widgets) {
+		this.exception('dialog_already_exist', name);
+	}
+	this.widgets[name] = rootElm;
+	return this;
+};
+
+/**
+ *
+ */
+Cobject.prototype.get_widget = function(name) {
+	if (!name || !(name in this.widgets)) {
+		this.exception('no_widget_with_this_name', { name: name});
+	}
+	return this.widgets[name];
 };

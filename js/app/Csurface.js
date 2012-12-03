@@ -9,7 +9,19 @@ function Csurface(options) {
 	options = options || {};
 	options.className = 'Csurface';
 	options.label = 'surface',
-
+	options.parameters = {
+			zoom : {
+				label : 'zoom',
+				min : -100,
+				max : 100,
+				def : 0,
+				step : 1,
+				autoSave: false,
+				callback_slide: function () {
+					console.log('slidinggggggg', this);
+				}
+			},
+		};
 	Cobject.call(this, options, [
 			'width', 'height', 'label'
 	]);
@@ -186,6 +198,11 @@ Csurface.prototype.redraw = function(force, dcanvas) {
 	var canvas = this.cCanvas.data;
 	var tctx = canvas.getContext('2d');
 	tctx.save();
+	var zoom = this.get_parameter('zoom');
+	if (zoom != 0) {
+		tctx.translate(canvas.width /2, canvas.height /2);
+		tctx.scale(zoom, zoom);
+	}
 	tctx.clearRect(0, 0, canvas.width, canvas.height);
 	// Drawing layer stack down
 	if (this.layer_manager.special_layers.stack_down != undefined) {
@@ -217,6 +234,7 @@ Csurface.prototype.redraw = function(force, dcanvas) {
 		tctx.drawImage(this.layer_manager.special_layers.grid.cCanvas.data, 0,
 				0, canvas.width, canvas.height);
 	}
+
 	tctx.restore();
 	this.send_trigger('redraw_preview', this);
 	this.need_redraw = false;

@@ -107,6 +107,11 @@ body {
 .group-graphit-surface {
 	width: 100px;
 }
+
+.group-graphit-authentication {
+    overflow: visible;  
+}
+
 .group-brush.selected {
     background-color: rgba(0,0,0,0);
 }
@@ -152,7 +157,7 @@ ul.group-layers  {
 .group-menu{
 	width: 300px;
 	font-size: small;
-	float right;
+	float: left;
 }
 .group-new-surface>input {
 	width: 8em;
@@ -203,9 +208,15 @@ ul.group-layers  {
 	font-size: x-small;
 }
 
+.layer td.label {
+	width: 50px;
+}
 .layer .label {
 	font-size: x-small;
-	width: 100px;
+	width: 50px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .layer  canvas {

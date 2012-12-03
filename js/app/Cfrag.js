@@ -17,6 +17,9 @@ function Cfrag(options) {
 		height : this.height,
 		bg_color : this.color
 	});
+	if (!this.position || !(this.position instanceof Cvector2d)) {
+		this.exception('invalid_position');
+	}
 };
 
 /* Inheritance */

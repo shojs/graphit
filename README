@@ -1,10 +1,13 @@
 **GraphIT** is a a little drawing program written only with _javascript_.
 
-It's only tested with last version of **Chrome**, **Firefox** and **Safari**. 
-
-Since release of **Internet Explorer 9** it should work on it too...
+It has been tested on last version of **Chrome**, **Firefox**, **Safari**, **IE 9**, **Opera**
 
 This program is really a beta, with beta i'm mean alpha, or, hmm, well who care!
+
+**Notes**
+Some features need controle of your own server.
+* Loading image: Javascript security deny manipulating image data that come from different domain. One solution to bypass this check is using a proxy who will read image url and return a base 64 encoded image (embedded in JSON object)
+To prevent abuse of this proxy, it's better to have some sort of authentication on your proxy server.
 
 **Features**
 * n-Layer
@@ -16,7 +19,14 @@ This program is really a beta, with beta i'm mean alpha, or, hmm, well who care!
 **Demo**
 * [Live](http://shojs.github.com/graphit/)
 
+
+**Key Bindings**
+* **Ctrl** + **z** Undo
+* **p** Brush
+* **n** Pen
+* **Shift** + **e** Eraser
+
 **Navigation**
-* [Wiki] (https://github.com/shojs/graphit/wiki/Home)
-* [Links] (https://github.com/shojs/graphit/wiki/Links)
-* [Screenshots](http://github.com/shojs/graphit/wiki/Screenshots)
+* [Tests] (http://github.com/shojs/graphit/wiki/Tests)
+* [Links] (http://github.com/shojs/graphit/wiki/Links)
+* [Screenshots](http://github.com/shojs/graphit/wiki/Screenshot)

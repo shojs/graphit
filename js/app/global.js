@@ -5,15 +5,20 @@
  */
 var SHOJS_DEBUG = 1;
 
-
+var E_LAYERLABEL = new Object({
+current : '_current',
+mouse : '_mouse',
+grid : '_gris',
+prefrag : '_prefrag'
+});
 
 /*******************************************************************************
  * 
  * @returns
  */
-function Cdraw_glob() {
-    this.graphing_interval = 30;
-};
+//function Cdraw_glob() {
+//    this.graphing_interval = 30;
+//};
 
 //var DRAWGLOB = new Cdraw_glob();
 
@@ -44,3 +49,18 @@ function widget_factory(dom, options) {
 	return dom;
 };
 
+function widget_exception(e) {
+	console.error('Widget', e);
+	var msg = e;
+	var title = '[Error] ';
+	if (e instanceof Cexception_message) {
+		msg = e.to_s({format: 'html'});
+		title = title + e.className + '/' + e.label;
+	}
+	var r = $('<div title="'+title+'" />');
+	r.append($('<p>'+msg+'<p/>'));
+	r.dialog({
+		modal: true
+	});
+	throw e;
+}

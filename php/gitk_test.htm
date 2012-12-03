@@ -1,0 +1,46 @@
+<html>
+<head>
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/googleapis/0.0.4/googleapis.min.js"></script>
+<script type="text/javascript" src="/js/app/CgraphitAuth.js"></script>
+</head>
+
+<body>
+<div id="widget-auth" title="Google Identity" style="margin:0; padding: 0;">
+<iframe id="iframe-navbar" style="margin:0; padding: 0;float: right; ;  display: inline-block; top: 2%; right: 2%; width: 100%; height: 100%; text-align:center;" src="/php/googleIdentity/index.php" seamless></iframe>
+</div>
+<div>
+
+<div id='main-content' style="z-index:1">
+<script>
+var cGraphitConf = new CgraphitAuth();
+var LOGGED = false;
+$(document).ready(function() {
+ $('#widget-auth').dialog({width: 700, height: 500});
+ var check_login = function() {
+      if (cGraphitAuth.get('email')) {
+        var c = $('#main-content');
+        var nl = '<br>\n';
+        cGraphitAuth.each(function(key, value) {
+            c.append(key + ' => ' + value + nl);
+        });
+        
+       }
+      else {
+      setTimeout(check_login, 1000);
+      }
+ };
+ setTimeout(check_login, 1000);
+});
+</script>
+</div>
+<p>
+We are using Third party authentication. That mean that we only have access to your email, first name and last name. We never see your password. 
+Because SSL is not configured on nosferat.us (beta) information between you and nosferat.us are readable from node in path, but your password is asked in a secure channel
+between you and our authentification provider (Google, Yahoo).
+</p>
+</div>
+</body>
+</html>

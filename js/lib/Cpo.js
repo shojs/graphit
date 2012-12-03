@@ -22,6 +22,9 @@ function Cpo(options) {
 				right_click_to_save: 'Right click -> Save as',
 				save_image: 'Save image',
 				save: "Save",
+				open: "Open",
+				load: "Load",
+				load_image: "Load image (URL)"
 			},
 			fr: {
 				menu_new_surface: 'Nouveau',
@@ -39,7 +42,10 @@ function Cpo(options) {
 				tool_paintbrush: 'Pinceau',
 				tool_eraser: 'Gomme',
 				right_click_to_save: 'Clique droit -> Enregistrer l\'image sous',
-				save: 'Sauver'
+				save: 'Sauver',
+				open: 'Ouvrir',
+				load: "Charger",
+				load_image: "Charger image (URL)"
 			}
 	};
 	options = options || {};
