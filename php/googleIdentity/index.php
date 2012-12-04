@@ -67,7 +67,7 @@ $(function() {
      conf = window.parent.cGraphitAuth;
    } else {
     console.log(window.parent);
-     console.error('Cannot communicate wiht parent frame');
+     console.error('Cannot communicate wiht parent frame', window, window.parent);
      conf = new CgraphitAuth();
    }
 	<?php

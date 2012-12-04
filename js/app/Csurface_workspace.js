@@ -76,7 +76,7 @@ Csurface_workspace.prototype.dom_build = function() {
 	r.append(navbar);
 	r.append(this.cSurface.dom_get());
 	var footer = $('<div />');
-	footer.append(this.cSurface.parameters.zoom.dom_get());
+	//footer.append(this.cSurface.parameters.zoom.dom_get());
 	r.append(footer);
 	this.rootElm = r;
 	return this;

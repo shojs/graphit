@@ -23,8 +23,8 @@ function Cgraphit(options) {
 	/* We are creating a default surface */
 	this.surface_create({
 		parent : this,
-		width : 200,
-		height : 200
+		width : 400,
+		height : 400
 	});
 }
 
