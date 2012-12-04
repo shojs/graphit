@@ -4,6 +4,7 @@
  * 1 Normal
  */
 var SHOJS_DEBUG = 1;
+var SHOJS_AUTH = false;
 
 var E_LAYERLABEL = new Object({
 current : '_current',
