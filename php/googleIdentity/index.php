@@ -56,7 +56,8 @@ $(function() {
 		idps: ["Gmail", "Yahoo"],
 		tryFederatedFirst: true,
 		useContextParam: true,
-		useCachedUserStatus: true
+		useCachedUserStatus: true,
+        legacy: false,
 	});
 	$('#navbar').css('pointer-events', 'auto');
 	$('#navbar').accountChooser({

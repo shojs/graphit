@@ -133,9 +133,12 @@ Clayer_manager.prototype.remove = function(layer) {
 /**
  * 
  * @param id
- * @returns
+ * @returns {Clayer} layer
  */
-Clayer_manager.prototype.get_layer = function(id) {
+Clayer_manager.prototype.get = function(id) {
+	if (!id || id == '__selected__') {
+		return this.selected;
+	}
 	if (cMath.isint(id)) {
 		return this.layers[id];
 	}

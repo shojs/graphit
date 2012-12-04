@@ -140,6 +140,11 @@ Ctoolbox.prototype.load = function() {
 		parent : this
 	});
 	add_tool.call(this, tool);
+	/* Fill */
+	tool = new Ctool_fill({
+		parent : this
+	});
+	add_tool.call(this, tool);
 };
 /**
  * 

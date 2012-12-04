@@ -22,6 +22,9 @@ body {
 	text-align: center;
 }
 
+.widget-email-box {
+	visibility: hidden;
+}
 
 /* ALTER JQUERY MENU / Clearfix for the menu */
 /* .ui-menu:after {

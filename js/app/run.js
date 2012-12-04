@@ -14,7 +14,7 @@ var cGraphitAuth; /* Our iframe store authentication information here */
 
 function _ok_to_build() {
 	console.log("Language", getLanguage());
-	cGraphitAuth = new CgraphitAuth({disable: false});
+	cGraphitAuth = new CgraphitAuth({disable: true});
 	if (!cGraphitAuth.is_disable()) {
 		cGraphitAuth.dom_get().dialog({width: 800, height: 600 });
 		//console.error('Auth is disable');

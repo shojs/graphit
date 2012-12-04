@@ -11,6 +11,7 @@ var Ecolor = {
  * @returns
  */
 function Ccolor(r, g, b, a) {
+	this.className = 'Ccolor';
 	this.r = r;
 	this.g = g;
 	this.b = b;
@@ -81,13 +82,18 @@ Ccolor.prototype.inverse = function() {
  * @param y Y position
  * @returns {Ccolor}
  */
-Ccolor.prototype.from_pixel = function(p_data, x, y) {
-    //console.log('data', p_data);
-    var data = p_data.data;
-    this.r = data[ ( (x*(p_data.width*4)) + (y*4) )];
-    this.g = data[ ( (x*(p_data.width*4)) + (y*4) + 1)];
-    this.b = data[ ( (x*(p_data.width*4)) + (y*4) + 2)];
-    this.a = data[ ( (x*(p_data.width*4)) + (y*4) + 3)];
+Ccolor.prototype.from_pixel = function(p_data, spixel) {
+    if (p_data == undefined || spixel == undefined) {
+    	throw ('invalid_argument');
+    }
+    var x = spixel.x;
+    var y = spixel.y;
+    var index = (spixel.y*(p_data.width*4)) + (spixel.x*4);
+	var data = p_data.data;
+    this.r = data[index];
+    this.g = data[index + 1];
+    this.b = data[index + 2];
+    this.a = data[index + 3];
     this.a = Math.round((this.a / 255) * 100) / 100;
     return this;
 };
@@ -105,8 +111,8 @@ Ccolor.prototype.clone = function() {
  * @param c
  * @returns {Boolean}
  */
-Ccolor.prototype.equal = function(c) {
-    var checks = ['a', 'r', 'g', 'b'];
+Ccolor.prototype.equal = function(c, p_checks) {
+    var checks = p_checks || ['a', 'r', 'g', 'b'];
     var component;
     for (var i = 0; i < checks.length; i++) {
 	component = checks[i];
@@ -134,4 +140,13 @@ Ccolor.prototype.normalize = function() {
     this.b /= b;
     this.g /= g;
     return this;
+};
+
+/**
+ *
+ */
+Ccolor.prototype.to_s = function() {
+	var nl = "\n";
+	var str = this.className + '(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + this.a + ')' + nl;
+	return str;
 };

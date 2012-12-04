@@ -57,6 +57,29 @@ Clayer.prototype.init = function() {
 	});
 };
 
+/**
+ *
+ */
+Clayer.prototype.get_width = function() {
+	return this.cCanvas.get_width();
+};
+
+
+/**
+*
+*/
+Clayer.prototype.get_height = function() {
+	return this.cCanvas.get_height();
+};
+
+
+/**
+ *
+ */
+Clayer.prototype.getImageData = function(x, y, width, height) {
+	return this.cCanvas.getImageData(x, y, width, height);
+};
+
 Clayer.prototype.clone = function() {
 	var canvas = this.cCanvas.data;
 	var cLayer = new Clayer({

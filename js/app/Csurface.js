@@ -117,7 +117,7 @@ Csurface.prototype.set_current_layer = function(layer) {
 };
 
 Csurface.prototype.update_grid = function() {
-	var grid = this.layer_manager.get_layer('grid');
+	var grid = this.layer_manager.get('grid');
 	var ctx = grid.cCanvas.getContext();
 	ctx.clearRect(0, 0, grid.cCanvas.data.width, grid.cCanvas.data.height);
 	if (this.cGrid.get_parameter('visibility')) {

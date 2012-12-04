@@ -43,6 +43,12 @@ Ccanvas.prototype.get_height = function() {
     return this.data.height;
 };
 
+
+Ccanvas.prototype.getImageData = function(x, y, width, height) {
+	var ctx = this.data.getContext('2d');
+	return ctx.getImageData(x, y, width, height);
+};
+
 Ccanvas.prototype.copy = function(opt) {
     if (!opt.src && (!(opt.src instanceof Ccanvas) || !(opt.src instanceof Cimage))) {
     	this.exception('invalid_copy_source');
