@@ -1,8 +1,9 @@
-//Array.prototype.remove = function(from, to) {
-//  var rest = this.slice((to || from) + 1 || this.length);
-//  this.length = from < 0 ? this.length + from : from;
-//  return this.push.apply(this, rest);
-//};
+var E_LAYERLABEL = new Object({
+	current : '_current',
+	mouse : '_mouse',
+	grid : '_gris',
+	prefrag : '_prefrag'
+});
 
 function callback_stub() {
 	;// console.log('callback - stub');
@@ -55,7 +56,8 @@ function isFileSupported() {
 }
 
 function getLanguage() {
-	var lang = (navigator.language) ? navigator.language : navigator.userLanguage;
+	var lang = (navigator.language) ? navigator.language
+			: navigator.userLanguage;
 	var pat = /^\s*([^-]*)-([^\s]*)\s*$/;
 	var match = pat.exec(lang);
 	if (match) {
@@ -65,7 +67,6 @@ function getLanguage() {
 }
 
 /**
- * 
  * @param obj
  * @returns
  */
@@ -78,6 +79,7 @@ function getObjectClass(obj) {
 
 /**
  * Thing as collection
+ * 
  * @param thing
  * @param cback
  * @returns {Boolean}
@@ -124,6 +126,7 @@ cEach.prototype.stop = function(ret) {
 };
 /**
  * Encapsulate enum
+ * 
  * @param options
  * @returns
  */
@@ -134,7 +137,7 @@ function Cenum(options) {
 };
 
 Cenum.prototype.key_by_value = function(value) {
-	for(label in this) {
+	for (label in this) {
 		if (!this.hasOwnProperty(label)) {
 			continue;
 		}
@@ -143,3 +146,48 @@ Cenum.prototype.key_by_value = function(value) {
 	console.error('No enum found with value', value);
 	return '';
 };
+
+/**
+ * Little helper for popin windows
+ * 
+ * @param dom
+ * @param options
+ * @returns
+ */
+function widget_factory(dom, options) {
+	this.options = options;
+	var mandatory = {
+		autoOpen : true,
+		resizable : true,
+		draggable : true,
+		width : 250,
+		zIndex : 10,
+		dialogClass : 'shojs-dialog',
+		stack : true
+	};
+	for ( var label in mandatory) {
+		if (!(label in options)) {
+			options[label] = mandatory[label];
+		}
+	}
+	dom.dialog(options);
+	return dom;
+};
+
+function widget_exception(e) {
+	console.error('Widget', e);
+	var msg = e;
+	var title = '[Error] ';
+	if (e instanceof Cexception_message) {
+		msg = e.to_s({
+			format : 'html'
+		});
+		title = title + e.className + '/' + e.label;
+	}
+	var r = $('<div title="' + title + '" />');
+	r.append($('<p>' + msg + '<p/>'));
+	r.dialog({
+		modal : true
+	});
+	throw e;
+}

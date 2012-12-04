@@ -111,7 +111,6 @@ Cmenu.prototype.dom_build = function() {
  *
  */
 Cmenu.prototype.has_child = function() {
-	console.log('has_child', this.label, this.num_child);
 	if (this.num_child > 0) {
 		return true;
 	}
