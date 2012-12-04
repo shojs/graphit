@@ -13,6 +13,14 @@ function Cmatrix33(data) {
 	this.set(data);
 }
 
+
+/**
+*
+*/
+Cmatrix33.prototype.init = function(value) {
+
+};
+
 /**
  *
  */
@@ -21,12 +29,7 @@ Cmatrix33.prototype.clone = function() {
 	return m;
 };
 
-/**
- *
- */
-Cmatrix33.prototype.init = function(value) {
 
-};
 
 /**
  *
@@ -38,21 +41,34 @@ Cmatrix33.prototype._is_valid_array = function(a) {
 	return false;
 };
 
+
 /**
  *
  */
-Cmatrix33.prototype.to_s = function(options) {
-	var nl = "\n";
-	var sp = ' ';
-	if (options && 'format' in options && options['format'] == 'html') {
-		nl = "<br>\n";
-	}
-	var str =  "Cmatrix33" + nl + sp;
-	for (var i = 0; i <= m33; i++) {
-		str+= this.data[i] + ',';
-		if ((i+1)%3 == 0) {str+= nl + sp; }
-	}
-	return str;
+Cmatrix33.prototype.translate = function(point) {
+	var mt = new Cmatrix33([1, 0, 0,
+	                        0, 1, 0,
+	                        point.x, point.y, 1]);
+	this.mul(mt);
+	return this;
+};
+
+Cmatrix33.prototype.scale = function(point) {
+	var mt = new Cmatrix33([point.x, 0, 0,
+	                        0, point.y, 0,
+	                        0, 0, 1]);
+	this.mul(mt);
+	return this;
+};
+
+Cmatrix33.prototype.rotate = function(angle) {
+	var cos = Math.cos(angle);
+	var sin = Math.sin(angle);
+	var mt = new Cmatrix33([cos, sin, 0,
+	                        -sin, cos, 0,
+	                        0, 0, 1]);
+	this.mul(mt);
+	return this;
 };
 
 /**
@@ -156,18 +172,11 @@ Cmatrix33.prototype.identity = function() {
 };
 
 Cmatrix33.prototype.mul = function(thing) {
-	console.log(thing)
+	console.log(thing);
 	if (!thing) { // Zero do nothing
 		return this;
 	}
-	if (thing instanceof Array) {
-		if (!this._is_valid_array(thing)) {
-			throw 'matrix33_invalid_array';
-		}
-		for (var i = 0; i <= m33; i++) {
-			this.data[i] += thing[i];
-		}		
-	} else if (thing instanceof Cmatrix33 || (thing instanceof Array && thing.length == 9)) {
+	if (thing instanceof Cmatrix33 || (thing instanceof Array && thing.length == 9)) {
 		var a = this.data;
 		var m = [];
 		var b = null;
@@ -176,6 +185,7 @@ Cmatrix33.prototype.mul = function(thing) {
 		} else {
 			b = thing;
 		}
+		console.log(a, b);
 		// First row
 		m[m11] = a[m11]*b[m11] + a[m12]*b[m21] + a[m13]*b[m31];
 		m[m12] = a[m11]*b[m12] + a[m12]*b[m22] + a[m13]*b[m32];
@@ -188,6 +198,7 @@ Cmatrix33.prototype.mul = function(thing) {
 		m[m31] = a[m31]*b[m11] + a[m32]*b[m21] + a[m33]*b[m31];
 		m[m32] = a[m31]*b[m12] + a[m32]*b[m22] + a[m33]*b[m32];
 		m[m33] = a[m31]*b[m13] + a[m32]*b[m23] + a[m33]*b[m33];
+		console.log('m', m);
 		this.data = m;
 	} else if (typeof thing == 'number'){ 
 		console.log(typeof thing);
@@ -200,6 +211,7 @@ Cmatrix33.prototype.mul = function(thing) {
 	}
 	return this;
 };
+
 
 Cmatrix33.prototype.minor = function() {
 	var m = [];
@@ -215,4 +227,21 @@ Cmatrix33.prototype.minor = function() {
 	m[m33] = a[m11]*a[m22] - a[m21]*a[m12];
 	this.data = m;
 	return this;
+};
+
+/**
+*
+*/
+Cmatrix33.prototype.to_s = function(options) {
+	var nl = "\n";
+	var sp = ' ';
+	if (options && 'format' in options && options['format'] == 'html') {
+		nl = "<br>\n";
+	}
+	var str =  "Cmatrix33" + nl + sp;
+	for (var i = 0; i <= m33; i++) {
+		str+= this.data[i] + ',';
+		if ((i+1)%3 == 0) {str+= nl + sp; }
+	}
+	return str;
 };

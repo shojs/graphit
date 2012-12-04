@@ -5,12 +5,16 @@ require_once('EasyRpService.php');
 class GoogleIdentity {
 	
 	private static $result = null;
-
+	const FAKE_AUTH = false;
 	function __construct() {
 	}
 
 	public static function getEmail() {
 		$label = 'verifiedEmail';
+		if (GoogleIdentity::FAKE_AUTH) {
+			error_log('WARNING? FAKE AUTHORISATION RETURNING EMAIL WITHOUT CHECK');
+			return 'test@test.test';
+		}
 		if (isset($_SESSION[$label]) && $_SESSION[$label]) {
 			return $_SESSION[$label];
 		}

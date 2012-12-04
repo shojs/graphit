@@ -195,6 +195,12 @@ Csurface.prototype.redraw = function(force, dcanvas) {
 	if (!this.need_redraw && !force) {
 		return false;
 	}
+	var layer_manager = this.layer_manager;
+	var selected = layer_manager.get();
+	if (!selected) {
+		console.warn('No layer selected');
+		return false;
+	}
 	var canvas = this.cCanvas.data;
 	var tctx = canvas.getContext('2d');
 	tctx.save();

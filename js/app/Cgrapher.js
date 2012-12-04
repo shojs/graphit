@@ -93,7 +93,7 @@ Cgrapher.prototype._graph = function(cMessage) {
  * @returns {Boolean}
  */
 Cgrapher.prototype.stop = function() {
-
+	try {
 	if (!this.timer) {
 		console.warn('Grapher is not started');
 		return false;
@@ -149,6 +149,10 @@ Cgrapher.prototype.stop = function() {
 	// Reseting index that represent where we are into recorded points
 	this.index = 0;
 	return true;
+	} catch (e) {
+		console.error(e);
+		return false;
+	}
 };
 
 /**

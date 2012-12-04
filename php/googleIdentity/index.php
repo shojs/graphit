@@ -79,7 +79,7 @@ $(function() {
   };
   console.log(userData);
   // #TODO: DANGEROUS *
-  window.parent.postMessage(userData, '*');
+  //window.parent.postMessage(userData, '*');
 
   window.google.identitytoolkit.updateSavedAccount(userData);
   window.google.identitytoolkit.showSavedAccount(userData.email);

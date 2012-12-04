@@ -1,86 +1,5 @@
 
-/**
- * A point in space
- * @param x
- * @param y
- * @returns
- */
-function Cpoint(pos) {
-	if (pos != undefined && (!('x' in pos) || !('y' in pos))) {
-		throw new Cexception_message({
-			className: 'Cpoint',
-			error: 'invalid_component', 
-			additional: pos});
-	}
-	pos = pos || {x: 0, y: 0};
-    Object.defineProperty(this, "x", {
-    	value: pos.x,
-    	writable: true,
-    	enumerable: true,
-    	configurable: false,
-    });
-    Object.defineProperty(this, "y", {
-    	value: pos.y,
-    	writable: true,
-    	enumerable: true,
-    	configurable: false, 
-    });
-}
 
-
-
-Cpoint.prototype.round = function() {
-    this.x = Math.round(this.x);
-    this.y = Math.round(this.y);
-};
-
-/**
- * A 2d vector
- * @param {x, y} Position must be an object with x and y properties
- */
-function Cvector2d(pos) {
-    Cpoint.call(this, pos);
-}
-
-Cvector2d.prototype = Object.create(Cpoint.prototype);
-Cvector2d.prototype.constructor = new Cpoint();
-
-Cvector2d.prototype.magnitude = function() {
-    if (this.x == 0 && this.y == 0)
-	return 0;
-    return Math.sqrt((this.x * this.x) + (this.y * this.y));
-};
-
-Cvector2d.prototype.normalize = function() {
-    var m = this.magnitude();
-    if (m == 0)
-	return this;
-    this.x /= m;
-    this.y /= m;
-    return this;
-};
-
-Cvector2d.prototype.from_point = function(a, b) {
-    this.x = b.x - a.x;
-    this.y = b.y - a.y;
-    return this;
-};
-
-Cvector2d.prototype.smul = function(s) {
-    this.x *= s;
-    this.y *= s;
-    return this;
-};
-
-Cvector2d.prototype.vadd = function(v) {
-    this.x += v.x;
-    this.y += v.y;
-    return this;
-};
-
-Cvector2d.prototype.clone = function() {
-    return new Cvector2d(this);
-};
 
 
 /**
@@ -130,7 +49,7 @@ var cMath = {
 	points.push(A);
 	for ( var i = 0; i <= distance; i += step) {
 	    lp.vadd(v);
-	    points.push(new Cpoint(lp));
+	    points.push(new Cpoint2d(lp));
 	}
 	points.push(B);
 	return points;

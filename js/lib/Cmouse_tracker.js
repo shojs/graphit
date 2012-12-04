@@ -48,7 +48,7 @@ function Cmouse_tracker(options) {
     	options.label = 'mousetracker';
 	Cobject.call(this, options, ['parent', 'callback_move', 'callback_track']);
 
-	this.bounding = new Cbounding_rectangle({position: new Cpoint({x: 0, y: 0}), width: 0, height: 0});
+	//this.bounding = new Cbounding_rectangle({position: new Cpoint2d({x: 0, y: 0}), width: 0, height: 0});
 	this.x = 0;
 	this.y = 0;
 	this.cMinmaxX = new Cminmax(0, this.parent.width);

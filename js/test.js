@@ -3,45 +3,55 @@
 var mat = new Cmatrix33([ 1.2,  3,    5,
                           0.4, -1,    4,
                          -4.3,  2.8, -0.9]);
-var mat2 = new Cmatrix33();
-mat2.random();
-console.log(mat2.to_s());
-console.log(mat.to_s());
-mat.add(3);
-mat.add(4.2);
-console.log(mat.to_s());
-mat.add(mat2);
-console.log(mat.to_s());
-mat.mul(1.6);
-console.log(mat.to_s());
-mat.round();
-console.log(mat.to_s());
-var m3 = mat.clone();
-console.log(m3.to_s());
 
-console.log('----');
-mat2.set([1, 3, -2,
-          -1, 4, 5,
-          9, -2, 1]);
-
-mat.set([2, -1, -3,
-          6, 7, -5,
-          4, -1, 1]);
-
-
-mat.mul(mat2);
-var i = new Cmatrix33();
-i.set([1,0,0,
-	   0,1,0,
-	   0,0,1]);
+mat.identity();
 console.log(mat.to_s());
-mat.mul(i);
+mat.translate({x:2, y:5});
 console.log(mat.to_s());
-mat.set([-1, -2, 2,
-         2, 1, 1,
-         3, 4, 5]);
-var minor = mat.clone().minor();
-console.log('Minor', minor.to_s());
+mat.translate({x: 8, y: 0});
+console.log(mat.to_s());
+mat.rotate(90);
+console.log(mat.to_s());
+	
+//var mat2 = new Cmatrix33();
+//mat2.random();
+//console.log(mat2.to_s());
+//console.log(mat.to_s());
+//mat.add(3);
+//mat.add(4.2);
+//console.log(mat.to_s());
+//mat.add(mat2);
+//console.log(mat.to_s());
+//mat.mul(1.6);
+//console.log(mat.to_s());
+//mat.round();
+//console.log(mat.to_s());
+//var m3 = mat.clone();
+//console.log(m3.to_s());
+//
+//console.log('----');
+//mat2.set([1, 3, -2,
+//          -1, 4, 5,
+//          9, -2, 1]);
+//
+//mat.set([2, -1, -3,
+//          6, 7, -5,
+//          4, -1, 1]);
+//
+//
+//mat.mul(mat2);
+//var i = new Cmatrix33();
+//i.set([1,0,0,
+//	   0,1,0,
+//	   0,0,1]);
+//console.log(mat.to_s());
+//mat.mul(i);
+//console.log(mat.to_s());
+//mat.set([-1, -2, 2,
+//         2, 1, 1,
+//         3, 4, 5]);
+//var minor = mat.clone().minor();
+//console.log('Minor', minor.to_s());
 //var $Graphit = {};
 //(function($_gi){
 //	"use strict";	
