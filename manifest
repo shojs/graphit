@@ -4,5 +4,4 @@ NETWORK:
 css/default.css
 *.js #TODO Dunno syntax ... :p
 CACHE:
-#images/sound-icon.png
-#images/background.png
+images/*
