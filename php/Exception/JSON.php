@@ -5,9 +5,9 @@ class Exception_JSON extends Exception {
 	
 	const public_disclosure = true;
 	
-	public function __construct($msg, $code = 0, $previous = null) {
-		parent::__construct($msg, $code, $previous);
-	}
+// 	public function __construct($msg, $code = 0, $previous = null) {
+// 		parent::__construct($msg, $code, $previous);
+// 	}
 
 	public function to_json() {
 		$exception = array(

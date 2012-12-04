@@ -16,6 +16,7 @@ try {
 	// Check if the URL is set
 	if (isset($_GET["url"])) {
 
+		//#TODO: Check that this get is secure ... 
 		// Get the URL and decode to remove any %20, etc
 		$url = urldecode($_GET["url"]);
 

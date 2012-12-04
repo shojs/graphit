@@ -55,6 +55,7 @@ $(function() {
    var conf = null;
    if ("parent" in window && "cGraphitAuth" in window.parent) {
      conf = window.parent.cGraphitAuth;
+     console.log('Com with parent ok');
    } else {
     console.log(window.parent);
      console.error('Cannot communicate wiht parent frame', window, window.parent);
@@ -77,6 +78,9 @@ $(function() {
       photoUrl: conf.get("photoUrl")
   };
   console.log(userData);
+  // #TODO: DANGEROUS *
+  window.parent.postMessage(userData, '*');
+
   window.google.identitytoolkit.updateSavedAccount(userData);
   window.google.identitytoolkit.showSavedAccount(userData.email);
 <?php endif; ?>
