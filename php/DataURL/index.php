@@ -66,21 +66,21 @@ try {
 				// No callback was set
 			} else {
 				header('HTTP/1.0 400 Bad Request');
-				$e = new Exeption_JSON('no_callback_specified', 2);
+				$e = new Exception_JSON('no_callback_specified', 2);
 				throw $e;
 			}
 
 			// The requested file is not an image
 		} else {
 			header('HTTP/1.0 400 Bad Request');
-			$e = new Exeption_JSON('invalid_image_specified, 1');
+			$e = new Exception_JSON('invalid_image_specified, 1');
 			throw $e;
 		}
 
 		// No URL set so error
 	} else {
 		header('HTTP/1.0 400 Bad Request');
-		$e = new Exeption_JSON('no_url_specified', 0);
+		$e = new Exception_JSON('no_url_specified', 0);
 		throw $e;
 	}
 
