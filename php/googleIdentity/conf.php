@@ -1,7 +1,7 @@
 <?php
 class GoogleIdentityConf {
     private static $data = [
-    	'developerKey' => 'YOUR_GOOGLE_API_KEY',
+    	'developerKey' => 'AIzaSyBZ39Md7rznzZmePg0yX-YltS7vkvVH5mk',
     	'companyName' => 'YOUR_COMPANY_NAME',
     	'callbackUrl' => 'YOUR_CALLBACK_URL',
 	];

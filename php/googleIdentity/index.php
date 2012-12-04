@@ -8,7 +8,7 @@ function mlog() {
 	$str .= "\n";
 	error_log($str);
 }
-require_once('../lib/GoogleIdentity.php');
+require_once('GoogleIdentity.php');
 require_once('conf.php');
 
 $state = isset($_GET['state']) ? $_GET['state'] : 'start';

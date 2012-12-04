@@ -1,5 +1,5 @@
 <?php 
-
+require_once('conf.php');
 require_once('EasyRpService.php');
 
 class GoogleIdentity {
