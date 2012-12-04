@@ -136,11 +136,20 @@ Csurface_workspace.prototype.__load_dialog = function() {
 			.click(function() {
 				$(this).parent().dialog('close');
 				var _input = $(this).parent().find('input');
+				var getBase = function() {
+					loc = window.location;
+					var pn = loc.pathname.split('/');
+					pn = pn.slice(0, pn.length -1).join('/');
+					var url = loc.protocol + '//' + loc.hostname + '/' + pn;
+					return url;
+				};
+				var server_url = getBase() + 'php/DataURL/';
+				console.log(server_url);
 				try {
 					$
 							.getImageData({
 								url : _input.attr('value'),
-								server : '/php/DataURL/',
+								server : server_url,
 								callback : '?',
 								success : function(image) {
 									var width = that.cSurface.cCanvas.data.width;

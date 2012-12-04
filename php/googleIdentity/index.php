@@ -62,9 +62,10 @@ $(function() {
 	$('#navbar').accountChooser({
 		acMenu:true});
    var conf = null;
-   if (parent in window && cGraphitAuth in window.parent) {
+   if ('parent' in window && 'cGraphitAuth' in window.parent) {
      conf = window.parent.cGraphitAuth;
    } else {
+    console.log(window.parent);
      console.error('Cannot communicate wiht parent frame');
      conf = new CgraphitAuth();
    }
@@ -75,6 +76,11 @@ $(function() {
 		}
 	}
 	?>
+	if (conf.get('email')) {
+		console.log('WE ARE LOGGED');
+	} else {
+		console.log('WE ARE NOT LOGGED');
+	}
 	//conf.each(function(k,v) { console.log('conf', k, v, conf.get(k)); });
   var userData = {};
  <?php if ($GI->getEmail()) : ?>
