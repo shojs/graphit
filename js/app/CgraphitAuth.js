@@ -84,7 +84,7 @@ CgraphitAuth.prototype.dom_build = function() {
 	var r = $('<div title="Graphit Authentication" />');
 	r.addClass('group group-graphit-authentication');
 	var iframe = $('<iframe id="graphit-authentication-iframe" />');
-	iframe.attr('src', '/php/googleIdentity/index.php');
+	iframe.attr('src', '/php/GoogleIdentity/index.php');
 	iframe.addClass('group group-graphit-authentication-iframe');
 	iframe.attr('width', '100%');
 	iframe.attr('height', '100%');
