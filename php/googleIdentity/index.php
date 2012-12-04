@@ -73,7 +73,7 @@ $(function() {
  userData = {
       email: conf.get("verifiedEmail"),
       displayName: conf.get("displayName"),
-      legacy: conf.get("legacy'),
+      legacy: conf.get("legacy"),
       photoUrl: conf.get("photoUrl")
   };
   console.log(userData);
