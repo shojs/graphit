@@ -53,9 +53,9 @@ $(function() {
 	$('#navbar').accountChooser({
 		acMenu:true});
    var conf = null;
-   if ("parent" in window && "cGraphitAuth" in window.parent) {
+   if (window.parent && "cGraphitAuth" in window.parent) {
      conf = window.parent.cGraphitAuth;
-     console.log('Com with parent ok');
+     console.log("Com with parent ok");
    } else {
     console.log(window.parent);
      console.error('Cannot communicate wiht parent frame', window, window.parent);
