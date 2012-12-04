@@ -146,6 +146,9 @@ Csurface_workspace.prototype.__load_dialog = function() {
 				var server_url = getBase() + 'php/DataURL/';
 				console.log(server_url);
 				try {
+					if (!cGraphitAuth.get('verifiedEmail')) {
+						that.exception('user_must_be_logged', null, {dialog: true});
+					}
 					$
 							.getImageData({
 								url : _input.attr('value'),
