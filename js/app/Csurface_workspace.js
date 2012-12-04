@@ -140,7 +140,7 @@ Csurface_workspace.prototype.__load_dialog = function() {
 					$
 							.getImageData({
 								url : _input.attr('value'),
-								server : 'http://ematome.com/sho/sndbwoy/js/graphit/getdataurl.php',
+								server : '/php/DataURL/',
 								callback : '?',
 								success : function(image) {
 									var width = that.cSurface.cCanvas.data.width;
