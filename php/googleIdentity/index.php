@@ -1,13 +1,4 @@
 <?php
-
-function mlog() {
-	$str = '';
-	for ($i = 0; $i < func_num_args(); $i++) {
-		$str .= func_get_arg($i) . ' ';
-	}
-	$str .= "\n";
-	error_log($str);
-}
 require_once('GoogleIdentity.php');
 require_once('conf.php');
 
@@ -59,11 +50,10 @@ $(function() {
 		useCachedUserStatus: true,
         legacy: false,
 	});
-	$('#navbar').css('pointer-events', 'auto');
 	$('#navbar').accountChooser({
 		acMenu:true});
    var conf = null;
-   if ('parent' in window && 'cGraphitAuth' in window.parent) {
+   if ("parent" in window && "cGraphitAuth" in window.parent) {
      conf = window.parent.cGraphitAuth;
    } else {
     console.log(window.parent);
@@ -71,25 +61,20 @@ $(function() {
      conf = new CgraphitAuth();
    }
 	<?php
+	/* Feed our Javascript Object */
 	if ($GI->getEmail()) {
 		foreach ($_SESSION as $key => $value) {
-			echo 'conf.set(\'' . $key . '\', \'' . $value . '\');' . "\n";
+			echo 'conf.set("' . $key . '", "' . $value . '");' . "\n";
 		}
 	}
 	?>
-	if (conf.get('email')) {
-		console.log('WE ARE LOGGED');
-	} else {
-		console.log('WE ARE NOT LOGGED');
-	}
-	//conf.each(function(k,v) { console.log('conf', k, v, conf.get(k)); });
   var userData = {};
  <?php if ($GI->getEmail()) : ?>
  userData = {
-      email: conf.get('verifiedEmail'),
-      displayName: conf.get('displayName'),
-      legacy: conf.get('legacy'),
-      photoUrl: conf.get('photoUrl')
+      email: conf.get("verifiedEmail"),
+      displayName: conf.get("displayName"),
+      legacy: conf.get("legacy'),
+      photoUrl: conf.get("photoUrl")
   };
   console.log(userData);
   window.google.identitytoolkit.updateSavedAccount(userData);
