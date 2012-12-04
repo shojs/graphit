@@ -1,10 +1,10 @@
 <?php
 class GoogleIdentityConf {
-    private static $data = [
+    private static $data = array(
     	'developerKey' => 'AIzaSyBZ39Md7rznzZmePg0yX-YltS7vkvVH5mk',
     	'companyName' => 'YOUR_COMPANY_NAME',
     	'callbackUrl' => 'YOUR_CALLBACK_URL',
-	];
+	);
    	function __construct() {
    		if (self::$data['developerKey'] == 'YOUR_GOOGLE_API_KEY') {
    			error_log('You must enter valid Google API key');
