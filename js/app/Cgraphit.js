@@ -352,11 +352,11 @@ Cgraphit.prototype.dom_build = function() {
 	badge.append(''
 			+ '<a href="#http://jigsaw.w3.org/css-validator/check/referer">'
 			+ '<img style="border:0;width:44px;height:16px"'
-			+ '    src="http://jigsaw.w3.org/css-validator/images/vcss"'
+			+ '    src="/images/w3-vcss.gif"'
 			+ '    alt="Valid CSS!" \/></a>');
 	badge
 			.append('<a href="#http://www.w3.org/html/logo">'
-					+ '<img src="http://www.w3.org/html/logo/downloads/HTML5_Logo_32.png" width="32" height="32" alt="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration" title="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration">'
+					+ '<img src="/images/HTML5_Logo_32.png" width="32" height="32" alt="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration" title="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration">'
 					+ '</a>');
 	r.append(badge);
 	this.rootElm = r;
