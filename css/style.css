@@ -89,7 +89,7 @@ body {
 
 .surface canvas {
 	margin: auto auto;
-	background-image: url(../img/grid-40x40.png);
+	background-image: url(../images/grid-40x40.png);
 }
 
 .group {
