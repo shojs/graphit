@@ -232,8 +232,7 @@ Clayer_manager.prototype.dom_build = function() {
 	//helper_build_header($r, this, 'Layers');
 
 	var cmd = $('<div />');
-	var b_add = new Cimage({
-		src : 'img/stock-layer-24.png',
+	var b_add = new Cicon({ name: 'stock-layer', size: 24,
 		width : 16,
 		height : 16,
 		title : 'Create new layer',

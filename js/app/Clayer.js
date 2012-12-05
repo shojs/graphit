@@ -151,14 +151,10 @@ Clayer.prototype.dom_build = function() {
 	ul.append('<li><a href="#' + this.guid(3) + '">stats</a></li>');
 	tabs.append(ul);
 	var tab1 = $('<div id="' + this.guid(1) + '"/>');
-	var button = new Cimage({
-		src : 'img/stock-eye-20.png',
-//		width : '16px',
-//		height : '16px',
+	var button = new Cicon({ name: 'stock-eye', size: 20,
 		callback_click : function(obj) {
 			that.toggle_visibility();
 			that.send_trigger('update');
-			console.log("Clicked: ", obj);
 		}
 	});
 	var table = document.createElement('table');
@@ -201,7 +197,7 @@ Clayer.prototype.dom_build = function() {
 	$tr.append($td);
 	$td = $(document.createElement('td'));
 	var b_up = new Cimage({
-		src : 'img/16x16_up.png',
+		src : 'images/16x16_up.png',
 		width : 16,
 		height : 16,
 		callback_click : function(obj) {
@@ -210,7 +206,7 @@ Clayer.prototype.dom_build = function() {
 	});
 	$td.append(b_up.dom_get());
 	var b_down = new Cimage({
-		src : 'img/16x16_down.png',
+		src : 'images/16x16_down.png',
 		width : 16,
 		height : 16,
 		callback_click : function(obj) {
@@ -219,7 +215,7 @@ Clayer.prototype.dom_build = function() {
 	});
 	$td.append(b_down.dom_get());
 	var b_trash = new Cimage({
-		src : 'img/16x16_trash.png',
+		src : 'images/16x16_trash.png',
 		width : 16,
 		height : 16,
 		callback_click : function(obj) {

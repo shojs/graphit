@@ -150,14 +150,9 @@ Ctool.prototype.dom_build = function(force) {
  */
 Ctool.prototype.dom_build_tool = function() {
 	var that = this;
-	var img = new Cimage({
-		src : 'img/tools/stock-tool-' + this.label + '-22.png',
-		callback_onload : function(obj) {
-			;
-		},
+	var img = new Cicon({ path: 'tools', name: 'stock-tool-' + this.label,
 		callback_click : function(obj) {
 			that.send_trigger('tool_selected', that);
-			//that.callback_click.call(that, obj);
 		},
 		label : T('tool_' + this.label)
 	});

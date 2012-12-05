@@ -36,8 +36,7 @@ Csurface_workspace.prototype.dom_build = function() {
 	var that = this;
 	var r = $('<div class="graphit-workspace"/>');
 	var navbar = $('<div class="navbar"/>');
-	navbar.append(new Cimage({
-		src : 'img/stock-layers-24.png',
+	navbar.append(new Cicon({ name: 'stock-layers', size: 24,
 		width : 32,
 		height : 32,
 		label : T('layers'),
@@ -48,8 +47,7 @@ Csurface_workspace.prototype.dom_build = function() {
 			return false;
 		},
 	}).dom_get());
-	navbar.append(new Cimage({
-		src : 'img/stock-image-24.png',
+	navbar.append(new Cicon({ name: 'stock-image', size: 24,
 		width : 32,
 		height : 32,
 		label : T('save'),
@@ -62,8 +60,7 @@ Csurface_workspace.prototype.dom_build = function() {
 	 * This feature require a proxy and some sort of authentication...
 	 */
 	if ('cGraphitAuth' in window && !window.cGraphitAuth.is_disable()) {
-		navbar.append(new Cimage({
-			src : 'img/preferences/folders-22.png',
+		navbar.append(new Cicon({ path: 'preferences',  name: 'folders',
 			width : 32,
 			height : 32,
 			label : T('open'),

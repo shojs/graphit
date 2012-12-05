@@ -26,7 +26,7 @@ Ctoolbox_preview.prototype = Object.create(Cobject.prototype);
 Ctoolbox_preview.prototype.constructor = new Cobject();
 
 Ctoolbox_preview.prototype.init = function() {
-    this.cCanvas = new Ccanvas({parent: this, width: 100, height: 100, src: 'img/loading_toolbar_brush.png'});
+    this.cCanvas = new Ccanvas({parent: this, width: 100, height: 100, src: 'images/loading_toolbar_brush.png'});
 };
 
 Ctoolbox_preview.prototype.dom_build = function() {

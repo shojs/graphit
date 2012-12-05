@@ -243,11 +243,7 @@ Ctoolbox.prototype.dom_build = function() {
 	cp.addClass('ui-widget-content colorpicker-colors');
 	this.dom_build_colorpickers(cp);
 	g.append(cp);
-	g.append($(new Cimage({
-		src : 'img/stock-default-colors-12.png',
-		callback_success : function(obj) {
-			;
-		},
+	g.append($(new Cicon({ name: 'stock-default-colors', size: 12,
 		callback_click : function(obj) {
 			that.send_trigger('switch_color');
 			that.update();
