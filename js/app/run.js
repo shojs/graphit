@@ -15,10 +15,10 @@ function _ok_to_build() {
 		disable : !SHOJS_AUTH
 	});
 	if (!cGraphitAuth.is_disable()) {
-		cGraphitAuth.dom_get().dialog({
-			width : 800,
-			height : 600
-		});
+//		cGraphitAuth.dom_get().dialog({
+//			width : 800,
+//			height : 600
+//		});
 	}
 
 	/* Traduction */

@@ -5,6 +5,7 @@ require_once('conf.php');
 $state = isset($_GET['state']) ? $_GET['state'] : 'start';
 $GICONF = new GoogleIdentityConf();
 $GI = new GoogleIdentity();
+
 $GI->start_session();
 
 $context = null;
@@ -40,18 +41,17 @@ $(function() {
 		callbackUrl: "<?php echo $GICONF->get('callbackUrl'); ?>",
 		realm: "",
 		userStatusUrl: "",
-		loginUrl: "login.php",
+		loginUrl: "/php/GoogleIdentity2/login.php",
 		signupUrl: "",
 		homeUrl: "",
 		logoutUrl: "logout.php",
 		idps: ["Gmail", "Yahoo"],
         idpConfig: {
-          scopes: ['https://www.googleapis.com/auth/drive']
+          //scopes: ['https://www.googleapis.com/auth/drive']
         },
 		tryFederatedFirst: true,
 		useContextParam: true,
 		useCachedUserStatus: true,
-        legacy: false,
 	});
 	$('#navbar').accountChooser({
 		acMenu:true});

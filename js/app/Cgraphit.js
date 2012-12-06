@@ -85,6 +85,13 @@ Cgraphit.prototype.init = function(options) {
 					}
 				}
 			},
+			/* login  */
+			edition : {
+				label : T('menu_login'),
+				callback_click : function() {
+					window.open("php/GoogleIdentity2/", 'graphit-oauth', 'width=600,height=600');
+				}
+			},
 			/* Help */
 			help : {
 				label : T('menu_help'),

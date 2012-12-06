@@ -12,6 +12,7 @@ function Cpo(options) {
 				menu_file: 'File',
 				menu_help: 'Help',
 				menu_edition: 'Edition',
+				menu_login: 'Login',
 				foreground_color: 'Foreground color',
 				background_color: 'Background color',
 				layers: 'Layers',
