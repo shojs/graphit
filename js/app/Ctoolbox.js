@@ -52,7 +52,7 @@ Ctoolbox.prototype.init = function() {
 	/*
 	 * Foreground color
 	 */
-	this.fg_color = new Ctoolbox_colorpicker(new Ccolor(255, 255, 255, 1), {
+	this.fg_color = new Ctoolbox_colorpicker(new Ccolor({r:255, g:255, b:255, a:1}), {
 		parent : this,
 		callback_onchange : function(rgb) {
 			this.send_trigger('update', that);
@@ -65,7 +65,7 @@ Ctoolbox.prototype.init = function() {
 	/*
 	 * Background color
 	 */
-	this.bg_color = new Ctoolbox_colorpicker(new Ccolor(0, 0, 0, 1), {
+	this.bg_color = new Ctoolbox_colorpicker(new Ccolor({r:0, g:0, b:0, a:1}), {
 		parent : this,
 		label : 'Background color',
 		callback_onchange : function(rgb) {
@@ -142,6 +142,11 @@ Ctoolbox.prototype.load = function() {
 	add_tool.call(this, tool);
 	/* Fill */
 	tool = new Ctool_fill({
+		parent : this
+	});
+	add_tool.call(this, tool);
+	/* Color picker */
+	tool = new Ctool_color_picker({
 		parent : this
 	});
 	add_tool.call(this, tool);
@@ -250,6 +255,7 @@ Ctoolbox.prototype.dom_build = function() {
 		},
 		label : T('switch_color')
 	}).dom_get().addClass('switch')));
+	//g.hide();
 	r.append(g);
 	/* Preview */
 	g = $('<div/>');

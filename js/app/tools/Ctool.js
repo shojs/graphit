@@ -22,7 +22,7 @@ function Ctool(options) {
 			'parent', 'brush', 'label', '_pregraph', '_graph', '_postgraph',
 			'_update', 'compositeOperation'
 	]);
-	for (var p in this.parameters) {
+	for (p in this.parameters) {
 		//console.log("Binding tool to parameter update", p);
 		this.bind_trigger(this.parameters[p], "update", function(e,d) {
 			that.update();

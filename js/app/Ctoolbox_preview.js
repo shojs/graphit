@@ -7,11 +7,12 @@ function Ctoolbox_preview(options) {
 	]);
 	this.bind_trigger(this, 'update', function(e, d) {
 		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
-		var ctx = that.rootElm.find('canvas')[0].getContext('2d');
+		//var ctx = that.rootElm.find('canvas')[0].getContext('2d');
 		var color = that.parent.fg_color.color.clone().inverse();
 		color.a = 1;
 		that.cCanvas.clear(color);
 		var ctx = that.cCanvas.getContext();
+		that.cCanvas.clear();
 		var scanvas = that.parent.brush_manager.selected.cCanvas.data;
 		var cTool = that.parent.selected;
 		var size = cTool.get_parameter('size');

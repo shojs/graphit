@@ -24,8 +24,8 @@ var CTOOL_brushes = {
 				x : dsize,
 				y : dsize,
 				r : dsize,
-				fillStyle : new Ccolor(255, 0, 0, 0.4),
-				strokeStyle : new Ccolor(255, 0, 0, 1),
+				fillStyle : new Ccolor({r:255, a:1}),
+				strokeStyle : new Ccolor({r:255, a:1}),
 				lineWidth : 1
 			});
 			cDraw.circle({
@@ -62,8 +62,8 @@ var CTOOL_brushes = {
 				x : dsize,
 				y : dsize,
 				r : dsize,
-				fillStyle : new Ccolor(255, 0, 0, 0.4),
-				strokeStyle : new Ccolor(255, 0, 0, 1),
+				fillStyle : new Ccolor({r: 255, a:1}),
+				strokeStyle : new Ccolor({r: 255, a: 1}),
 				lineWidth : 1
 			});
 			cDraw.circle({

@@ -11,7 +11,7 @@ function Cfrag(options) {
 	Cobject.call(this, options, [
 			'parent', 'position', 'width', 'height', 'color'
 	]);
-	if (!this.color) this.color = new Ccolor(0, 0, 0, 0);
+	if (!this.color) this.color = new Ccolor();
 	this.cCanvas = new Ccanvas({
 		width : this.width,
 		height : this.height,

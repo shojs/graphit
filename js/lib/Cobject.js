@@ -24,7 +24,6 @@ function Cobject(options, permitted) {
 	try {
 		this.init(options, permitted);
 	} catch(e) {
-		this.intercept(e);
 		console.error('Cannot init object << ', this, ' >> Exception <<< ', e , ' >>>');
 		throw(e);
 	}
@@ -76,27 +75,18 @@ Cobject.prototype.exception = function(label, additional, options) {
 	throw e;
 };
 
-/**
- * 
- * @deprecated
- */
-Cobject.prototype.intercept = function(e) {
-	if (!this.is_our_exception(e)) {
-		throw e;
-	}
-};
-
-/**
- * @deprecated
- * Return true if this exception have been created by us
- * @param {Exception} e A
- */
-Cobject.prototype.is_our_exception = function(exception) {
-	if (exception instanceof Cexception_message) {
-		return true;
-	}
-	return false;
-};
+//
+///**
+// * @deprecated
+// * Return true if this exception have been created by us
+// * @param {Exception} e A
+// */
+//Cobject.prototype.is_our_exception = function(exception) {
+//	if (exception instanceof Cexception_message) {
+//		return true;
+//	}
+//	return false;
+//};
 
 /**
  * @private
@@ -150,6 +140,19 @@ Cobject.prototype._parse_options = function(options, permitted) {
 		}
 	}
 	return true;
+};
+
+/**
+ *
+ */
+Cobject.prototype.install_callback = function(opt) {
+	if (!opt || !('name' in opt) || !('callback' in opt) || (typeof opt.callback != 'function')) {
+		this.exception('install_callback_bad_arguments', opt);
+	}
+	if (opt.name in this.callback) {
+		this.exception('install_callback_already_registered', opt);
+	}
+	this.callback[opt.name] = opt.callback;
 };
 
 /**
@@ -266,7 +269,6 @@ Cobject.prototype.dom_get = function(options) {
 	r.append(rootElm);
 	return r;
 };
-
 
 /**
  *

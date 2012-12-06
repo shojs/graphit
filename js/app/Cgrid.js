@@ -9,7 +9,7 @@ Cgrid.prototype.constructor = new Cobject();
 
 Cgrid.prototype.init = function() {
     //console.log('Init grid');
-    this.color = this.color || new Ccolor(0,0,0,1);
+    this.color = this.color || new Ccolor({a:1});
     this.isVisible = this.isVisible || true;
     // TODO: Parameters are not auto loaded
     // TODO: Too tricky ...

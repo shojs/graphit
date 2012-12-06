@@ -10,13 +10,20 @@ var Ecolor = {
  * @param a
  * @returns
  */
-function Ccolor(r, g, b, a) {
-	this.className = 'Ccolor';
-	this.r = r;
-	this.g = g;
-	this.b = b;
-	this.a = a;
+function Ccolor(options) {
+	options = options || {};
+	options.className = 'Ccolor';
+	options.label = 'color';
+	if (!('r' in options)) options.r = 0;
+	if (!('g' in options)) options.g = 0;
+	if (!('b' in options)) options.b = 0;
+	if (!('a' in options)) options.a = 0;
+	Cobject.call(this, options, ['r', 'g', 'b', 'a', 'callback_change']);
 }
+
+/* Inheritance */
+Ccolor.prototype = Object.create(Cobject.prototype);
+Ccolor.prototype.constructor = new Cobject();
 
 /**
  *  Convert Ccolor object to rgba string: rgba(r,g,b,a)
@@ -34,16 +41,29 @@ Ccolor.prototype.set_rgb = function(color) {
 	this.g = color.g;
 	this.b = color.b;
 	this.a = 1;
+	callback = this.callback_exists('change');
+	if (callback) callback.call(this);
 	return this;
 };
 
 Ccolor.prototype.set = function(k, v) {
-    if (k in this) {
-	this[k] = v;
-	return this;
-    }
-    console.error('Invalid key', k);
-    return null;
+	callback = this.callback_exists('change');
+	if (k instanceof Ccolor) {
+		this.r = k.r;
+		this.g = k.g;
+		this.b = k.b;
+		this.a = k.a;
+		if (callback) callback.call(this);
+		return this;
+	} else if (k && (v != undefined)) {
+		if (k in this) {
+			this[k] = v;
+			if (callback) callback.call(this);
+			return this;
+		}
+		throw('invalid_color_key',  k);
+	}
+    throw ('invalid_set_value', {key: k, value: v});
 };
 
 /**
@@ -103,7 +123,7 @@ Ccolor.prototype.from_pixel = function(p_data, spixel) {
  * @returns {Ccolor}
  */
 Ccolor.prototype.clone = function() {
-    return new Ccolor(this.r, this.g, this.b, this.a);
+    return new Ccolor(this);
 };
 
 /**

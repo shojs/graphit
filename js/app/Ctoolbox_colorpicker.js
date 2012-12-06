@@ -3,8 +3,10 @@
  * 
  */
 function Ctoolbox_colorpicker(color, options) {
-    	options.className = 'Ctoolbox_colorpicker';
-	Cobject.call(this, options, [ 'parent', 'label', 'callback_onchange' ]);
+	var that = this;
+    options.className = 'Ctoolbox_colorpicker';
+	options.label = options.label || 'toolbox_colorpicker';
+    Cobject.call(this, options, [ 'parent', 'label', 'callback_onchange' ]);
 	if (color && !(color instanceof Ccolor)) {
 		console.error('color parameter is not an instance of Ccolor');
 		return null;
@@ -13,6 +15,9 @@ function Ctoolbox_colorpicker(color, options) {
 	} else {
 		this.color = new Ccolor();
 	}
+	this.color.install_callback({name: 'change', callback: function() {
+		that.update();
+	}});
 	//console.log('label', this.label);
 	this.rootElm = null;
 	this.cCanvas = new Ccanvas({width: 32, height: 32});
@@ -40,6 +45,15 @@ Ctoolbox_colorpicker.prototype.to_rgba = function() {
 };
 
 /**
+ *
+ */
+Ctoolbox_colorpicker.prototype.update = function() {
+	this.clear(this.color);
+	var ctx = this.elmImage.getContext('2d');
+	ctx.drawImage(this.cCanvas.data, 0, 0, this.cCanvas.get_width(), this.cCanvas.get_height());
+	this.send_trigger('color_selected');	
+};
+/**
  * Create and store ou html elements
  * @param bool
  * @returns {Ctoolbox_colorpicker}
@@ -63,9 +77,6 @@ Ctoolbox_colorpicker.prototype.dom_build = function(bool) {
 	ctx.drawImage(c, 0, 0, c.width, c.height);
 	var update = function(rgb) {
 		that.color.set_rgb(rgb);
-		that.clear(that.color);
-		ctx.drawImage(c, 0, 0, c.width, c.height);
-		that.send_trigger('color_selected');
 	};
 	$(img).ColorPicker({
 		onChange : function(hsb, hex, rgb) {

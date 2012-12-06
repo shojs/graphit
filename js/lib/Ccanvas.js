@@ -8,7 +8,7 @@ function Ccanvas(options) {
     options.className = 'Ccanvas';
     options.label = 'canvas';
     Cobject.call(this, options, ['width', 'height', 'bg_color', 'src']);
-    this.bg_color = this.bg_color || new Ccolor(0,0,0,0);
+    this.bg_color = this.bg_color || new Ccolor();
     if (!this.width || this.width < 0 || this.width > 1920) this.exception('invalid_width', this.width);
     if (!this.height || this.height < 0 || this.height > 1280) this.exception('invalid_height', this.height);
     
@@ -109,7 +109,7 @@ Cobject.prototype.getContext = function(type) {
 };
 
 Ccanvas.prototype.clear = function(color) {
-    color = color || new Ccolor(0,0,0,0);
+    color = color || new Ccolor();
     var ctx = this.getContext();
     if (color.a == 0) {
 	ctx.clearRect(0, 0, this.data.width, this.data.height);
@@ -138,8 +138,6 @@ var Ergb_color = {
 
 Ccanvas.prototype.select_by_color = function(color) {
     console.log('Selecting by color', color);
-    // var ctx = this.ctx;
-    // blueComponent = imageData.data[((50*(imageData.width*4)) + (200*4)) + 2];
     var data = this.ctx.getImageData(0, 0, this.data.width, this.data.height);
     this.ctx.save();
     this.ctx.beginPath();
@@ -178,17 +176,7 @@ Ccanvas.prototype.select_by_color = function(color) {
 	    dcx.translate(j, i);
 	    dcx.fillRect(0, 0, 1, 1);
 	    dcx.restore();
-	    // pixel.push( {i: i, j: j} );
-	    // var p = this.get_pixe(data, i, j);
-	    // var c = new Ccolor().from_pixel(data, i, j);
-	    // console.log(c);
-	    // if (c.equal(color)) {
-	    // if (!this.ctx.isPointInPath(i, j)) {
-	    // this.ctx.lineTo(i, j);
 	    total++;
-	    // }
-	    // console.log('Found similar color', i, j);
-	    // }
 	}
 
 	// console.log(msg);
@@ -196,7 +184,7 @@ Ccanvas.prototype.select_by_color = function(color) {
     }
     console.log('total line', total, pixel);
     // console.log(dc.toDataURL());
-    var inv = new Ccanvas(width, height, new Ccolor(0, 0, 0, 1));
+    var inv = new Ccanvas(width, height, new Ccolor({a:1}));
     // inv.to_bitmask(dc);
     this.ctx.clearRect(0, 0, width, height);
     this.ctx.drawImage(dc, 0, 0, width, height);
