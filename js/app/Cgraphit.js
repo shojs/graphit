@@ -69,7 +69,7 @@ Cgraphit.prototype.init = function(options) {
 						callback_click : function() {
 							that.send_trigger('display_new_surface');
 						}
-					},
+					}
 				}
 			},
 			/* Edition */
@@ -82,7 +82,7 @@ Cgraphit.prototype.init = function(options) {
 							that.send_trigger('display_widget',
 									that.cToolbox);
 						}
-					},
+					}
 				}
 			},
 			/* Help */
@@ -100,11 +100,10 @@ Cgraphit.prototype.init = function(options) {
 						callback_click : function() {
 							that.send_trigger('display_widget', that.wAbout);
 						}
-					},
+					}
 				}
-			},
-
-		},
+			}
+		}
 	});
 	/* Toolbox */
 	this.cToolbox = new Ctoolbox(CTOOL_tools, {
@@ -126,21 +125,21 @@ Cgraphit.prototype.init = function(options) {
 			callback : function() {
 				that.cToolbox.select_tool_by_name('pen');
 				return false;
-			},
+			}
 		},
 		'p' : {
 			label : 'brush',
 			callback : function() {
 				that.cToolbox.select_tool_by_name('brush');
 				return false;
-			},
+			}
 		},
 		'Shift+e' : {
 			label : 'eraser',
 			callback : function() {
 				that.cToolbox.select_tool_by_name('eraser');
 				return false;
-			},
+			}
 		},
 		'Ctrl+z' : {
 			label : 'undo',
@@ -154,8 +153,8 @@ Cgraphit.prototype.init = function(options) {
 				}
 				that.selected.undo();
 				return false;
-			},
-		},
+			}
+		}
 	};
 	// $(document).unbind('keydown');;
 	for ( var seq in this.keybindings) {
@@ -180,7 +179,7 @@ Cgraphit.prototype.get_widget = function(cWidget) {
 	}
 	var opt = {
 		closeOnEscape : true,
-		modal : true,
+		modal : true
 	};
 	if ('dialog_options' in cWidget) {
 		for (label in cWidget['dialog_options']) {

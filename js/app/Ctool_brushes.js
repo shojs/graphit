@@ -34,8 +34,8 @@ var CTOOL_brushes = {
 				y : dsize,
 				r : dsize,
 				fillStyle : color
-			});	
-		},
+			});
+		}
 	},
 	scircle : {
 		width : 100,
@@ -73,7 +73,7 @@ var CTOOL_brushes = {
 				r : dsize,
 				strokeStyle : color
 			});
-		},
+		}
 	},
 	rectangle : {
 		width : 100,
@@ -108,7 +108,6 @@ var CTOOL_brushes = {
 			ctx.fillRect(0, 0, size, size);
 			ctx.restore();
 		}
-
 	}
 };
 
@@ -179,7 +178,6 @@ var CTOOL_tools = {
 			ctx.restore();
 			return true;
 		}
-
 	},
 	/***************************************************************************
 	 * BRUSH
@@ -260,10 +258,9 @@ var CTOOL_tools = {
 		compositeOperation : Ecomposite_operation.xor,
 		brush : CTOOL_brushes.circle,
 		_update : function() {
-			//
+			;
 		},
 		_pregraph : function(x, y, width, height) {
-			// console.log('pregraph');
 			var c = this.parent.parent.layer_manager.special_layers.prefrag.cCanvas.data;
 			var ctx = c.getContext('2d');
 			var lm = this.parent.parent.layer_manager;
@@ -273,10 +270,7 @@ var CTOOL_tools = {
 				ctx.drawImage(dc, 0, 0, dc.width, dc.height);
 			}
 			dc = lm.selected.cCanvas.data;
-			// ctx.clearRect(0,0, c.width, c.height);
 			ctx.drawImage(dc, 0, 0, dc.width, dc.height);
-			// console.log('Copied layer', dc.toDataURL());
-
 		},
 		_graph : function(cMessage) {
 			var dcanvas = cMessage.cSurface.layer_manager.special_layers.prefrag.cCanvas.data;
@@ -286,7 +280,6 @@ var CTOOL_tools = {
 			var scanvas = this.cCanvas.data;
 			var dw = scanvas.width / 2;
 			var dh = scanvas.height / 2;
-			// var dctx = scanvas.getContext('2d');
 			var pression = this.get_parameter('pression') || 100;
 			var points = cMath.linear_interpolation(cMessage.A, cMessage.B,
 					(100 / pression));
@@ -299,7 +292,6 @@ var CTOOL_tools = {
 			ctx.restore();
 			return true;
 		},
-
 		_postgraph : function(x, y, width, height) {
 			var cSurface = this.parent.parent.selected.layer_manager.selected;
 			var f = this.parent.parent.selected.layer_manager.special_layers.prefrag;

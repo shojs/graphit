@@ -3,9 +3,9 @@
 /*
  * Global variables
  */
-var cGraphit;     /* Our main object */
-var cPo;          /* Traduction */
-var T;            /* proxy to method Cpo.get(str) */
+var cGraphit; /* Our main object */
+var cPo; /* Traduction */
+var T; /* proxy to method Cpo.get(str) */
 var cGraphitAuth; /* Our iframe store authentication information here */
 
 function _ok_to_build() {
@@ -60,8 +60,7 @@ function _ok_to_build() {
 		f.dom_get().attr('title', '[' + f.header('bytes') + '] ' + f.name)
 				.dialog({
 					width : f.cCanvas.get_width(),
-					height : f.cCanvas.get_height(),
-
+					height : f.cCanvas.get_height()
 				});
 	};
 

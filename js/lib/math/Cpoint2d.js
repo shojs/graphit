@@ -16,18 +16,19 @@ function Cpoint2d(pos) {
     	value: pos.x,
     	writable: true,
     	enumerable: true,
-    	configurable: false,
+    	configurable: false
     });
     Object.defineProperty(this, "y", {
     	value: pos.y,
     	writable: true,
     	enumerable: true,
-    	configurable: false, 
+    	configurable: false
     });
 }
 
-
-
+/**
+ * 
+ */
 Cpoint2d.prototype.round = function() {
     this.x = Math.round(this.x);
     this.y = Math.round(this.y);

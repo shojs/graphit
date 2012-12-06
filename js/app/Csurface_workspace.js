@@ -45,7 +45,7 @@ Csurface_workspace.prototype.dom_build = function() {
 				autoOpen : true
 			});
 			return false;
-		},
+		}
 	}).dom_get());
 	navbar.append(new Cicon({ name: 'stock-image', size: 24,
 		width : 32,
@@ -54,7 +54,7 @@ Csurface_workspace.prototype.dom_build = function() {
 		callback_click : function() {
 			that.__save_dialog();
 			return false;
-		},
+		}
 	}).dom_get());
 	/**
 	 * This feature require a proxy and some sort of authentication...
@@ -67,7 +67,7 @@ Csurface_workspace.prototype.dom_build = function() {
 			callback_click : function() {
 				that.__load_dialog();
 				return false;
-			},
+			}
 		}).dom_get());
 	}
 	r.append(navbar);

@@ -1,5 +1,4 @@
 /*******************************************************************************
- * 
  * @param width
  * @param height
  * @returns
@@ -8,20 +7,19 @@ function Csurface(options) {
 	var that = this;
 	options = options || {};
 	options.className = 'Csurface';
-	options.label = 'surface',
-	options.parameters = {
-			zoom : {
-				label : 'zoom',
-				min : -100,
-				max : 100,
-				def : 0,
-				step : 1,
-				autoSave: false,
-				callback_slide: function () {
-					console.log('slidinggggggg', this);
-				}
-			},
-		};
+	options.label = 'surface', options.parameters = {
+		zoom : {
+			label : 'zoom',
+			min : -100,
+			max : 100,
+			def : 0,
+			step : 1,
+			autoSave : false,
+			callback_slide : function() {
+				console.log('slidinggggggg', this);
+			}
+		}
+	};
 	Cobject.call(this, options, [
 			'width', 'height', 'label'
 	]);
@@ -46,11 +44,26 @@ function Csurface(options) {
 	this.cCanvas.clear(new Ccolor(0, 0, 0, 0));
 
 	// Our layer manager
-	this.layer_manager = new Clayer_manager({parent: this});
-	this.layer_manager.add(new Clayer({parent: this.layer_manager, label: E_LAYERLABEL.mouse, width: this.width, height: this.height}));
-	this.layer_manager
-			.add(new Clayer({parent: this.layer_manager, label: E_LAYERLABEL.prefrag, width: this.width, height: this.height}));
-	this.layer_manager.add(new Clayer({parent: this.layer_manager, width: this.width, height: this.height}));
+	this.layer_manager = new Clayer_manager({
+		parent : this
+	});
+	this.layer_manager.add(new Clayer({
+		parent : this.layer_manager,
+		label : E_LAYERLABEL.mouse,
+		width : this.width,
+		height : this.height
+	}));
+	this.layer_manager.add(new Clayer({
+		parent : this.layer_manager,
+		label : E_LAYERLABEL.prefrag,
+		width : this.width,
+		height : this.height
+	}));
+	this.layer_manager.add(new Clayer({
+		parent : this.layer_manager,
+		width : this.width,
+		height : this.height
+	}));
 	this.layer_manager.select(this.layer_manager.layers[0]);
 	this.bind_trigger(this.layer_manager, 'update', function(e, d) {
 		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
@@ -85,7 +98,7 @@ function Csurface(options) {
 		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
 		that.update_grid();
 	});
-	// Surface is waiting surface update to redraw 
+	// Surface is waiting surface update to redraw
 	this.bind_trigger(this, 'update', function(e, d) {
 		that.redraw(1);
 	});
@@ -93,10 +106,10 @@ function Csurface(options) {
 	this.bind_trigger(this, 'show', function(e, d) {
 		if (!d) {
 			widget_factory(that.dom_get(), {
-			width : that.cCanvas.get_width() + 100,
-			//height: that.cCanvas.height + 100,
-			zIndex: 0,
-			stack: true,
+				width : that.cCanvas.get_width() + 100,
+				// height: that.cCanvas.height + 100,
+				zIndex : 0,
+				stack : true
 			}).show();
 		}
 	});
@@ -109,7 +122,6 @@ Csurface.prototype = Object.create(Cobject.prototype);
 Csurface.prototype.constructor = new Cobject();
 
 /**
- * 
  * @param layer
  */
 Csurface.prototype.set_current_layer = function(layer) {
@@ -128,7 +140,6 @@ Csurface.prototype.update_grid = function() {
 	this.send_trigger('update');
 };
 /**
- * 
  * @returns {Csurface}
  */
 Csurface.prototype.dom_build = function() {
@@ -173,7 +184,6 @@ Csurface.prototype.dom_build = function() {
 	return this;
 };
 
-
 /**
  * 
  */
@@ -206,7 +216,7 @@ Csurface.prototype.redraw = function(force, dcanvas) {
 	tctx.save();
 	var zoom = this.get_parameter('zoom');
 	if (zoom != 0) {
-		tctx.translate(canvas.width /2, canvas.height /2);
+		tctx.translate(canvas.width / 2, canvas.height / 2);
 		tctx.scale(zoom, zoom);
 	}
 	tctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -260,6 +270,7 @@ Csurface.prototype.clear = function() {
 
 /**
  * Returning width
+ * 
  * @return {width] Ccanvas width
  */
 Csurface.prototype.get_width = function() {
@@ -268,6 +279,7 @@ Csurface.prototype.get_width = function() {
 
 /**
  * Returning height
+ * 
  * @returns {height} Ccanvas height
  */
 Csurface.prototype.get_height = function() {
@@ -275,7 +287,6 @@ Csurface.prototype.get_height = function() {
 };
 
 /**
- * 
  * @param e
  * @param obj
  * @returns {Boolean}
@@ -291,7 +302,6 @@ Csurface.prototype.callback_mousedown = function(e, obj) {
 };
 
 /**
- * 
  * @param e
  * @param obj
  * @returns {Boolean}
@@ -309,7 +319,6 @@ Csurface.prototype.callback_mouseup = function(e, obj) {
 };
 
 /**
- * 
  * @param e
  * @param obj
  */
@@ -329,19 +338,17 @@ Csurface.prototype.attach_graphit = function(cGraphit) {
 	this.cGraphit = cGraphit;
 };
 
-
 /**
- * 
  * @returns {___anonymous5807_5851}
  */
 Csurface.prototype.save_as_json = function() {
-	//    var data = {
-	//	label : this.label,
-	//	layers : [],
-	//    };
-	//    for ( var i = 0; i < this.layer_manager.layers.length; i++) {
-	//	data.layers.push(this.layer_manager.layers[i].to_json());
-	//    }
+	// var data = {
+	// label : this.label,
+	// layers : [],
+	// };
+	// for ( var i = 0; i < this.layer_manager.layers.length; i++) {
+	// data.layers.push(this.layer_manager.layers[i].to_json());
+	// }
 	var w = window.open(this.cCanvas.data.toDataURL());
 	return data;
 };

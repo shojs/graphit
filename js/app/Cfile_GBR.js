@@ -151,7 +151,7 @@ Cfile_GBR.prototype.init = function(response) {
 			height : 3,
 			bytes : 4,
 			magic_number : 5,
-			spacing : 6,
+			spacing : 6
 		};
 };
 /**
@@ -235,7 +235,7 @@ Cfile_GBR.prototype.parse_response = function(response) {
 	 */
 	var canvas = new Ccanvas({
 		width : this.headers[FH.width].value,
-		height : this.headers[FH.height].value,
+		height : this.headers[FH.height].value
 	});
 	/*
 	 * Clearing canvas with transparent black 

@@ -131,7 +131,7 @@ Cgrapher.prototype.stop = function() {
 	}
 	var cMessage = new Cgraphit_message({
 		cSurface : cs,
-		cMouse: cs.cMouse,
+		cMouse: cs.cMouse
 	});
 	if (!cTool.post_graph(cMessage, x, y, width, height, 0, 0, width, height)) {
 		cLayer.drawImage(cPrefrag.cCanvas.data, x, y, width, height, 0, 0);
@@ -179,7 +179,7 @@ Cgrapher.prototype.start = function() {
 		fgColor : parent.cToolbox.fg_color,
 		bgColor : parent.cToolbox.bg_color,
 		cGrapher : this,
-		index : this.index,
+		index : this.index
 	});
 	cMessage.cTool.pre_graph(cMessage);
 	this.timer = window.setInterval(function() {

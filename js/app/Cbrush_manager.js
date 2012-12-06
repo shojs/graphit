@@ -37,7 +37,7 @@ Cbrush_manager.prototype.init = function(options, permitted) {
 		parent : this,
 		type : Ebrush_type.js,
 		name : 'scircle',
-		data : CTOOL_brushes.scircle,
+		data : CTOOL_brushes.scircle
 	}));
 };
 

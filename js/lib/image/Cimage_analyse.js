@@ -94,23 +94,18 @@ Cimage_analyse.prototype.adjacent_by_color = function(imgData, spixel) {
 	var totalSame = 0;
 	var totalChecked = 0;
 	var scolor = new Ccolor().from_pixel(imgData, spixel);
-	//console.log('Start COLOR', scolor.to_s());
 	while (check.length > 0) {
 		var cpoint = check.pop();
 		totalChecked++;
 		this.select_adjacent_pixel(imgData, cpoint, pool, function(apixel) {
-			//console.log(apixel);
 			if (same_color(imgData, scolor, apixel)) {
-				//console.log('same color');
 				totalSame++;
 				pool[apixel.index] = 1;
 				check.push(apixel);
 			} else {
-				//console.log('not same color');
 				pool[apixel.index] = 0;
 			}
 		});
 	}
-	//console.log('total', totalChecked, 'totalSame', totalSame, pool);
 	return pool;
 };

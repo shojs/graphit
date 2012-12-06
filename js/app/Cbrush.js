@@ -5,7 +5,7 @@
 
 var Ebrush_type = new Cenum({
 		js: 1,
-		gbr: 2,
+		gbr: 2
 });
 
 function Cbrush(options) {
