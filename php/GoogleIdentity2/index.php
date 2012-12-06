@@ -24,7 +24,7 @@ if ($state != 'callback' && $GI->getEmail()) {
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/googleapis/0.0.4/googleapis.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/jsapi"></script>
-<script type="text/javascript" src="//www.accountchooser.com/client.js"></script>
+<script type="text/javascript" src="https://www.accountchooser.com/client.js"></script>
 <script type="text/javascript" src="/js/app/CgraphitAuth.js"></script>
 <script type="text/javascript">
 google.load("identitytoolkit", "2", {
