@@ -107,6 +107,7 @@ Csurface_workspace.prototype.__save_dialog = function() {
 	g.append('<h3>' + T('right_click_to_save') + '<h3/>');
 	var img = new $('<img />');
 	img.attr('src', canvas.data.toDataURL());
+	
 	img.attr('width', 200);
 	img.attr('title', "graphit-image");
 	img.attr('alt', "graphit-image");

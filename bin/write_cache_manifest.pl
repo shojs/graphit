@@ -34,14 +34,13 @@ sub want_js {
 chdir '..';
 wm(\$manifest, 'CACHE MANIFEST');
 wm(\$manifest, "");
-wm(\$manifest, 'CACHE');
+wm(\$manifest, 'CACHE:');
+wm(\$manifest, 'NETWORK:');
 find(\&want_images, qw|images js/plugin|);
 find(\&want_css, qw|js/plugin|);
 find(\&want_js, qw|js/plugin|);
 wm(\$manifest, "");
-wm(\$manifest, 'NETWORK');
+#wm(\$manifest, 'NETWORK:');
 find(\&want_js, qw|js/lib js/app|);
 find(\&want_css, qw|css|);
-
-
 print $manifest;

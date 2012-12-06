@@ -1,6 +1,7 @@
 CACHE MANIFEST
 
-CACHE
+CACHE:
+NETWORK:
 images/16x16_create_file.png
 images/16x16_down.png
 images/16x16_eye.png
@@ -1024,7 +1025,6 @@ js/plugin/FeedEk/FeedEk.js
 js/plugin/jpicker/jpicker-1.1.6.js
 js/plugin/jpicker/jpicker-1.1.6.min.js
 
-NETWORK
 js/lib/Cbinary_file.js
 js/lib/Cbounding_rectangle.js
 js/lib/Ccanvas.js
@@ -1085,4 +1085,3 @@ js/app/tools/Ctool_paintbrush.js
 js/app/tools/Ctool_pencil.js
 css/menu.css
 css/style.css
-
