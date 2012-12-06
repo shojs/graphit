@@ -27,7 +27,7 @@ if ($state != 'callback' && $GI->getEmail()) {
 <script type="text/javascript" src="//www.accountchooser.com/client.js"></script>
 <script type="text/javascript" src="/js/app/CgraphitAuth.js"></script>
 <script type="text/javascript">
-google.load("identitytoolkit", "1.1", {
+google.load("identitytoolkit", "2", {
 	packages: ["ac"],
 	language:"en"
 });
@@ -45,6 +45,9 @@ $(function() {
 		homeUrl: "",
 		logoutUrl: "logout.php",
 		idps: ["Gmail", "Yahoo"],
+        idpConfig: {
+          scopes: ['https://www.googleapis.com/auth/drive']
+        },
 		tryFederatedFirst: true,
 		useContextParam: true,
 		useCachedUserStatus: true,
@@ -52,6 +55,7 @@ $(function() {
 	});
 	$('#navbar').accountChooser({
 		acMenu:true});
+	 window.google.identitytoolkit.init();
    var conf = null;
    if (window.parent && "cGraphitAuth" in window.parent) {
      conf = window.parent.cGraphitAuth;
@@ -101,7 +105,7 @@ $(function() {
   	 	<head>
   	 	<script type='text/javascript' src='https://ajax.googleapis.com/jsapi'></script>
   	 	<script type='text/javascript'>
-  	 		google.load("identitytoolkit", "1.1", { packages: ["notify"] } );
+  	 		google.load("identitytoolkit", "2", { packages: ["notify"] } );
   	 	</script>
   	 	</head>
   	 	<body>
@@ -120,7 +124,7 @@ END;
 	 	<head>
 	 	<script type='text/javascript' src='https://ajax.googleapis.com/jsapi'></script>
 	 	<script type='text/javascript'>
-	 		google.load("identitytoolkit", "1.1", { packages: ["notify"] } );
+	 		google.load("identitytoolkit", "2", { packages: ["notify"] } );
 	 	</script>
 	 	</head>
 	 	<body>
