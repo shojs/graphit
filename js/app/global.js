@@ -9,6 +9,6 @@ var SHOJS_DEBUG = 1;
 /**
  * Disable/Enable authentication feature (see /php/GoogleIdentity.conf)
  */
-var SHOJS_AUTH = true;
+var SHOJS_AUTH = false;
 
 

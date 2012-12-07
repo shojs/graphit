@@ -1,23 +1,22 @@
 <?php
 require_once('GoogleIdentity.php');
-require_once('conf.php');
+//require_once('conf.php');
 
-$state = isset($_GET['state']) ? $_GET['state'] : 'start';
-$GICONF = new GoogleIdentityConf();
+//$GICONF = new GoogleIdentityConf();
 $GI = new GoogleIdentity();
-
 $GI->start_session();
-
+$GICONF = GoogleIdentity::$conf;
+$state = $GI->target || 'start';
 $context = null;
 $target = null;
 $email = $GI->getEmail();
-if ($context = $GI->getContext()) {
-	$target = $context['rp_target'];
-}
-if ($state != 'callback' && $GI->getEmail()) {
+
+if ( $GI->getEmail()) {
 	$state = 'logged';
 }
+error_log('STATE ' . $state);
 ?>
+
  <?php if ($state == 'start' || $state == 'logged') : ?>
 <html>
 <head>
@@ -26,7 +25,13 @@ if ($state != 'callback' && $GI->getEmail()) {
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/googleapis/0.0.4/googleapis.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/jsapi"></script>
 <script type="text/javascript" src="https://www.accountchooser.com/client.js"></script>
-<script type="text/javascript" src="/js/app/CgraphitAuth.js"></script>
+<script type="text/javascript" src="../../js/lib/fix.js"></script>
+<script type="text/javascript" src="../../js/app/global.js"></script>
+<script type="text/javascript" src="../../js/lib/func.js"></script>
+<script type="text/javascript" src="../../js/lib/Cuid.js"></script>
+<script type="text/javascript" src="../../js/lib/Cexception.js"></script>
+<script type="text/javascript" src="../../js/lib/Cobject.js"></script>
+<script type="text/javascript" src="../../js/app/CgraphitAuth.js"></script>
 <script type="text/javascript">
 google.load("identitytoolkit", "2", {
 	packages: ["ac"],
@@ -41,7 +46,7 @@ $(function() {
 		callbackUrl: "<?php echo $GICONF->get('callbackUrl'); ?>",
 		realm: "",
 		userStatusUrl: "",
-		loginUrl: "/php/GoogleIdentity2/login.php",
+		loginUrl: "login.php",
 		signupUrl: "",
 		homeUrl: "",
 		logoutUrl: "logout.php",
@@ -50,24 +55,20 @@ $(function() {
           //scopes: ['https://www.googleapis.com/auth/drive']
         },
 		tryFederatedFirst: true,
-		useContextParam: true,
+		//useContextParam: true,
 		useCachedUserStatus: true,
 	});
-	$('#navbar').accountChooser({
-		acMenu:true});
-	 window.google.identitytoolkit.init();
-   var conf = null;
-   if (window.parent && "cGraphitAuth" in window.parent) {
-     conf = window.parent.cGraphitAuth;
-     console.log("Com with parent ok");
-   } else {
-    console.log(window.parent);
-     console.error('Cannot communicate wiht parent frame', window, window.parent);
-     conf = new CgraphitAuth();
-   }
+	//$('#navbar').accountChooser({
+		//acMenu:true});
+<?php if ($state == 'start'): ?>
+ console.log('init google toolkit');
+   window.google.identitytoolkit.init();
+<?php endif; ?>
+   var conf = window.cGraphit.auth;
 	<?php
 	/* Feed our Javascript Object */
 	if ($GI->getEmail()) {
+		error_log('feed our pet');
 		foreach ($_SESSION as $key => $value) {
 			echo 'conf.set("' . $key . '", "' . $value . '");' . "\n";
 		}
@@ -81,13 +82,15 @@ $(function() {
       legacy: conf.get("legacy"),
       photoUrl: conf.get("photoUrl")
   };
-  console.log(userData);
+  console.log('userData',userData);
   // #TODO: DANGEROUS *
   //window.parent.postMessage(userData, '*');
 
   window.google.identitytoolkit.updateSavedAccount(userData);
+  console.log(window.google.identitytoolkit);
   window.google.identitytoolkit.showSavedAccount(userData.email);
-<?php endif; ?>
+  conf.send_trigger('identity_set', userData);
+ <?php endif; ?>
 });
 </script>
 </head>
@@ -110,6 +113,7 @@ $(function() {
   	 	</head>
   	 	<body>
   	 	<script type='text/javascript'>
+  	 	console.log('notify....');
   	 		window.google.identitytoolkit.notifyFederatedError();
   	 		window.parent.cGraphitAuth.reset();
   	 	</script>
@@ -119,6 +123,7 @@ END;
 	} else {
 		$email = $result['verifiedEmail'];
 		$displayName = $result['displayName'];
+		error_log('plop');
 		echo <<<END
 	 	<html>
 	 	<head>

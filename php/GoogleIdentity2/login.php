@@ -15,6 +15,7 @@
 <body>
 <script type="text/javascript">
   $(function() {
+   console.warn('LOGIN');
     window.google.identitytoolkit.setConfig({
         developerKey: '<?php echo GoogleIdentityConf::get('developerKey'); ?>',
         companyName: '<?php echo GoogleIdentityConf::get('companyName'); ?>',
@@ -23,7 +24,7 @@
         userStatusUrl: "",
         loginUrl: "login.php",
         signupUrl: "",
-        homeUrl: "",
+        homeUrl: "/?rp_target=home",
         logoutUrl: "logout.php",
         idps: ["Gmail", "Yahoo"],
         tryFederatedFirst: true,

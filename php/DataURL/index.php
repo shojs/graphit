@@ -1,6 +1,6 @@
 <?php
 require_once('../Exception/JSON.php');
-require_once('../GoogleIdentity/GoogleIdentity.php');
+require_once('../GoogleIdentity2/GoogleIdentity.php');
 
 $GICONF = new GoogleIdentityConf();
 $GI = new GoogleIdentity();

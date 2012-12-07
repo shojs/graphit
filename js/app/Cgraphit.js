@@ -16,7 +16,7 @@ function Cgraphit(options) {
 		'widgets'
 	]);
 	this.dialog_options = {
-			position: 'right top'
+		position : 'right top'
 	};
 	/* Building our dom so surface create can append new element */
 	this.dom_get();
@@ -38,7 +38,7 @@ Cgraphit.prototype.constructor = new Cobject();
 Cgraphit.prototype.init = function(options) {
 	var that = this;
 	this.bind_trigger(this, 'create_surface', function(e, options) {
-		//console.log('Creating surface', options);
+		// console.log('Creating surface', options);
 		that.surface_create(options);
 	});
 	/* Update trigger binding */
@@ -52,8 +52,8 @@ Cgraphit.prototype.init = function(options) {
 	});
 	this.wJquerytheme = new Cjquery_theme();
 	this.wAbout = new Clicense();
-	/* 
-	 * Menu 
+	/*
+	 * Menu
 	 */
 	this.cMenu = new Cmenu({
 		parent : null,
@@ -79,17 +79,25 @@ Cgraphit.prototype.init = function(options) {
 					toolbox : {
 						label : T('menu_toolbox'),
 						callback_click : function() {
-							that.send_trigger('display_widget',
-									that.cToolbox);
+							that.send_trigger('display_widget', that.cToolbox);
 						}
 					}
 				}
 			},
-			/* login  */
+			/* login */
 			edition : {
 				label : T('menu_login'),
 				callback_click : function() {
-					window.open("php/GoogleIdentity2/", 'graphit-oauth', 'width=600,height=600');
+					var w = window.open("php/GoogleIdentity2/",
+							'graphit-oauth', 'width=600,height=600');
+					w.onload = function() {
+						that.bind_trigger(w.cGraphit.auth, 'identity_set',
+								function() {
+									console
+											.log('opened window set identity',
+													w);
+								});
+					}
 				}
 			},
 			/* Help */
@@ -99,7 +107,8 @@ Cgraphit.prototype.init = function(options) {
 					theme : {
 						label : T('menu_theme'),
 						callback_click : function() {
-							that.send_trigger('display_widget', that.wJquerytheme);
+							that.send_trigger('display_widget',
+									that.wJquerytheme);
 						}
 					},
 					about : {
@@ -309,13 +318,14 @@ Cgraphit.prototype.dom_build_add_surface = function(cSurface_workspace) {
 			resize : true
 		});
 	});
-	s.click(function() {
+	s
+			.click(function() {
 				cSurface.send_trigger('surface_selected', cSurface);
 				cEach(that.surfaces, function(i, cWorkspace) {
-					//console.log(e, cSurface);
+					// console.log(e, cSurface);
 					if (cWorkspace.cSurface == cSurface) {
-						cWorkspace.rootElm.parent().dialog(
-								'open').dialog('moveToTop');
+						cWorkspace.rootElm.parent().dialog('open').dialog(
+								'moveToTop');
 
 					} else {
 						// e.rootElm.parent().find('.surface').parent().dialog('close');
@@ -340,7 +350,7 @@ Cgraphit.prototype.dom_build = function() {
 	var g = $('<div class="group group-menu" />');
 	// widget_factory(this.cMenu.dom_get(), {});
 	g.append(this.cMenu.dom_get());
-	//$('body').prepend(g);
+	// $('body').prepend(g);
 	r.append(g);
 	g = $('<div class="group group-graphit-surfaces"/>');
 	cEach(this.surfaces, function(i, elm) {
@@ -358,8 +368,7 @@ Cgraphit.prototype.dom_build = function() {
 	badge.append(''
 			+ '<a href="#http://jigsaw.w3.org/css-validator/check/referer">'
 			+ '<img style="border:0;width:44px;height:16px"'
-			+ '    src="images/w3-vcss.gif"'
-			+ '    alt="Valid CSS!" \/></a>');
+			+ '    src="images/w3-vcss.gif"' + '    alt="Valid CSS!" \/></a>');
 	badge
 			.append('<a href="#http://www.w3.org/html/logo">'
 					+ '<img src="images/HTML5_Logo_32.png" width="32" height="32" alt="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration" title="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration">'

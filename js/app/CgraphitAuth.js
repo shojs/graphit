@@ -8,12 +8,12 @@ function CgraphitAuth(options) {
     options.label = "CgraphitAuth";
     options.disable = (options.disable != undefined)? options.disable: false;
     this.__init_singleton(options);
-//    Cobject.call(this, options, []);
+    Cobject.call(this, options, []);
 }
 
 /* Inheritance */
-//CgraphitAuth.prototype = Object.create(Cobject.prototype);
-//CgraphitAuth.prototype.constructor = new Cobject();
+CgraphitAuth.prototype = Object.create(Cobject.prototype);
+CgraphitAuth.prototype.constructor = new Cobject();
 
 
 /**
@@ -93,3 +93,6 @@ CgraphitAuth.prototype.dom_build = function() {
 	this.rootElm = r;
 	return this;
 };
+
+if (!('cGraphit'in window)) { window.cGraphit = {}; };
+window.cGraphit.auth = new CgraphitAuth();
