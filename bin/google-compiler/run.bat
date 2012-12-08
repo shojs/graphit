@@ -1,0 +1,1 @@
+java -jar closure-compiler.jar --js ../../shojs-graphit-0.0.1-min.js --js_output_file ../../compiled-shojs-graphit-0.0.1-min.js --compilation_level ADVANCED_OPTIMIZATIONS
