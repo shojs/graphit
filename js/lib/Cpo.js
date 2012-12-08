@@ -13,6 +13,7 @@ function Cpo(options) {
 				menu_help: 'Help',
 				menu_edition: 'Edition',
 				menu_login: 'Login',
+				menu_logout: 'Logout',
 				foreground_color: 'Foreground color',
 				background_color: 'Background color',
 				layers: 'Layers',

@@ -10,6 +10,7 @@ var T; /* proxy to method Cpo.get(str) */
 
 function _ok_to_build() {
 	var graphit = window.graphit;
+	//graphit.storage.remove('chooserAccounts');
 //	graphit.worker = {};
 //	for ( var i = 0; i < 5; i++) {
 //		var worker_image = new Worker('js/app/webworker/Cwebworker_image.js');
@@ -20,6 +21,11 @@ function _ok_to_build() {
 //			action : 'start'
 //		});
 //	}
+//	window.graphit.auth.bind_trigger(window.graphit.auth, 'update', function(e, d) {
+//		console.log('update', e, d, this)
+//		window.graphit.auth.update();
+//		
+//	}); 
 	console.log("Language", getLanguage());
 	//	/* Authentication */
 	//	cGraphitAuth = new CgraphitAuth({

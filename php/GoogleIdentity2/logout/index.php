@@ -10,5 +10,5 @@
 	}
 	session_unset();
 	session_destroy();
-	header('Location: /php/GoogleIdentity2/index.php');
+	header('Location: /php/GoogleIdentity2/close/');
 ?>

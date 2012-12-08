@@ -2,6 +2,31 @@
 require_once('conf.php');
 require_once('EasyRpService.php');
 
+Class GoogleIdentityMessage {
+	private $msg = null;
+	private $action = null;
+	private $code = null;
+	private $data = null;
+	
+	function __construct($action, $msg, $code = 0, $data = NULL) {
+		$this->msg = $msg;
+		$this->action = $action;
+		$this->code = $code;
+		$this->data = $data;
+		return $this;
+	}
+	
+	public function to_json() {
+		return json_encode(array(
+			msg => $this->msg,
+			action => $this->action,
+			code =>  $this->code,
+			data => $this->data
+		));	
+		return $this;
+	}
+}
+
 class GoogleIdentity {
 	/* Result from our IDP */
 	private static $result = null;
@@ -12,6 +37,7 @@ class GoogleIdentity {
 	/* parameter from idp */
 	public $target = null;
 	public $purpose = null;
+	public $auth_conf_keys = array('displayName', 'verifiedEmail', 'photoUrl');
 
 	function __construct() {
 		if (isset($_REQUEST['rp_target']))
@@ -136,6 +162,21 @@ class GoogleIdentity {
 			$str .= $this->_js_one_script($data[$i]);
 		}
 		return $str;
+	}
+	public function js_fill_conf() {
+		$str = '';
+		foreach($this->auth_conf_keys as $k) {
+			$str.= 'conf.set("'.$k.'","'. $v . '")';
+		}
+		return $str;
+	}
+	
+	public function to_json() {
+		$data;
+		foreach($this->auth_conf_keys as $k) {
+			$data[$k] = $_SESSION[$k];
+		}
+		return json_encode($data);
 	}
 }
 

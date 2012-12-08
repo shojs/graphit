@@ -3,7 +3,8 @@
  * 21:21:38 / 2 d�c. 2012 [graphit - nosferat.us] sho 
  */
 function CgraphitAuth(options) {
-    options = options || {};
+    var that = this;
+	options = options || {};
     options.className = "CgraphitAuth";
     options.label = "CgraphitAuth";
     options.disable = (options.disable != undefined)? options.disable: false;
@@ -17,6 +18,9 @@ function CgraphitAuth(options) {
     if (this.hasValidAccount()) {
     	//#TODO: Checing valid account or erase it from cache
     }
+    this.bind_trigger(this, 'update', function(e) {
+    	that.update();
+    });
 }
 
 /* Inheritance */
@@ -121,8 +125,9 @@ CgraphitAuth.prototype.dom_get = function(force) {
 /**
  *@private
  */
-CgraphitAuth.prototype.__replace_accounts = function(dumbopt) {
-	var elm = this.rootElm.empty();
+CgraphitAuth.prototype.__replace_accounts = function() {
+	var that = this;
+	var elm = this.rootElm.children('.group-graphit-authentication').empty();
 	var accounts = this.hasValidAccount();
 	cEach(accounts, function(i, data) {
 		var g = $('<div />');
@@ -133,21 +138,79 @@ CgraphitAuth.prototype.__replace_accounts = function(dumbopt) {
 		g.append(img);
 		g.append('<b class="displayName">' + data.displayName + '</b>');
 		g.append('<b class="email">' + data.email);
+		that.ajax_is_logged({email: data.email, callback_error: function() {
+			console.warn('removing email', data.email);
+			
+		}})
 		elm.append(g);
 	});
+	if (accounts && accounts.length > 0) {
+		var logout = $('<div class="logout" />');
+		var b = $('<button />');
+		b.append(T('menu_logout')),
+		b.button({
+
+		});
+		b.click(function() {
+			window.graphit.storage.remove('chooserAccounts');
+			deleteAllCookies();
+			window.open('php/GoogleIdentity2/logout/index.php', 'graphit_auth');
+			that.send_trigger('update');
+		});
+		logout.append(b);
+		elm.append(logout);
+	}
+};
+
+/**
+ *
+ */
+CgraphitAuth.prototype.update = function() {
+	this.__replace_accounts();
 };
 
 /**
  *
  */
 CgraphitAuth.prototype.dom_build = function() {
+	var that = this;
 	var graphit = window.graphit;
-	var r = $('<div title="Graphit Authentication" />');
+	var rr = $('<div title="Graphit Authentication"/>');
+	var r = $('<div  />');
 	r.addClass('group group-graphit-authentication');
-	this.rootElm = r;
+	rr.append(r);
+
+	this.rootElm = rr;
 	this.__replace_accounts();
 	return this;
 };
+
+/**
+ *
+ */
+CgraphitAuth.prototype.ajax_is_logged = function(opt) {
+	var that = this;
+	var request = $.ajax({
+		  type: "POST",
+		  url: "php/GoogleIdentity2/logged/",
+		  data: { email:  opt.email}
+	});
+	if ('callback_succces' in opt) {
+		request.done(function(msg) {
+			opt.callback_succes.call(that, msg);
+		});
+	} else if ('callback_error' in opt) {
+		request.done(function(jqXHR, textStatus) {
+			opt.callback_error.call(that, jqXHR, textStatus);
+		});
+	}  
+	
+		request.done(function( msg ) {
+			callback_success.call(that, msg);
+		});
+};
+
 if (window.graphit.authEnable) {
 	window.graphit.auth = new CgraphitAuth();
 }
+

@@ -39,7 +39,7 @@ $(function() {
   realm: "",
   userStatusUrl: "",
   loginUrl: "login.php",
-  signupUrl: "",
+  signupUrl: "https://accounts.google.com/SignUp",
   homeUrl: "",
   logoutUrl: "logout.php",
   idps: ["Gmail", "Yahoo"],
@@ -52,14 +52,12 @@ $(function() {
  });
  console.log('init google toolkit');
    window.google.identitytoolkit.init();
-   var conf = window.cGraphit.auth;
+   var conf = window.graphit.auth;
 <?php
 	/* Feed our Javascript Object */
 	if ($GI->getEmail()) {
 		error_log('feed our pet');
-		foreach ($_SESSION as $key => $value) {
-			echo 'conf.set("' . $key . '", "' . $value . '");' . "\n";
-		}
+		echo $GI->js_fill_conf();
 	}
 ?>
   var userData = {};
@@ -72,15 +70,10 @@ $(function() {
   };
 <?php endif; ?>
  console.log('userData',userData);
-  // #TODO: DANGEROUS *
-  //window.parent.postMessage(userData, '*');
-
-  window.google.identitytoolkit.updateSavedAccount(userData);
-  //console.log(window.google.identitytoolkit);
-  //window.google.identitytoolkit.showSavedAccount(userData.email);
-  if (conf.is_logged()) {
-   console.log('LOGGED', window);//window.google.identitytoolkit.showSavedAccount(userData.email);
-  }
+ window.google.identitytoolkit.updateSavedAccount(userData);
+ var o = window.opener;
+ o.graphit.auth.send_trigger('update');
+ 
 });
 </script>
 </head>

@@ -55,8 +55,9 @@ if ($GI->getEmail()) {
   <?php endif; ?>
   var o = window.opener;
   o.google.identitytoolkit.updateSavedAccount(userData);
-  o.graphit.auth.copy(window.graphit.auth);
-  o.graphit.core.send_trigger('display_widget', o.graphit.core.wLogin);
+  o.graphit.auth.send_trigger('update');
+  //o.graphit.auth.copy(window.graphit.auth);
+  //o.graphit.core.send_trigger('display_widget', o.graphit.core.wLogin);
   window.close();
   </script>
 </head>

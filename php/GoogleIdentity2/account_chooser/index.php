@@ -7,11 +7,8 @@
 <!doctype html>
 <html>
 <head>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/googleapis/0.0.4/googleapis.min.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/jsapi"></script>
-<script type="text/javascript" src="//www.accountchooser.com/client.js"></script>
+<?php echo $GI->echo_js_libs('../../../'); ?>
+
 <script type="text/javascript">
   google.load("identitytoolkit", "2", {packages: ["ac",]});
  <?php if (0 &&$GI->getEmail()): ?>
@@ -47,7 +44,7 @@
   });
   console.log('init google toolkit');
     window.google.identitytoolkit.init();
-    var conf = window.cGraphit.auth;
+    var conf = window.graphit.auth;
  <?php
   /* Feed our Javascript Object */
   if ($GI->getEmail()) {
@@ -67,15 +64,8 @@
    };
  <?php endif; ?>
   console.log('userData',userData);
-   // #TODO: DANGEROUS *
-   //window.parent.postMessage(userData, '*');
-
    window.google.identitytoolkit.updateSavedAccount(userData);
-   //console.log(window.google.identitytoolkit);
-   //window.google.identitytoolkit.showSavedAccount(userData.email);
-   if (conf.is_logged()) {
-    console.log('LOGGED', window);//window.google.identitytoolkit.showSavedAccount(userData.email);
-   }
+
  });
  </script>
 

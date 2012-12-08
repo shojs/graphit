@@ -121,6 +121,15 @@ body {
 .group-graphit-authentication {
 	text-align: left;
 }
+
+.group-graphit-authentication .logout {
+    text-align: center;
+    display: block;
+    width: 100px;
+    heigth: 20px;
+}
+
+
 .group-graphit-authentication .photoUrl { 
 	display: inline;
     width: 16px;
