@@ -15,6 +15,7 @@ Cicon.prototype.constructor = new Cimage();
 
 
 Cicon.prototype._build_src_path = function(options) {
+	var baseUrl = window.graphit.baseStaticContent;
 	if (!options.name) this.exception('mandatory_parameter_missing', 'name');
-	return 'images/' + options.type +  options.path  + options.name + '-' + options.size + '.' + options.format;
+	return baseUrl + '/images/' + options.type +  options.path  + options.name + '-' + options.size + '.' + options.format;
 };

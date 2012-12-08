@@ -9,7 +9,7 @@ var SHOJS_DEBUG = 1;
 /**
  * Disable/Enable authentication feature (see /php/GoogleIdentity.conf)
  */
-var SHOJS_AUTH = true;
+var SHOJS_AUTH = false;
 
 
 /* Define our namespace */
@@ -18,5 +18,6 @@ if ('graphit' in window) {
 }
 window.graphit = {
 		debug: 1,
-		authEnable: true, 
+		authEnable: false,
+		baseStaticContent: 'http://shojs.github.com/graphit-static'
 };

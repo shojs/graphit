@@ -1,7 +1,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	background-image: url(../images/grid50.png);
+	background-image: url(http://shojs.github.com/graphit-static/images/grid50.png);
 	-moz-user-select: none;
 	-khtml-user-select: none;
 	-webkit-user-select: none;
@@ -89,7 +89,7 @@ body {
 
 .surface canvas {
 	margin: auto auto;
-	background-image: url(../images/grid-40x40.png);
+	background-image: url(http://shojs.github.com/graphit-static/images/grid-40x40.png);
 }
 
 .group {
@@ -240,34 +240,46 @@ ul.group-layers  {
 }
 
 .layer {
+	margin: 0;
+	padding: 0;
 	border-style: solid;
 	border-width: 1px 0px 0px 0px;
 	border-color: white;
+	max-height: 100px;	
 }
 
-.layer .ui-tabs-panel,.ui-tabs,.ui-tabs-nav {
+.layer > div {
+	margin: 0;
 	padding: 0;
+}
+
+.layer .ui-tabs-panel {
+    padding: 0;
+    margin: 0;
+}
+.layer > .ui-tabs-panel,.ui-tabs,.ui-tabs-nav {
+	padding: 0;
+	margin: 0;
 }
 
 .layer .ui-tabs-nav li a {
 	padding: 0;
 	font-size: x-small;
 }
-
+.layer > .ui-tabs .ui-tabs-panel {
+	padding: 0 1em;
+}
 .layer td.label {
 	width: 50px;
 }
 .layer .label {
-	font-size: x-small;
+	font-size: xx-small;
 	width: 50px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
 }
 
-.layer  canvas {
+.layer canvas {
 	width: 50px;
-	background-image: url(../img/grid-10x10.png);
+	background-image: url(http://shojs.github.com/graphit-static/images/grid-10x10.png);
 }
 
 .group-layers {
@@ -434,7 +446,7 @@ li {
 }
 
 .button .selected {
-	background-image: url(../img/32x32_tool_background.png);
+	background-image: url(http://shojs.gitub.com/graphit-static/img/32x32_tool_background.png);
 }
 
 /* .menu {

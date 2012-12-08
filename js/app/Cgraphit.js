@@ -368,14 +368,15 @@ Cgraphit.prototype.dom_build = function() {
 		g.append(s);
 	});
 	r.append(g);
+	var base = window.graphit.baseStaticContent + '/';
 	var badge = $('<div class="group group-badge">');
 	badge.append(''
 			+ '<a href="#http://jigsaw.w3.org/css-validator/check/referer">'
 			+ '<img style="border:0;width:44px;height:16px"'
-			+ '    src="images/w3-vcss.gif"' + '    alt="Valid CSS!" \/></a>');
+			+ '    src="'+base+'images/w3-vcss.gif"' + '    alt="Valid CSS!" \/></a>');
 	badge
 			.append('<a href="#http://www.w3.org/html/logo">'
-					+ '<img src="images/HTML5_Logo_32.png" width="32" height="32" alt="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration" title="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration">'
+					+ '<img src="'+base+'images/HTML5_Logo_32.png" width="32" height="32" alt="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration" title="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration">'
 					+ '</a>');
 	r.append(badge);
 	this.rootElm = r;

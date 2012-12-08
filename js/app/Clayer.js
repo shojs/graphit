@@ -196,8 +196,8 @@ Clayer.prototype.dom_build = function() {
 	$td.append($c);
 	$tr.append($td);
 	$td = $(document.createElement('td'));
-	var b_up = new Cimage({
-		src : 'images/16x16_up.png',
+	var baseUrl = window.graphit.baseStaticContent + '/';
+	var b_up = new Cicon({ name: 'stock-gravity-north', size: 24,
 		width : 16,
 		height : 16,
 		callback_click : function(obj) {
@@ -205,8 +205,7 @@ Clayer.prototype.dom_build = function() {
 		}
 	});
 	$td.append(b_up.dom_get());
-	var b_down = new Cimage({
-		src : 'images/16x16_down.png',
+	var b_down = new Cicon({ name: 'stock-gravity-south', size: 24,
 		width : 16,
 		height : 16,
 		callback_click : function(obj) {
@@ -215,7 +214,7 @@ Clayer.prototype.dom_build = function() {
 	});
 	$td.append(b_down.dom_get());
 	var b_trash = new Cimage({
-		src : 'images/16x16_trash.png',
+		src : baseUrl + 'images/16x16_trash.png',
 		width : 16,
 		height : 16,
 		callback_click : function(obj) {
