@@ -45,11 +45,12 @@ function _ok_to_build() {
 		width : 300,
 		position : 'left top'
 	});
-	widget_factory(graphit.auth.dom_get(), {
-		width : 200,
-		position : 'left bottom'
-	});
-
+	if ('auth' in graphit) {
+		widget_factory(graphit.auth.dom_get(), {
+			width : 200,
+			position : 'left bottom'
+		});
+	}
 	/* Prevent right click */
 	$(function() {
 		$(this).bind("contextmenu", function(e) {
