@@ -7,8 +7,12 @@ function CgraphitAuth(options) {
     options.className = "CgraphitAuth";
     options.label = "CgraphitAuth";
     options.disable = (options.disable != undefined)? options.disable: false;
+    options.dialog_options = options.dialog_options || {
+    		modal: false,
+    		width: 600
+    };
     this.__init_singleton(options);
-    Cobject.call(this, options, []);
+    Cobject.call(this, options, ['dialog_options']);
 }
 
 /* Inheritance */
@@ -27,6 +31,30 @@ CgraphitAuth.prototype.__init_singleton = function(options) {
     if (!('__disable' in CgraphitAuth)) {
     	CgraphitAuth.__disable = options.disable;
     }
+};
+
+/**
+ *
+ */
+CgraphitAuth.prototype.copy = function(cAuth) {
+	for(key in cAuth.get_data()) {
+		console.log('Copy', key);
+		this.set(key, cAuth.get(key));
+	}
+};
+
+/**
+ *
+ */
+CgraphitAuth.prototype.get_data = function() {
+	return CgraphitAuth.__data;
+};
+
+/**
+ *
+ */
+CgraphitAuth.prototype.is_logged = function() {
+	return this.get('verifiedEmail');
 };
 
 /**
@@ -81,18 +109,20 @@ CgraphitAuth.prototype.dom_get = function(force) {
  *
  */
 CgraphitAuth.prototype.dom_build = function() {
+	var graphit = window.graphit;
 	var r = $('<div title="Graphit Authentication" />');
 	r.addClass('group group-graphit-authentication');
-	var iframe = $('<iframe id="graphit-authentication-iframe" />');
-	iframe.attr('src', '/php/GoogleIdentity2/index.php');
-	iframe.addClass('group group-graphit-authentication-iframe');
-	iframe.attr('width', '100%');
-	iframe.attr('height', '100%');
-	iframe.css('overflow', 'visible');
-	r.append(iframe);
+	var src = '';
+	if (src = graphit.auth.get('photoUrl')) {
+		var photo = $('<img class="photoUrl"/>');
+		photo.attr('src', src);
+		r.append(photo);
+	}
+	var displayName = $('<p class="displayName" />');
+	displayName.append(graphit.auth.get('displayName'));
+	r.append(displayName);
+	console.log(window.google);
 	this.rootElm = r;
 	return this;
 };
-
-if (!('cGraphit'in window)) { window.cGraphit = {}; };
-window.cGraphit.auth = new CgraphitAuth();
+window.graphit.auth = new CgraphitAuth();

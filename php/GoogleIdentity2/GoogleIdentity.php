@@ -8,7 +8,7 @@ class GoogleIdentity {
 	/* Faking authentification, always returning email */
 	const FAKE_AUTH = false;
 	/* We are storing configuration here */
-	public static $conf = null;
+	public static $Conf = null;
 	/* parameter from idp */
 	public $target = null;
 	public $purpose = null;
@@ -18,6 +18,8 @@ class GoogleIdentity {
 			$this->set_target($_REQUEST['rp_target']);
 		if (isset($_REQUEST['rp_purpose']))
 			$this->set_purpose($_REQUEST['rp_purpose']);
+		GoogleIdentity::$Conf = new GoogleIdentityConf();
+		$this->start_session();
 	}
 
 	public function set_target($p_target) {
@@ -85,13 +87,12 @@ class GoogleIdentity {
 	public static function start_session() {
 		error_log('----- ----- -----');
 		error_log("Starting session");
-		GoogleIdentity::$conf = new GoogleIdentityConf();
+		//GoogleIdentity::$conf = new GoogleIdentityConf();
 		$url = EasyRpService::getCurrentUrl();
 		$postData = @file_get_contents('php://input');
 		$result = EasyRpService::verify($url, $postData);
 		self::$result = $result;
 		session_start();
-
 		if (self::$result) {
 			foreach (self::$result as $key => $value) {
 				error_log('Set ' . $key . ' => ' . $value);
@@ -110,7 +111,32 @@ class GoogleIdentity {
 		session_destroy();
 		header('Location: index.php');
 	}
-
+	
+	private function _js_one_script($path) {
+		$nl = "\n";
+		return '<script type="text/javascript" src="'.$path.'"></script>' . $nl;
+	}
+	public function echo_js_libs($base) {
+		$str = '';
+		$data = array(
+			'//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js',
+			'//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js',
+			'//ajax.googleapis.com/ajax/libs/googleapis/0.0.4/googleapis.min.js',
+			'//ajax.googleapis.com/jsapi',
+			'https://www.accountchooser.com/client.js',
+			$base .'js/lib/fix.js',
+			$base .'js/app/global.js',
+			$base . 'js/lib/func.js',
+			$base . 'js/lib/Cuid.js',
+			$base . 'js/lib/Cexception.js',
+			$base . 'js/lib/Cobject.js',
+			$base . '../../js/app/CgraphitAuth.js'
+		);
+		for($i = 0; $i < count($data); $i++) {
+			$str .= $this->_js_one_script($data[$i]);
+		}
+		return $str;
+	}
 }
 
 ?>

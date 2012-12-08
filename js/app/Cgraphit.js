@@ -52,6 +52,8 @@ Cgraphit.prototype.init = function(options) {
 	});
 	this.wJquerytheme = new Cjquery_theme();
 	this.wAbout = new Clicense();
+	this.wLogin = window.graphit.auth;
+	// this.send_trigger('display_widget', this.wLogin);
 	/*
 	 * Menu
 	 */
@@ -88,16 +90,8 @@ Cgraphit.prototype.init = function(options) {
 			edition : {
 				label : T('menu_login'),
 				callback_click : function() {
-					var w = window.open("php/GoogleIdentity2/",
-							'graphit-oauth', 'width=600,height=600');
-					w.onload = function() {
-						that.bind_trigger(w.cGraphit.auth, 'identity_set',
-								function() {
-									console
-											.log('opened window set identity',
-													w);
-								});
-					}
+					window.open("php/GoogleIdentity2/start/", 'graphit_oauth',
+							'width=800,height=600');
 				}
 			},
 			/* Help */

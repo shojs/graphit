@@ -59,7 +59,7 @@ Csurface_workspace.prototype.dom_build = function() {
 	/**
 	 * This feature require a proxy and some sort of authentication...
 	 */
-	if ('cGraphitAuth' in window && !window.cGraphitAuth.is_disable()) {
+	if ('auth' in window.graphit && !window.graphit.auth.is_disable()) {
 		navbar.append(new Cicon({ path: 'preferences',  name: 'folders',
 			width : 32,
 			height : 32,
@@ -144,7 +144,7 @@ Csurface_workspace.prototype.__load_dialog = function() {
 				var server_url = getBase() + 'php/DataURL/';
 				console.log(server_url);
 				try {
-					if (!cGraphitAuth.get('verifiedEmail')) {
+					if (!graphit.auth.get('verifiedEmail')) {
 						//that.exception('user_must_be_logged', null, {dialog: true});
 					}
 					$

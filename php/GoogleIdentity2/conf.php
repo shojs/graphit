@@ -3,7 +3,7 @@ class GoogleIdentityConf {
     private static $data = array(
     	'developerKey' => 'AIzaSyBZ39Md7rznzZmePg0yX-YltS7vkvVH5mk',
     	'companyName' => 'YOUR_COMPANY_NAME',
-    	'callbackUrl' => 'https://graphit.nosferat.us/php/GoogleIdentity2/',
+    	'callbackUrl' => 'https://graphit.nosferat.us/php/GoogleIdentity2/callback/',
 	);
    	function __construct() {
    		if (self::$data['developerKey'] == 'YOUR_GOOGLE_API_KEY') {

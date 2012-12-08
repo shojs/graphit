@@ -3,35 +3,35 @@
 /*
  * Global variables
  */
-var cGraphit; /* Our main object */
-var cPo; /* Traduction */
+//var cGraphit; /* Our main object */
+//var cPo; /* Traduction */
 var T; /* proxy to method Cpo.get(str) */
-var cGraphitAuth; /* Our iframe store authentication information here */
+//var cGraphitAuth; /* Our iframe store authentication information here */
 
 function _ok_to_build() {
-	console.log("Language", getLanguage());
-	/* Authentication */
-	cGraphitAuth = new CgraphitAuth({
-		disable : !SHOJS_AUTH
-	});
-	if (!cGraphitAuth.is_disable()) {
-//		cGraphitAuth.dom_get().dialog({
-//			width : 800,
-//			height : 600
-//		});
-	}
-
+   var graphit = window.graphit;
+   console.log("Language", getLanguage());
+//	/* Authentication */
+//	cGraphitAuth = new CgraphitAuth({
+//		disable : !SHOJS_AUTH
+//	});
+//	if (!cGraphitAuth.is_disable()) {
+////		cGraphitAuth.dom_get().dialog({
+////			width : 800,
+////			height : 600
+////		});
+//	}
 	/* Traduction */
-	cPo = new Cpo({
+	graphit.cpo = new Cpo({
 		lang : getLanguage()
 	});
 	T = function(str) {
-		return cPo.get(str);
+		return graphit.cpo.get(str);
 	};
 
 	/* Main object */
-	cGraphit = new Cgraphit();
-	widget_factory(cGraphit.dom_get(), {
+	graphit.core = new Cgraphit();
+	widget_factory(graphit.core.dom_get(), {
 		width : 300,
 		position : 'left top'
 	});
