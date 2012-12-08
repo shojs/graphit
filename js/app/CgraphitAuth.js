@@ -125,4 +125,6 @@ CgraphitAuth.prototype.dom_build = function() {
 	this.rootElm = r;
 	return this;
 };
-window.graphit.auth = new CgraphitAuth();
+if (window.graphit.authEnable) {
+	window.graphit.auth = new CgraphitAuth();
+}

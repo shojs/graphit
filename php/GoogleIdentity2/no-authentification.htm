@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+<title>Authentification is disable</title>
+<script type="text/javascript">
+function close_and_go(url) {
+	var o = window.opener;
+	o.location.href = url;
+	window.close();
+}
+</script>
+</head>
+<body>
+<p>
+Authentification is disable. GitHub doesn't allow php to be run on their server.
+If you want to try feature that require login you can try <a href="#" onclick="close_and_go('https://graphit.nosferat.us');">Graphit</a> on nosferat.us
+</p>
+</body>
+</html>

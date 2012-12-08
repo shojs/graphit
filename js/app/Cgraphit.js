@@ -36,6 +36,7 @@ Cgraphit.prototype.constructor = new Cobject();
  * Intialize our Cgraphit object
  */
 Cgraphit.prototype.init = function(options) {
+	//var T = window.graphit.cpo.get;
 	var that = this;
 	this.bind_trigger(this, 'create_surface', function(e, options) {
 		// console.log('Creating surface', options);
@@ -54,6 +55,21 @@ Cgraphit.prototype.init = function(options) {
 	this.wAbout = new Clicense();
 	this.wLogin = window.graphit.auth;
 	// this.send_trigger('display_widget', this.wLogin);
+	var entry_login = {
+			cssClass: "disable",
+			label : T('menu_login'),
+			callback_click : function() {
+				var url = '';
+				if (window.graphit.auth) {
+					url = 'php/GoogleIdentity2/start/';
+				} else {
+					url = 'php/GoogleIdentity2/no-authentification.htm';
+				}
+				var w = window.open(url, 'graphit_oauth',
+						'width=800,height=600');
+				w.focus();
+			}
+		};
 	/*
 	 * Menu
 	 */
@@ -87,13 +103,7 @@ Cgraphit.prototype.init = function(options) {
 				}
 			},
 			/* login */
-			edition : {
-				label : T('menu_login'),
-				callback_click : function() {
-					window.open("php/GoogleIdentity2/start/", 'graphit_oauth',
-							'width=800,height=600');
-				}
-			},
+			edition : entry_login,
 			/* Help */
 			help : {
 				label : T('menu_help'),

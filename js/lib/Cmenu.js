@@ -9,7 +9,7 @@ function Cmenu(options) {
 	this.entries = {};
 	this.num_child = 0;
 	Cobject.call(this, options, [
-			'type', 'parent'
+			'type', 'parent', 'cssClass'
 	]);
 }
 
@@ -58,28 +58,20 @@ Cmenu.prototype.dom_build = function() {
 	var r;
 	if (parent in this && this.parent instanceof Cmenu) {
 		r = this.parent.rootElm;
-		// r.find('ul').removeClass('cssMenu');
 	} else {
 		r = $('<ul />');
-		// if (this.type == 'css') {
-		// r.addClass("cssMenum cssMenu");
-		// }
 	}
 	for ( var label in this.entries) {
 		var cEntry = this.entries[label];
 		var a = $('<a href="#" title=""/>');
-		// if (cEntry.type == 'css') {
-		// a.addClass('cssMenui');
-		// }
 		a.attr('label', label);
 		if ('click' in cEntry.callback) {
 			cEntry.install_callback(a);
 		}
 		var c = $('<li />');
-		// if (this.type == 'css') {
-		// if (cEntry.type == 'css') c.addClass('cssMenui');
-		// }
 		var txt = $('<span>' + label + '</span>');
+		txt.addClass('menu-entry');
+		if (this.cssClass) txt.addClass(this.cssClass);
 		a.append(txt);
 		c.append(a);
 		if (cEntry.has_child()) {
