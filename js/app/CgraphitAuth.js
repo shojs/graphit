@@ -7,18 +7,32 @@ function CgraphitAuth(options) {
     options.className = "CgraphitAuth";
     options.label = "CgraphitAuth";
     options.disable = (options.disable != undefined)? options.disable: false;
+    this.selected = null;
     options.dialog_options = options.dialog_options || {
     		modal: false,
-    		width: 600
+    		width: 200,
     };
     this.__init_singleton(options);
     Cobject.call(this, options, ['dialog_options']);
+    if (this.hasValidAccount()) {
+    	//#TODO: Checing valid account or erase it from cache
+    }
 }
 
 /* Inheritance */
 CgraphitAuth.prototype = Object.create(Cobject.prototype);
 CgraphitAuth.prototype.constructor = new Cobject();
 
+/**
+ *
+ */
+CgraphitAuth.prototype.hasValidAccount = function() {
+	if (!('storage' in graphit)) return null;
+	var acc = graphit.storage.get('chooserAccounts');
+	if (!acc) { return null; }
+	acc = JSON.parse(acc);
+	return acc;
+};
 
 /**
  * Init our class as a singleton
@@ -68,7 +82,6 @@ CgraphitAuth.prototype.is_disable = function(dumbopt) {
  *
  */
 CgraphitAuth.prototype.set = function(key, value) {
-	console.log('set', key, value);
     CgraphitAuth.__data[key] = value;
 };
 
@@ -106,23 +119,33 @@ CgraphitAuth.prototype.dom_get = function(force) {
 };
 
 /**
+ *@private
+ */
+CgraphitAuth.prototype.__replace_accounts = function(dumbopt) {
+	var elm = this.rootElm.empty();
+	var accounts = this.hasValidAccount();
+	cEach(accounts, function(i, data) {
+		var g = $('<div />');
+		var img =  $('<img />');
+		img.addClass('photoUrl');
+		img.attr('src', data.photoUrl);
+		img.attr('alt', 'photoUrl');
+		g.append(img);
+		g.append('<b class="displayName">' + data.displayName + '</b>');
+		g.append('<b class="email">' + data.email);
+		elm.append(g);
+	});
+};
+
+/**
  *
  */
 CgraphitAuth.prototype.dom_build = function() {
 	var graphit = window.graphit;
 	var r = $('<div title="Graphit Authentication" />');
 	r.addClass('group group-graphit-authentication');
-	var src = '';
-	if (src = graphit.auth.get('photoUrl')) {
-		var photo = $('<img class="photoUrl"/>');
-		photo.attr('src', src);
-		r.append(photo);
-	}
-	var displayName = $('<p class="displayName" />');
-	displayName.append(graphit.auth.get('displayName'));
-	r.append(displayName);
-	console.log(window.google);
 	this.rootElm = r;
+	this.__replace_accounts();
 	return this;
 };
 if (window.graphit.authEnable) {

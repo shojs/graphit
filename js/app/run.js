@@ -9,18 +9,28 @@ var T; /* proxy to method Cpo.get(str) */
 //var cGraphitAuth; /* Our iframe store authentication information here */
 
 function _ok_to_build() {
-   var graphit = window.graphit;
-   console.log("Language", getLanguage());
-//	/* Authentication */
-//	cGraphitAuth = new CgraphitAuth({
-//		disable : !SHOJS_AUTH
-//	});
-//	if (!cGraphitAuth.is_disable()) {
-////		cGraphitAuth.dom_get().dialog({
-////			width : 800,
-////			height : 600
-////		});
+	var graphit = window.graphit;
+//	graphit.worker = {};
+//	for ( var i = 0; i < 5; i++) {
+//		var worker_image = new Worker('js/app/webworker/Cwebworker_image.js');
+//		worker_image.onmessage = function(event) {
+//			console.log('Worker said', event.data);
+//		};
+//		worker_image.postMessage({
+//			action : 'start'
+//		});
 //	}
+	console.log("Language", getLanguage());
+	//	/* Authentication */
+	//	cGraphitAuth = new CgraphitAuth({
+	//		disable : !SHOJS_AUTH
+	//	});
+	//	if (!cGraphitAuth.is_disable()) {
+	////		cGraphitAuth.dom_get().dialog({
+	////			width : 800,
+	////			height : 600
+	////		});
+	//	}
 	/* Traduction */
 	graphit.cpo = new Cpo({
 		lang : getLanguage()
@@ -34,6 +44,10 @@ function _ok_to_build() {
 	widget_factory(graphit.core.dom_get(), {
 		width : 300,
 		position : 'left top'
+	});
+	widget_factory(graphit.auth.dom_get(), {
+		width : 200,
+		position : 'left bottom'
 	});
 
 	/* Prevent right click */

@@ -18,5 +18,5 @@ if ('graphit' in window) {
 }
 window.graphit = {
 		debug: 1,
-		authEnable: false
+		authEnable: false 
 };

@@ -87,6 +87,4 @@ Clocal_storage.prototype.set = function(k, v) {
 	}
 };
 
-//var key = 'time_first_run';
-var cStore = new Clocal_storage();
-////console.log(' Run: ' + lr);
+window.graphit.storage = new Clocal_storage();

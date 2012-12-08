@@ -7,7 +7,6 @@ function Cicon(options) {
 	options.label = options.label || 'icon';
 	options.path = options.path? '/' + options.path + '/': '/';
 	options.src = this._build_src_path(options);
-	console.log('Loading icon', options.src);
 	Cimage.call(this, options, ['name', 'format', 'size', 'path'] );
 }
 

@@ -119,7 +119,20 @@ body {
 	float: left;
 }
 .group-graphit-authentication {
-    overflow: visible;  
+	text-align: left;
+}
+.group-graphit-authentication .photoUrl { 
+	display: inline;
+    width: 16px;
+    float: right;
+}
+.group-graphit-authentication .displayName {
+    font-size: small;
+    display: block;
+}
+.group-graphit-authentication .email {
+    font-size: xx-small;
+    display: block;
 }
 
 .group-brush.selected {
