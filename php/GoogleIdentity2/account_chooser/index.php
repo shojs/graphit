@@ -1,5 +1,5 @@
 <?php
-define('__ROOT__', dirname(dirname(__FILE__)));
+if (!defined('__ROOT__')) { define('__ROOT__', dirname(dirname(__FILE__))); }
 require_once(__ROOT__.'/GoogleIdentity.php');
 ###################
 # Account Chooser #
@@ -63,7 +63,7 @@ if ($GI->get('verifiedEmail')) {
 }
  ?>
    var userData = {};
- <?php if ($email) : ?>
+ <?php if ($GI->get('verifiedEmail')): ?>
   userData = {
        email: conf.get("verifiedEmail"),
        displayName: conf.get("displayName"),

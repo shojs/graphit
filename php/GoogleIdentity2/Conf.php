@@ -4,7 +4,7 @@ class GoogleIdentity_Conf {
     private static $data = array(
     	'developerKey' => 'AIzaSyAzU4ihY1A_nRUkRl_64Mw6Xlk7FF_2pjM',
     	'companyName' => 'GraphIt (nosferat.us)',
-    	'callbackUrl' => 'https://graphit.nosferat.us/php/GoogleIdentity2/callback/',
+    	'callbackUrl' => 'http://graphit.nosferat.us/php/GoogleIdentity2/callback/',
 	);
    	function __construct() {
    		if (self::$data['developerKey'] == 'YOUR_GOOGLE_API_KEY') {

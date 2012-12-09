@@ -1,5 +1,5 @@
 <?php
-define('__ROOT__', dirname(dirname(__FILE__)));
+if (!defined('__ROOT__')) { define('__ROOT__', dirname(dirname(__FILE__))); }
 require_once(__ROOT__.'/EasyRpService.php');
 require_once(__ROOT__.'/Message.php');
 require_once(__ROOT__.'/Conf.php');

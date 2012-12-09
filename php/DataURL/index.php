@@ -1,6 +1,10 @@
 <?php
-require_once('../Exception/JSON.php');
-require_once('../GoogleIdentity2/GoogleIdentity.php');
+if (!defined('__ROOT__')) {
+	define('__ROOT__', dirname(dirname(__FILE__)));
+}
+require_once(__ROOT__.'/GoogleIdentity.php');
+require_once(__ROOT__.'/Exception/JSON.php');
+require_once(__ROOT__.'/GoogleIdentity2/GoogleIdentity.php');
 
 $GICONF = new GoogleIdentityConf();
 $GI = new GoogleIdentity();
