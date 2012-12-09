@@ -142,7 +142,7 @@ Csurface_workspace.prototype.__load_dialog = function() {
 					return url;
 				};
 				var server_url = getBase() + 'php/DataURL/';
-				console.log(server_url);
+				console.log('server', server_url);
 				try {
 					if (!graphit.auth.get('verifiedEmail')) {
 						//that.exception('user_must_be_logged', null, {dialog: true});

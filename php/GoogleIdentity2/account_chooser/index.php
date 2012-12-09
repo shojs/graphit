@@ -1,8 +1,13 @@
-<?php 
-    require_once('../GoogleIdentity.php');
- 	$GI = new GoogleIdentity();
- 	$conf = GoogleIdentity::$Conf;
-   
+<?php
+define('__ROOT__', dirname(dirname(__FILE__)));
+require_once(__ROOT__.'/GoogleIdentity.php');
+###################
+# Account Chooser #
+###################
+
+$GI = new GoogleIdentity();
+$conf = GoogleIdentity::$Conf;
+
 ?>
 <!doctype html>
 <html>
@@ -10,49 +15,52 @@
 <?php echo $GI->echo_js_libs('../../../'); ?>
 
 <script type="text/javascript">
-  google.load("identitytoolkit", "2", {packages: ["ac",]});
- <?php if (0 &&$GI->getEmail()): ?>
- jQuery(function() {
+  google.load("identitytoolkit", "2", {packages: ["ac"], language: 'en'});
+  <?php if (0 && $GI->get('verifiedEmail')) : ?>
+   jQuery(function() {
      var homeUrl = '/php/GoogleIdentity2/start/'; // Your home page URL.
      var account = {
-       email: '<?php echo $GI->getEmail(); ?>',  // required
-       displayName: '<?php echo $GI->getDisplayName(); ?>',  // optional
-       photoUrl: '<?php echo $GI->getPhotoUrl();?>'  // optional
+       email: '<?php echo $GI->get('verifiedEmail'); ?>',  // required
+       displayName: '<?php echo $GI->get('displayName'); ?>',  // optional
+       photoUrl: '<?php echo $GI->get('photoUrl'); ?>'  // optional
      };
      // Store the account then return to homeUrl.
-     window.google.identitytoolkit.storeAccount(account, homeUrl);
+     window.google.identitytoolkit.storeAccount(account, null);
+     window.google.identitytoolkit.loadAccount(account);
  });
- <?php endif;?>
+ <?php endif; ?>
  $(function() {
   window.google.identitytoolkit.setConfig({
    developerKey: "<?php echo $conf->get('developerKey'); ?>",
    companyName: "<?php echo $conf->get('companyName'); ?>",
    callbackUrl: "<?php echo $conf->get('callbackUrl'); ?>",
    realm: "",
-   userStatusUrl: "",
-   loginUrl: "login.php",
-   signupUrl: "",
-   homeUrl: "",
-   logoutUrl: "logout.php",
+   userStatusUrl: "php/GoogleIdentity2/userStatusUrl",
+   loginUrl: "/php/GoogleIdentity2/login/",
+   signupUrl: "/php/GoogleIdentity2/signupUrl/",
+   homeUrl: "/php/GoogleIdentity2/start/",
+   logoutUrl: "/php/GoogleIdentity2/logout/",
    idps: ["Gmail", "Yahoo"],
-         idpConfig: {
-           //scopes: ['https://www.googleapis.com/auth/drive']
-         },
+   idpConfig: {
+     Gmail: {
+       scopes: [
+         "https://www.googleapis.com/auth/plus.me"
+                ],
+     }
+   },
    tryFederatedFirst: true,
-   //useContextParam: true,
+   language: "en",
+   useContextParam: true,
    useCachedUserStatus: true,
   });
   console.log('init google toolkit');
     window.google.identitytoolkit.init();
     var conf = window.graphit.auth;
  <?php
-  /* Feed our Javascript Object */
-  if ($GI->getEmail()) {
-   error_log('feed our pet');
-   foreach ($_SESSION as $key => $value) {
-    echo 'conf.set("' . $key . '", "' . $value . '");' . "\n";
-   }
-  }
+/* Feed our Javascript Object */
+if ($GI->get('verifiedEmail')) {
+	echo $GI->js_fill_conf();
+}
  ?>
    var userData = {};
  <?php if ($email) : ?>
@@ -65,7 +73,7 @@
  <?php endif; ?>
   console.log('userData',userData);
    window.google.identitytoolkit.updateSavedAccount(userData);
-
+   //window.google.identitytoolkit.updateStore(userData);
  });
  </script>
 

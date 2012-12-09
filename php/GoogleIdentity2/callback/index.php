@@ -1,6 +1,12 @@
 <?php
-require_once('../GoogleIdentity.php');
+define('__ROOT__', dirname(dirname(__FILE__)));
+require_once(__ROOT__.'/GoogleIdentity.php');
+
 $GI = new GoogleIdentity();
+
+if ($response = $GI->askGITK()) {
+	$GI->session_set_data($response);
+}
 $conf = GoogleIdentity::$Conf;
 
 ?>
@@ -8,10 +14,11 @@ $conf = GoogleIdentity::$Conf;
 <html>
 <head>
 <?php echo $GI->echo_js_libs('../../../'); ?>
-<script type='text/javascript' src='https://ajax.googleapis.com/jsapi'></script>
 <script type='text/javascript'>
   google.load("identitytoolkit", "2", {
-  packages: [ "ac"] } );
+    packages: [ "ac"],
+    language: "en"
+  });
 </script>
 <script>
 $(function() {
@@ -20,45 +27,47 @@ $(function() {
     companyName: "<?php echo $conf->get('companyName'); ?>",
     callbackUrl: "<?php echo $conf->get('callbackUrl'); ?>",
     realm: "",
-    userStatusUrl: "",
-    loginUrl: "login.php",
-    signupUrl: "",
-    homeUrl: "",
-    logoutUrl: "logout.php",
+    userStatusUrl: "php/GoogleIdentity2/userStatusUrl/",
+    loginUrl: "php/GoogleIdentity2/login/",
+    signupUrl:"php/GoogleIdentity2/signup/",
+    homeUrl:  "php/GoogleIdentity2/start/",
+    logoutUrl: "php/GoogleIdentity2/logout/",
     idps: ["Gmail", "Yahoo"],
-          idpConfig: {
-            //scopes: ['https://www.googleapis.com/auth/drive']
-          },
+    idpConfig: {
+        Gmail: {
+          scopes: [
+            "https://www.googleapis.com/auth/plus.me"
+                   ],
+        }
+      },
     tryFederatedFirst: true,
-    //useContextParam: true,
+    language: 'en',
+    useContextParam: true,
     useCachedUserStatus: true,
    });
 });
   var conf = window.graphit.auth;
   <?php
 /* Feed our Javascript Object */
-if ($GI->getEmail()) {
-	error_log('feed our pet');
-	foreach ($_SESSION as $key => $value) {
-		echo 'conf.set("' . $key . '", "' . $value . '");' . "\n";
-	}
+if ($GI->get('verifiedEmail')) {
+	echo $GI->js_fill_conf();
 }
   ?>
   var userData = {};
-  <?php if ($GI->getEmail()) : ?>
+  <?php if ($GI->get('verifiedEmail')) : ?>
    userData = {
         email: conf.get("verifiedEmail"),
         displayName: conf.get("displayName"),
-        legacy: conf.get("legacy"),
         photoUrl: conf.get("photoUrl")
     };
   <?php endif; ?>
   var o = window.opener;
+  if (o) {
   o.google.identitytoolkit.updateSavedAccount(userData);
+  console.log('userData', userData);
   o.graphit.auth.send_trigger('update');
-  //o.graphit.auth.copy(window.graphit.auth);
-  //o.graphit.core.send_trigger('display_widget', o.graphit.core.wLogin);
   window.close();
+  }
   </script>
 </head>
 <script

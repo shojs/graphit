@@ -32,9 +32,8 @@ Cimage.prototype = Object.create(Cobject.prototype);
 Cimage.prototype.constructor = new Cobject();
 
 /**
- * @param p_src
- * @param force
- * @returns
+ * Build our DOM element, storing it in this.rootElm
+ * @return {Cimage} This
  */
 Cimage.prototype.dom_build = function() {
 	var that = this;
@@ -74,7 +73,6 @@ Cimage.prototype.dom_build = function() {
  * @returns {Boolean}
  */
 Cimage.prototype.callback_onload = function() {
-	var ret = true;
 	this.status = Eloading_status.ok;
 	this.last_update = Date.now();
 	if ('replace_id' in this.options && this.options.replace_id) {
@@ -102,7 +100,6 @@ Cimage.prototype.callback_onload = function() {
  * @returns {Boolean}
  */
 Cimage.prototype.callback_onerror = function() {
-	var ret = true;
 	this.status = Eloading_status.fail;
 	this.last_update = null;
 	var callback = this.callback_exists('error');

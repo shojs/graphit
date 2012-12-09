@@ -1,7 +1,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	background-image: url(http://shojs.github.com/graphit-static/images/grid50.png);
+	background-image: url(https://graphit.nosferat.us/static/images/grid50.png);
 	-moz-user-select: none;
 	-khtml-user-select: none;
 	-webkit-user-select: none;
@@ -89,7 +89,7 @@ body {
 
 .surface canvas {
 	margin: auto auto;
-	background-image: url(http://shojs.github.com/graphit-static/images/grid-40x40.png);
+	background-image: url(https://graphit.nosferat.us/static/images/grid-40x40.png);
 }
 
 .group {
@@ -279,7 +279,7 @@ ul.group-layers  {
 
 .layer canvas {
 	width: 50px;
-	background-image: url(http://shojs.github.com/graphit-static/images/grid-10x10.png);
+	background-image: url(https://graphit.nosferat.us/static/images/grid-10x10.png);
 }
 
 .group-layers {

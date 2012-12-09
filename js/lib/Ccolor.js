@@ -3,12 +3,10 @@ var Ecolor = {
 };
 
 /**
- *  RGBA color object
- * @param r
- * @param g
- * @param b
- * @param a
- * @returns
+ * RGBA color object
+ * 
+ * @param options
+ *            {Hash} Cobject parameters hash
  */
 function Ccolor(options) {
 	options = options || {};
@@ -26,7 +24,8 @@ Ccolor.prototype = Object.create(Cobject.prototype);
 Ccolor.prototype.constructor = new Cobject();
 
 /**
- *  Convert Ccolor object to rgba string: rgba(r,g,b,a)
+ * Convert Ccolor object to rgba string: rgba(r,g,b,a)
+ * 
  * @return string
  */
 Ccolor.prototype.to_rgba = function() {
@@ -68,6 +67,7 @@ Ccolor.prototype.set = function(k, v) {
 
 /**
  * Parse rgba string and fill object properties
+ * 
  * @param rgba
  * @returns {Ccolor}
  */
@@ -96,18 +96,20 @@ Ccolor.prototype.inverse = function() {
 };
 
 /**
- * Read color from pixel data (context.getImageData.data...) 
- * @param p_data Our pixel array
- * @param x X position
- * @param y Y position
- * @returns {Ccolor}
+ * Read color from pixel data (context.getImageData.data...)
+ * 
+ * @param p_data
+ *            Our pixel array
+ * @param spixel
+ *            {Object} Object with x and y property
+ * @returns {Ccolor} This Ccolor object
  */
 Ccolor.prototype.from_pixel = function(p_data, spixel) {
     if (p_data == undefined || spixel == undefined) {
     	throw ('invalid_argument');
     }
-    var x = spixel.x;
-    var y = spixel.y;
+// var x = spixel.x;
+// var y = spixel.y;
     var index = (spixel.y*(p_data.width*4)) + (spixel.x*4);
 	var data = p_data.data;
     this.r = data[index];
@@ -120,6 +122,7 @@ Ccolor.prototype.from_pixel = function(p_data, spixel) {
 
 /**
  * Clone Object
+ * 
  * @returns {Ccolor}
  */
 Ccolor.prototype.clone = function() {
@@ -128,6 +131,7 @@ Ccolor.prototype.clone = function() {
 
 /**
  * Compare two color object
+ * 
  * @param c
  * @returns {Boolean}
  */
@@ -152,6 +156,7 @@ Ccolor.prototype.magnitude = function() {
 
 /**
  * Normalinzing color... WTF :P
+ * 
  * @returns {Ccolor}
  */
 Ccolor.prototype.normalize = function() {

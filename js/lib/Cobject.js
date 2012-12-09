@@ -48,10 +48,10 @@ Cobject.prototype._class_init = function(options, permitted) {
 /**
 	This is a STUB. When new instance of Cobject or derived class is
 	created this method is called.
-	@param {Hash} options Hash from constructor
-	@param {Array} permitted Array from constructor
+	@param options {Hash} options Hash from constructor
+	@param permitted {Array} permitted Array from constructor
  */
-Cobject.prototype.init = function(options, permited) {
+Cobject.prototype.init = function(options, permitted) {
 	return false;
 };
 
@@ -91,8 +91,8 @@ Cobject.prototype.exception = function(label, additional, options) {
 /**
  * @private
  * This method is reponsible for parsing option when object is created
- * @param {Hash} options From constructor
- * @param [Array] permiited From constructor
+ * @param options {Hash} hash from constructor
+ * @param permitted {Array}  array from constructor
  * @return {Boolean} True if no error, else false
  */
 Cobject.prototype._parse_options = function(options, permitted) {
@@ -168,7 +168,7 @@ Cobject.prototype.guid = function(what) {
 
 /**
  * Returning trigger name for a given action
- * @param {String} type A given action ex: update, redraw, menu_select ...
+ * @param action {String} A given action ex: update, redraw, menu_select ...
  * @return {String} A string representing our action (Globally unique)
  */
 Cobject.prototype.get_trigger_name = function(action) {
@@ -249,7 +249,7 @@ Cobject.prototype.callback_exists = function(name) {
  * If noHeader is false we are encompassing our result into <div />
  * force option force dom_get to rebuild DOM element
  * @param {Hash} options Options {noHeader: true/false, force: true/false}
- * @returns
+ * @return {JQueryObject} DOM Element for this object
  */
 Cobject.prototype.dom_get = function(options) {
 	options = options || {};

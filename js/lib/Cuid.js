@@ -1,8 +1,9 @@
 /**
- * Generate Unique ID. Main usage of this uid is for binding element together with triggered event.
- * We generate id that can't collide with other event.
+ * Generate Unique ID. Main usage of this uid is for binding element together
+ * with triggered event. We generate id that can't collide with other event.
+ * 
  * @param options
- * @returns
+ *            {Hash}
  */
 function Cuid(options) {
 	options = options || {};
@@ -21,7 +22,7 @@ Cuid.prototype.init = function(options) {
 
 /**
  * @private
- * @returns
+ * @return {string} our fragment string
  */
 Cuid.prototype.__get_frag = function() {
 	var max = 65535;
@@ -32,9 +33,9 @@ Cuid.prototype.__get_frag = function() {
 };
 
 /**
- * 
  * @param maxtry
- * @returns
+ *            {Int}
+ * @return {String} UID string
  */
 Cuid.prototype.get = function(maxtry) {
 	if (maxtry == undefined) {

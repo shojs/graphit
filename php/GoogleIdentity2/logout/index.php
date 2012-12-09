@@ -1,14 +1,10 @@
-<?php 
-	session_start();
-	$_SESSION = array();
-	if (ini_get("session.use_cookies")) {
-		$params = session_get_cookie_params();
-		setcookie(session_name(), '', time() - 42000,
-		$params["path"], $params["domain"],
-		$params["secure"], $params["httponly"]
-	);
-	}
-	session_unset();
-	session_destroy();
-	header('Location: /php/GoogleIdentity2/close/');
+<?php
+define('__ROOT__', dirname(dirname(__FILE__)));
+require_once(__ROOT__ . '/GoogleIdentity.php');
+
+$GI = new GoogleIdentity();
+$GI->session_destroy();
+$message = new GoogleIdentity_Message('logout', 'logout successfull', 1);
+echo $message->to_json();
+exit(0);
 ?>

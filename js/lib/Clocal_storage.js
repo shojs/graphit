@@ -6,7 +6,6 @@
  * 
  * It's a bit tricky because we install our store as class data
  * so we can acces it like this: <pre>Clocal_storage._store</pre>
- * @returns
  */
 function Clocal_storage() {
 	this.className = 'Clocal_storage';

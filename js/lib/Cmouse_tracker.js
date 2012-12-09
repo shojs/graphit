@@ -26,8 +26,7 @@ Cminmax.prototype.cmp = function(v) {
 /*******************************************************************************
  * Object to hold mouse position
  * 
- * @param x
- * @param y
+ * @pos {Object} Object with <x> and <y> property
  * @returns {Object}
  */
 function Cmouse_tracker_point(pos) {
@@ -123,19 +122,13 @@ Cmouse_tracker.prototype.push = function() {
 		}
 		if (this.paused) { return null;}
 		var cp = new Cmouse_tracker_point(that);
-		var lp = that.points[that.points.length - 1];
-		/* We are not storing same point twice */
-//		if (lp && lp.x == cp.x && lp.y == cp.y) {
-//				return false;
-//		}
-		//that.bounding.add_point(cp);
 		/* Storing our point */
 		that.points.push(cp);
 		that.minx = Math.min(that.minx, cp.x);
 		that.maxx = Math.max(that.maxx, cp.x);
 		that.miny = Math.min(that.miny, cp.y);
 		that.maxy = Math.max(that.maxy, cp.y);
-	}, 1000/120);//DRAWGLOB.graphing_interval);// * 3 /4) ;
+	}, 1000/120);
 	if (this.func_push)
 		this.func_push(this);
 };

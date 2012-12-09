@@ -54,7 +54,6 @@ Cmenu.prototype.add = function(cMenu) {
  * #TODO This dom_build is the ugliest one, well one of the less pretty ...
  */
 Cmenu.prototype.dom_build = function() {
-	var that = this;
 	var r;
 	if (parent in this && this.parent instanceof Cmenu) {
 		r = this.parent.rootElm;

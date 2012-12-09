@@ -18,6 +18,6 @@ if ('graphit' in window) {
 }
 window.graphit = {
 		debug: 1,
-		authEnable: false,
-		baseStaticContent: 'http://shojs.github.com/graphit-static'
+		authEnable: true,
+		baseStaticContent: 'https://graphit.nosferat.us/static/'
 };

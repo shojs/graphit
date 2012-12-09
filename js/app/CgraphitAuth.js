@@ -86,6 +86,7 @@ CgraphitAuth.prototype.is_disable = function(dumbopt) {
  *
  */
 CgraphitAuth.prototype.set = function(key, value) {
+	console.log('Auth', key, value);
     CgraphitAuth.__data[key] = value;
 };
 
@@ -141,7 +142,7 @@ CgraphitAuth.prototype.__replace_accounts = function() {
 		that.ajax_is_logged({email: data.email, callback_error: function() {
 			console.warn('removing email', data.email);
 			
-		}})
+		}});
 		elm.append(g);
 	});
 	if (accounts && accounts.length > 0) {
@@ -154,7 +155,14 @@ CgraphitAuth.prototype.__replace_accounts = function() {
 		b.click(function() {
 			window.graphit.storage.remove('chooserAccounts');
 			deleteAllCookies();
-			window.open('php/GoogleIdentity2/logout/index.php', 'graphit_auth');
+			that.ajax_logout({
+				email: '',
+				callback_success: function() {
+					console.log('logout');
+					elm.empty();
+				}
+			});
+			//window.open('php/GoogleIdentity2/logout/index.php', 'graphit_auth');
 			that.send_trigger('update');
 		});
 		logout.append(b);
@@ -200,14 +208,31 @@ CgraphitAuth.prototype.ajax_is_logged = function(opt) {
 			opt.callback_succes.call(that, msg);
 		});
 	} else if ('callback_error' in opt) {
-		request.done(function(jqXHR, textStatus) {
+		request.error(function(jqXHR, textStatus) {
 			opt.callback_error.call(that, jqXHR, textStatus);
 		});
 	}  
-	
-		request.done(function( msg ) {
-			callback_success.call(that, msg);
+};
+
+/**
+*
+*/
+CgraphitAuth.prototype.ajax_logout = function(opt) {
+	var that = this;
+	var request = $.ajax({
+		  type: "POST",
+		  url: "php/GoogleIdentity2/logout/",
+		  data: { email:  opt.email}
+	});
+	if ('callback_succces' in opt) {
+		request.done(function(msg) {
+			opt.callback_succes.call(that, msg);
 		});
+	} else if ('callback_error' in opt) {
+		request.error(function(jqXHR, textStatus) {
+			opt.callback_error.call(that, jqXHR, textStatus);
+		});
+	}  
 };
 
 if (window.graphit.authEnable) {
