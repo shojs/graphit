@@ -40,7 +40,7 @@ function Cobject(options, permitted) {
 Cobject.prototype._class_init = function(options, permitted) {
 	this.uid = cUid.get();
 	this.callback = {};
-	if (SHOJS_DEBUG > 10) console.log('UID', this.uid);
+	if (window.graphit.debug > 10) console.log('UID', this.uid);
 	this._parse_options(options, permitted);
 	return this;
 };
@@ -118,7 +118,7 @@ Cobject.prototype._parse_options = function(options, permitted) {
 			if (label in options) {
 				this[label] = options[label];
 			} else {
-				if (SHOJS_DEBUG > 10) console.warn('Needed property <<', label,
+				if (window.graphit.debug > 10) console.warn('Needed property <<', label,
 						'>> ');
 			}
 		}
@@ -182,7 +182,7 @@ Cobject.prototype.get_trigger_name = function(action) {
  */
 Cobject.prototype.send_trigger = function(action, additional) {
 	var name = this.get_trigger_name(action);
-	if (SHOJS_DEBUG > 4) console.log('[trigger/send]', name, additional);
+	if (window.graphit.debug > 4) console.log('[trigger/send]', name, additional);
 	$(document).trigger(name, additional);
 };
 
@@ -194,7 +194,7 @@ Cobject.prototype.send_trigger = function(action, additional) {
  */
 Cobject.prototype.bind_trigger = function(srcobj, action, callback) {
 	var name = srcobj.get_trigger_name(action);
-	if (SHOJS_DEBUG > 4) console.debug('[trigger/bind]', action, this.className,' => ', name);
+	if (window.graphit.debug > 4) console.debug('[trigger/bind]', action, this.className,' => ', name);
 	$(document).bind(name, function(event, data) {
 		callback.call(this, event, data);
 	});

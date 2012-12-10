@@ -55,15 +55,16 @@ Cgraphit.prototype.init = function(options) {
 	this.wAbout = new Clicense();
 	this.wLogin = window.graphit.auth;
 	// this.send_trigger('display_widget', this.wLogin);
+	var base = window.graphit.baseRestContent;
 	var entry_login = {
 			cssClass: "disable",
 			label : T('menu_login'),
 			callback_click : function() {
 				var url = '';
 				if (window.graphit.auth) {
-					url = 'php/GoogleIdentity2/login/';
+					url = base + 'gi/login';
 				} else {
-					url = 'php/GoogleIdentity2/no-authentication.htm';
+					url = '/no-authentication.htm';
 				}
 				var w = window.open(url, 'graphit_oauth',
 						'width=800,height=600');

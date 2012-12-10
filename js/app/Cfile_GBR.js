@@ -179,7 +179,7 @@ Cfile_GBR.prototype._success = function(response) {
  */
 Cfile_GBR.prototype.parse_response = function(response) {
 	var FH = this.FH;
-	if (SHOJS_DEBUG > 10) console.log('[File/GBR] Parsing header', this.src);
+	if (window.graphit.debug > 10) console.log('[File/GBR] Parsing header', this.src);
 	/* A view on our byte array */
 	var view = new DataView(response.response, 0);
 	/* Position in byte array */
@@ -189,7 +189,7 @@ Cfile_GBR.prototype.parse_response = function(response) {
 	 */
 	for ( var offset = 0; offset < this.headers.length; offset++) {
 		this.headers[offset].value = view.getInt32(position);
-		if (SHOJS_DEBUG > 10) console.log(this.headers[offset].label, this.headers[offset].value);
+		if (window.graphit.debug > 10) console.log(this.headers[offset].label, this.headers[offset].value);
 		position += 4; // We are reading 32bits
 	}
 	/*

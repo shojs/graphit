@@ -52,7 +52,7 @@ Clayer.prototype.init = function() {
 	});
 	/* Installing trigger */
 	this.bind_trigger(this, 'redraw_preview', function(e, d) {
-		if (SHOJS_DEBUG > 4) console.debug('[Trigger/received]', e.type);
+		if (window.graphit.debug > 4) console.debug('[Trigger/received]', e.type);
 		that.redraw_preview();
 	});
 };

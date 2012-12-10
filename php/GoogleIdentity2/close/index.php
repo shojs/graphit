@@ -1,9 +1,0 @@
-<!doctype html>
-<html>
-<head>
-<script type="text/javascript">
- window.close();
-</script>
-</head>
-<body></body>
-</html>

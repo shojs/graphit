@@ -1,0 +1,15 @@
+****Files to modify****
+
+**/js/app/global.js**
+  debug:
+  authEnable: Enable GoogleIdentity
+  baseStaticContent: Base URL for static content
+
+***When Authentication available***
+  
+**/php/include.php**
+  Define your root path
+  
+**/php/GoogleIdentity2/conf.php**
+  Set your Google API Key
+      

@@ -198,9 +198,10 @@ CgraphitAuth.prototype.dom_build = function() {
  */
 CgraphitAuth.prototype.ajax_is_logged = function(opt) {
 	var that = this;
+	var base = window.graphit.baseRestContent;
 	var request = $.ajax({
 		  type: "POST",
-		  url: "php/GoogleIdentity2/logged/",
+		  url: base + "/gi/logged/",
 		  data: { email:  opt.email}
 	});
 	if ('callback_succces' in opt) {
@@ -219,9 +220,10 @@ CgraphitAuth.prototype.ajax_is_logged = function(opt) {
 */
 CgraphitAuth.prototype.ajax_logout = function(opt) {
 	var that = this;
+	var base = window.graphit.baseRestContent;
 	var request = $.ajax({
 		  type: "POST",
-		  url: "php/GoogleIdentity2/logout/",
+		  url: base + "/gi/logout/",
 		  data: { email:  opt.email}
 	});
 	if ('callback_success' in opt) {

@@ -29,7 +29,7 @@ Cobject.prototype.load = function(src) {
 		console.error('Trying to load undefined src');
 		return null;
 	}
-	if (SHOJS_DEBUG > 4) console.log('Loading file: ' + src);
+	if (window.graphit.debug > 4) console.log('Loading file: ' + src);
 	this.src = src;
 	var xhr = new XMLHttpRequest();
 	xhr.open('GET', src, true);

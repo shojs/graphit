@@ -6,7 +6,7 @@ function Ctoolbox_preview(options) {
 		'parent'
 	]);
 	this.bind_trigger(this, 'update', function(e, d) {
-		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
+		if (window.graphit.debug > 4) console.log('[Trigger/received]', e.type);
 		//var ctx = that.rootElm.find('canvas')[0].getContext('2d');
 		var color = that.parent.fg_color.color.clone().inverse();
 		color.a = 1;

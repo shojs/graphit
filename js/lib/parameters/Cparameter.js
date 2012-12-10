@@ -46,7 +46,7 @@ Cparameter.prototype.constructor = new Cobject();
 Cparameter.prototype.__post_init = function(options) {
 	if (this.autoSave) {
 		var label = this.make_registry_key();
-		if (SHOJS_DEBUG > 10) console.log('Loading parameter', label);
+		if (window.graphit.debug > 10) console.log('Loading parameter', label);
 		var v = this.store.get(label);
 		if (v != undefined) {
 			this.value = this._set(v);
@@ -64,7 +64,7 @@ Cparameter.prototype.__post_init = function(options) {
 			continue;
 		}
 		if (options[k] && typeof options[k] == 'function') {
-			if (SHOJS_DEBUG > 10) console.log(
+			if (window.graphit.debug > 10) console.log(
 					'Installing callback for parameter[' + this.type + ']', k);
 			this[k] = options[k];
 		}

@@ -66,7 +66,7 @@ function Csurface(options) {
 	}));
 	this.layer_manager.select(this.layer_manager.layers[0]);
 	this.bind_trigger(this.layer_manager, 'update', function(e, d) {
-		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
+		if (window.graphit.debug > 4) console.log('[Trigger/received]', e.type);
 		that.redraw(1);
 	});
 	// Our mouse
@@ -95,7 +95,7 @@ function Csurface(options) {
 		}
 	});
 	this.bind_trigger(this.cGrid, 'update', function(e, d) {
-		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
+		if (window.graphit.debug > 4) console.log('[Trigger/received]', e.type);
 		that.update_grid();
 	});
 	// Surface is waiting surface update to redraw

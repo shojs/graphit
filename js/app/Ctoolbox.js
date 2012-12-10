@@ -18,11 +18,11 @@ function Ctoolbox(options) {
 		stack : true
 	};
 	this.bind_trigger(this.fg_color, 'color_selected', function(e, d) {
-		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
+		if (window.graphit.debug > 4) console.log('[Trigger/received]', e.type);
 		that.update();
 	});
 	this.bind_trigger(this.bg_color, 'color_selected', function(e, d) {
-		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
+		if (window.graphit.debug > 4) console.log('[Trigger/received]', e.type);
 		that.update();
 	});
 
@@ -85,11 +85,7 @@ Ctoolbox.prototype.init = function() {
 	this.bind_trigger(this.brush_manager, 'update', function(e, d) {
 		that.update();
 	});
-//
-//	this.bind_trigger(this, 'update', function(e, d) {
-//		if (SHOJS_DEBUG > 4) console.log('[Trigger/received]', e.type);
-//		that.update();
-//	});
+
 	this.load(this.olist);
 	this.dom_build();
 };
