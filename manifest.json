@@ -1,0 +1,24 @@
+{
+    "manifest_version": 2,
+    "name": "jsGraphit" ,
+    "description": "Online drawing program (js only)",
+    "version": "0.0.0.1",
+    "app": {
+        "urls": [
+            "http://github.com/shojs/graphit/",
+            "http://shojs.github.com/graphit/"
+        ],
+    "launch": {
+        "web_url": "http://shojs.github.com/graphit/",
+        "container": "tab"
+    }
+},
+"icons": {
+    "128": "img/chrome_app_128.png"
+},
+
+"permissions": [
+    "unlimitedStorage",
+        "notifications"
+    ]
+}

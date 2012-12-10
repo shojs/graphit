@@ -1,0 +1,175 @@
+<!doctype html>
+<!-- <html manifest="manifest"> -->
+<html>
+<head>
+
+<!--
+    Meta 
+-->
+
+<meta name="rating" content="safe for kids" />
+<meta name="keywords"
+ content="drawing, brushes, layer, online, javascript, color" />
+<meta name="description"
+ content="GraphIT: A little online drawing program" />
+<meta name="author" content="showi-github_com" />
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<!-- 
+    Icon
+-->
+<link rel="icon" href="img/favicon.png" type="image/png" />
+<link rel="shortcut icon" href="img/favicon.png" type="image/png" />
+<!-- 
+    INJECT JQUERY THEME
+-->
+
+<!-- 
+    JQUERY 
+-->
+<script type="text/javascript" src="js/plugin/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="js/plugin/jquery-ui-1.9.2.custom.min.js"></script>
+
+<!-- GOOGLE IDENTITY TOOLKIT -->
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/jsapi"></script>
+<script type="text/javascript" src="https://www.accountchooser.com/client.js"></script>
+ -->
+ 
+<script type='text/javascript' src='https://ajax.googleapis.com/jsapi'></script>
+<script type='text/javascript'>
+  google.load("identitytoolkit", "2", {
+  packages: [ "ac"] } );
+</script>
+<!--
+    JQUERY PLUGIN
+-->
+<link rel="Stylesheet" type="text/css"
+ href="js/plugin/jpicker/css/jPicker-1.1.6.css" />
+<script type="text/javascript" src="js/plugin/jpicker/jpicker-1.1.6.js"></script>
+<script type="text/javascript" src="js/plugin/jquery.getimagedata.js"></script>
+
+<!--
+    ColorPicker
+-->
+<link rel="stylesheet" media="screen" type="text/css"
+ href="js/plugin/colorpicker/css/colorpicker.css" />
+<script type="text/javascript"
+ src="js/plugin/colorpicker/js/colorpicker.js"></script>
+<script type="text/javascript" src="js/plugin/jquery.hotkeys-0.7.9.min.js"></script>
+<script type="text/javascript" src="js/plugin/jquery.editinplace.js"></script>
+<!-- <link rel="Stylesheet" type="text/css" href="/js/plugin/FeedEk/FeedEk.css" />
+<script type="text/javascript" src="/js/plugin/FeedEk/FeedEk.js"></script>
+ -->
+ <!--
+    CSS
+-->
+
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<!-- <link rel="stylesheet" type="text/css" href="css/menu.css" /> -->
+
+<script type="text/javascript" src="js/lib/fix.js"></script>
+<script type="text/javascript" src="js/Conf.js"></script>
+<script type="text/javascript" src="js/lib/func.js"></script>
+<script type="text/javascript" src="js/lib/Cuid.js"></script>
+<script type="text/javascript" src="js/lib/Cexception.js"></script>
+<script type="text/javascript" src="js/lib/Cobject.js"></script>
+<script type="text/javascript" src="js/app/Csplashscreen.js"></script>
+
+<script type="text/javascript" src="js/lib/Clocal_storage.js"></script>
+<script type="text/javascript" src="js/lib/parameters/Cparameter.js"></script>
+<script type="text/javascript" src="js/lib/parameters/Cparameter_select.js"></script>
+<script type="text/javascript" src="js/lib/parameters/Cparameter_checkbox.js"></script>
+<script type="text/javascript" src="js/lib/parameters/Cparameter_numeric.js"></script>
+<script type="text/javascript" src="js/app/Cjquery_theme.js"></script>
+<script type="text/javascript">
+	new Cjquery_theme_injector();
+</script>
+<!-- <script type="text/javascript" src="shojs-graphit-0.0.1-min.js"></script> -->
+<!-- 
+    MINIFYJS:START 
+-->
+
+<script type="text/javascript" src="js/lib/image/Cimage_analyse.js"></script>
+<script type="text/javascript" src="js/lib/Cimage.js"></script>
+<script type="text/javascript" src="js/lib/Cicon.js"></script>
+<script type="text/javascript" src="js/lib/Ccolor.js"></script>
+<script type="text/javascript" src="js/lib/Cmenu.js"></script>
+<script type="text/javascript" src="js/lib/Ccanvas.js"></script>
+<script type="text/javascript" src="js/lib/Cbounding_rectangle.js"></script>
+<script type="text/javascript" src="js/lib/Cregistry.js"></script>
+
+<script type="text/javascript" src="js/lib/Cpo.js"></script>
+
+<script type="text/javascript" src="js/lib/Cmath.js"></script>
+<script type="text/javascript" src="js/lib/math/Cpoint2d.js"></script>
+<script type="text/javascript" src="js/lib/math/Cvector2d.js"></script>
+<script type="text/javascript" src="js/lib/math/Cmatrix33.js"></script>
+
+<script type="text/javascript" src="js/lib/Ctransform2d.js"></script>
+
+<script type="text/javascript" src="js/lib/Cmouse_tracker.js"></script>
+<script type="text/javascript" src="js/app/Cwidget.js"></script>
+
+<script type="text/javascript" src="js/app/Ctool_brushes.js"></script>
+<script type="text/javascript" src="js/app/tools/Ctool.js"></script>
+<script type="text/javascript" src="js/app/tools/Ctool_pencil.js"></script>
+<script type="text/javascript" src="js/app/tools/Ctool_paintbrush.js"></script>
+<script type="text/javascript" src="js/app/tools/Ctool_eraser.js"></script>
+<script type="text/javascript" src="js/app/tools/Ctool_fill.js"></script>
+<script type="text/javascript" src="js/app/tools/Ctool_color_picker.js"></script>
+
+<script type="text/javascript" src="js/app/Cgrapher.js"></script>
+<script type="text/javascript" src="js/app/helper_draw.js"></script>
+<script type="text/javascript" src="js/app/Clicense.js"></script>
+
+<script type="text/javascript" src="js/app/Cfrag.js"></script>
+<script type="text/javascript" src="js/app/Clayer.js"></script>
+<script type="text/javascript" src="js/app/Clayer_manager.js"></script>
+<script type="text/javascript" src="js/app/Csurface.js"></script>
+<script type="text/javascript" src="js/app/Csurface_workspace.js"></script>
+<script type="text/javascript" src="js/app/Cgrid.js"></script>
+
+<script type="text/javascript" src="js/app/Ctoolbox_preview.js"></script>
+<script type="text/javascript" src="js/app/Ctoolbox_colorpicker.js"></script>
+<script type="text/javascript" src="js/app/Ctoolbox.js"></script>
+
+<script type="text/javascript" src="js/lib/Cbinary_file.js"></script>
+<script type="text/javascript" src="js/app/Cfile_GBR.js"></script>
+
+<script type="text/javascript" src="js/app/Cbrush.js"></script>
+<script type="text/javascript" src="js/app/Cbrush_manager.js"></script>
+
+<script type="text/javascript" src="js/app/Cgraphit.js"></script>
+<script type="text/javascript" src="js/app/CgraphitAuth.js"></script>
+
+<script type="text/javascript" src="js/app/run.js"></script>
+<!--
+MINIFYJS:STOP 
+-->
+<title>GraphIt: Javascript online drawing</title>
+</head>
+<body>
+<!-- Google Analytics -->
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push([
+            '_setAccount', 'UA-36433517-2'
+    ]);
+    _gaq.push([
+        '_trackPageview'
+    ]);
+/*     _gaq.push(['_setCookiePath', '/js/']); */ 
+    _gaq.push(['_setCookiePath', '/']);  
+    (function() {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+                : 'http://www')
+                + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })();   
+</script>
+</body>
+</html>
