@@ -22,41 +22,47 @@
 <!-- 
     INJECT JQUERY THEME
 -->
+
 <script type="text/javascript" src="js/lib/fix.js"></script>
 <script type="text/javascript" src="js/Conf.js"></script>
-<script type="text/javascript">
+<script src="js/jquery-1.8.3.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript" async="async">
 (function(){
-	var plugins = ['jquery-1.8.3.js', 'jquery-ui-1.9.2.custom.min.js', 'jpicker/css/jPicker-1.1.6.css', 'colorpicker/js/colorpicker.js',
+	console.log('ANO');
+	var plugins = [ 'jpicker/css/jPicker-1.1.6.css', 'colorpicker/js/colorpicker.js',
 	               'jquery.editinplace.js', 'jquery.hotkeys-0.7.9.min.js', 'colorpicker/css/colorpicker.css'];
 	
     for (var i = 0; i < plugins.length; i++) {
     	var plugin = plugins[i];
     	var type = "js";
-    	var pat = /^(.*)\.css$/;
+    	var pat = /^(.*)\.css$/i;
     	if (pat.exec(plugin)) {
     		type = "css";
     	}
     	var r = null;
     	if (type == 'js') {
     		r = document.createElement('script');
-    		r.src = window.graphit.baseStaticContent + '/js/plugin/' + plugin;
     		r.type = "text/javascript";
-  
+    		r.async = false;
+    		r.src = window.graphit.baseStaticContent + 'js/plugin/' + plugin;
+            
     	} else {
     		r = document.createElement('link');
     		r.rel = "stylesheet";
     		r.type = "text/css";
-    		r.href = windo.graphit.baseStaticContent + 'js/plugin/' + plugin;
+    		r.href = window.graphit.baseStaticContent + 'js/plugin/' + plugin;
     	}
-        document.head.appendChild(r);
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(r, s);
     }
-})();
+})(window);
 </script>
 <!-- 
     JQUERY 
 -->
-<script type="text/javascript" src="js/plugin/jquery-1.8.3.js"></script>
-<script type="text/javascript" src="js/plugin/jquery-ui-1.9.2.custom.min.js"></script>
+<!-- <script type="text/javascript" src="js/plugin/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="js/plugin/jquery-ui-1.9.2.custom.min.js"></script> -->
 
 <!-- GOOGLE IDENTITY TOOLKIT -->
 <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
@@ -64,11 +70,11 @@
 <script type="text/javascript" src="https://www.accountchooser.com/client.js"></script>
  -->
  
-<script type='text/javascript' src='https://ajax.googleapis.com/jsapi'></script>
+<!-- <script type='text/javascript' src='https://ajax.googleapis.com/jsapi'></script>
 <script type='text/javascript'>
   google.load("identitytoolkit", "2", {
   packages: [ "ac"] } );
-</script>
+</script> -->
 <!--
     JQUERY PLUGIN
 -->

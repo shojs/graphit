@@ -20,7 +20,7 @@ Cjquery_theme_injector.prototype.inject_script = function(name) {
 	var e = document.createElement('link');
 	e.setAttribute('rel', 'stylesheet');
 	e.setAttribute('id', 'ui-theme');
-	var src = 'js/plugin/jquery-ui/1.9.2/themes/' + name
+	var src = window.graphit.baseStaticContent + 'js/plugin/jquery-ui/1.9.2/themes/' + name
 			+ '/jquery-ui.css';
 	e.setAttribute('href', src);
 	console.log("[Injecting/css]", src);
