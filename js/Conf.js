@@ -15,11 +15,11 @@ window.graphit = {
 		/**
 		 * Disable/Enable authentication feature (see /php/GoogleIdentity.conf)
 		 */
-		authEnable: true,
+		authEnable: false,
 		/**
 		 * Our global access path
 		 */
 		baseStaticContent: 'http://shojs.github.com/graphit-static/',
 		baseScriptContent: '/',
-	    baseRestContent: 'http://rest.dev/'
+	    baseRestContent: '/'
 };

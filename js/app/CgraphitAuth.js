@@ -201,7 +201,7 @@ CgraphitAuth.prototype.ajax_is_logged = function(opt) {
 	var base = window.graphit.baseRestContent;
 	var request = $.ajax({
 		  type: "POST",
-		  url: base + "/gi/logged/",
+		  url: base + "gi/logged",
 		  data: { email:  opt.email}
 	});
 	if ('callback_succces' in opt) {
@@ -223,7 +223,7 @@ CgraphitAuth.prototype.ajax_logout = function(opt) {
 	var base = window.graphit.baseRestContent;
 	var request = $.ajax({
 		  type: "POST",
-		  url: base + "/gi/logout/",
+		  url: base + "gi/logout",
 		  data: { email:  opt.email}
 	});
 	if ('callback_success' in opt) {

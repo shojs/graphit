@@ -66,8 +66,12 @@ Cgraphit.prototype.init = function(options) {
 				} else {
 					url = '/no-authentication.htm';
 				}
-				var w = window.open(url, 'graphit_oauth',
+				try { 
+					var w = window.open(url, 'graphit_oauth',
 						'width=800,height=600');
+				} catch(e) {
+					this.exception('cant_talk_to__opener', e);
+				}
 				w.focus();
 			}
 		};
@@ -371,14 +375,13 @@ Cgraphit.prototype.dom_build = function() {
 	r.append(g);
 	var base = window.graphit.baseStaticContent + '/';
 	var badge = $('<div class="group group-badge">');
-	badge.append(''
-			+ '<a href="#http://jigsaw.w3.org/css-validator/check/referer">'
-			+ '<img style="border:0;width:44px;height:16px"'
-			+ '    src="'+base+'images/w3-vcss.gif"' + '    alt="Valid CSS!" \/></a>');
-	badge
-			.append('<a href="#http://www.w3.org/html/logo">'
-					+ '<img src="'+base+'images/HTML5_Logo_32.png" width="32" height="32" alt="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration" title="HTML5 Powered with Graphics, 3D &amp; Effects, Multimedia, and Performance &amp; Integration">'
-					+ '</a>');
+	var mybadges = ['html5', 'vcss', 'zf2', 'gplv3'];
+	for (var i = 0; i < mybadges.length; i++) {
+		var gb = $('<img class="badge" />');
+		gb.attr('width', 32);
+		gb.attr('src', base + 'images/badge-' + mybadges[i] + '-32.png');
+		badge.append(gb);
+	}
 	r.append(badge);
 	this.rootElm = r;
 	return this;

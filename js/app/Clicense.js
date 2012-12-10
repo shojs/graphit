@@ -1,5 +1,5 @@
 function Clicense() {
-	this.logo = 'images/gplv3-88x31.png';
+	this.logo = window.graphit.baseStaticContent + 'images/badge-gplv3-32.png';
 	this.text = 'license-gpl3.txt';
 	this.rootElm = null;
 	this.dialog_options = {
@@ -18,7 +18,7 @@ Clicense.prototype.dom_build = function() {
 	$g.append(img);
 	$g.append('<p>Source code: <a href="#code" onclick="window.open(\'http://github.com/shojs/graphit/\'); return false;">github</a></p>');
 	$g.append('<p>Documentation: <a href="#doc" onclick="window.open(\'http://github.com/shojs/graphit/wiki\');return false;">Wiki</a></p>');
-	$g.append('<p><img src="images/gimp/stock-wilber-eek-64.png">&nbsp;All icons comes from the <a href="http://www.gimp.org">Gimp</a> project.</p>');
+	$g.append('<p><img src="'+window.graphit.baseStaticContent+'images/gimp/stock-wilber-eek-64.png">&nbsp;All icons comes from the <a href="http://www.gimp.org">Gimp</a> project.</p>');
 	$g.append('<h6>License</h6>');
 	var $txt = $('<p />');
 	$txt.addClass('text');
