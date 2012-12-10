@@ -181,7 +181,6 @@ Csurface_workspace.prototype.__load_dialog = function() {
 					widget_exception(e);
 
 				}
-				console.log('input', _input, _input.attr('value'));
 			});
 	rootElm.append(input);
 	rootElm.append(submit);

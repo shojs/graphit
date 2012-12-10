@@ -61,9 +61,9 @@ Cgraphit.prototype.init = function(options) {
 			callback_click : function() {
 				var url = '';
 				if (window.graphit.auth) {
-					url = 'php/GoogleIdentity2/start/';
+					url = 'php/GoogleIdentity2/login/';
 				} else {
-					url = 'php/GoogleIdentity2/no-authentification.htm';
+					url = 'php/GoogleIdentity2/no-authentication.htm';
 				}
 				var w = window.open(url, 'graphit_oauth',
 						'width=800,height=600');

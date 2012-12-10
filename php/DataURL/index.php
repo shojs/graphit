@@ -1,12 +1,9 @@
 <?php
-if (!defined('__ROOT__')) {
-	define('__ROOT__', dirname(dirname(__FILE__)));
-}
-require_once(__ROOT__.'/GoogleIdentity.php');
-require_once(__ROOT__.'/Exception/JSON.php');
-require_once(__ROOT__.'/GoogleIdentity2/GoogleIdentity.php');
+require_once('../include.php');
+require_once(__ROOT__.'Exception/JSON.php');
+require_once(__ROOT__.'GoogleIdentity2/GoogleIdentity.php');
 
-$GICONF = new GoogleIdentityConf();
+$GICONF = new GoogleIdentity_Conf();
 $GI = new GoogleIdentity();
 
 header('Content-Type: application/json');

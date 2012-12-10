@@ -1,8 +1,7 @@
 <?php
-if (!defined('__ROOT__')) { define('__ROOT__', dirname(dirname(__FILE__))); }
-require_once(__ROOT__.'/EasyRpService.php');
-require_once(__ROOT__.'/Message.php');
-require_once(__ROOT__.'/Conf.php');
+require_once(__ROOT__.'/GoogleIdentity2/EasyRpService.php');
+require_once(__ROOT__.'/GoogleIdentity2/Message.php');
+require_once(__ROOT__.'/GoogleIdentity2/Conf.php');
 
 class GoogleIdentity {
 	const DEBUG = 1;
@@ -12,27 +11,29 @@ class GoogleIdentity {
 	/* We are storing configuration here */
 	public static $Conf = null;
 	/* parameter from idp */
-	public $target = null;
-	public $purpose = null;
+	private $IDPDATA = null;
+	
 	private static $valid_session_keys = array('displayName', 'verifiedEmail', 'photoUrl');
 
 	function __construct() {
-		if (isset($_REQUEST['rp_target'])) // NOT SET WHEN USING useContextParam: true, ???
-			$this->set_target($_REQUEST['rp_target']);
-		if (isset($_REQUEST['rp_purpose']))
-			$this->set_purpose($_REQUEST['rp_purpose']);
 		GoogleIdentity::$Conf = new GoogleIdentity_Conf();
 		$this->session_start();
+		if ($this->get('verifiedEmail')) {
+			error_log('Logged user: ' . $this->get('verifiedEmail'));
+		}
 	}
 	
 	public function get($key) {
 		if (isset(GoogleIdentity::$valid_session_keys[$key])) {
 			throw new Exception_JSON('invalid_key', $key);
 		}
-		if (!isset($_SESSION[$key])) {
+		if (!$this->IDPDATA) {
 			return null;
 		}
-		return $_SESSION[$key]; 
+		if (!isset($this->IDPDATA[$key])) {
+			return null;
+		}
+		return $this->IDPDATA[$key]; 
 	}
 
 
@@ -46,7 +47,13 @@ class GoogleIdentity {
 		$postData = @file_get_contents('php://input');
 		$result = null;
 		$result = EasyRpService::verify($url, $postData);
-		return $result;
+		if ($result) {
+			$this->session_set_data($result);
+			return $result;
+		} else {
+			error_log('askGITK doesn\'t return response');
+			return null;
+		}
 	}
 
 	/*
@@ -54,19 +61,30 @@ class GoogleIdentity {
 	 * 
 	 */
 	public function session_set_data($result) {
-		foreach ($result as $key => $value) {
-			if (GoogleIdentity::DEBUG)
-				error_log("session_set " . $key . " => " . $value);
-			$_SESSION[$key] = $value;
+		if (!$result) { return False;} 
+		$_SESSION['IDPDATA'] = json_encode($result);
+		$this->decode_session_data();
+		return True;
+	}
+	
+	public function decode_session_data() {
+		if (!isset($_SESSION['IDPDATA'])) { 
+			$this->IDPDATA = null;
+			return False;
 		}
+		$this->IDPDATA = json_decode($_SESSION['IDPDATA'], True);
+		return True;
 	}
 
-	public static function session_start() {
+	public function session_start() {
+		session_name('GraphItSess');
 		session_start();
+		$this->decode_session_data();
 		return true;
 	}
 
-	public static function session_destroy() {
+	public function session_destroy() {
+		$this->IDPDATA = null;
 		$_SESSION = array();
 		if (ini_get("session.use_cookies")) {
 			$params = session_get_cookie_params();

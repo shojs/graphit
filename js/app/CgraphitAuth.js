@@ -224,9 +224,9 @@ CgraphitAuth.prototype.ajax_logout = function(opt) {
 		  url: "php/GoogleIdentity2/logout/",
 		  data: { email:  opt.email}
 	});
-	if ('callback_succces' in opt) {
+	if ('callback_success' in opt) {
 		request.done(function(msg) {
-			opt.callback_succes.call(that, msg);
+			opt.callback_success.call(that, msg);
 		});
 	} else if ('callback_error' in opt) {
 		request.error(function(jqXHR, textStatus) {

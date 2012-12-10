@@ -1,7 +1,6 @@
 <?php
-if (!defined('__ROOT__')) { define('__ROOT__', dirname(dirname(__FILE__))); }
-require_once(__ROOT__.'/../Exception/JSON.php');
-require_once(__ROOT__.'/Conf.php');
+require_once(__ROOT__.'/Exception/JSON.php');
+require_once(__ROOT__.'/GoogleIdentity2/Conf.php');
 
 class EasyRpService {
 
@@ -17,7 +16,6 @@ class EasyRpService {
 
   private static function getServerUrl() {
   	$url = 'https://www.googleapis.com/rpc?key=' . GoogleIdentity_Conf::get('developerKey');
-  	error_log('url: ' . $url);
   	return $url;
   }
   
@@ -33,10 +31,8 @@ class EasyRpService {
     curl_close($ch);
     if ($http_code != '200') {
     	#TODO: Handle exception
-    	error_log("Error: $http_code $response");
     	throw new Exception_JSON('gitk_post_error');
     }
-    error_log($response);
     if ($http_code == '200' && !empty($response)) {
       return json_decode($response, true);
     }
@@ -51,7 +47,7 @@ class EasyRpService {
     $request['params']['requestUri'] = $continueUri;
     $request['params']['postBody'] = $response;
     $request['params']['returnOauthToken'] = True;
-    $request['params']['client_id'] = '933111977942-ihta47n2lhn5qf55lu48dn27i5ruqsst.apps.googleusercontent.com';
+    //$request['params']['client_id'] = '933111977942-ihta47n2lhn5qf55lu48dn27i5ruqsst.apps.googleusercontent.com';
 
     try {
     $result = EasyRpService::post($request);

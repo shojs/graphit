@@ -1,12 +1,10 @@
 <?php
-define('__ROOT__', dirname(dirname(__FILE__)));
-require_once(__ROOT__.'/GoogleIdentity.php');
+require_once('../../include.php');
+require_once(__ROOT__.'GoogleIdentity2/GoogleIdentity.php');
 
 $GI = new GoogleIdentity();
 
-if ($response = $GI->askGITK()) {
-	$GI->session_set_data($response);
-}
+$GI->askGITK();
 $conf = GoogleIdentity::$Conf;
 
 ?>
@@ -66,7 +64,7 @@ if ($GI->get('verifiedEmail')) {
   o.google.identitytoolkit.updateSavedAccount(userData);
   console.log('userData', userData);
   o.graphit.auth.send_trigger('update');
-  window.close();
+  //window.close();
   }
   </script>
 </head>

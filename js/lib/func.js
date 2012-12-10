@@ -192,13 +192,18 @@ function widget_exception(e) {
 	throw e;
 }
 
-function deleteAllCookies() {
-    var cookies = document.cookie.split(";");
+function deleteAllCookies(docTarget) {
+	docTarget = docTarget || window.document;
+    var cookies = docTarget.cookie.split(";");
     for (var i = 0; i < cookies.length; i++) {
     	var cookie = cookies[i];
         console.log('Delete cookie', cookie);
     	var eqPos = cookie.indexOf("=");
     	var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-    	document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    	docTarget.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    }
+    var opener = window.opener;
+    if (opener) {
+    	deleteAllCookies(opener.document);
     }
 }
