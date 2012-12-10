@@ -64,15 +64,15 @@ Cgraphit.prototype.init = function(options) {
 				if (window.graphit.auth) {
 					url = base + 'gi/login';
 				} else {
-					url = '/no-authentication.htm';
+					url = window.graphit.baseStaticContent + 'no-authentication.htm';
 				}
 				try { 
 					var w = window.open(url, 'graphit_oauth',
 						'width=800,height=600');
+					w.focus();
 				} catch(e) {
-					this.exception('cant_talk_to__opener', e);
+					this.exception('cant_talk_to_opener', e);
 				}
-				w.focus();
 			}
 		};
 	/*
