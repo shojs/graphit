@@ -64,11 +64,11 @@ Cgraphit.prototype.init = function(options) {
 				if (window.graphit.auth) {
 					url = base + 'gi/login';
 				} else {
-					url = window.graphit.baseStaticContent + 'no-authentication.htm';
+					url = window.graphit.baseStaticContent + 'pages/no-authentication.htm';
 				}
 				try { 
 					var w = window.open(url, 'graphit_oauth',
-						'width=800,height=600');
+						'width=900,height=600');
 					w.focus();
 				} catch(e) {
 					this.exception('cant_talk_to_opener', e);
@@ -282,10 +282,11 @@ Cgraphit.prototype.surface_create = function(options) {
 	try {
 		s = new Csurface_workspace(options);
 	} catch (e) {
-		this.intercept(e);
+		//this.intercept(e);
 		console.error('Cannot create surface, Exception <<< ', e, ' >>>');
 		return false;
 	}
+	if (!s) {return false;}
 	this.bind_trigger(s.cSurface, 'surface_selected', function(e, cSurface) {
 		if (!(cSurface instanceof Csurface)) {
 			that.exception('invalid_surface_selected_parameter');

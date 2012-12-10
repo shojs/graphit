@@ -73,7 +73,7 @@ function Cjquery_theme() {
 		},
 		def : 'base',
 		callback_change : function(value) {
-			var src = '/js/plugin/jquery-ui/1.9.2/themes/' + value
+			var src = window.graphit.baseStaticContent + 'js/plugin/jquery-ui/1.9.2/themes/' + value
 					+ '/jquery-ui.css';
 			console.log('src', src);
 			$("#ui-theme").attr("href", src);

@@ -193,11 +193,16 @@ Cobject.prototype.send_trigger = function(action, additional) {
  * @param {Function} callback A callback to execute when we trigger this action
  */
 Cobject.prototype.bind_trigger = function(srcobj, action, callback) {
+	if (!srcobj) {
+		console.warn('Cannot bind to null object');
+		return false;
+	}
 	var name = srcobj.get_trigger_name(action);
 	if (window.graphit.debug > 4) console.debug('[trigger/bind]', action, this.className,' => ', name);
 	$(document).bind(name, function(event, data) {
 		callback.call(this, event, data);
 	});
+	return true;
 };
 
 /**

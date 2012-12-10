@@ -6,6 +6,8 @@ if ('graphit' in window) {
 }
 
 window.graphit = {
+		version: "0.1.1",
+		author: "showi@github.com",
 		/**
 		 * 11 All
 		 * 5 Verbose
@@ -19,7 +21,7 @@ window.graphit = {
 		/**
 		 * Our global access path
 		 */
-		baseStaticContent: 'http://shojs.github.com/graphit-static/',
+		baseStaticContent: 'http://static-graphit.dev/',
 		baseScriptContent: '/',
 	    baseRestContent: '/'
 };

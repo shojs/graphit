@@ -16,7 +16,7 @@ function Csurface(options) {
 			step : 1,
 			autoSave : false,
 			callback_slide : function() {
-				console.log('slidinggggggg', this);
+				console.log('sliding', this);
 			}
 		}
 	};

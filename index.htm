@@ -2,11 +2,9 @@
 <!-- <html manifest="manifest"> -->
 <html>
 <head>
-
 <!--
     Meta 
 -->
-
 <meta name="rating" content="safe for kids" />
 <meta name="keywords"
  content="drawing, brushes, layer, online, javascript, color" />
@@ -22,169 +20,129 @@
 <!-- 
     INJECT JQUERY THEME
 -->
-
+<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="js/lib/fix.js"></script>
 <script type="text/javascript" src="js/Conf.js"></script>
-<script src="js/jquery-1.8.3.js"></script>
-<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
-<script type="text/javascript" async="async">
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<script type="text/javascript">
 (function(){
-	console.log('ANO');
-	var plugins = [ 'jpicker/css/jPicker-1.1.6.css', 'colorpicker/js/colorpicker.js',
-	               'jquery.editinplace.js', 'jquery.hotkeys-0.7.9.min.js', 'colorpicker/css/colorpicker.css'];
+	window.graphit.loaded = false;
+	var root = document.getElementsByTagName('script')[0];
+	if (!root) root = document.head;
+	else
+	var total = 0;
+	var loaded = 0;
+	var plugins = [ 
+	                'jpicker/css/jPicker-1.1.6.css', 
+	                'colorpicker/js/colorpicker.js',
+	                'jquery.editinplace.js', 
+	                'jquery.hotkeys-0.7.9.min.js', 
+	                'colorpicker/css/colorpicker.css'];
 	
-    for (var i = 0; i < plugins.length; i++) {
-    	var plugin = plugins[i];
-    	var type = "js";
-    	var pat = /^(.*)\.css$/i;
-    	if (pat.exec(plugin)) {
-    		type = "css";
-    	}
+	var graphitclass = [
+	                    'lib/func.js', 
+	                    'lib/Cuid.js', 
+	                    'lib/Cexception.js',
+	                    'lib/Cobject.js', 
+	                    'lib/Clocal_storage.js', 
+	                    'lib/parameters/Cparameter.js', 
+	                    'lib/parameters/Cparameter_select.js', 
+	                    'lib/parameters/Cparameter_checkbox.js',
+	                    'lib/parameters/Cparameter_numeric.js',
+	                    'app/Cjquery_theme.js',
+	                    'lib/image/Cimage_analyse.js',
+	                    'lib/Cimage.js',
+	                    'lib/Cicon.js',
+	                    'lib/Ccolor.js',
+	                    'lib/Cmenu.js',
+	                    'lib/Ccanvas.js',
+	                    'lib/Cbounding_rectangle.js',
+	                    'lib/Cregistry.js',
+	                    'lib/Cpo.js',
+	                    'lib/Cmath.js',
+	                    'lib/math/Cpoint2d.js',
+	                    'lib/math/Cvector2d.js',
+	                    'lib/math/Cmatrix33.js',
+	                    'lib/Ctransform2d.js',
+	                    'lib/Cmouse_tracker.js',
+	                    'app/Cwidget.js',
+	                    'app/Ctool_brushes.js',
+	                    'app/tools/Ctool.js',
+	                    'app/tools/Ctool_pencil.js',
+	                    'app/tools/Ctool_paintbrush.js',
+	                    'app/tools/Ctool_eraser.js',
+	                    'app/tools/Ctool_fill.js',
+	                    'app/tools/Ctool_color_picker.js',
+	                    'app/Cgrapher.js',
+	                    'app/helper_draw.js',
+	                    'app/Clicense.js',
+	                    'app/Cfrag.js',
+	                    'app/Clayer.js',
+	                    'app/Clayer_manager.js',
+	                    'app/Csurface.js',
+	                    'app/Csurface_workspace.js',
+	                    'app/Cgrid.js',
+	                    'app/Ctoolbox_preview.js',
+	                    'app/Ctoolbox_colorpicker.js',
+	                    'app/Ctoolbox.js',
+	                    'lib/Cbinary_file.js',
+	                    'app/Cfile_GBR.js',
+	                    'app/Cbrush.js',
+	                    'app/Cbrush_manager.js',
+	                    'app/Cgraphit.js',
+	                    'app/CgraphitAuth.js',
+	                    'app/run.js',
+                    ];
+	
+	var inject_script = function(path) {
+        total++;
+    	var type = 'js';
+    	var pat = /^(.*)\.(css)$/i;
+    	var m = pat.exec(path); 
+    	if (m) type = 'css';
     	var r = null;
     	if (type == 'js') {
     		r = document.createElement('script');
     		r.type = "text/javascript";
-    		r.async = false;
-    		r.src = window.graphit.baseStaticContent + 'js/plugin/' + plugin;
-            
+    	    r.async = false;
+    		r.defer = false; 
+    		r.src = path;
     	} else {
     		r = document.createElement('link');
     		r.rel = "stylesheet";
     		r.type = "text/css";
-    		r.href = window.graphit.baseStaticContent + 'js/plugin/' + plugin;
+    		r.href = path;
     	}
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(r, s);
-    }
+        root.parentNode.insertBefore(r, root);
+        r.onload = function() {
+        	if (window.graphit.debug > 5) 
+        		console.log('[', loaded, ',', total, ']', 'Loaded', this.src);
+        	loaded++;
+        	console.log('path',path);
+        	if (path == 'js/app/Cjquery_theme.js') {
+                new Cjquery_theme_injector();
+        	}
+        	if ((loaded+1) == total) {
+        		window.graphit.loaded = true;
+        	}
+        };
+	}
+
+	for (var i = 0; i < plugins.length; i++) {
+		inject_script(window.graphit.baseStaticContent + 'js/plugin/' + plugins[i]);
+	}
+
+	for (var i = 0; i < graphitclass.length; i++) {
+	    inject_script('js/' + graphitclass[i]);
+	}
 })(window);
 </script>
-<!-- 
-    JQUERY 
--->
-<!-- <script type="text/javascript" src="js/plugin/jquery-1.8.3.js"></script>
-<script type="text/javascript" src="js/plugin/jquery-ui-1.9.2.custom.min.js"></script> -->
-
-<!-- GOOGLE IDENTITY TOOLKIT -->
-<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/jsapi"></script>
-<script type="text/javascript" src="https://www.accountchooser.com/client.js"></script>
- -->
- 
-<!-- <script type='text/javascript' src='https://ajax.googleapis.com/jsapi'></script>
-<script type='text/javascript'>
-  google.load("identitytoolkit", "2", {
-  packages: [ "ac"] } );
-</script> -->
-<!--
-    JQUERY PLUGIN
--->
-<!-- <link rel="Stylesheet" type="text/css"
- href="js/plugin/jpicker/css/jPicker-1.1.6.css" />
-<script type="text/javascript" src="js/plugin/jpicker/jpicker-1.1.6.js"></script>
-<script type="text/javascript" src="js/plugin/jquery.getimagedata.js"></script> -->
-
-<!--
-    ColorPicker
--->
-<!-- <link rel="stylesheet" media="screen" type="text/css"
- href="js/plugin/colorpicker/css/colorpicker.css" />
-<script type="text/javascript"
- src="js/plugin/colorpicker/js/colorpicker.js"></script>
-<script type="text/javascript" src="js/plugin/jquery.hotkeys-0.7.9.min.js"></script>
-<script type="text/javascript" src="js/plugin/jquery.editinplace.js"></script> -->
-<!-- <link rel="Stylesheet" type="text/css" href="/js/plugin/FeedEk/FeedEk.css" />
-<script type="text/javascript" src="/js/plugin/FeedEk/FeedEk.js"></script>
- -->
- <!--
-    CSS
--->
-
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<!-- <link rel="stylesheet" type="text/css" href="css/menu.css" /> -->
-
-
-<script type="text/javascript" src="js/lib/func.js"></script>
-<script type="text/javascript" src="js/lib/Cuid.js"></script>
-<script type="text/javascript" src="js/lib/Cexception.js"></script>
-<script type="text/javascript" src="js/lib/Cobject.js"></script>
-<script type="text/javascript" src="js/app/Csplashscreen.js"></script>
-
-<script type="text/javascript" src="js/lib/Clocal_storage.js"></script>
-<script type="text/javascript" src="js/lib/parameters/Cparameter.js"></script>
-<script type="text/javascript" src="js/lib/parameters/Cparameter_select.js"></script>
-<script type="text/javascript" src="js/lib/parameters/Cparameter_checkbox.js"></script>
-<script type="text/javascript" src="js/lib/parameters/Cparameter_numeric.js"></script>
-<script type="text/javascript" src="js/app/Cjquery_theme.js"></script>
-<script type="text/javascript">
-	new Cjquery_theme_injector();
-</script>
-<!-- <script type="text/javascript" src="shojs-graphit-0.0.1-min.js"></script> -->
-<!-- 
-    MINIFYJS:START 
--->
-
-<script type="text/javascript" src="js/lib/image/Cimage_analyse.js"></script>
-<script type="text/javascript" src="js/lib/Cimage.js"></script>
-<script type="text/javascript" src="js/lib/Cicon.js"></script>
-<script type="text/javascript" src="js/lib/Ccolor.js"></script>
-<script type="text/javascript" src="js/lib/Cmenu.js"></script>
-<script type="text/javascript" src="js/lib/Ccanvas.js"></script>
-<script type="text/javascript" src="js/lib/Cbounding_rectangle.js"></script>
-<script type="text/javascript" src="js/lib/Cregistry.js"></script>
-
-<script type="text/javascript" src="js/lib/Cpo.js"></script>
-
-<script type="text/javascript" src="js/lib/Cmath.js"></script>
-<script type="text/javascript" src="js/lib/math/Cpoint2d.js"></script>
-<script type="text/javascript" src="js/lib/math/Cvector2d.js"></script>
-<script type="text/javascript" src="js/lib/math/Cmatrix33.js"></script>
-
-<script type="text/javascript" src="js/lib/Ctransform2d.js"></script>
-
-<script type="text/javascript" src="js/lib/Cmouse_tracker.js"></script>
-<script type="text/javascript" src="js/app/Cwidget.js"></script>
-
-<script type="text/javascript" src="js/app/Ctool_brushes.js"></script>
-<script type="text/javascript" src="js/app/tools/Ctool.js"></script>
-<script type="text/javascript" src="js/app/tools/Ctool_pencil.js"></script>
-<script type="text/javascript" src="js/app/tools/Ctool_paintbrush.js"></script>
-<script type="text/javascript" src="js/app/tools/Ctool_eraser.js"></script>
-<script type="text/javascript" src="js/app/tools/Ctool_fill.js"></script>
-<script type="text/javascript" src="js/app/tools/Ctool_color_picker.js"></script>
-
-<script type="text/javascript" src="js/app/Cgrapher.js"></script>
-<script type="text/javascript" src="js/app/helper_draw.js"></script>
-<script type="text/javascript" src="js/app/Clicense.js"></script>
-
-<script type="text/javascript" src="js/app/Cfrag.js"></script>
-<script type="text/javascript" src="js/app/Clayer.js"></script>
-<script type="text/javascript" src="js/app/Clayer_manager.js"></script>
-<script type="text/javascript" src="js/app/Csurface.js"></script>
-<script type="text/javascript" src="js/app/Csurface_workspace.js"></script>
-<script type="text/javascript" src="js/app/Cgrid.js"></script>
-
-<script type="text/javascript" src="js/app/Ctoolbox_preview.js"></script>
-<script type="text/javascript" src="js/app/Ctoolbox_colorpicker.js"></script>
-<script type="text/javascript" src="js/app/Ctoolbox.js"></script>
-
-<script type="text/javascript" src="js/lib/Cbinary_file.js"></script>
-<script type="text/javascript" src="js/app/Cfile_GBR.js"></script>
-
-<script type="text/javascript" src="js/app/Cbrush.js"></script>
-<script type="text/javascript" src="js/app/Cbrush_manager.js"></script>
-
-<script type="text/javascript" src="js/app/Cgraphit.js"></script>
-<script type="text/javascript" src="js/app/CgraphitAuth.js"></script>
-
-<script type="text/javascript" src="js/app/run.js"></script>
-<!--
-MINIFYJS:STOP 
--->
 <title>GraphIt: Javascript online drawing</title>
 </head>
 <body>
-<!-- Google Analytics -->
-<script type="text/javascript">
+ <!-- Google Analytics -->
+ <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push([
             '_setAccount', 'UA-36433517-2'
@@ -192,7 +150,6 @@ MINIFYJS:STOP
     _gaq.push([
         '_trackPageview'
     ]);
-/*     _gaq.push(['_setCookiePath', '/js/']); */ 
     _gaq.push(['_setCookiePath', '/']);  
     (function() {
         var ga = document.createElement('script');

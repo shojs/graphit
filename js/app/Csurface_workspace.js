@@ -33,6 +33,7 @@ Csurface_workspace.prototype.init = function(opt) {
  * DOM element
  */
 Csurface_workspace.prototype.dom_build = function() {
+	if (!this.cSurface) this.exception('surface_is_null');
 	var that = this;
 	var r = $('<div class="graphit-workspace"/>');
 	var navbar = $('<div class="navbar"/>');
