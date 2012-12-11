@@ -21,7 +21,7 @@ window.graphit = {
 		/**
 		 * Our global access path
 		 */
-		baseStaticContent: 'http://static-graphit.dev/',
+		baseStaticContent: 'http://shojs.github.com/graphit-static/',
 		baseScriptContent: '/',
 	    baseRestContent: '/'
 };
