@@ -1,3 +1,8 @@
+/**
+ * @constructor
+ * @param options
+ * @returns
+ */
 function Ctoolbox_preview(options) {
 	var that = this;
 	options.className = 'Ctoolbox_preview';

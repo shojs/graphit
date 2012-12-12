@@ -1,4 +1,5 @@
 /**
+ * @constructor
  * Class Cbrush_manager [jsgraph] 22 nov. 2012
  */
 function Cbrush_manager(options) {

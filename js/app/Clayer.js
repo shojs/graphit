@@ -7,6 +7,7 @@ var E_DRAWCOMPOSITION = new Object({
 });
 
 /*******************************************************************************
+ * @constructor
  * @param parent
  * @param label
  * @returns
@@ -100,10 +101,8 @@ Clayer.prototype.clone = function() {
  * @returns
  */
 Clayer.prototype.discard_frag = function() {
-	// console.log('length: ' + this.frags.length);
 	this.need_redraw = true;
 	return this.frags.pop();
-	this.send_trigger('update');
 };
 
 /**

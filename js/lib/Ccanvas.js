@@ -1,4 +1,5 @@
 /**
+ * @constructor
  * A class holding a canvas element
  * @param options {Hash} Cobject parameters hash
  */

@@ -1,4 +1,5 @@
 /**
+ * @constructor
  * Class  Cmatrix33
  * 22:34:30 / 30 nov. 2012 [jsgraph] sho 
  */

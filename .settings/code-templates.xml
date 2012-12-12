@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="jsdoc" deleted="false" description="author name" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.author" name="@author">@author ${user}</template><template autoinsert="true" context="jsdoc" deleted="false" description="&lt;b&gt;&lt;/b&gt;" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.b_tag" name="&lt;b&gt;">&lt;b&gt;${word_selection}${}&lt;/b&gt;${cursor}</template><template autoinsert="true" context="jsdoc" deleted="false" description="&lt;code&gt;&lt;/code&gt;" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.code_tag" name="&lt;code&gt;">&lt;code&gt;${word_selection}${}&lt;/code&gt;${cursor}</template><template autoinsert="true" context="jsdoc" deleted="false" description="&lt;i&gt;&lt;/i&gt;" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.i_tag" name="&lt;i&gt;">&lt;i&gt;${word_selection}${}&lt;/i&gt;${cursor}</template><template autoinsert="true" context="jsdoc" deleted="false" description="&lt;pre&gt;&lt;/pre&gt;" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.pre_tag" name="&lt;pre&gt;">&lt;pre&gt;${word_selection}${}&lt;/pre&gt;${cursor}</template><template autoinsert="false" context="javaScript" deleted="false" description="catch block" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.catch" name="catch">catch (e) {
+	${cursor}// ${todo}: handle exception
+}</template><template autoinsert="true" context="javaScript" deleted="false" description="constructor" enabled="true" name="constructor">(function($$Namespace) {&#13;
+	'use strict';&#13;
+	window.${enclosing_project} = window['${enclosing_project}'];&#13;
+	var getBird = window.${enclosing_project}['getBird'];&#13;
+/**&#13;
+* Class ${primary_type_name}&#13;
+* ${enclosing_project}[${enclosing_package}/${file}]&#13;
+* ${user} / ${date} / ${time}&#13;
+* @param dumbopt {String} dumbstring&#13;
+*/&#13;
+var ${primary_type_name} = function(options) {&#13;
+	options = options || {};&#13;
+	options['className'] = "${primary_type_name}";&#13;
+	options['label'] = "${primary_type_name}";&#13;
+	Cobject.call(this, options, []);&#13;
+};&#13;
+&#13;
+/* Inheritance */&#13;
+${primary_type_name}.prototype = Object.create(Cobject.prototype);&#13;
+${primary_type_name}.prototype.constructor = new Cobject();&#13;
+&#13;
+${gcoe:elemType}&#13;
+})(${enclosing_project});</template><template autoinsert="false" context="javaScript" deleted="false" description="do while statement" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.do" name="do">do {
+	${line_selection}${cursor}
+} while (${condition});</template><template autoinsert="false" context="javaScript" deleted="false" description="else block" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.else" name="else">else {
+	${cursor}
+}</template><template autoinsert="false" context="javaScript" deleted="false" description="else if block" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.elseif" name="elseif">else if (${condition}) {
+	${cursor}
+}</template><template autoinsert="true" context="jsdoc" deleted="false" description="&lt;code&gt;false&lt;/code&gt;" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.code_tag_false" name="false">&lt;code&gt;false&lt;/code&gt;</template><template autoinsert="false" context="javaScript" deleted="false" description="iterate over array" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.for_array" name="for">for (var ${index} = 0; ${index} &lt; ${array}.length; ${index}++) {
+	${line_selection}${cursor}
+}</template><template autoinsert="false" context="javaScript" deleted="false" description="iterate over array with temporary variable" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.for_temp" name="for">for (var ${index} = 0; ${index} &lt; ${array}.length; ${index}++) {
+	var ${array_element} = ${array}[${index}];
+	${cursor}
+}</template><template autoinsert="false" context="javaScript" deleted="false" description="iterate using for .. in" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.for_iterable" name="forin">for (var ${iterable_element} in ${iterable}) {
+	${cursor}
+}</template><template autoinsert="false" context="javaScript" deleted="false" description="anonymous function" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.anonymous_public_method" name="function">function (${}) {
+	${cursor}
+}</template><template autoinsert="false" context="javaScript" deleted="false" description="function" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.public_method" name="function">function ${name}(${}) {
+	${cursor}
+}</template><template autoinsert="true" context="javaScript" deleted="false" description="Google Closure Export Module" enabled="true" name="gcem">/**&#13;
+* Export, make our class available under our namespace and make Google Closure happy&#13;
+* ${enclosing_project}[${enclosing_package}/${file}]&#13;
+* ${user} / ${date} / ${time}&#13;
+*/&#13;
+$$Namespace['_class_pool']['${primary_type_name}'] = ${primary_type_name};</template><template autoinsert="true" context="javaScript" deleted="false" description="Google Closure method End" enabled="true" name="gcme">${primary_type_name}.prototype['${name}'] = ${primary_type_name}.prototype.${name};</template><template autoinsert="true" context="javaScript" deleted="false" description="Google Closure Object End" enabled="true" name="gcoe">/* Export to our Main module and make Google Closure happy&#13;
+* ${enclosing_project}[${enclosing_package}/${file}]&#13;
+* ${user} / ${date} / ${time}&#13;
+*/&#13;
+$$Namespace['_class_pool']['${primary_type_name}'] = ${primary_type_name};</template><template autoinsert="false" context="javaScript" deleted="false" description="if statement" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.if" name="if">if (${condition}) {
+	${line_selection}${cursor}
+}</template><template autoinsert="false" context="javaScript" deleted="false" description="if else statement" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.ifelse" name="ifelse">if (${condition}) {
+	${cursor}
+} else {
+	
+}</template><template autoinsert="false" context="javaScript" deleted="false" description="lazy creation" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.lazy" name="lazy">if (${name:var} == null) {
+	${name} = new ${type}(${arguments});
+	${cursor}
+}
+
+return ${name};</template><template autoinsert="true" context="javaScript" deleted="false" description="Insert method" enabled="true" name="method">/**&#13;
+* Method ${field}&#13;
+* ${enclosing_project}[${enclosing_package}/${file}]&#13;
+* ${user} / ${date} / ${time}&#13;
+* @param dumbopt {String} dumbstring&#13;
+*/&#13;
+${primary_type_name}.prototype.${field} = function(dumbopt) {&#13;
+	// dumb comment&#13;
+};&#13;
+${primary_type_name}.prototype['${field}'] = ${primary_type_name}.prototype.${field};&#13;
+</template><template autoinsert="false" context="javaScript" deleted="false" description="create new object" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.new" name="new">var ${name} = new ${type}(${arguments});</template><template autoinsert="true" context="jsdoc" deleted="false" description="&lt;code&gt;null&lt;/code&gt;" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.code_tag_null" name="null">&lt;code&gt;null&lt;/code&gt;</template><template autoinsert="false" context="javaScript" deleted="false" description="switch case statement" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.switch" name="switch">switch (${key}) {
+	case ${value}:
+		${cursor}
+		break;
+
+	default:
+		break;
+}</template><template autoinsert="true" context="jsdoc" deleted="false" description="&lt;code&gt;true&lt;/code&gt;" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.code_tag_true" name="true">&lt;code&gt;true&lt;/code&gt;</template><template autoinsert="false" context="javaScript" deleted="false" description="try catch block" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.try" name="try">try {
+	${line_selection}${cursor}
+} catch (e) {
+	// ${todo}: handle exception
+}</template><template autoinsert="false" context="javaScript" deleted="false" description="while loop with condition" enabled="true" id="org.eclipse.wst.jsdt.ui.templates.while_condition" name="while">while (${condition}) {
+	${line_selection}${cursor}
+}</template></templates>

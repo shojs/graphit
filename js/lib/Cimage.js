@@ -6,6 +6,7 @@ var Eloading_status = {
 };
 
 /**
+ * @constructor
  * A html image element
  * @param options Cobject hash arguments
  * @return {Cimage} Cimage instance

@@ -1,3 +1,9 @@
+/**
+ * @constructor
+ * @param min
+ * @param max
+ * @returns
+ */
 function Cminmax(min, max) {
     this.min = min;
     this.max = max;
@@ -25,8 +31,8 @@ Cminmax.prototype.cmp = function(v) {
 
 /*******************************************************************************
  * Object to hold mouse position
- * 
- * @pos {Object} Object with <x> and <y> property
+ * @constructor
+ * @param pos {Object} Object with <x> and <y> property
  * @returns {Object}
  */
 function Cmouse_tracker_point(pos) {
@@ -38,7 +44,7 @@ Cmouse_tracker_point.prototype = Object.create(Cvector2d.prototype);
 Cmouse_tracker_point.prototype.constructor = new Cvector2d({x: 0, y: 0});
 /*******************************************************************************
  * Tracking mouse movement
- * 
+ * @constructor
  * @author %AUTHOR
  * @param options
  */

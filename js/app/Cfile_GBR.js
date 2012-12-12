@@ -77,9 +77,11 @@ to version 2 but uses the bytes field as a data format identifier.
 It seems the only format identifier in use is 18 which corresponds
 to 16bit floats. If you encounter brushes with a different data
 format, please let the GIMP developers know.
- 
- */
+*/
 
+/**
+ * @constructor
+ */
 function Cfile_GBR(options) {
 	Cbinary_file.call(this, options);
 	/**

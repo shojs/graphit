@@ -1,4 +1,5 @@
 /*******************************************************************************
+ * @constructor
  * Fragment are images who composed layer global image
  * 
  * @param parent

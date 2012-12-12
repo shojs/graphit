@@ -1,4 +1,5 @@
 /**
+ * @constructor
  * Class  Ctransform2d
  * 17:56:06 / 4 déc. 2012 [jsgraph] sho 
  */

@@ -3,6 +3,7 @@ var Ecolor = {
 };
 
 /**
+ * @constructor
  * RGBA color object
  * 
  * @param options
@@ -57,12 +58,12 @@ Ccolor.prototype.set = function(k, v) {
 	} else if (k && (v != undefined)) {
 		if (k in this) {
 			this[k] = v;
-			if (callback) callback.call(this);
+			if (callback) { callback.call(this); }
 			return this;
 		}
-		throw('invalid_color_key',  k);
+		this.exception('invalid_color_key',  k);
 	}
-    throw ('invalid_set_value', {key: k, value: v});
+    this.exception ('invalid_set_value', {key: k, value: v});
 };
 
 /**

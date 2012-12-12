@@ -1,3 +1,7 @@
+/**
+ * @constructor
+ * @returns
+ */
 function Cregistry() {
 	this.store = null;
 	this.localStorage = new Clocal_storage();

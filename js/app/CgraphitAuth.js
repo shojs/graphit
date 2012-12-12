@@ -1,4 +1,5 @@
 /**
+ * @constructor
  * Class  CgraphitAuth
  * 21:21:38 / 2 d�c. 2012 [graphit - nosferat.us] sho 
  */
@@ -31,6 +32,7 @@ CgraphitAuth.prototype.constructor = new Cobject();
  *
  */
 CgraphitAuth.prototype.hasValidAccount = function() {
+	var graphit = window['graphit'];
 	if (!('storage' in graphit)) return null;
 	var acc = graphit.storage.get('chooserAccounts');
 	if (!acc) { return null; }
@@ -181,8 +183,8 @@ CgraphitAuth.prototype.update = function() {
  *
  */
 CgraphitAuth.prototype.dom_build = function() {
-	var that = this;
-	var graphit = window.graphit;
+//	var that = this;
+//	var graphit = window.graphit;
 	var rr = $('<div title="Graphit Authentication"/>');
 	var r = $('<div  />');
 	r.addClass('group group-graphit-authentication');
@@ -237,7 +239,7 @@ CgraphitAuth.prototype.ajax_logout = function(opt) {
 	}  
 };
 
-if (window.graphit.authEnable) {
-	window.graphit.auth = new CgraphitAuth();
+if (window['graphit']['authEnable']) {
+	window['graphit']['auth'] = new CgraphitAuth();
 }
 

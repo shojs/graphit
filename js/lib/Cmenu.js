@@ -1,4 +1,5 @@
 /**
+ * @constructor
  * Class Cmenu 06:40:06 / 24 nov. 2012 [jsgraph] sho
  */
 function Cmenu(options) {

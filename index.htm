@@ -2,6 +2,7 @@
 <!-- <html manifest="manifest"> -->
 <html>
 <head>
+
 <!--
     Meta 
 -->
@@ -12,22 +13,24 @@
  content="GraphIT: A little online drawing program" />
 <meta name="author" content="showi-github_com" />
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
 <!-- 
     Icon
 -->
-<link rel="icon" href="img/favicon.png" type="image/png" />
-<link rel="shortcut icon" href="img/favicon.png" type="image/png" />
-<!-- 
-    INJECT JQUERY THEME
--->
+<link rel="icon" href="http://shojs.github.com/graphit-static/images/favicon.png" type="image/png" />
+<link rel="shortcut icon" href="http://shojs.github.com/graphit-static/images/favicon.png"" type="image/png" />
+
+
 <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.min.js"></script>
+
 <script type="text/javascript" src="js/lib/fix.js"></script>
 <script type="text/javascript" src="js/Conf.js"></script>
+<script type="text/javascript" src="js/app/run2.js"></script>
+
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <script type="text/javascript">
 (function(){
-	window.graphit.loaded = false;
 	var root = document.getElementsByTagName('script')[0];
 	if (!root) root = document.head;
 	else
@@ -38,19 +41,30 @@
 	                'colorpicker/js/colorpicker.js',
 	                'jquery.editinplace.js', 
 	                'jquery.hotkeys-0.7.9.min.js', 
-	                'colorpicker/css/colorpicker.css'];
+	                'colorpicker/css/colorpicker.css', 
+	              ];
 	
 	var graphitclass = [
+	                    //'../index.htm.min.js',
+	                    /* MINIFYJS:START */
 	                    'lib/func.js', 
 	                    'lib/Cuid.js', 
 	                    'lib/Cexception.js',
 	                    'lib/Cobject.js', 
-	                    'lib/Clocal_storage.js', 
+                       
+	                    'lib/Clocal_storage.js',
+	                    'lib/Cpo.js',
 	                    'lib/parameters/Cparameter.js', 
-	                    'lib/parameters/Cparameter_select.js', 
+  
+	                    'lib/parameters/Cparameter_select.js',
+	                    'app/Cjquery_theme.js',
+	                    
+	                    /*MINIFYJS:STOP 
+	                    'app/Ccore.js',
+
 	                    'lib/parameters/Cparameter_checkbox.js',
 	                    'lib/parameters/Cparameter_numeric.js',
-	                    'app/Cjquery_theme.js',
+
 	                    'lib/image/Cimage_analyse.js',
 	                    'lib/Cimage.js',
 	                    'lib/Cicon.js',
@@ -59,7 +73,7 @@
 	                    'lib/Ccanvas.js',
 	                    'lib/Cbounding_rectangle.js',
 	                    'lib/Cregistry.js',
-	                    'lib/Cpo.js',
+
 	                    'lib/Cmath.js',
 	                    'lib/math/Cpoint2d.js',
 	                    'lib/math/Cvector2d.js',
@@ -92,7 +106,7 @@
 	                    'app/Cbrush_manager.js',
 	                    'app/Cgraphit.js',
 	                    'app/CgraphitAuth.js',
-	                    'app/run.js',
+                        MINIFYJS:STOP */
                     ];
 	
 	var inject_script = function(path) {
@@ -119,12 +133,22 @@
         	if (window.graphit.debug > 5) 
         		console.log('[', loaded, ',', total, ']', 'Loaded', this.src);
         	loaded++;
-        	console.log('path',path);
-        	if (path == 'js/app/Cjquery_theme.js') {
-                new Cjquery_theme_injector();
-        	}
+        	console.log('Script loaded',path);
         	if ((loaded+1) == total) {
-        		window.graphit.loaded = true;
+        	   console.log('%c[Booting]', 'background-color:blue; color:white');
+        	   if (!('_boot_code' in graphit)) {
+        	       throw('graphit_no_boot_code');
+        	   }
+        	   try {
+        	       graphit._boot_code.call(graphit);
+        	       //graphit._boot_code;
+        	       window.graphit.loaded = true;
+        	   } catch(e) {
+        	       console.error('Cannot bootstrap code');
+        	       if (window.graphit.debug) {
+        	           throw(e);
+        	       }
+        	   }
         	}
         };
 	}

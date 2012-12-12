@@ -1,4 +1,9 @@
-function Cwidget(parent, label) {
+/**
+ * @constructor
+ * @param parent
+ * @param label
+ * @returns
+ */function Cwidget(parent, label) {
 	//if (!label) { console.warn('Creating Cwidget without label'); }
 	Cobject.call(this);
 	this.label = label;
@@ -10,14 +15,14 @@ function Cwidget(parent, label) {
 Cwidget.prototype = Object.create(Cobject.prototype);
 Cwidget.prototype.constructor = new Cobject();
 
-Cwidget.prototypeedom_get = function(force) {
+Cwidget.prototype.dom_get = function(force) {
 	if (this.dom && !force) {
 		return this.dom;
 	}
 	return this.dom_build().dom;
 };
 /******************************************************************************
- * 
+ * @constructor
  * @param parent
  * @param label
  * @returns
@@ -39,7 +44,7 @@ Cwidget_window_header.prototype.dom_build = function() {
 
 
 /******************************************************************************
- * 
+ * @constructor
  * @param parent
  * @param label
  * @returns

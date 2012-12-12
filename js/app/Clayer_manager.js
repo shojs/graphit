@@ -1,4 +1,5 @@
 /*******************************************************************************
+ * @constructor
  * This class manage Csurface layers
  * Each layers is composed of n-fragments, that's how undo is implemented
  */

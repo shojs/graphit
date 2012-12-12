@@ -1,3 +1,8 @@
+/**
+ * @constructor
+ * @param options
+ * @returns
+ */
 function Cbinary_file(options) {
 	options = options || {};
 	options.className = 'Cbinary_file';

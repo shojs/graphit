@@ -45,14 +45,15 @@ function isCanvasSupported() {
 	var elem = document.createElement('canvas');
 	return !!(elem.getContext && elem.getContext('2d'));
 }
+window['isCanvasSupported'] = isCanvasSupported;
 
 function isFileSupported() {
 	// Check for the various File API support.
 	if (window.File && window.FileReader && window.FileList && window.Blob) {
 		return true;
-	} else {
-		console.error('The File APIs are not fully supported in this browser.');
 	}
+	console.error('The File APIs are not fully supported in this browser.');
+	return false;
 }
 
 function getLanguage() {
@@ -65,6 +66,7 @@ function getLanguage() {
 	}
 	return lang;
 }
+window['getLanguage'] = getLanguage;
 
 /**
  * @param obj
@@ -79,7 +81,7 @@ function getObjectClass(obj) {
 
 /**
  * Thing as collection
- * 
+ * @constructor
  * @param thing
  * @param cback
  * @returns {Boolean}
@@ -124,7 +126,9 @@ cEach.prototype.stop = function(ret) {
 	this.run = false;
 	this.ret = ret;
 };
+
 /**
+ * @constructor
  * Encapsulate enum
  * 
  * @param options
@@ -149,32 +153,41 @@ Cenum.prototype.key_by_value = function(value) {
 
 /**
  * Little helper for popin windows
- * 
+ * @constructor
  * @param dom
  * @param options
  * @returns
  */
 function widget_factory(dom, options) {
-	this.options = options;
+	if (!dom) {
+		throw ('func_widget_factory_need_dom');
+	}
+	console.log('Widget factory', dom, options);
 	var mandatory = {
-		autoOpen : true,
-		resizable : true,
-		draggable : true,
-		width : 250,
-		zIndex : 10,
-		dialogClass : 'shojs-dialog',
-		stack : true
+		'autoOpen' : true,
+		'resizable' : true,
+		'draggable' : true,
+		'width' : 250,
+		'zIndex' : 10,
+		'dialogClass' : 'shojs-dialog',
+		'stack' : true
 	};
 	for ( var label in mandatory) {
 		if (!(label in options)) {
 			options[label] = mandatory[label];
 		}
 	}
-	dom.dialog(options);
+	dom['dialog'](options);
 	return dom;
 };
-
+window['widget_factory'] = window.widget_factory;
+/**
+ * 
+ * @param e
+ * @returns
+ */
 function widget_exception(e) {
+	var Cexception_message = window.graphit.getBird('Cexception_message');
 	console.error('Widget', e);
 	var msg = e;
 	var title = '[Error] ';
@@ -191,19 +204,26 @@ function widget_exception(e) {
 	});
 	throw e;
 }
+window['widget_exception'] = window.widget_exception;
 
+
+/**
+ * 
+ * @param docTarget
+ */
 function deleteAllCookies(docTarget) {
 	docTarget = docTarget || window.document;
-    var cookies = docTarget.cookie.split(";");
-    for (var i = 0; i < cookies.length; i++) {
-    	var cookie = cookies[i];
-        console.log('Delete cookie', cookie);
-    	var eqPos = cookie.indexOf("=");
-    	var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-    	docTarget.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-    }
-    var opener = window.opener;
-    if (opener) {
-    	deleteAllCookies(opener.document);
-    }
+	var cookies = docTarget.cookie.split(";");
+	for ( var i = 0; i < cookies.length; i++) {
+		var cookie = cookies[i];
+		console.log('Delete cookie', cookie);
+		var eqPos = cookie.indexOf("=");
+		var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+		docTarget.cookie = name
+				+ "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+	}
+	var opener = window.opener;
+	if (opener) {
+		deleteAllCookies(opener.document);
+	}
 }

@@ -1,3 +1,8 @@
+/**
+ * @constructor
+ * @param options
+ * @returns
+ */
 function Cicon(options) {
 	options = options || {};
 	options.className = 'Cicon';

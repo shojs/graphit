@@ -1,3 +1,7 @@
+/**
+ * @constructor
+ * @returns
+ */
 function Clicense() {
 	this.logo = window.graphit.baseStaticContent + 'images/badge-gplv3-32.png';
 	this.text = 'license-gpl3.txt';

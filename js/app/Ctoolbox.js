@@ -1,4 +1,5 @@
 /*******************************************************************************
+ * @constructor
  * A class representing our toolbox - list of tools - fg/bg colorpicker -
  * options associated with tools - brush preview
  */
@@ -67,7 +68,6 @@ Ctoolbox.prototype.init = function() {
 	 */
 	this.bg_color = new Ctoolbox_colorpicker(new Ccolor({r:0, g:0, b:0, a:1}), {
 		parent : this,
-		label : 'Background color',
 		callback_onchange : function(rgb) {
 			this.send_trigger('update', that);
 		},

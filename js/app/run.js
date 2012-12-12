@@ -5,7 +5,7 @@
  */
 //var cGraphit; /* Our main object */
 //var cPo; /* Traduction */
-var T; /* proxy to method Cpo.get(str) */
+/* proxy to method Cpo.get(str) */
 //var cGraphitAuth; /* Our iframe store authentication information here */
 
 function _ok_to_build() {
@@ -41,7 +41,11 @@ function _ok_to_build() {
 	graphit.cpo = new Cpo({
 		lang : getLanguage()
 	});
-	T = function(str) {
+	if ('T' in window) {
+		console.error('Cannot install T for translating string into main namespace');
+		return false;
+	}
+	window.T = function(str) {
 		return graphit.cpo.get(str);
 	};
 

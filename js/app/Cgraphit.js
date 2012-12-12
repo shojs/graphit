@@ -1,11 +1,12 @@
 /**
+ * @constructor
  * Class Cgraphit The main shojs-graphit class This class hold our toolbox and
  * manage our Csurface This class also install keybinding and act as a proxy
  * threw our Csurface Its the single entry point into the whole project, each
  * created object must be accessible threw it. #TODO: Using console to create
  * new object easily 06:00:32 / 23 nov. 2012 [jsgraph] sho
  */
-function Cgraphit(options) {
+var Cgraphit = function(options) {
 	options = options || {};
 	options.className = "Cgraphit";
 	options.label = "graphit";
@@ -26,7 +27,7 @@ function Cgraphit(options) {
 		width : 400,
 		height : 400
 	});
-}
+};
 
 /* Inheritance */
 Cgraphit.prototype = Object.create(Cobject.prototype);
@@ -108,7 +109,7 @@ Cgraphit.prototype.init = function(options) {
 				}
 			},
 			/* login */
-			edition : entry_login,
+			login : entry_login,
 			/* Help */
 			help : {
 				label : T('menu_help'),
@@ -131,7 +132,7 @@ Cgraphit.prototype.init = function(options) {
 		}
 	});
 	/* Toolbox */
-	this.cToolbox = new Ctoolbox(CTOOL_tools, {
+	this.cToolbox = new Ctoolbox({
 		parent : this
 	});
 	this.bind_trigger(this.cToolbox, 'update', function(e, d) {
