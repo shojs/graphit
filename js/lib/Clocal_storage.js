@@ -1,7 +1,7 @@
-(function($Graphit) {
+(function(window, graphit, console, undefined) {
+	
 	'use strict';
-	window.graphit = window['graphit'];
-	var getBird = window.graphit['getBird'];
+	
 	/**
 	 * @constructor Clocal_storage This is just a layer for accessing a
 	 *              key/value registry. If browser support local storage we use
@@ -22,9 +22,9 @@
 	/**
 	 *
 	 */
-	Clocal_storage.prototype.first_install = function(dumbopt) {
+	Clocal_storage.prototype.first_install = function() {
 		if (this.test_compatibility()) {
-			this.store = window.localStorage;
+			this.store = window['localStorage'];
 			if (!this.test_insert()) {
 				this.store = {};
 			}
@@ -77,7 +77,7 @@
 		if ('removeItem' in this.store) {
 			return this.store.removeItem(key);
 		}
-		delete store[key];
+		delete this.store[key];
 	};
 	Clocal_storage.prototype['remove'] = Clocal_storage.prototype.remove;
 
@@ -123,7 +123,7 @@
 
 	Clocal_storage.prototype.__test = function() {
 		var keyTest = '__TEST__';
-		var Clocal_storage = getBird('Clocal_storage');
+		var Clocal_storage = graphit.import('Clocal_storage');
 		window.graphit.storage = new Clocal_storage();
 		window.graphit['storage'] = window.graphit.storage;
 		console.log('Listing keys in storage');
@@ -146,8 +146,5 @@
 	};
 	Clocal_storage.prototype['__test'] = Clocal_storage.prototype.__test;
 	
-	/**
-	 * Export
-	 */
-	$Graphit['_class_pool']['Clocal_storage'] = Clocal_storage;
-})(graphit);
+	graphit.export('Clocal_storage', Clocal_storage);
+})(window, graphit, console);

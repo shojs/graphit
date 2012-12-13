@@ -1,68 +1,96 @@
-(function(window, undefined) {
+/*
+ * Main namespace
+ */
+var graphit = { 'foo': 'bar'};
+window.graphit = graphit;
+window['graphit'] = window.graphit;
+
+(function(window, graphit, console, undefined) {
 	"use strict";
-	if ('graphit' in window) {
-		console.log('Graphit already registered');
-		//return;
-	}
-	/* Define our namespace */
-	// if (!('graphit' in window)) {
-	var Graphit = function() {
-		this['version'] =  '0.1.1'; 
-		this['author'] = 'showi@github.com';
+
+	var MyConf = {
+		'version' : '0.1.1',
+		'author' : 'showi@github.com',
 		/**
 		 * 11 All 5 Verbose 1 Normal
 		 */
-		this['debug'] = 1;
+		'debug' : 1,
 		/**
 		 * Disable/Enable authentication feature (see /php/GoogleIdentity.conf)
 		 */
-		this['authEnable'] = false;
+		'authEnable' : false,
 		/**
 		 * Our global access path
 		 */
-		this['baseStaticContent'] = 'http://static-graphit.dev/';
-		this['baseScriptContent'] = '/';
-		this['baseRestContent'] = '/';
-		/* STOP EDIT */
-		this['_class_pool'] = {};
+		'baseStaticContent' : 'http://static-graphit.dev/',
+		'baseScriptContent' : '/',
+		'baseRestContent' : '/',
 	};
 
-	Graphit.prototype.getBird = function(name) {
-		console.debug('graphit.getBird(', name, ')');
-		if (!window.graphit) {
-			console.error('No graphit in window');
+	var Cconf = function(conf) {
+		console.log(window, graphit);
+		this['bird'] = {};
+		for ( var k in conf) {
+			console.log('Setting global', k, conf[k]);
+			this[k] = conf[k];
+		}
+	};
+
+	Cconf.prototype.import = function(name) {
+		if (!this['bird']) {
+			console.error('No bird in graphit');
 			return null;
 		}
-		if (!window.graphit._class_pool) {
-			console.error('No _class_pool in graphit');
-			return null;
-		}
-		if (window.graphit._class_pool[name]) {
-			return window['graphit']['_class_pool'][name];
+		if (this['bird'][name]) {
+			return this['bird'][name];
 		}
 		return null;
 	};
-	Graphit.prototype['getBird'] = Graphit.prototype.getBird;
-	
-	/**
-	 * @deprecated
-	 * @param name
-	 * @param newClass
-	 * @returns
-	 */
-	Graphit.prototype.addBird = function(name, newClass) {
-		if (name in window['graphit']['class_pool']) {
-			throw ('Trying to register className twice');
-		}
-		console.log('Registering class', name, newClass);
-		window['graphit']['_class_pool'][name] = newClass;
-		return window['graphit']['_class_pool'][name];
+	Cconf.prototype['import'] = Cconf.prototype.import;
 
+	/**
+	 * Method add
+	 * graphit[js/Conf.js]
+	 * sho / 12 déc. 2012 / 23:14:32
+	 * @param dumbopt {String} dumbstring
+	 */
+	Cconf.prototype.export = function(name, bird) {
+		console.log('[Bird] add *', name,'*');
+		if (!name || !bird || typeof name == 'function' || typeof bird != 'function') {
+			throw('add_bird_require_two_parameters');
+		}
+		this['bird'][name] = bird;
 	};
-	Graphit.prototype['addBird'] = Graphit.prototype.addBird;
+	Cconf.prototype['export'] = Cconf.prototype.export;
+
+	/**
+	 * Method __test
+	 * graphit[js/Conf.js]
+	 * sho / 13 déc. 2012 / 02:14:50
+	 * @param dumbopt {String} dumbstring
+	 */
+	Cconf.prototype.__test = function() {
+//		var conf = new (this.import('Cconf'))(MyConf);
+//		console.log(conf.to_s());
+		return true;
+	};
 	
-	window['graphit'] = new Graphit();	
-	window['graphit']['_class_pool']['Graphit'] = Graphit;
-	window.graphit = window['graphit'];
+	Cconf.prototype['__test'] = Cconf.prototype.__test;
+	/**
+	 * Method to_s
+	 * graphit[js/Conf.js]
+	 * sho / 12 déc. 2012 / 23:41:53
+	 * @param dumbopt {String} dumbstring
+	 */
+	Cconf.prototype.to_s = function(dumbopt) {
+		for(var k in this) {
+			console.log(k, this[k]);
+		}
+	};
+	Cconf.prototype['to_s'] = Cconf.prototype.to_s;
+	
+	window.graphit = new Cconf(MyConf);
+	window.graphit.export('Cconf', Cconf);
 	console.log('Namespace << graphit >> added (window.graphit)');
-})(window);
+})(window, graphit, console);
+window['graphit'] = graphit;

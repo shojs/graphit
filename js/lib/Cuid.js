@@ -1,29 +1,22 @@
-(function(window, $Graphit, undefined) {
+(function(window, graphit, console, undefined) {
+
 	'use strict';
-	window.graphit = $Graphit;
-	var getBird = window.graphit['getBird'];
-	//var Cuid = getBird('Cuid');
+	
 	/**
 	 * @constructor Generate Unique ID. Main usage of this uid is for binding
 	 *              element together with triggered event. We generate id that
 	 *              can't collide with other event.
-	 * @param options
-	 *            {Hash}
+	 * @param options {Hash} 
 	 */
-	var Cuid = function(options) {
+	function Cuid(options) {
 		options = options || {};
-		Cuid.prefix = 'shojs-';
+		this.prefix = 'shojs-';
+		this.postfix = 'graphit';
 		this.id = null;
-		this.init(options);
-	};
+		//this.init(options);
+	}
 
-	Cuid.prototype.init = function(options) {
-		if (!('count' in Cuid)) {
-			Cuid.count = 0;
-			Cuid.prefix = (options.prefix || 'shojs') + '-';
-			Cuid.postfix = (options.postfix || 'graphit');
-		}
-	};
+	Cuid.prototype.init = function(options) {};
 	Cuid.prototype['init'] = Cuid.prototype.init;
 
 	/**
@@ -40,24 +33,22 @@
 	Cuid.prototype['__get_frag'] = Cuid.prototype.__get_frag;
 
 	/**
-	 * @param maxtry
-	 *            {Int}
+	 * @param maxtry {Int}
 	 * @return {String} UID string
 	 */
-	Cuid.prototype.get = function(maxtry) {
+	Cuid.prototype.gen = function(maxtry) {
 		if (maxtry == undefined) {
 			maxtry = 3;
 		}
-		var str = Cuid.prefix;
+		var str = this.prefix;
 		for ( var i = 0; i < 2; i++) {
 			str += this.__get_frag() + '-';
 		}
-		str += Cuid.postfix;
-		Cuid.count++;
-		Cuid.last_id = str;
+		str += this.postfix;
+		this.last_id = str;
 		return str;
 	};
-	Cuid.prototype['get'] = Cuid.prototype.get;
+	Cuid.prototype['gen'] = Cuid.prototype.gen;
 
 	/**
 	 * Method __test
@@ -65,16 +56,17 @@
 	 * sho / 12 déc. 2012 / 10:00:02
 	 */
 	Cuid.prototype.__test = function() {
-		var Cuid = getBird('Cuid');
-		var g = new Cuid();
-		console.log('Testing uid', g.get());
+		var _Cuid = graphit.import('Cuid');
+		var g = new _Cuid();
+		console.log('g', g);
+		console.log('Testing uid', g.gen());
 		return true;
 	};
-
 	Cuid.prototype['__test'] = Cuid.prototype.__test;
+	
 	/**
 	 * 
-	 * Implicit, we dont want to loose ref during ADVANCED_OPTIMIZATIONS
 	 */
-	$Graphit['_class_pool']['Cuid'] = Cuid;
-})(window, graphit);
+	graphit.export('Cuid', Cuid);
+	
+})(window, graphit, console);

@@ -159,6 +159,7 @@ Cenum.prototype.key_by_value = function(value) {
  * @returns
  */
 function widget_factory(dom, options) {
+	options = options || {};
 	if (!dom) {
 		throw ('func_widget_factory_need_dom');
 	}
@@ -187,7 +188,7 @@ window['widget_factory'] = window.widget_factory;
  * @returns
  */
 function widget_exception(e) {
-	var Cexception_message = window.graphit.getBird('Cexception_message');
+	var Cexception_message = graphit.import('Cexception_message');
 	console.error('Widget', e);
 	var msg = e;
 	var title = '[Error] ';

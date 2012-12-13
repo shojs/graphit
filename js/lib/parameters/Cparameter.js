@@ -1,9 +1,10 @@
-(function($Graphit) {
+(function(window, graphit, console, undefined) {
+	
 	'use strict';
-	window.graphit = window['graphit'];
-	var getBird = window.graphit['getBird'];
-	var Cobject = getBird('Cobject');
-	var Clocal_storage = getBird('Clocal_storage');
+	
+	var Cobject = graphit.import('Cobject');
+	var Clocal_storage = graphit.import('Clocal_storage');
+	
 	/***************************************************************************
 	 * @constructor Class holding parameter Each parameter must have a default
 	 *              value (def) Sub class can override _set and _get
@@ -183,15 +184,15 @@
 	 * sho / 12 déc. 2012 / 12:57:51
 	 * @param opt {Hash} Hash options
 	 */
-//	Cparameter.prototype.to_s = function(opt) {
-//		opt = opt || {};
-//		nl = opt.nl || "\n";
-//		var str = '['+this['className']+']' + nl;
-//		str += ' - labelthis['']
-//		
-//	};
-	
+	Cparameter.prototype.to_s = function(opt) {
+		opt = opt || {};
+		nl = opt.nl || "\n";
+		var str = '['+this['className']+']' + nl;
+		str += ' - label: ' + this['label'] + nl;
+		return str;
+	};
 	Cparameter.prototype['to_s'] = Cparameter.prototype.to_s;
+	
 	/**
 	 * Method __test
 	 * Graphit[js/lib/parameters/Cparameter.js]
@@ -199,7 +200,7 @@
 	 * @param dumbopt {String} dumbstring
 	 */
 	Cparameter.prototype.__test = function() {
-		var Cparameter = getBird(this['className']);
+		var Cparameter = graphit.import(this['className']);
 		var keyTest = '__TEST__';
 		var p = new Cparameter({'autoSave': true, 'parent': this, 'def': 'Test', 'type': this['Etype']['numeric']});
 		p.set(keyTest, keyTest);
@@ -212,5 +213,6 @@
 	Cparameter.prototype['__test'] = Cparameter.prototype.__test;
 	
 	// Export
-	$Graphit['_class_pool']['Cparameter'] = Cparameter;
-})(graphit);
+	graphit.export('Cparameter', Cparameter);
+	
+})(window, graphit, console, undefined);

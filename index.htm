@@ -1,7 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+<meta charset=utf-8>  
 <!-- <html manifest="manifest"> -->
-<html>
-<head>
+
 
 <!--
     Meta 
@@ -30,7 +32,7 @@
 
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <script type="text/javascript">
-(function(){
+(function(window,graphit, console){
 	var root = document.getElementsByTagName('script')[0];
 	if (!root) root = document.head;
 	else
@@ -49,17 +51,18 @@
 	                    /* MINIFYJS:START */
 	                    'lib/func.js', 
 	                    'lib/Cuid.js', 
-	                    'lib/Cexception.js',
+	                    'lib/Cexception_message.js',
 	                    'lib/Cobject.js', 
-                       
+                                               
 	                    'lib/Clocal_storage.js',
 	                    'lib/Cpo.js',
 	                    'lib/parameters/Cparameter.js', 
   
 	                    'lib/parameters/Cparameter_select.js',
+	                    'app/Cjquery_theme_injector.js',
 	                    'app/Cjquery_theme.js',
-	                    
 	                    /*MINIFYJS:STOP 
+
 	                    'app/Ccore.js',
 
 	                    'lib/parameters/Cparameter_checkbox.js',
@@ -136,17 +139,17 @@
         	console.log('Script loaded',path);
         	if ((loaded+1) == total) {
         	   console.log('%c[Booting]', 'background-color:blue; color:white');
-        	   if (!('_boot_code' in graphit)) {
+        	   if (!('boot' in graphit)) {
         	       throw('graphit_no_boot_code');
         	   }
         	   try {
-        	       graphit._boot_code.call(graphit);
+        	       graphit.boot.call(graphit);
         	       //graphit._boot_code;
         	       window.graphit.loaded = true;
         	   } catch(e) {
         	       console.error('Cannot bootstrap code');
         	       if (window.graphit.debug) {
-        	           throw(e);
+        	           //throw(e);
         	       }
         	   }
         	}
@@ -160,7 +163,7 @@
 	for (var i = 0; i < graphitclass.length; i++) {
 	    inject_script('js/' + graphitclass[i]);
 	}
-})(window);
+})(window, graphit, console);
 </script>
 <title>GraphIt: Javascript online drawing</title>
 </head>

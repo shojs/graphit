@@ -1,12 +1,10 @@
-(function($Graphit) {
+(function(window, graphit, console, undefined) {
 	'use strict';
-	window.graphit = window['graphit'];
-	var getBird = window.graphit['getBird'];
-	console.log('getBird');
-	var Cuid = getBird('Cuid');
-	var Cexception_message = getBird('Cexception_message');
-	var Cparameter_select  = getBird('Cparameter_select');
-	var Cparameter  = getBird('Cparameter');
+	var Cuid = graphit.import('Cuid');
+	var Cexception_message = graphit.import('Cexception_message');
+	var Cparameter_select  = graphit.import('Cparameter_select');
+	var Cparameter  = graphit.import('Cparameter');
+
 	/**
 	 * @constructor This is our base class, majority of our object inherits
 	 *              method from it. - uid for all objects - send/bind trigger -
@@ -59,7 +57,7 @@
 
 	Cobject.prototype._class_init = function(options, permitted) {
 		var gen = new Cuid();
-		this.uid = gen.get();
+		this.uid = gen.gen();
 		console.log('Cuid', this.uid);
 		this.callback = {};
 		if (window.graphit.debug > 10) console.log('UID', this.uid);
@@ -401,7 +399,7 @@
 	 * Method _test
 	 */
 	Cobject.prototype.__test = function(opt) {
-		var Cobject = getBird('Cobject');
+		var _Cobject = graphit.import('Cobject');
 		var o = new Cobject({
 			'parent' : this,
 			'label' : 'Test',
@@ -422,5 +420,5 @@
 	Cobject.prototype['__test'] = Cobject.prototype.__test;
 
 	// Export
-	$Graphit['_class_pool']['Cobject'] = Cobject;
-})(graphit);
+	graphit.export('Cobject', Cobject);
+})(window, graphit, console);

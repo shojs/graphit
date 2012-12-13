@@ -1,9 +1,9 @@
-(function($Graphit) {
+(function(window, graphit, console, undefined) {
+	
 	'use strict';
-	window.graphit = window['graphit'];
-	var getBird = window.graphit['getBird'];
-	var Cobject = getBird('Cobject');
-	var Cexception_message = getBird('Cexception_message');
+	
+	var Cobject = graphit.import('Cobject');
+	var Cexception_message = graphit.import('Cexception_message');
 	/**
 	 * Class Cpo 07:23:28 / 25 nov. 2012 [jsgraph] sho
 	 */
@@ -35,7 +35,7 @@
 				'load' : "Load",
 				'load_image' : "Load image (URL)"
 			},
-		 'fr' : {
+			'fr' : {
 				'menu_new_surface' : 'Nouveau',
 				'menu_theme' : 'Theme',
 				'menu_about' : 'A propos',
@@ -61,7 +61,7 @@
 		};
 		this['PO'] = this.PO;
 		this['label'] = null;
-		this['def'] = null;
+		this['def'] = 'en';
 		options = options || {};
 		options['className'] = 'po';
 		options['label'] = "po";
@@ -111,9 +111,9 @@
 		var nl = opt.nl || "\n";
 		var str = '[' + this.className + ']' + nl;
 		str += ' - label: ' + this.label + nl;
-		for (lang in this['PO']) {
+		for (var lang in this['PO']) {
 			str += '--- LANG ' + lang + nl;
-			for (msg in this['PO'][lang]) {
+			for (var msg in this['PO'][lang]) {
 				str += ' - ' + msg + ' => ' + this['PO'][lang][msg] + nl;
 			}
 		}
@@ -121,24 +121,25 @@
 	};
 	Cpo.prototype['to_s'] = Cpo.prototype.to_s;
 
-	
 	/**
-	 * Method set_lang
-	 * Graphit[js/lib/Cpo.js]
-	 * sho / 12 déc. 2012 / 12:07:00
-	 * @param lang {String} Language selected (2 chars ex: 'fr', 'en'...)
+	 * Method set_lang Graphit[js/lib/Cpo.js] sho / 12 déc. 2012 / 12:07:00
+	 * 
+	 * @param lang
+	 *            {String} Language selected (2 chars ex: 'fr', 'en'...)
 	 */
 	Cpo.prototype.set_lang = function(lang) {
 		this['lang'] = lang;
 	};
-	
+
 	Cpo.prototype['set_lang'] = Cpo.prototype.set_lang;
 	/**
 	 * Method __test Graphit[js/lib/Cpo.js] sho / 12 déc. 2012 / 08:34:55
 	 */
 	Cpo.prototype.__test = function(dumbopt) {
-		var Cpo = getBird('Cpo');
-		var T = new Cpo({'lang': 'en'});
+		var Cpo = graphit.import('Cpo');
+		var T = new Cpo({
+			'lang' : 'en'
+		});
 		for ( var lang in T.PO) {
 			console.log('Lang <<<', lang, '>>>');
 			for ( var label in T.PO[lang]) {
@@ -155,5 +156,5 @@
 	Cpo.prototype['__test'] = Cpo.prototype.__test;
 
 	/* EXPORT */
-	$Graphit['_class_pool']['Cpo'] = Cpo;
-})(graphit);
+	graphit.export('Cpo', Cpo);
+})(window, graphit, console);

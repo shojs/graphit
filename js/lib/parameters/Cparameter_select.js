@@ -1,17 +1,21 @@
-(function(window, $Graphit, undefined) {
+(function(window, graphit, console, undefined) {
+	
 	'use strict';
-	window.graphit = window['graphit'];
-	var getBird = window.graphit['getBird'];
-	var Cparameter = getBird('Cparameter');
+	
+	/**
+	 * Imports
+	 */
+	var Cparameter = graphit.import('Cparameter');
+	
 	/**
 	 * A select parameter
-	 * 
-	 * @param options
+	 * @constructor
+	 * @param options {Hash} 
 	 */
 	var Cparameter_select = function(options) {
 		options = options || {};
 		options['className'] = 'Cparameter_select';
-		options['parent'] = options['parent'] || window
+		options['parent'] = options['parent'] || { 'className': 'fakeClassName', 'label': 'fakeLabel' }
 		options['autoSave'] = ('autoSave' in options && !options['autoSave']) ? false
 				: true;
 		Cparameter.call(this, options, ['autoSave', 'def', 'label', 'type',
@@ -57,7 +61,7 @@
 		r.addClass('selected parameter');
 		r.append('<h6>' + this.label + '</h6>');
 		var s = $('<select />');
-		for (c in this.choices) {
+		for (var c in this.choices) {
 			console.log('Option', this.choices[c]);
 			var o = $('<option/>');
 			o.attr('value', this.choices[c]);
@@ -92,7 +96,7 @@
 	 *            {String} dumbstring
 	 */
 	Cparameter_select.prototype.__test = function(dumbopt) {
-		var Cparameter_select = getBird('Cparameter_select');
+		var Cparameter_select = graphit.import('Cparameter_select');
 		var parent = { 'className': this['className'], 'label': this['label'], 'parent': this };
 		var p = new Cparameter_select({
 			'parent': parent,
@@ -109,5 +113,6 @@
 	Cparameter_select.prototype['__test'] = Cparameter_select.prototype.__test;
 
 	// Export
-	$Graphit['_class_pool']['Cparameter_select'] = Cparameter_select;
-})(window, graphit);
+	graphit.export('Cparameter_select', Cparameter_select);
+
+})(window, graphit, console);

@@ -1,4 +1,4 @@
-(function($Graphit) {
+(function(window, graphit, console) {
 	/**
 	 * @constructor
 	 * @param opt
@@ -45,8 +45,18 @@
 		}
 	}
 	
-
-
+	/**
+	 * Method __test
+	 * graphit[js/lib/Cexception_message.js]
+	 * sho / 13 déc. 2012 / 02:22:22
+	 */
+	Cexception_message.prototype.__test = function() {
+		var e = new (graphit.import('Cexception_message'))('TEST_EXCEPTION');
+		try { throw e; } catch(e) { console.log(e.to_s());}
+		return true;
+	};
+	Cexception_message.prototype['__test'] = Cexception_message.prototype.__test;
+	
 	/**
 	 *
 	 */
@@ -72,5 +82,5 @@
 	};
 	Cexception_message.prototype['to_s'] = Cexception_message.prototype.to_s;
 	
-	$Graphit['_class_pool']['Cexception_message'] = Cexception_message;
-})(graphit);
+	graphit.export('Cexception_message', Cexception_message);
+})(window, graphit, console);
