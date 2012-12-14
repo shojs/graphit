@@ -2,41 +2,20 @@
 
 	'use strict';
 
-	var modulePath = 'app/boot';
-	/**
-	 * Imports
-	 */
-	//var Cjquery_theme_injector = graphit.import('app/jquery/themeInjector', { 'delayed': true});
+	var modulePath = 'app/boot/test';
 
-	/**
-	 * Boot
-	 */
 	var Module = function() {
-		var sep = '--------------------------------------------------------------------------------';
-		var tests = [
-				'Cobject', 'Clocal_storage'
-		];
-		var fnl = function(msg) {
-			console.log( msg);
-		};
-		var fns = function(msg) {
-			console.debug(msg);
-		};
-		var fni = function(key, value) {
-			console.debug('- key' + ' => ' + value);
-		};
-		fnl('START');
-		fnl('[Testing Language]');
-		console.debug('Langue:', getLanguage());
+
+		console.log('[ Starting ]')
 		var numTest = 0;
 		var numSuccess = 0;
-		for ( var label in graphit.bird) {
+		for ( var label in graphit.egg) {
 			numTest++;
 			var error = null;
-			var str = '[' + numTest + '] Testing ' + label + ': ';
-			var proto = graphit.bird[label].prototype;
+			var str = '[ Testing ] ' + numTest + ' / ' + label + ' / ';
+			var proto = graphit.egg[label].prototype;
 			if (!proto) {
-				console.log(str, graphit.bird[label]);
+				console.log(str, graphit.egg[label]);
 				numSuccess++;
 				continue;
 			}
@@ -61,11 +40,9 @@
 				}
 			}
 			if (success) {
-				console
-						.log(str + 'Ok');
+				console.log(str + 'Ok');
 			} else {
-				console
-						.log(str + 'Fail');
+				console.log(str + 'Fail');
 				console.error('Error in <<< ', label, ' >>>');
 				console.error(error, error['original']);
 				if (error['original']['type'] == 'shojs-exception') {
@@ -75,14 +52,13 @@
 			}
 		}
 		console.log('Test ', numSuccess, ' / ', numTest);
-		
-
 	};
+
 	
 	Module.prototype.__test = function() {
 		return true;
 	};
-	
+
 	graphit.export(modulePath, Module);
-	
+
 })(window, graphit, console);

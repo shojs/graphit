@@ -160,7 +160,7 @@
 		}
 		this._permitted_keys = permitted;
 		if ('parameters' in options) {
-			for (plabel in options.parameters) {
+			for (var plabel in options.parameters) {
 				this.add_parameter(options.parameters[plabel]);
 			}
 		}
@@ -280,7 +280,9 @@
 	 */
 	Module.prototype.add_parameter = function(options) {
 		var Cparameter_select = graphit.import('lib/parameter/select');
+		var Cparameter_numeric = graphit.import('lib/parameter/numeric');
 		var Cparameter = graphit.import('lib/parameter');
+		var Eparameter_type = graphit.import('lib/parameter/enum/type');
 		console.log('Add parameter', options);
 		var iParam = new Cparameter();
 		if (!('parent' in options)) {
@@ -291,7 +293,7 @@
 		}
 		if (!('type' in options) || options.type == Eparameter_type.numeric) {
 			this.parameters[options.label] = new Cparameter_numeric(options);
-		} else if (options.type == Cparameter_select['Etype'].select) {
+		} else if (options.type == Eparameter_type.select) {
 			this.parameters[options.label] = new Cparameter_select(options);
 		} else {
 			this.exception('unknow_parameter_type');

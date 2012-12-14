@@ -1,9 +1,9 @@
 (function(window, graphit, console, undefined) {
 
-	var modulePath = 'app/toot/fill';
+	var modulePath = 'app/tool/fill';
 	
 	var Ctool = graphit.import('app/tool');
-	
+	var Cimage_analyse = graphit.import('lib/image/analyse');
 	/**
 	 * Constructor / Module
 	 */

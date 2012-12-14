@@ -1,5 +1,7 @@
 (function(window, graphit, console, undefined) {
 
+	var modulePath = 'lib/color';
+	
 	var Cobject = graphit.import('lib/object');
 	
 	var Ecolor = {
@@ -190,6 +192,6 @@
 		return str;
 	};
 
-	graphit.export('lib/color', Module);
+	graphit.export(modulePath, Module);
 	
 })(window, graphit, console);

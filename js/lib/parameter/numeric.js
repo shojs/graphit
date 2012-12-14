@@ -35,7 +35,7 @@
 			def : 1,
 			step : 1
 		});
-		for (k in this.checks) {
+		for (var k in this.checks) {
 			if (!(k in options) || options[k] === undefined) {
 				console.error('Missing parameter key/value', options, k);
 				return null;

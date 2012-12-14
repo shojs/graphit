@@ -3,11 +3,15 @@
 	var modulePath = 'app/tool';
 	
 	var Cobject = graphit.import('lib/object');
+	var Cicon = graphit.import('lib/icon');
+	var Ccanvas = graphit.import('lib/canvas');
+
+	var PO = new(graphit.import('lib/po'))();
+	var T = function(key) { PO.get(key); }
 	
 	/***************************************************************************
 	 * @constructor
-	 * @param parent
-	 * @param label
+	 * @param options
 	 * @returns
 	 */
 	function Module(options) {

@@ -3,6 +3,9 @@
 	var modulePath = 'app/toolbox/colorPicker';
 	
 	var Cobject = graphit.import('lib/object');
+	var Ccolor = graphit.import('lib/color');
+	var Ccanvas = graphit.import('lib/canvas');
+
 	
 	/***************************************************************************
 	 * @constructor Class representing a colour picker

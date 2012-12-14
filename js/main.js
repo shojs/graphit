@@ -1,11 +1,7 @@
 /*
  * Main namespace
  */
-var graphit = { 'foo': 'bar'};
-window.graphit = graphit;
-window['graphit'] = window.graphit;
-
-(function(window, graphit, console, undefined) {
+(function(window, console, undefined) {
 
 	"use strict";
 
@@ -29,7 +25,7 @@ window['graphit'] = window.graphit;
 	};
 
 	var Module = function(conf) {
-		this['bird'] = {};
+		this['egg'] = {};
 		for ( var k in conf) {
 			if (conf.debug >= 10) {
 				console.log('Setting global', k, conf[k]);
@@ -40,13 +36,14 @@ window['graphit'] = window.graphit;
 
 	Module.prototype.import = function(name) {
 		var pat = /(\/)/g;
+		//console.log('[Egg/Import] ' + name);
 		name = name.replace(pat, '_');
-		if (!this['bird'] || !this['bird'][name]) {
+		if (!this['egg'] || !this['egg'][name]) {
 			throw('import_non_existing_module__' + name);
 			return null;
 		}
-		if (this['bird'][name]) {
-			return this['bird'][name];
+		if (this['egg'][name]) {
+			return this['egg'][name];
 		}
 		return null;
 	};
@@ -58,30 +55,17 @@ window['graphit'] = window.graphit;
 	 * sho / 12 déc. 2012 / 23:14:32
 	 * @param dumbopt {String} dumbstring
 	 */
-	Module.prototype.export = function(name, bird) {
+	Module.prototype.export = function(name, egg) {
 		var pat = /(\/)/g;
 		name = name.replace(pat, '_');
-		console.log('[Bird] add *', name,'*');
-		if (!name || !bird || typeof name == 'function' || (typeof bird != 'function' && typeof bird != 'object')) {
+		//console.log('[Egg/Add] ', name);
+		if (!name || !egg || typeof name == 'function' || (typeof egg != 'function' && typeof egg != 'object')) {
 			throw('add_bird_require_two_parameters');
 		}
-		this['bird'][name] = bird;
+		this['egg'][name] = egg;
 	};
 	Module.prototype['export'] = Module.prototype.export;
 
-	/**
-	 * Method __test
-	 * graphit[js/Conf.js]
-	 * sho / 13 déc. 2012 / 02:14:50
-	 * @param dumbopt {String} dumbstring
-	 */
-	Module.prototype.__test = function() {
-//		var conf = new (this.import('Module'))(MyConf);
-//		console.log(conf.to_s());
-		return true;
-	};
-	
-	Module.prototype['__test'] = Module.prototype.__test;
 	/**
 	 * Method to_s
 	 * graphit[js/Conf.js]
@@ -94,9 +78,25 @@ window['graphit'] = window.graphit;
 		}
 	};
 	Module.prototype['to_s'] = Module.prototype.to_s;
-	
+
+	/**
+	 * Method __test
+	 * graphit[js/Conf.js]
+	 * sho / 13 déc. 2012 / 02:14:50
+	 * @param dumbopt {String} dumbstring
+	 */
+	Module.prototype.__test = function() {
+		return true;
+	};
+	Module.prototype['__test'] = Module.prototype.__test;
+
+	/*
+	 * Installing our Namespace
+	 */
 	window.graphit = new Module(MyConf);
 	window.graphit.export('graphit', Module);
 	console.log('Namespace << graphit >> added (window.graphit)');
-})(window, graphit, console);
-window['graphit'] = graphit;
+	
+})(window, console);
+
+//window['graphit'] = graphit;

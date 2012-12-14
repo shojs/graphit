@@ -1,6 +1,11 @@
 (function(window, graphit, console, undefined) {
 
+	var modulePath = 'app/frag';
+	
 	var Cobject = graphit.import('lib/object');
+	var Ccolor = graphit.import('lib/color');
+	var Ccanvas = graphit.import('lib/canvas');
+	var Cvector2d = graphit.import('lib/math/vector2d');
 	
 	/***************************************************************************
 	 * @constructor Fragment are images who composed layer global image
@@ -8,8 +13,8 @@
 	 * @param width
 	 * @param height
 	 */
-	function Cfrag(options) {
-		options.className = 'Cfrag';
+	function Module(options) {
+		options.className = modulePath;
 		options.label = 'frag';
 		Cobject.call(this, options, [
 				'parent', 'position', 'width', 'height', 'color'
@@ -27,8 +32,8 @@
 	;
 
 	/* Inheritance */
-	Cfrag.prototype = Object.create(Cobject.prototype);
-	Cfrag.prototype.constructor = new Cobject();
+	Module.prototype = Object.create(Cobject.prototype);
+	Module.prototype.constructor = new Cobject();
 
 	/**
 	 * @param source
@@ -40,7 +45,7 @@
 	 * @param ty
 	 * @returns {Boolean}
 	 */
-	Cfrag.prototype.drawImage = function(source, sx, sy, swidth, sheight, tx,
+	Module.prototype.drawImage = function(source, sx, sy, swidth, sheight, tx,
 			ty) {
 		var dcanvas = this.cCanvas.data;
 		var ctx = this.cCanvas.data.getContext('2d');
@@ -54,6 +59,6 @@
 		return true;
 	};
 
-	graphit.export('Cfrag', Cfrag);
+	graphit.export(modulePath, Module);
 	
 })(window, graphit, console);

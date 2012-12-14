@@ -27,8 +27,9 @@
 <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.min.js"></script>
 
 <script type="text/javascript" src="js/lib/fix.js"></script>
-<script type="text/javascript" src="js/Conf.js"></script>
-<script type="text/javascript" src="js/app/run2.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<!--<script type="text/javascript" src="js/lib/bird.js"></script>-->
+<!--<script type="text/javascript" src="js/app/run2.js"></script>-->
 
 <link id="ui-theme" rel="stylesheet" type="text/css" href="http://shojs.github.com/graphit-static/js/plugin/jquery-ui/1.9.2/themes/base/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -49,7 +50,7 @@
 	var graphitclass = [
 	                    //'../index.htm.min.js',
 	                    /* MINIFYJS:START */
-	                    'lib/func.js', 
+                        'lib/func.js', 
 	                    'lib/uid.js', 
 	                    'lib/exception.js',
 	                    'lib/object.js', 
@@ -62,8 +63,10 @@
 	                    'app/jquery/theme.js',
 	                    'lib/parameter/checkbox.js',
 	                    'lib/parameter/numeric.js',
-	                     /*MINIFYJS:STOP*/
 	                    
+	                     /*MINIFYJS:STOP*/
+	                    'lib/enum/loading.js',
+	                    'lib/enum/cardinal.js',
 	                    'lib/image.js',
 	                    'lib/icon.js',
 	                    'lib/color.js',
@@ -72,14 +75,16 @@
 	                    'lib/canvas.js',
 	                    'lib/bounding/rectangle.js',
 	                    //'lib/registry.js',
-	                    'lib/math.js',
+
 	                    'lib/math/point2d.js',
 	                    'lib/math/vector2d.js',
 	                    'lib/math/matrix33.js',
+                        'lib/math.js',
 	                    'lib/transform/2d.js',
 	                    'lib/mouse/tracker.js',
 	                    'app/widget.js',
-	                    'app/brush.js',
+	                    //'app/brush.js',
+	                    'app/enum/compositeOperation.js',
 	                    'app/tool.js',
 	                    'app/tool/pencil.js',
 	                    'app/tool/paintbrush.js',
@@ -92,23 +97,30 @@
 	                    'app/frag.js',
 	                    'app/layer.js',
 	                    'app/layer/manager.js',
+	                    'app/grid.js',
 	                    'app/surface.js',
 	                    'app/surface/workspace.js',
-	                    'app/grid.js',
-	                    'app/toolbox/preview.js',
-	                    'app/toolbox/colorpicker.js',
-	                    'app/toolbox.js',
+	                    'app/brush/enum/type.js',
+
+                        'app/brush/tools.js',
+                        'app/brush.js',
+                        'app/brush/manager.js',
+                        'app/toolbox/preview.js',
+                        'app/toolbox/colorpicker.js',
+                        'app/toolbox.js',
 	                    'lib/binaryFile.js',
 	                    'lib/binaryFile/GBR.js',
-	                    'app/brush.js',
-	                    'app/brush/manager.js',
+
 	                    'app/graphit.js',
 	                    'app/graphitAuth.js',
+	                    'lib/browser.js',
+	                    'app/boot/test.js',
+	                    'app/boot.js',
+                        
                         /*MINIFYJS:STOP */
                     ];
 	
 	var inject_script = function(path) {
-        total++;
     	var type = 'js';
     	var pat = /^(.*)\.(css)$/i;
     	var m = pat.exec(path); 
@@ -120,22 +132,14 @@
     	    r.async = false;
     		r.defer = false; 
     		r.src = path;
-    	} else {
-    		r = document.createElement('link');
-    		r.rel = "stylesheet";
-    		r.type = "text/css";
-    		r.href = path;
-    	}
-        root.parentNode.insertBefore(r, root);
-        r.onload = function() {
-            var src = this.src;
-            //var execute_later = function() {
-             //   var src = src;
-        	   if (window.graphit.debug > 5) 
-        		  console.log('['+loaded + ','+total+']', 'Loaded', src);
-        	   loaded++;
-        	   console.log('-> loaded', path);
-        	   if (loaded == total) {
+            total++;
+            r.onload = function() {
+                var src = this.src;
+                if (window.graphit.debug > 5) 
+                    console.log('['+loaded + ','+total+']', 'Loaded', src);
+        	    loaded++;
+        	    console.log('['+loaded+'/'+total+']', path);
+        	    if (loaded == total) {
         	       console.log('[Booting]');//, 'background-color:blue; color:white');
         	       var boot = graphit.import('app/boot');
         	       if (!boot) {
@@ -150,11 +154,16 @@
         	               throw(e);
         	           }
         	       }
-        	   }
-        	//};
-        	//setTimeout(execute_later, 5);
-        };
-	}
+        	    }
+             };
+        } else {
+            r = document.createElement('link');
+            r.rel = "stylesheet";
+            r.type = "text/css";
+            r.href = path;
+        }
+        root.parentNode.insertBefore(r, root);   
+	};
 
 	for (var i = 0; i < plugins.length; i++) {
 		inject_script(window.graphit.baseStaticContent + 'js/plugin/' + plugins[i]);

@@ -3,9 +3,13 @@
 	var modulePath = 'app/grid';
 	
 	var Cobject = graphit.import('lib/object');
-
+	var Ccolor = graphit.import('lib/color');
+	var Cparameter_numeric = graphit.import('lib/parameter/numeric');
+	var Cparameter_checkbox = graphit.import('lib/parameter/checkbox');
+	var Eparameter_type = graphit.import('lib/parameter/enum/type');
+	
 	function Module(options) {
-		options.className = 'Module';
+		options.className = modulePath;
 		options.label = 'grid';
 		Cobject.call(this, options, [
 				'parent', 'callback_slide', 'callback_change', 'label'
@@ -114,6 +118,6 @@
 		return this;
 	};
 
-	graphit.export('app/grid', Module);
+	graphit.export(modulePath, Module);
 	
 })(window, graphit, console);

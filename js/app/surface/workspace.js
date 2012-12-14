@@ -3,6 +3,10 @@
 	var modulePath = 'app/surface/workspace';
 	
 	var Cobject = graphit.import('lib/object');
+	var Csurface = graphit.import('app/surface');
+	var Cicon = graphit.import('lib/icon');
+	var PO = new(graphit.import('lib/po'))();
+	var T = function(k) { return PO.get(k); };
 
 	/**
 	 * Class Module 12:12:16 / 25 nov. 2012 [jsgraph] sho

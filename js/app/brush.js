@@ -1,15 +1,10 @@
 (function(window, graphit, console, undefined) {
 
 	var Cobject = graphit.import('lib/object');
-	/**
-	 * Class Module [jsgraph] 22 nov. 2012
-	 */
-
-	var Ebrush_type = new Cenum({
-		js : 1,
-		gbr : 2
-	});
-
+	var Etype = graphit.import('app/brush/enum/type');
+	var Ccanvas = graphit.import('lib/canvas');
+	var Ccolor = graphit.import('lib/color');
+	
 	function Module(options) {
 		options.className = "Module";
 		options.label = "brush";
@@ -26,17 +21,18 @@
 	 *
 	 */
 	Module.prototype.init = function(options) {
+		console.log('INITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
 		if (!this.type || !this.name) {
 			console.error("Module need <<type>> and <<name>> parameter");
 			return false;
 		}
-		if (this.type == Ebrush_type.js) {
+		if (this.type == Etype.js) {
 			this._load_js(options);
-		} else if (this.type == Ebrush_type.gbr) {
+		} else if (this.type == Etype.gbr) {
 			console.log('Parsing Gimp Brush');
 			this._load_gbr(options);
 		} else {
-			console.error('Unknow Module type', this.type);
+			thix.exception('unknown_brush_type', this.type);
 			return false;
 		}
 		return this.init_canvas(options);
@@ -94,8 +90,9 @@
 		var r = $('<div />');
 		var g = $('<div />');
 		g.addClass('group-brush group');
-		g.append('<label>' + Ebrush_type.key_by_value(this.type) + ' / '
+		g.append('<label>' + Etype.key_by_value(this.type) + ' / '
 				+ this.name + '</label>');
+		console.log('Ccanvas', this.cCanvas);
 		g.append(this.cCanvas.dom_get());
 		r.append(g);
 		r.click(function() {

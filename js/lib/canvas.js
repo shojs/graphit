@@ -1,6 +1,10 @@
 (function(window, graphit, console, undefined) {
 	
+	var modulePath = 'lib/canvas';
+	
 	var Cobject = graphit.import('lib/object');
+	var Ccolor = graphit.import('lib/color');
+	
 	/**
 	 * @constructor A class holding a canvas element
 	 * @param options
@@ -8,7 +12,7 @@
 	 */
 	function Module(options) {
 		options = options || {};
-		options.className = 'Module';
+		options.className = modulePath;
 		options.label = 'canvas';
 		Cobject.call(this, options, [
 				'width', 'height', 'bg_color', 'src'
@@ -171,6 +175,6 @@
 		return this;
 	};
 
-	graphit.export('lib/canvas', Module);
+	graphit.export(modulePath, Module);
 
 })(window, graphit, console);

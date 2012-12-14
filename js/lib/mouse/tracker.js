@@ -1,7 +1,10 @@
 (function(window, graphit, console, undefined) {
 
+	var modulePath = 'lib/mouse/tracker';
+	
 	var Cobject = graphit.import('lib/object');
 	var Cvector2d = graphit.import('lib/math/vector2d');
+	var cMath = graphit.import('lib/math');
 
 	/**
 	 * @constructor
@@ -195,6 +198,6 @@
 		return str;
 	};
 
-	graphit.export('Cmouse_tracker', Cmouse_tracker);
+	graphit.export(modulePath, Cmouse_tracker);
 	
 })(window, graphit, console);

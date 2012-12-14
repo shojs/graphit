@@ -3,7 +3,18 @@
 	var modulePath = 'app/graphit';
 	
 	var Cobject = graphit.import('lib/object');
-
+	var Cmenu = graphit.import('lib/menu');
+	var Ctoolbox = graphit.import('app/toolbox');
+	var Cjquery_theme = graphit.import('app/jquery/theme');
+	var Clicense = graphit.import('app/license');
+	var Cgrapher = graphit.import('app/grapher');
+	var Cparameter_numeric = graphit.import('lib/parameter/numeric');
+	var Csurface_workspace = graphit.import('app/surface/workspace');
+	var Csurface = graphit.import('app/surface');
+	var Ccanvas = graphit.import('lib/canvas');
+	var PO = new(graphit.import('lib/po'))();
+	var T = function(key) { return PO.get(key); };
+	
 	/**
 	 * @constructor Class Module The main shojs-graphit class This class hold
 	 *              our toolbox and manage our Csurface This class also install

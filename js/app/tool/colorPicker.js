@@ -3,6 +3,8 @@
 	var modulePath = 'app/tool/colorPicker';
 	
 	var Ctool = graphit.import('app/tool');
+	var Ecomposite_operation = graphit.import('app/enum/compositeOperation');
+	var Ccolor = graphit.import('lib/color');
 	
 	/**
 	 * Constructor / Module

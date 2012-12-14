@@ -3,6 +3,9 @@
 	var modulePath = 'app/layer/manager';
 
 	var Cobject = graphit.import('lib/object');
+	var Cicon = graphit.import('lib/icon');
+	var Clayer = graphit.import('app/layer');
+	var cMath = graphit.import('lib/math');
 
 	/***************************************************************************
 	 * @constructor This class manage Csurface layers Each layers is composed of

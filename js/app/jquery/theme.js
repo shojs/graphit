@@ -2,17 +2,14 @@
 
 	'use strict';
 
-	/*
-	 * Imports
-	 */
+	var modulePath = 'app/jquery/theme';
 	
-
 	/**
 	 * @constructor
 	 */
-	function Cjquery_theme () {
+	function Module () {
 		var Cparameter_select = graphit.import('lib/parameter/select');
-		this['className'] = 'Cjquery-theme';
+		this['className'] = modulePath;
 		this['label'] = 'chooser';
 		this['key'] = 'shojs-jquery-theme';
 		this.pTheme = new Cparameter_select({
@@ -61,44 +58,44 @@
 
 	/**
 	 * 
-	 * @returns {Cjquery_theme}
+	 * @returns {Module}
 	 */
-	Cjquery_theme.prototype.dom_build = function() {
+	Module.prototype.dom_build = function() {
 		var d = $('<div title="Theme chooser"/>');
 		d.append(this.pTheme.dom_get());
 		this.rootElm = d;
 		return this;
 	};
-	Cjquery_theme.prototype['dom_build'] = Cjquery_theme.prototype.dom_build;
+	Module.prototype['dom_build'] = Module.prototype.dom_build;
 
 	/**
 	 * 
 	 * @param force
 	 * @returns
 	 */
-	Cjquery_theme.prototype.dom_get = function(force) {
+	Module.prototype.dom_get = function(force) {
 		if (this.rootElm && force != undefined && !force) {
 			return this.rootElm;
 		}
 		return this.dom_build().rootElm;
 	};
-	Cjquery_theme.prototype['dom_get'] = Cjquery_theme.prototype.dom_get;
+	Module.prototype['dom_get'] = Module.prototype.dom_get;
 
 	/**
 	 * Method __test
-	 * graphit[js/app/Cjquery_theme.js]
+	 * graphit[js/app/Module.js]
 	 * sho / 13 déc. 2012 / 03:18:40
 	 */
-	Cjquery_theme.prototype.__test = function() {
-		var C = graphit.import('Cjquery_theme');
+	Module.prototype.__test = function() {
+		var C = graphit.import('Module');
 		var t = new C();
 		t.dom_get().dialog();
 	};
-	Cjquery_theme.prototype['__test'] = Cjquery_theme.prototype.__test;
+	Module.prototype['__test'] = Module.prototype.__test;
 
 	/*
 	 * Export to our Main module and make Google Closure happy
 	 */
-	graphit.export('Cjquery_theme', Cjquery_theme);
+	graphit.export(modulePath, Module);
 
 })(window, graphit, console);

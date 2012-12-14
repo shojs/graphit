@@ -1,6 +1,8 @@
 (function(window, graphiht, console, undefined) {
 
 	var modulePath = 'lib/math';
+	var Cvector2d = graphit.import('lib/math/vector2d');
+	var Cpoint2d = graphit.import('lib/math/point2d');	
 	/**
 	 * Global math Object
 	 */

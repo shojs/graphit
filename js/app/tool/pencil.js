@@ -3,6 +3,7 @@
 	var modulePath = 'app/tool/pencil';
 	
 	var Ctool = graphit.import('app/tool');
+	var Eparameter_type = graphit.import('lib/parameter/enum/type');
 	
 	/**
 	 * Constructor / Module

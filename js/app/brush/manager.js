@@ -3,6 +3,9 @@
 	var modulePath = 'app/brush/manager';
 	
 	var Cobject = graphit.import('lib/object');
+	var Cbrush = graphit.import('app/brush');
+	var Etype = graphit.import('app/brush/enum/type');
+	var CTOOL_brushes = graphit.import('app/brush/tools');
 	
 	/**
 	 * @constructor Class Module [jsgraph] 22 nov. 2012
@@ -29,19 +32,19 @@
 	Module.prototype.init = function(options, permitted) {
 		this.add(new Cbrush({
 			parent : this,
-			type : Ebrush_type.js,
+			type : Etype.js,
 			name : 'circle',
 			data : CTOOL_brushes.circle
 		}));
 		this.add(new Cbrush({
 			parent : this,
-			type : Ebrush_type.js,
+			type : Etype.js,
 			name : 'rectangle',
 			data : CTOOL_brushes.rectangle
 		}));
 		this.add(new Cbrush({
 			parent : this,
-			type : Ebrush_type.js,
+			type : Etype.js,
 			name : 'scircle',
 			data : CTOOL_brushes.scircle
 		}));

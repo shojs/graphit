@@ -1,8 +1,14 @@
 (function(window, graphit, console, undefined) {
 
 	var modulePath = 'app/layer';
-	
+
 	var Cobject = graphit.import('lib/object');
+	var Cvector2d = graphit.import('lib/math/vector2d');
+	var Ecomposite_operation = graphit.import('app/enum/compositeOperation');
+	var Ccanvas = graphit.import('lib/canvas');
+	var Cicon = graphit.import('lib/icon');
+	var Cimage = graphit.import('lib/image');
+	var Cfrag = graphit.import('app/frag');
 
 	/*******************************************************************************
 	 * 
@@ -409,5 +415,5 @@
 	};
 
 	graphit.export('app/layer', Module);
-	
+
 })(window, graphit, console);

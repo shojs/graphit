@@ -3,6 +3,23 @@
 	var modulePath = 'app/toolbox';
 	
 	var Cobject = graphit.import('lib/object');
+	var Ctoolbox_preview = graphit.import('app/toolbox/preview');
+	var Ctoolbox_colorpicker = graphit.import('app/toolbox/colorPicker');
+	var Ctool = graphit.import('app/tool');
+	var Ctool_pencil = graphit.import('app/tool/pencil');
+	var Ctool_paintbrush = graphit.import('app/tool/paintbrush');
+	var Ctool_fill = graphit.import('app/tool/fill');
+	var Ctool_eraser = graphit.import('app/tool/eraser');
+	var Ctool_color_picker = graphit.import('app/tool/colorPicker');
+	var Ccolor = graphit.import('lib/color');
+	var Cbrush_manager = graphit.import('app/brush/manager');
+	
+	var Cicon= graphit.import('lib/icon');
+	
+	var PO = new(graphit.import('lib/po'))();
+	var T = function(key) { PO.get(key); };
+	
+	//var Ccanvas = graphit.import('lib/canvas');
 
 	/***************************************************************************
 	 * @constructor A class representing our toolbox - list of tools - fg/bg
@@ -53,14 +70,14 @@
 		/*
 		 * BRUSH PREVIEW
 		 */
-		this.preview = new Module_preview({
+		this.preview = new Ctoolbox_preview({
 			parent : this
 		});
 
 		/*
 		 * Foreground color
 		 */
-		this.fg_color = new Module_colorpicker(new Ccolor({
+		this.fg_color = new Ctoolbox_colorpicker(new Ccolor({
 			r : 255,
 			g : 255,
 			b : 255,
@@ -78,7 +95,7 @@
 		/*
 		 * Background color
 		 */
-		this.bg_color = new Module_colorpicker(new Ccolor({
+		this.bg_color = new Ctoolbox_colorpicker(new Ccolor({
 			r : 0,
 			g : 0,
 			b : 0,

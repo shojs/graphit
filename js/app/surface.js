@@ -3,6 +3,14 @@
 	var modulePath = 'app/surface';
 	
 	var Cobject = graphit.import('lib/object');
+	var cMath = graphit.import('lib/math');
+	var Ccanvas = graphit.import('lib/canvas');
+	var Ccolor = graphit.import('lib/color');
+	var Clayer_manager = graphit.import('app/layer/manager');
+	var Clayer = graphit.import('app/layer');
+	var Cmouse_tracker = graphit.import('lib/mouse/tracker');
+	var Cgrid = graphit.import('app/grid');
+	
 
 	/***************************************************************************
 	 * 
@@ -340,6 +348,7 @@
 	 *
 	 */
 	Module.prototype.attach_graphit = function(cGraphit) {
+		var Cgraphit = graphit.import('app/graphit');
 		if (!cGraphit || !(cGraphit instanceof Cgraphit)) {
 			console.error('Can\'t attach null or none Ctoolbox instance');
 			return false;

@@ -1,8 +1,9 @@
 (function(window, graphit, console, undefined) {
 
-	var modulePath = 'app/tool/paintBrush';
+	var modulePath = 'app/tool/paintbrush';
 	
 	var Ctool = graphit.import('app/tool');
+	var cMath = graphit.import('lib/math');
 	
 	/**
 	 * Constructor / Module

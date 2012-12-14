@@ -3,7 +3,8 @@
 	var modulePath = 'app/tool/eraser';
 	
 	var Ctool = graphit.import('app/tool');
-	
+	var Ecomposite_operation = graphit.import('app/enum/compositeOperation');
+	var cMath = graphit.import('lib/math');
 	/**
 	 * Constructor / Module
 	 */

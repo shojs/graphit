@@ -4,7 +4,6 @@
 	
 	var Cobject = graphit.import('lib/object');
 	
-	
 	/**
 	 * Holding data passed between grapher and tools
 	 *  
@@ -107,6 +106,7 @@
 	 * @returns {Boolean}
 	 */
 	Module.prototype.stop = function() {
+		var Clayer = graphit.import('app/layer');
 		try {
 			if (!this.timer) {
 				console.warn('Grapher is not started');

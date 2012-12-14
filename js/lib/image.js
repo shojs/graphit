@@ -2,6 +2,7 @@
 	
 	var modulePath = 'lib/image';
 	var Cobject = graphit.import('lib/object');
+	var Estatus = graphit.import('lib/enum/loading');
 	
 	/**
 	 * @constructor A html image element
@@ -17,15 +18,9 @@
 				'parent', 'src', 'width', 'height', 'title', 'callback_click',
 				'callback_success', 'callback_error', 'autoRelease'
 		]);
-		this.Estatus = {
-			none : 1,
-			loading : 2,
-			fail : 3,
-			ok : 4
-		};
 		this.options = options;
 		this.data = null;
-		this.status = this.Estatus.none;
+		this.status = Estatus.none;
 		this.errorMsg = '';
 		this.last_update = null;
 		if (!this.src) {
@@ -80,7 +75,7 @@
 	 * @returns {Boolean}
 	 */
 	Cimage.prototype.callback_onload = function() {
-		this.status = Eloading_status.ok;
+		this.status = Estatus.ok;
 		this.last_update = Date.now();
 		if ('replace_id' in this.options && this.options.replace_id) {
 			var e = document.getElementById(this.options.replace_id);
@@ -107,7 +102,7 @@
 	 * @returns {Boolean}
 	 */
 	Cimage.prototype.callback_onerror = function() {
-		this.status = Eloading_status.fail;
+		this.status = Estatus.fail;
 		this.last_update = null;
 		var callback = this.callback_exists('error');
 		if (callback) {

@@ -2,8 +2,11 @@
 
 	'use strict';
 
+	var modulePath = 'lib/image/analyse';
+	
 	var Cobject = graphit.import('lib/object');
 	var Ccolor = graphit.import('lib/color');
+	var Ecardinal = graphit.import('lib/enum/cardinal');
 	/**
 	 * Class Module graphit[js/lib/image/Module.js] sho /
 	 * 09:26:59 / 4 déc. 2012
@@ -15,16 +18,6 @@
 	 * Class Module [jsgraph] sho
 	 */
 	function Module(options) {
-		Cardinal = {
-			nw : 7,
-			n : 0,
-			ne : 1,
-			w : 6,
-			e : 2,
-			sw : 5,
-			s : 4,
-			se : 3
-		};
 		options = options || {};
 		options.className = "Module";
 		options.label = "Module";
@@ -94,7 +87,7 @@
 		for ( var i = 0; i < totalPixel; i++) {
 			pool[i] = null;
 		}
-		index = spixel.y * imgData.width + spixel.x;
+		var index = spixel.y * imgData.width + spixel.x;
 		check.push({
 			x : spixel.x,
 			y : spixel.y,
@@ -128,6 +121,6 @@
 		return pool;
 	};
 
-	graphit.export('image/analyse', Module);
+	graphit.export(modulePath, Module);
 	
 })(window, graphit, console);

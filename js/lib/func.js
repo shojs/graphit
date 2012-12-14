@@ -41,32 +41,6 @@ function helper_format_number_length(num, length) {
 	return r;
 }
 
-function isCanvasSupported() {
-	var elem = document.createElement('canvas');
-	return !!(elem.getContext && elem.getContext('2d'));
-}
-window['isCanvasSupported'] = isCanvasSupported;
-
-function isFileSupported() {
-	// Check for the various File API support.
-	if (window.File && window.FileReader && window.FileList && window.Blob) {
-		return true;
-	}
-	console.error('The File APIs are not fully supported in this browser.');
-	return false;
-}
-
-function getLanguage() {
-	var lang = (navigator.language) ? navigator.language
-			: navigator.userLanguage;
-	var pat = /^\s*([^-]*)-([^\s]*)\s*$/;
-	var match = pat.exec(lang);
-	if (match) {
-		return match[1];
-	}
-	return lang;
-}
-window['getLanguage'] = getLanguage;
 
 /**
  * @param obj

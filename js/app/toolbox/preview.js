@@ -3,6 +3,7 @@
 	var modulePath = 'app/toolbox/preview';
 	
 	var Cobject = graphit.import('lib/object');
+	var Ccanvas = graphit.import('lib/canvas');
 	/**
 	 * @constructor
 	 * @param options
