@@ -2,52 +2,53 @@
 
 	'use strict';
 
+	var modulePath = 'app/boot';
 	/**
 	 * Imports
 	 */
-	var Cjquery_theme_injector = graphit.import('Cjquery_theme_injector');
+	//var Cjquery_theme_injector = graphit.import('app/jquery/themeInjector', { 'delayed': true});
 
 	/**
 	 * Boot
 	 */
-	graphit['boot'] = function() {
+	var Module = function() {
 		var sep = '--------------------------------------------------------------------------------';
 		var tests = [
 				'Cobject', 'Clocal_storage'
 		];
 		var fnl = function(msg) {
-			console.debug(sep);
-			console.log('%c' + msg, "background-color: black; color: white");
+			console.log( msg);
 		};
 		var fns = function(msg) {
-			console.debug('%c' + msg, "background-color:#00FA00; color: black");
+			console.debug(msg);
 		};
 		var fni = function(key, value) {
-			console.debug('%c - ' + key + ' => ' + value,
-					"background-color:#00A000;font-weight: bold");
+			console.debug('- key' + ' => ' + value);
 		};
 		fnl('START');
 		fnl('[Testing Language]');
 		console.debug('Langue:', getLanguage());
 		var numTest = 0;
 		var numSuccess = 0;
-		var d = '----- ';
 		for ( var label in graphit.bird) {
+			numTest++;
 			var error = null;
-			console.log(d + d + d + d);
-			var str = '[' + numTest + '] Testing ' + label;
-			console.log(str);
+			var str = '[' + numTest + '] Testing ' + label + ': ';
 			var proto = graphit.bird[label].prototype;
+			if (!proto) {
+				console.log(str, graphit.bird[label]);
+				numSuccess++;
+				continue;
+			}
 			var success = false;
 			if (!('__test' in proto)) {
-				fni('No method', '__test');
-				numTest++;
+				console.log(str + ' NO TEST');
+				numSuccess++;
 				continue;
 			}
 			try {
 				var Co = graphit.import(label);
-				var o = new Co();
-				success = o.__test.call(o);
+				success = proto.__test.call(o);
 				success = true;
 				numSuccess++;
 			} catch (e) {
@@ -59,15 +60,12 @@
 					error['to_s'] = e.to_s();
 				}
 			}
-			str = '[' + numTest + '] Result ' + label + ': %c';
 			if (success) {
 				console
-						.log(str + 'Ok',
-								'background-color: black; color: green');
+						.log(str + 'Ok');
 			} else {
 				console
-						.log(str + 'Fail',
-								'background-color: black; color: red');
+						.log(str + 'Fail');
 				console.error('Error in <<< ', label, ' >>>');
 				console.error(error, error['original']);
 				if (error['original']['type'] == 'shojs-exception') {
@@ -75,8 +73,16 @@
 				}
 
 			}
-			numTest++;
 		}
-		console.log('Test', numSuccess, '/', numTest);
+		console.log('Test ', numSuccess, ' / ', numTest);
+		
+
 	};
+	
+	Module.prototype.__test = function() {
+		return true;
+	};
+	
+	graphit.export(modulePath, Module);
+	
 })(window, graphit, console);

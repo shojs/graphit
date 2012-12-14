@@ -188,7 +188,7 @@ window['widget_factory'] = window.widget_factory;
  * @returns
  */
 function widget_exception(e) {
-	var Cexception_message = graphit.import('Cexception_message');
+	var Cexception_message = graphit.import('lib/exception');
 	console.error('Widget', e);
 	var msg = e;
 	var title = '[Error] ';

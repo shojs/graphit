@@ -30,12 +30,12 @@
 <script type="text/javascript" src="js/Conf.js"></script>
 <script type="text/javascript" src="js/app/run2.js"></script>
 
+<link id="ui-theme" rel="stylesheet" type="text/css" href="http://shojs.github.com/graphit-static/js/plugin/jquery-ui/1.9.2/themes/base/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <script type="text/javascript">
 (function(window,graphit, console){
 	var root = document.getElementsByTagName('script')[0];
 	if (!root) root = document.head;
-	else
 	var total = 0;
 	var loaded = 0;
 	var plugins = [ 
@@ -50,66 +50,61 @@
 	                    //'../index.htm.min.js',
 	                    /* MINIFYJS:START */
 	                    'lib/func.js', 
-	                    'lib/Cuid.js', 
-	                    'lib/Cexception_message.js',
-	                    'lib/Cobject.js', 
-                                               
-	                    'lib/Clocal_storage.js',
-	                    'lib/Cpo.js',
-	                    'lib/parameters/Cparameter.js', 
-  
-	                    'lib/parameters/Cparameter_select.js',
-	                    'app/Cjquery_theme_injector.js',
-	                    'app/Cjquery_theme.js',
-	                    /*MINIFYJS:STOP 
-
-	                    'app/Ccore.js',
-
-	                    'lib/parameters/Cparameter_checkbox.js',
-	                    'lib/parameters/Cparameter_numeric.js',
-
-	                    'lib/image/Cimage_analyse.js',
-	                    'lib/Cimage.js',
-	                    'lib/Cicon.js',
-	                    'lib/Ccolor.js',
-	                    'lib/Cmenu.js',
-	                    'lib/Ccanvas.js',
-	                    'lib/Cbounding_rectangle.js',
-	                    'lib/Cregistry.js',
-
-	                    'lib/Cmath.js',
-	                    'lib/math/Cpoint2d.js',
-	                    'lib/math/Cvector2d.js',
-	                    'lib/math/Cmatrix33.js',
-	                    'lib/Ctransform2d.js',
-	                    'lib/Cmouse_tracker.js',
-	                    'app/Cwidget.js',
-	                    'app/Ctool_brushes.js',
-	                    'app/tools/Ctool.js',
-	                    'app/tools/Ctool_pencil.js',
-	                    'app/tools/Ctool_paintbrush.js',
-	                    'app/tools/Ctool_eraser.js',
-	                    'app/tools/Ctool_fill.js',
-	                    'app/tools/Ctool_color_picker.js',
-	                    'app/Cgrapher.js',
+	                    'lib/uid.js', 
+	                    'lib/exception.js',
+	                    'lib/object.js', 
+	                    'lib/localStorage.js',
+	                    'lib/po.js',
+	                    'lib/parameter/enum/type.js',
+	                    'lib/parameter.js', 
+	                    'lib/parameter/select.js',
+	                    'app/jquery/themeInjector.js',
+	                    'app/jquery/theme.js',
+	                    'lib/parameter/checkbox.js',
+	                    'lib/parameter/numeric.js',
+	                     /*MINIFYJS:STOP*/
+	                    
+	                    'lib/image.js',
+	                    'lib/icon.js',
+	                    'lib/color.js',
+	                    'lib/image/analyse.js',
+	                    'lib/menu.js',
+	                    'lib/canvas.js',
+	                    'lib/bounding/rectangle.js',
+	                    //'lib/registry.js',
+	                    'lib/math.js',
+	                    'lib/math/point2d.js',
+	                    'lib/math/vector2d.js',
+	                    'lib/math/matrix33.js',
+	                    'lib/transform/2d.js',
+	                    'lib/mouse/tracker.js',
+	                    'app/widget.js',
+	                    'app/brush.js',
+	                    'app/tool.js',
+	                    'app/tool/pencil.js',
+	                    'app/tool/paintbrush.js',
+	                    'app/tool/eraser.js',
+	                    'app/tool/fill.js',
+	                    'app/tool/colorPicker.js',
+	                    'app/grapher.js',
 	                    'app/helper_draw.js',
-	                    'app/Clicense.js',
-	                    'app/Cfrag.js',
-	                    'app/Clayer.js',
-	                    'app/Clayer_manager.js',
-	                    'app/Csurface.js',
-	                    'app/Csurface_workspace.js',
-	                    'app/Cgrid.js',
-	                    'app/Ctoolbox_preview.js',
-	                    'app/Ctoolbox_colorpicker.js',
-	                    'app/Ctoolbox.js',
-	                    'lib/Cbinary_file.js',
-	                    'app/Cfile_GBR.js',
-	                    'app/Cbrush.js',
-	                    'app/Cbrush_manager.js',
-	                    'app/Cgraphit.js',
-	                    'app/CgraphitAuth.js',
-                        MINIFYJS:STOP */
+	                    'app/license.js',
+	                    'app/frag.js',
+	                    'app/layer.js',
+	                    'app/layer/manager.js',
+	                    'app/surface.js',
+	                    'app/surface/workspace.js',
+	                    'app/grid.js',
+	                    'app/toolbox/preview.js',
+	                    'app/toolbox/colorpicker.js',
+	                    'app/toolbox.js',
+	                    'lib/binaryFile.js',
+	                    'lib/binaryFile/GBR.js',
+	                    'app/brush.js',
+	                    'app/brush/manager.js',
+	                    'app/graphit.js',
+	                    'app/graphitAuth.js',
+                        /*MINIFYJS:STOP */
                     ];
 	
 	var inject_script = function(path) {
@@ -133,26 +128,31 @@
     	}
         root.parentNode.insertBefore(r, root);
         r.onload = function() {
-        	if (window.graphit.debug > 5) 
-        		console.log('[', loaded, ',', total, ']', 'Loaded', this.src);
-        	loaded++;
-        	console.log('Script loaded',path);
-        	if ((loaded+1) == total) {
-        	   console.log('%c[Booting]', 'background-color:blue; color:white');
-        	   if (!('boot' in graphit)) {
-        	       throw('graphit_no_boot_code');
-        	   }
-        	   try {
-        	       graphit.boot.call(graphit);
-        	       //graphit._boot_code;
-        	       window.graphit.loaded = true;
-        	   } catch(e) {
-        	       console.error('Cannot bootstrap code');
-        	       if (window.graphit.debug) {
-        	           //throw(e);
+            var src = this.src;
+            //var execute_later = function() {
+             //   var src = src;
+        	   if (window.graphit.debug > 5) 
+        		  console.log('['+loaded + ','+total+']', 'Loaded', src);
+        	   loaded++;
+        	   console.log('-> loaded', path);
+        	   if (loaded == total) {
+        	       console.log('[Booting]');//, 'background-color:blue; color:white');
+        	       var boot = graphit.import('app/boot');
+        	       if (!boot) {
+        	           throw('graphit_no_boot_code');
+        	       }
+        	       try {
+        	           boot.call(graphit);
+        	           window.graphit.loaded = true;
+        	       } catch(e) {
+        	           console.error('[!] Cannot bootstrap code');
+        	           if (window.graphit.debug) {
+        	               throw(e);
+        	           }
         	       }
         	   }
-        	}
+        	//};
+        	//setTimeout(execute_later, 5);
         };
 	}
 
