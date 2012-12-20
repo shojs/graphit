@@ -36,7 +36,6 @@
 		var M = project.import(modulePath);&#13;
 		var m = new M();&#13;
 	};&#13;
-	Module.prototype['__test'] = Module.prototype.__test;&#13;
 &#13;
 	/* Export */&#13;
 	project.export(modulePath, Module);&#13;

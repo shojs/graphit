@@ -118,7 +118,7 @@
 		return this.data;
 	};
 
-	Cobject.prototype.getContext = function(type) {
+	Module.prototype.getContext = function(type) {
 		type = type || '2d';
 		if ('data' in this) {
 			return this.data.getContext(type);

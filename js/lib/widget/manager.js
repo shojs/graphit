@@ -38,7 +38,6 @@
 	Module.prototype.init = function(dumbopt) {
 		this.widgets = [];
 	};
-	Module.prototype['init'] = Module.prototype.init;
 	
 	
 	/**
@@ -54,7 +53,6 @@
 		}	
 		this.widgets.push(widget);
 	};
-	Module.prototype['add'] = Module.prototype.add;
 	
 	/**
 	 * Method get
@@ -71,7 +69,6 @@
 		}
 		return null;
 	};
-	Module.prototype['get'] = Module.prototype.get;
 	
 	/**
 	 * Method list
@@ -87,7 +84,6 @@
 			callback.call(this, i, this.widgets[i]);
 		}
 	};
-	Module.prototype['list'] = Module.prototype.list;
 	
 	
 	/**
@@ -97,7 +93,6 @@
 		var M = project.import(modulePath);
 		var m = new M();
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 
 	/* Export */
 	project.export(modulePath, Module);

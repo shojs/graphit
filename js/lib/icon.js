@@ -25,9 +25,17 @@
 		]);
 	}
 
+	/**
+	 * Inherits
+	 */
 	Module.prototype = Object.create(Cimage.prototype);
 	Module.prototype.constructor = new Cimage();
 
+	/**
+	 * 
+	 * @param options
+	 * @returns {String}
+	 */
 	Module.prototype._build_src_path = function(options) {
 		var baseUrl = window.graphit.baseStaticContent;
 		if (!options.name) this
@@ -45,9 +53,10 @@
 		console.log('overide Cobject.__test');
 		return true;
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 	
-	
+	/**
+	 * Export
+	 */
 	graphit.export(modulePath, Module);
 	
 })(window, graphit, console);

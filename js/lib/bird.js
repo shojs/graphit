@@ -50,7 +50,6 @@
 		this.loading = 0;
 		this.install_hook();
 	};
-	Module.prototype['init'] = Module.prototype.init;
 	
 	/**
 	 * Method _import
@@ -61,7 +60,6 @@
 	Module.prototype._import = function(dumbopt) {
 		// dumb comment
 	};
-	Module.prototype['_import'] = Module.prototype._import;
 	
 	/**
 	 * Method _export
@@ -72,7 +70,6 @@
 	Module.prototype._export = function(dumbopt) {
 		// dumb comment
 	};
-	Module.prototype['_export'] = Module.prototype._export;
 	
 	/**
 	 * Method install_hook
@@ -88,8 +85,6 @@
 		graphit.import = this.import;
 		graphit.export = this.export;
 	};
-	Module.prototype['install_hook'] = Module.prototype.install_hook;
-	
 	
 	/**
 	 * Method import
@@ -109,7 +104,6 @@
 		}
 		return this.bird.needed[path].object;
 	};
-	Module.prototype['import'] = Module.prototype.import;
 	
 	
 	/**
@@ -127,8 +121,7 @@
 		//this.bird.exported[mypath] = egg;
 		this.bird._export.call(this, path, egg);
 	};
-	Module.prototype['export'] = Module.prototype.export;
-
+	
 	/**
 	 * Method load
 	 * graphit[js/lib/bird.js]
@@ -162,7 +155,7 @@
 		root.parentNode.insertBefore(s, root);
 		return this.needed[path]['object'];
 	};
-	Module.prototype['load'] = Module.prototype.load;
+	
 	/**
 	 * Method to_s
 	 * graphit[js/lib/bird.js]
@@ -182,15 +175,14 @@
 		}
 		return str;
 	};
-	Module.prototype['to_s'] = Module.prototype.to_s;
+	
 	/**
 	 * Test
 	 */
 	Module.prototype.__test = function() {
 		;
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
-
+	
 	/* Export */
 	graphit.export(modulePath, Module);
 	

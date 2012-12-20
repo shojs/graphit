@@ -46,7 +46,6 @@
 //		roll.set_index(this.roll_count);
 //		this.roll_count++;
 //	};
-//	Module.prototype['add'] = Module.prototype.add;
 
 	/**
 	 * Method refresh
@@ -61,7 +60,6 @@
 //		}
 //
 //	};
-//	Module.prototype['refresh'] = Module.prototype.refresh;
 	/**
 	 * Method dom_get
 	 * graphit[js/app/ui/rollout.js]
@@ -75,7 +73,6 @@
 //		this.rootElm = rollout;
 //		return this;
 //	};
-//	Module.prototype['dom_build'] = Module.prototype.dom_build;
 	/**
 	 * Test
 	 */
@@ -104,7 +101,6 @@
 
 		content01.set_content("Content 01 Modified");
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 
 	/* Export */
 	project.export(modulePath, Module);

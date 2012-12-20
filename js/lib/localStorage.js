@@ -27,7 +27,6 @@
 			this.store = {};
 		}
 	};
-	Module.prototype['first_install'] = Module.prototype.first_install;
 
 	/**
 	 * test_compatibility
@@ -40,7 +39,6 @@
 		console.error('Your web browser doesn\'t support web storage');
 		return false;
 	};
-	Module.prototype['test_compatibility'] = Module.prototype.test_compatibility;
 
 	/**
 	 * Test_insert
@@ -55,7 +53,6 @@
 		this.remove(key);
 		return true;
 	};
-	Module.prototype['test_insert'] = Module.prototype.test_insert;
 
 	/**
 	 * List
@@ -63,7 +60,6 @@
 	Module.prototype.list = function() {
 		return this.store;
 	};
-	Module.prototype['list'] = Module.prototype.list;
 
 	/**
 	 * Remove
@@ -75,7 +71,6 @@
 		}
 		delete this.store[key];
 	};
-	Module.prototype['remove'] = Module.prototype.remove;
 
 	/**
 	 * get
@@ -87,7 +82,6 @@
 		if (this.store && k in this.store) return this.store[k];
 		return null;
 	};
-	Module.prototype['get'] = Module.prototype.get;
 
 	/**
 	 * Set
@@ -115,7 +109,6 @@
 			console.error(me.to_s(), e);
 		}
 	};
-	Module.prototype['set'] = Module.prototype.set;
 
 	Module.prototype.__test = function() {
 		var keyTest = '__TEST__';
@@ -139,7 +132,6 @@
 		}
 		return true;
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 	
 	graphit.export(modulePath, Module);
 	

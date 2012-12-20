@@ -104,7 +104,6 @@
 			console.log('Overide Cparameter test ...');
 		}
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 	
 	graphit.export(modulePath, Module);
 	

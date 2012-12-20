@@ -47,7 +47,6 @@
 		}
 		return lang;
 	};
-	Module.prototype['get_language'] = Module.prototype.get_language;
 	
 	/**
 	 * Method is_file_supported
@@ -63,7 +62,6 @@
 		console.error('The File APIs are not fully supported in this browser.');
 		return false;
 	};
-	Module.prototype['is_file_supported'] = Module.prototype.is_file_supported;
 	
 	
 	/**
@@ -76,7 +74,6 @@
 		var elem = document.createElement('canvas');
 		return !!(elem.getContext && elem.getContext('2d'));
 	};
-	Module.prototype['is_canvas_supported'] = Module.prototype.is_canvas_supported;
 	
 	/**
 	 * Test
@@ -95,7 +92,6 @@
 		}
 		return true;
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 
 	/* Export */
 	graphit.export(modulePath, Module);

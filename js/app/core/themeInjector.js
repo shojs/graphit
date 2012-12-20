@@ -33,7 +33,6 @@
 	Module.prototype.__test = function() {
 		new(graphit.import(modulePath))();
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 	
 	/**
 	 * 
@@ -48,7 +47,6 @@
 			this.name = name;
 		}
 	};
-	Module.prototype['init'] = Module.prototype.init;
 	
 	/**
 	 * 
@@ -70,7 +68,6 @@
 			e.setAttribute('href', src);
 		}
 	};
-	Module.prototype['inject_script'] = Module.prototype.inject_script;
 	
 	graphit.export(modulePath, Module);
 

@@ -60,7 +60,6 @@
 		this._parse_options(options, permitted);
 		return this;
 	};
-	Module.prototype['_class_init'] = Module.prototype._class_init;
 
 	/**
 	 * This is a STUB. When new instance of Module or derived class is created
@@ -74,7 +73,6 @@
 	Module.prototype.init = function(options, permitted) {
 		return false;
 	};
-	Module.prototype['init'] = Module.prototype.init;
 
 	/**
 	 * Throwing exception with a given label and using this.className
@@ -99,7 +97,6 @@
 		}
 		throw e;
 	};
-	Module.prototype['exception'] = Module.prototype.exception;
 
 	/**
 	 * @private This method is reponsible for parsing option when object is
@@ -159,7 +156,6 @@
 		}
 		return true;
 	};
-	Module.prototype['_parse_options'] = Module.prototype._parse_options;
 
 	/**
 	 *
@@ -174,7 +170,6 @@
 		}
 		this.callback[opt.name] = opt.callback;
 	};
-	Module.prototype['install_callback'] = Module.prototype.install_callback;
 
 	/**
 	 * Get Unique Identifier
@@ -188,7 +183,6 @@
 		var s = '' + this.className + '-' + this.uid + what;
 		return s.toLowerCase();
 	};
-	Module.prototype['guid'] = Module.prototype.guid;
 
 	/**
 	 * Returning trigger name for a given action
@@ -200,7 +194,6 @@
 	Module.prototype.get_trigger_name = function(action) {
 		return this.guid(action);
 	};
-	Module.prototype['get_trigger_name'] = Module.prototype.get_trigger_name;
 
 	/**
 	 * Trigger event on document for a given action
@@ -216,7 +209,6 @@
 				additional);
 		$(document).trigger(name, additional);
 	};
-	Module.prototype['send_trigger'] = Module.prototype.send_trigger;
 
 	/**
 	 * Method get_dom_id
@@ -235,7 +227,6 @@
 		//console.log('XCN', xcn);
 		return this.uid + '-' + xcn + name;
 	};
-	Module.prototype['get_dom_id'] = Module.prototype.get_dom_id;
 	
 	/**
 	 * Method get_dom_class
@@ -254,14 +245,13 @@
 		//console.log('XCN', xcn);
 		return xcn;
 	};
-	Module.prototype['get_dom_class'] = Module.prototype.get_dom_class;
+
 	/**
 	 *
 	 */
 	Module.prototype.set = function(key, value) {
 		throw ('object_set_method_is_not_implemented');
 	};
-	Module.prototype['set'] = Module.prototype.set;
 
 	/**
 	 * Bind trigger for a given action to
@@ -286,7 +276,6 @@
 		});
 		return true;
 	};
-	Module.prototype['bind_trigger'] = Module.prototype.bind_trigger;
 
 	/**
 	 * Add Cparameter_* to our object
@@ -315,7 +304,6 @@
 		}
 		return true;
 	};
-	Module.prototype['add_parameter'] = Module.prototype.add_parameter;
 
 	/**
 	 * Get a parameter value
@@ -330,7 +318,6 @@
 		}
 		return this.parameters[key].get();
 	};
-	Module.prototype['get_parameter'] = Module.prototype.get_parameter;
 
 	/**
 	 * Return true if a callback exists with a given name
@@ -341,7 +328,6 @@
 		}
 		return null;
 	};
-	Module.prototype['callback_exists'] = Module.prototype.callback_exists;
 
 	/**
 	 * Retrieve DOM element for this object If noHeader is false we are
@@ -373,7 +359,6 @@
 //		r.append(rootElm);
 //		return r;
 	};
-	Module.prototype['dom_get'] = Module.prototype.dom_get;
 
 	/**
 	 *
@@ -394,7 +379,6 @@
 		this.widgets[name] = rootElm;
 		return this;
 	};
-	Module.prototype['add_widget'] = Module.prototype.add_widget;
 
 	/**
 	 * Method to_s
@@ -406,7 +390,6 @@
 		str += ' - trigger name: ' + this.get_trigger_name() + nl;
 		return str;
 	};
-	Module.prototype['to_s'] = Module.prototype.to_s;
 
 	/**
 	 *
@@ -419,7 +402,6 @@
 		}
 		return this.widgets[name];
 	};
-	Module.prototype['get_widget'] = Module.prototype.get_widget;
 
 	/**
 	 * Method _test
@@ -434,7 +416,6 @@
 		});
 		return true;
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 
 	// Export
 	graphit.export(modulePath, Module);

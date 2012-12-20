@@ -37,7 +37,6 @@
 	Module.prototype.__test = function() {
 		;
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 
 	/* Export */
 	graphit.export(modulePath, Module);

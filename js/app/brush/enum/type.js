@@ -25,7 +25,6 @@
 		}
 		return null;
 	};
-	Module.prototype['key_by_value'] = Module.prototype.key_by_value;
 
 	console.log(modulePath, Module);
 	graphit.export(modulePath, new Module());

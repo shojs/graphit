@@ -45,7 +45,6 @@
 		}
 		return null;
 	};
-	Module.prototype['import'] = Module.prototype.import;
 
 	/**
 	 * Method add
@@ -62,7 +61,6 @@
 		}
 		this['egg'][name] = egg;
 	};
-	Module.prototype['export'] = Module.prototype.export;
 
 	/**
 	 * Method find
@@ -81,7 +79,6 @@
 		}
 		return results;
 	};
-	Module.prototype['find'] = Module.prototype.find;
 
 	/**
 	 * Method to_s
@@ -94,7 +91,6 @@
 			console.log(k, this[k]);
 		}
 	};
-	Module.prototype['to_s'] = Module.prototype.to_s;
 
 	/**
 	 * Method __test
@@ -105,7 +101,6 @@
 	Module.prototype.__test = function() {
 		return true;
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 
 	/*
 	 * Installing our Namespace

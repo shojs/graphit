@@ -108,7 +108,6 @@
 		if (!po[label]) this.exception('translation_fail', {label:label, lang: lang});
 		return po[label];
 	};
-	Module.prototype['get'] = Module.prototype.get;
 
 	/**
 	 * Method to_s Graphit[js/lib/Module.js] sho / 12 déc. 2012 / 11:31:13
@@ -129,7 +128,6 @@
 		}
 		return str;
 	};
-	Module.prototype['to_s'] = Module.prototype.to_s;
 
 	/**
 	 * Method set_lang Graphit[js/lib/Module.js] sho / 12 déc. 2012 / 12:07:00
@@ -140,7 +138,6 @@
 	Module.prototype.set_lang = function(lang) {
 		this['lang'] = lang;
 	};
-	Module.prototype['set_lang'] = Module.prototype.set_lang;
 
 	/**
 	 * Method __test Graphit[js/lib/Module.js] sho / 12 déc. 2012 / 08:34:55
@@ -166,7 +163,6 @@
 		if (DEBUG) console.log(m.to_s());
 		return true;
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 
 	/* EXPORT */
 	graphit.export(modulePath, Module);

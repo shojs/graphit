@@ -39,7 +39,6 @@
 		var canvas = new Ccanvas({width: 640, height: 480});
 		
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 
 	/* Export */
 	project.export(modulePath, Module);

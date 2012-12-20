@@ -59,7 +59,6 @@
 		dom['dialog'](options);
 		return dom;
 	};
-	Module.prototype['widget_factory'] = Module.prototype.widget_factory;
 	
 	/**
 	 * 
@@ -84,7 +83,6 @@
 		});
 		throw e;
 	};
-	Module.prototype['widget_exception'] = Module.prototype.widget_exception;
 	
 	/**
 	 * Test
@@ -93,8 +91,7 @@
 		var M = project.import(modulePath);
 		var m = new M();
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
-
+	
 	/* Export */
 	project.export(modulePath, Module);
 

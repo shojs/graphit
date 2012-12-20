@@ -12,13 +12,13 @@
 		options.className = modulePath;
 		options.label = 'bucket-fill';
 		options.parameters = {
-			size : {
-				label : 'size',
-				min : 1,
-				max : 100,
-				def : 20,
-				step : 1
-			}
+//			size : {
+//				label : 'size',
+//				min : 1,
+//				max : 100,
+//				def : 20,
+//				step : 1
+//			}
 		};
 		Ctool.call(this, options, []);
 	}

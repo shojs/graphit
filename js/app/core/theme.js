@@ -66,7 +66,6 @@
 		this.rootElm = d;
 		return this;
 	};
-	Module.prototype['dom_build'] = Module.prototype.dom_build;
 
 	/**
 	 * 
@@ -79,8 +78,7 @@
 		}
 		return this.dom_build().rootElm;
 	};
-	Module.prototype['dom_get'] = Module.prototype.dom_get;
-
+	
 	/**
 	 * Method __test
 	 * graphit[js/app/Module.js]
@@ -91,7 +89,6 @@
 		var t = new C();
 		t.dom_get().dialog();
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 
 	/*
 	 * Export to our Main module and make Google Closure happy

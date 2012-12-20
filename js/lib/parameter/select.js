@@ -42,7 +42,6 @@
 			this['choices'][label] = options['choices'][label];
 		}
 	};
-	Module.prototype['init'] = Module.prototype.init;
 
 	/*
 	 * Calle by parent class when setting parameter value
@@ -89,7 +88,6 @@
 		this['rootElm'] = r;
 		return this;
 	};
-	Module.prototype['dom_build'] = Module.prototype.dom_build;
 
 	/**
 	 * Method __test Graphit[js/lib/parameters/Module.js] sho / 12
@@ -114,7 +112,6 @@
 		ui.widget_factory(dom);// .dialog('open');
 		return true;
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 
 	// Export
 	graphit.export(modulePath, Module);

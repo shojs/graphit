@@ -61,7 +61,6 @@
 		try { throw e; } catch(e) { if (DEBUG) console.log(e.to_s());}
 		return true;
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 	
 	/**
 	 *
@@ -86,7 +85,6 @@
 		}
 		return str;
 	};
-	Module.prototype['to_s'] = Module.prototype.to_s;
 	
 	graphit.export(modulePath, Module);
 	

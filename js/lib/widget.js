@@ -66,8 +66,7 @@
 	Module.prototype.init = function(dumbopt) {
 		this.dom_get({force: true});
 	};
-	Module.prototype['init'] = Module.prototype.init;
-
+	
 	/**
 	 * Method set graphit[js/app/widget.js] sho / 17 déc. 2012 / 02:47:07
 	 * 
@@ -80,7 +79,6 @@
 		}
 		this.options[key] = value;
 	};
-	Module.prototype['set'] = Module.prototype.set;
 	
 	/**
 	 * Method get graphit[js/app/widget.js] sho / 17 déc. 2012 / 02:48:40
@@ -94,8 +92,7 @@
 		}
 		return this.options[key];
 	};
-	Module.prototype['get'] = Module.prototype.get;
-
+	
 
 	/**
 	 * Method dom_build graphit[js/app/widget.js] sho / 17 déc. 2012 / 02:40:03
@@ -115,8 +112,7 @@
 		this.rootElm = widget;
 		return this;
 	};
-	Module.prototype['dom_build'] = Module.prototype.dom_build;
-
+	
 	/**
 	 * Method set_content graphit[js/app/widget.js] sho / 17 déc. 2012 /
 	 * 02:54:23
@@ -128,8 +124,7 @@
 		this.content.add_child(content);		
 		this.refresh();
 	};
-	Module.prototype['add_content'] = Module.prototype.add_content;
-
+	
 	/**
 	 * Method get_content graphit[js/app/widget.js] sho / 17 déc. 2012 /
 	 * 03:00:18
@@ -140,7 +135,6 @@
 //	Module.prototype.get_content = function() {
 //		return this.content;
 //	};
-//	Module.prototype['get_content'] = Module.prototype.get_content;
 
 	/**
 	 * Method refresh Reload our widget content and title
@@ -150,7 +144,7 @@
 	 *            {String} dumbstring
 	 */
 	Module.prototype.refresh = function() {
-		this.dom_build();
+		//this.dom_build();
 		console.log('Refreshing ', this.label);
 		var contentElm = this.rootElm.find('.group-widget-content');
 		contentElm.empty();
@@ -158,7 +152,6 @@
 		contentElm.append(this.content.dom_get());
 		return this;
 	};
-	Module.prototype['refresh'] = Module.prototype.refresh;
 	
 	/**
 	 * Method show
@@ -171,7 +164,6 @@
 		console.log('Options', options);
 		this._dialog = this.dom_get().dialog(this.options).dialog('open');
 	};
-	Module.prototype['show'] = Module.prototype.show;
 	
 	/**
 	 * Method hide
@@ -184,7 +176,7 @@
 		this._dialog.dialog('close');
 		return true;
 	};
-	Module.prototype['hide'] = Module.prototype.hide;
+	
 	/**
 	 * Test
 	 */
@@ -202,8 +194,7 @@
 		m.refresh();
 		m.show();
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
-
+	
 	/* Export */
 	project.export(modulePath, Module);
 

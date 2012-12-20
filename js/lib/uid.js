@@ -25,7 +25,6 @@
 	 * @param options
 	 */
 	Module.prototype.init = function(options) {};
-	Module.prototype['init'] = Module.prototype.init;
 
 	/**
 	 * @private
@@ -38,7 +37,6 @@
 		i = parseInt(txt.slice(0, 5));
 		return helper_format_number_length(i, 5);
 	};
-	Module.prototype['__get_frag'] = Module.prototype.__get_frag;
 
 	/**
 	 * @param maxtry {Int}
@@ -56,7 +54,6 @@
 		this.last_id = str;
 		return str;
 	};
-	Module.prototype['gen'] = Module.prototype.gen;
 
 	/**
 	 * Method __test
@@ -64,7 +61,7 @@
 	 * sho / 12 déc. 2012 / 10:00:02
 	 */
 	Module.prototype.__test = function() {
-		var M = graphit.import('lib/uid');
+		var M = graphit.import(modulePath);
 		var m = new M();
 		if (DEBUG) {
 			console.log(m);
@@ -72,7 +69,6 @@
 		}
 		return true;
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 	
 	/**
 	 * 

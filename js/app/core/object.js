@@ -48,7 +48,7 @@
 			this[root].add_component(xpath.join('/'), component);
 		}
 	};
-	Module.prototype['add_component'] = Module.prototype.add_component;
+	
 	/**
 	 * Test
 	 */
@@ -56,7 +56,6 @@
 		var M = project.import(modulePath);
 		var m = new M();
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 
 	/* We are exporting add_component into graphit */
 	project.add_component = Module.add_component;

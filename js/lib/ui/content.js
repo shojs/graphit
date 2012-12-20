@@ -102,7 +102,7 @@
 		this.rootElm.empty();
 		return this;
 	};
-	Module.prototype['empty'] = Module.prototype.empty;
+	
 	/**
 	 * Method add_child
 	 * graphit[js/lib/ui/content.js]

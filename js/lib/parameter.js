@@ -76,8 +76,7 @@
 			}
 		}
 	};
-	Module.prototype['__post_init'] = Module.prototype.__post_init;
-
+	
 	/**
 	 * Set our parameter value We are calling _set before actually setting value
 	 * to give sub class a chance to alterate value
@@ -98,8 +97,7 @@
 		// this.send_trigger('update');
 		return true;
 	};
-	Module.prototype['set'] = Module.prototype.set;
-
+	
 	/**
 	 * Stub, called before set() on subclass
 	 * 
@@ -110,7 +108,6 @@
 	Module.prototype._set = function(value) {
 		return value;
 	};
-	Module.prototype['_set'] = Module.prototype._set;
 
 	/**
 	 * Setting parameter value to is default
@@ -121,7 +118,6 @@
 		this.set(this.def);
 		return this.get();
 	};
-	Module.prototype['reset'] = Module.prototype.reset;
 
 	/**
 	 * @returns
@@ -129,8 +125,7 @@
 	Module.prototype.get = function() {
 		return this._get(this.value);
 	};
-	Module.prototype['get'] = Module.prototype.get;
-
+	
 	/**
 	 * @param value
 	 * @returns
@@ -138,8 +133,7 @@
 	Module.prototype._get = function(value) {
 		return value;
 	};
-	Module.prototype['_get'] = Module.prototype._get;
-
+	
 	/**
 	 * @returns
 	 */
@@ -151,8 +145,7 @@
 		var key = classname + '-' + label + '-' + this.label;
 		return key.toLowerCase();
 	};
-	Module.prototype['make_registry_key'] = Module.prototype.make_registry_key;
-
+	
 	/**
 	 * Method to_s Graphit[js/lib/parameters/Module.js] sho / 12 déc. 2012 /
 	 * 12:57:51
@@ -167,8 +160,7 @@
 		str += ' - label: ' + this['label'] + nl;
 		return str;
 	};
-	Module.prototype['to_s'] = Module.prototype.to_s;
-
+	
 	/**
 	 * Method __test Graphit[js/lib/parameters/Module.js] sho / 12 déc. 2012 /
 	 * 12:16:23
@@ -192,8 +184,7 @@
 		m.set(keyTest, keyTest);
 		return true;
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
-
+	
 	// Export
 	graphit.export(modulePath, Module);
 

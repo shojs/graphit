@@ -138,7 +138,6 @@
 		console.log('Overide Cobject.__test');
 		return true;
 	};
-	Module.prototype['__test'] = Module.prototype.__test;
 	
 	graphit.export(modulePath, Module);
 
