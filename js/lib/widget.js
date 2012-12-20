@@ -106,7 +106,7 @@
 		widget.attr('title', this.label);
 		var content = $('<span />');
 		if (content) {
-			content.addClass('group group-widget-content');
+			content.addClass('group ' + this.get_dom_class());
 			widget.append(content);
 		}
 		this.rootElm = widget;
@@ -146,7 +146,7 @@
 	Module.prototype.refresh = function() {
 		//this.dom_build();
 		console.log('Refreshing ', this.label);
-		var contentElm = this.rootElm.find('.group-widget-content');
+		var contentElm = this.rootElm.find('.' + this.get_dom_class());
 		contentElm.empty();
 		this.content.refresh();
 		contentElm.append(this.content.dom_get());

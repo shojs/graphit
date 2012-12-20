@@ -4,7 +4,7 @@
 	
 	var Ctool = graphit.import('app/tool');
 	var Eparameter_type = graphit.import('lib/parameter/enum/type');
-	
+	var Ccolor = graphit.import('lib/color');
 	/**
 	 * Constructor / Module
 	 */
@@ -66,7 +66,37 @@
 		ctx.restore();
 		return true;
 	};
-
+	
+	/**
+	 * Method draw_preview
+	 * graphit[js/app/tool/pencil.js]
+	 * sho / 20 déc. 2012 / 09:24:52
+	 * @param dumbopt {String} dumbstring
+	 */
+	Module.prototype.draw_preview = function(canvas) {
+		var size = this.parameters.size.value;
+		//console.log("Size", size);
+		var color = this.parent.color.fg.color;
+		var invcolor = color.clone().inverse();
+		invcolor.a = 1;
+		canvas.clear(invcolor);
+		color.a = this.parameters.opacity.value;
+		var ctx = canvas.getContext('2d');
+		ctx.save();
+		ctx.beginPath();
+		ctx.strokeStyle = color.to_rgba();
+		ctx.lineCap = this.parameters.linecap.value;
+		ctx.lineWidth = size ;
+		graphit.shape.line(ctx, {x:20, y:20}, {x:25, y:80});
+		graphit.shape.line(ctx, {x:25, y:80}, {x:50, y:20});
+		graphit.shape.line(ctx, {x:50, y:20}, {x:80, y:80});
+		
+		//graphit.shape.circle(ctx, 50,50, size / 2);
+		ctx.stroke();
+		//ctx.fillText(T('no_preview'), 25, 50, 90);
+		ctx.restore();
+	};
+	
 	graphit.export(modulePath, Module);
 	
 })(window, graphit, console);

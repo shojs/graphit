@@ -9,6 +9,31 @@ body {
 	top: 0;
 }
 
+.widget_toolbox {
+	text-align: center;
+	margin: 0 auto;
+}
+.widget_toolbox .toolbox_tools {
+	display: block;
+    border-radius: 6px;
+    background-color: #ddd;
+}
+
+.widget_toolbox .toolbox_preview {
+    display: block;
+    border-radius: 6px;
+    background-color: #ddd;
+}
+
+.widget_toolbox .toolbox_colors {
+    display: block;
+    border-radius: 6px;
+    background-color: #ddd;
+}
+.toolbox_tools  img.selected {
+    background-color: black;	
+}
+
 .main-menu-top {
 	background-color: black;
 	color: white;

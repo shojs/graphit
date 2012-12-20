@@ -68,6 +68,16 @@
 		return true;
 	};
 
+	/**
+	 * Method draw_preview
+	 * graphit[js/app/tool/pencil.js]
+	 * sho / 20 déc. 2012 / 09:24:52
+	 * @param dumbopt {String} dumbstring
+	 */
+	Module.prototype.draw_preview = function(canvas) {
+		canvas.clear(this.parent.color.fg.color);
+	};
+	
 	graphit.export(modulePath, Module);
 
 })(window, graphit, console);

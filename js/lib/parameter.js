@@ -94,7 +94,7 @@
 			var label = this.make_registry_key();
 			this['store'].set(label, this['value']);
 		}
-		// this.send_trigger('update');
+		this.send_trigger('parameter_update');
 		return true;
 	};
 	

@@ -12,6 +12,7 @@
 	 */
 	function Module(color, options) {
 		var that = this;
+		options = options || {};
 		options.className = modulePath;
 		options.label = options.label || 'toolbox_colorpicker';
 		Cobject.call(this, options, [
@@ -37,7 +38,7 @@
 			width : 32,
 			height : 32
 		});
-		this.ctx = this.cCanvas.getContext();
+		this.ctx = this.cCanvas.getContext('2d');
 		this.clear(this.color);
 	}
 
@@ -83,15 +84,14 @@
 		if (this.rootElm) {
 			return this;
 		}
-		var root = document.createElement('div');
-		var $r = $(root);
+		var root = $('<div />');
 		var img = document.createElement('canvas');
 		img.setAttribute('width', 32);
 		img.setAttribute('height', 32);
 		img.setAttribute('alt', this.label);
 		img.setAttribute('title', this.label);
 		this.elmImage = img;
-		$r.append(img);
+		root.append(img);
 		var ctx = img.getContext('2d');
 		var c = this.cCanvas.data;
 		ctx.drawImage(c, 0, 0, c.width, c.height);
@@ -105,9 +105,9 @@
 			onSubmit : function(hsb, hex, rgb) {
 				update.call(this, rgb);
 			},
-			zIndex : 10
+			zIndex : 10,
 		});
-		this.rootElm = $r;
+		this.rootElm = $(img);
 		return this;
 	};
 	

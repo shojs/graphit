@@ -4,6 +4,7 @@
 	
 	var Ctool = graphit.import('app/tool');
 	var cMath = graphit.import('lib/math');
+	var Ccolor = graphit.import('lib/color');
 	
 	/**
 	 * Constructor / Module
@@ -66,7 +67,28 @@
 		}
 		return true;
 	};
-
+	
+	/**
+	 * Method draw_preview
+	 * graphit[js/app/tool/pencil.js]
+	 * sho / 20 déc. 2012 / 09:24:52
+	 * @param dumbopt {String} dumbstring
+	 */
+	Module.prototype.draw_preview = function(canvas) {
+		var size = this.parameters.size.value;
+		var color = this.parent.color.fg.color;
+		var invcolor = color.clone().inverse();
+		canvas.clear(invcolor);
+		color.a = this.parameters.opacity.value;
+		var ctx = canvas.getContext('2d');
+		ctx.save();
+		ctx.beginPath();
+		ctx.fillStyle = color.to_rgba();
+		graphit.shape.circle(ctx, 50, 50, size / 2);
+		ctx.fill();
+		ctx.restore();
+	};
+	
 	graphit.export(modulePath, Module);
 	
 })(window, graphit, console);

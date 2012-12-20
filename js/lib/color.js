@@ -1,10 +1,10 @@
-(function(window, graphit, console, undefined) {
+(function(window, Project, console, undefined) {
 
 	'use strict';
 	
 	var modulePath = 'lib/color';
 	
-	var Cobject = graphit.import('lib/object');
+	var Cobject = Project.import('lib/object');
 	
 	var Ecolor = {
 		transparent_black : 'rgba(0,0,0,0)'
@@ -50,7 +50,7 @@
 		this.g = color.g;
 		this.b = color.b;
 		this.a = 1;
-		callback = this.callback_exists('change');
+		var callback = this.callback_exists('change');
 		if (callback) callback.call(this);
 		return this;
 	};
@@ -140,7 +140,8 @@
 	 * @returns {Module}
 	 */
 	Module.prototype.clone = function() {
-		return new Module(this);
+		var M = Project.import(modulePath);
+		return new M(this);
 	};
 
 	/**
@@ -194,6 +195,6 @@
 		return str;
 	};
 
-	graphit.export(modulePath, Module);
+	Project.export(modulePath, Module);
 	
 })(window, graphit, console);

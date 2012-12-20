@@ -7,9 +7,10 @@
 	var Cobject = graphit.import('lib/object');
 	var Cicon = graphit.import('lib/icon');
 	var Ccanvas = graphit.import('lib/canvas');
+	var Ccolor = graphit.import('lib/color');
 
 	var PO = new(graphit.import('lib/po'))();
-	var T = function(key) { return PO.get(key); };
+	var T = function(key) { return (PO.get(key) || key); };
 	
 	/***************************************************************************
 	 * @constructor
@@ -36,7 +37,7 @@
 		]);
 		for (var p in this.parameters) {
 			// console.log("Binding tool to parameter update", p);
-			this.bind_trigger(this.parameters[p], "update", function(e, d) {
+			this.bind_trigger(this.parameters[p], "parameter_update", function(e, d) {
 				that.update();
 			});
 		}
@@ -80,29 +81,33 @@
 	 * @returns {Boolean}
 	 */
 	Module.prototype.update = function() {
-		this.need_update = true;
-		if (!this.need_update) {
-			console.log('Doesn\'t need update');
-			return false;
-		}
-		var size = this.get_parameter('size');
-		if (!size) this.exception('no_size_parameter', this.label);
-		// var dsize = size / 2;
-		this.cCanvas = new Ccanvas({
-			width : size,
-			height : size
-		});
-		this.ctx = this.cCanvas.getContext('2d');
-		var cBrush = this.parent.brush_manager.selected;
-		var scanvas = cBrush.cCanvas.data;
-		this.ctx.drawImage(scanvas, 0, 0, scanvas.width, scanvas.height, 0, 0,
-				this.cCanvas.get_width(), this.cCanvas.get_height());
-		// this.brush.callback_update.call(this, this);
-		// if ('_update' in this) {
-		// this._update.call(this);
-		// }
-		this.need_update = false;
-		this.send_trigger('update');
+		var preview = this.parent.content.get_child({label: 'toolbox_preview'}).canvas;
+		this.draw_preview(preview);
+//		
+//		console.log('Update tool');
+//		this.need_update = true;
+//		if (!this.need_update) {
+//			console.log('Doesn\'t need update');
+//			return false;
+//		}
+//		var size = this.get_parameter('size');
+//		if (!size) this.exception('no_size_parameter', this.label);
+//		// var dsize = size / 2;
+//		this.cCanvas = new Ccanvas({
+//			width : size,
+//			height : size
+//		});
+//		this.ctx = this.cCanvas.getContext('2d');
+//		var cBrush = this.parent.brush_manager.selected;
+//		var scanvas = cBrush.cCanvas.data;
+//		this.ctx.drawImage(scanvas, 0, 0, scanvas.width, scanvas.height, 0, 0,
+//				this.cCanvas.get_width(), this.cCanvas.get_height());
+//		// this.brush.callback_update.call(this, this);
+//		// if ('_update' in this) {
+//		// this._update.call(this);
+//		// }
+//		this.need_update = false;
+//		this.send_trigger('update');
 	};
 
 	/**
@@ -160,7 +165,12 @@
 			name : 'stock-tool-' + this.label,
 			callback_click : function(obj) {
 				console.log('sending trigger');
+				var root = that.parent.rootElm;
 				that.parent.send_trigger('tool_selected', that);
+				root.find('img').removeClass('selected');
+				var img = root.find('img.' + that.get_dom_class());
+				console.log('Img', img);
+				img.addClass('selected');
 			},
 			label : 'tool_' + this.label
 		});
@@ -186,14 +196,6 @@
 		return $r;
 	};
 
-	/**
-	 * @param obj
-	 */
-	Module.prototype.callback_click = function(obj) {
-		if (this.parent) {
-			this.parent.select_tool(this);
-		}
-	};
 
 	/* Graph one point */
 	Module.prototype.graph = function(cMessage) {
@@ -214,6 +216,22 @@
 
 	};
 
+	/**
+	 * Method draw_preview
+	 * graphit[js/app/tool.js]
+	 * sho / 20 déc. 2012 / 09:31:27
+	 * @param dumbopt {String} dumbstring
+	 */
+	Module.prototype.draw_preview = function(canvas) {
+		var red = new Ccolor({r:255,a:1}); 
+		canvas.clear(new Ccolor());
+		var ctx = canvas.getContext('2d');
+		ctx.save();
+		ctx.fillStyle = red.to_rgba();
+		ctx.fillText(T('no_preview'), 25, 50, 90);
+		ctx.restore();
+	};
+	
 	graphit.export(modulePath, Module);
 	
 })(window, graphit, console);

@@ -39,7 +39,8 @@
 				'load' : "Load",
 				'load_image' : "Load image (URL)",
 				'TEST_test': "TEST_test: Testing PO translation",
-				'widget_toolbox': 'Toolbox'
+				'widget_toolbox': 'Toolbox',
+				'no_preview': 'No preview'
 			},
 			'fr' : {
 				'menu_new_surface' : 'Nouveau',

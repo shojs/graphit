@@ -225,7 +225,7 @@
 //		});
 		xcn = xcn.join('-');
 		//console.log('XCN', xcn);
-		return this.uid + '-' + xcn + name;
+		return this.uid + xcn + name;
 	};
 	
 	/**
@@ -243,7 +243,8 @@
 //		});
 		xcn = xcn.join('-');
 		//console.log('XCN', xcn);
-		return xcn;
+		return this.label;
+		//return xcn + '-' + this.label;
 	};
 
 	/**

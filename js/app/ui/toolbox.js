@@ -10,7 +10,9 @@
 	var modulePath = 'app/ui/toolbox';
 
 	var Cobject = project.import('lib/widget');
-
+	var Ccanvas = project.import('lib/canvas');
+	var Ccolor = project.import('lib/color');
+	var ColorPicker = project.import('app/toolbox/colorPicker');
 	/**
 	 * graphit[js/app/ui/toolbox.js] sho / 17 déc. 2012 / 20:37:43
 	 * 
@@ -23,6 +25,10 @@
 		options = options || {};
 		options['className'] = modulePath;
 		options['label'] = 'widget_toolbox';
+		this.color = { 
+				fg: new ColorPicker(new Ccolor({a:1})),
+				bg: new ColorPicker(new Ccolor({r:255, g:255, b:255, a:1}))
+		};
 		Cobject.call(this, options);
 		this.bind_trigger(this, 'tool_selected', function(e, d) {
 			console.log("Tool selected", e, d, that);
@@ -41,7 +47,8 @@
 	 *            {String} dumbstring
 	 */
 	Module.prototype.init = function(options) {
-		this.set('width', 200);
+		this.set('width', 250);
+		this.set('resizable', false);
 		var Ccontent = project.import('lib/ui/content');
 		var tools = new Ccontent({
 			'label' : 'toolbox_tools'
@@ -52,15 +59,18 @@
 		var preview = new Ccontent({
 			'label' : 'toolbox_preview'
 		});
-		preview.set_content($('<h4>Toolbox preview</h4>'));
+		var canvas = new Ccanvas({width: 100, height: 100});
+		preview.canvas = canvas;
+		preview.set_content(canvas.dom_get());
 		preview.visible(true);
 		this.content.add_child(preview);
 
 		var colors = new Ccontent({
 			'label' : 'toolbox_colors'
 		});
-		colors.set_content($('<h4>Toolbox color</h4>'));
+		//colors.set_content($('<h4>Toolbox color</h4>'));
 		// colors.visible(false)
+		this.__populate_colors(colors);
 		this.content.add_child(colors);
 
 		var options = new Ccontent({
@@ -80,12 +90,12 @@
 		});
 		var Elm = this.rootElm.find('#' + Content.get_dom_id());
 		Elm.children().detach();
-
-		Content = this.content.get_child({
-			label : 'toolbox_preview'
-		});
-		Elm = this.rootElm.find('#' + Content.get_dom_id());
-		Elm.children().detach();
+		
+//		Content = this.content.get_child({
+//			label : 'toolbox_preview'
+//		});
+//		Elm = this.rootElm.find('#' + Content.get_dom_id());
+//		Elm.children().detach();
 
 		Content = this.content.get_child({
 			label : 'toolbox_colors'
@@ -95,7 +105,7 @@
 
 		// this.dom_build();
 		console.log('Refreshing ', this.label);
-		var contentElm = this.rootElm.find('.group-widget-content');
+		var contentElm = this.rootElm.find('.'+this.get_dom_class());
 		// contentElm.empty();
 		this.content.refresh();
 		contentElm.append(this.content.dom_get());
@@ -148,12 +158,12 @@
 	 *            {String} dumbstring
 	 */
 	Module.prototype.__populate_options = function(cTool) {
-		console.log('Populate options');
-		var count = 0;
-		var finalContent = $('<span />');
 		var Content = this.content.get_child({
 			label : 'toolbox_options'
 		});
+		console.log('Populate options');
+		var count = 0;
+		var finalContent = $('<span />');
 		for ( var label in cTool.parameters) {
 			finalContent.append(cTool.parameters[label].dom_get());
 			console.log('Label', label);
@@ -176,7 +186,14 @@
 	 * @param dumbopt {String} dumbstring
 	 */
 	Module.prototype.__populate_preview = function(cTool) {
-		
+		if (!('draw_preview' in cTool)) {
+			console.warn('No draw_preview method in Tool');
+			return false;
+		}
+		var Content = this.content.get_child({label: 'toolbox_preview'});
+		var canvas = Content.canvas;
+		canvas.clear(new Ccolor({a:1}));
+		cTool.draw_preview(canvas);
 	};
 
 	/**
@@ -185,8 +202,11 @@
 	 * sho / 20 déc. 2012 / 08:27:40
 	 * @param dumbopt {String} dumbstring
 	 */
-	Module.prototype.__populate_colors = function(cTool) {
-		
+	Module.prototype.__populate_colors = function(Content) {
+		var finalContent = $('<span class="'+this.get_dom_class() + '-colors" />');
+		finalContent.append(this.color.fg.dom_get());
+		finalContent.append(this.color.bg.dom_get());
+		Content.set_content(finalContent);
 	};
 
 	/**
@@ -199,7 +219,8 @@
 	Module.prototype.select_tool = function(cTool) {
 		console.log('Toolbox selecting tool', cTool.label);
 		this.__populate_preview(cTool);
-		this.__populate_colors(cTool);
+		//this.__populate_colors(cTool);
+
 		this.__populate_options(cTool);
 	};
 

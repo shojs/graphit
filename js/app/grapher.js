@@ -21,7 +21,7 @@
 		options.label = 'message';
 		Cobject.call(this, options, [
 				'cSurface', 'cMouse', 'cTool', 'cToolbox', 'points', 'fgColor',
-				'bgColor', 'cGrapher', 'index'
+				'bgColor', 'cGrapher', 'index', 
 		]);
 	}
 

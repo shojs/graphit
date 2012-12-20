@@ -14,8 +14,8 @@
 	 */
 	var Module = function(options) {
 		options = options || {};
-		this.prefix = 'shojs-';
-		this.postfix = 'graphit';
+		this.prefix = 'graphit-';
+		this.postfix = '';
 		this.id = null;
 		this.className = modulePath;
 	};
@@ -42,10 +42,7 @@
 	 * @param maxtry {Int}
 	 * @return {String} UID string
 	 */
-	Module.prototype.gen = function(maxtry) {
-		if (maxtry == undefined) {
-			maxtry = 3;
-		}
+	Module.prototype.gen = function() {
 		var str = this.prefix;
 		for ( var i = 0; i < 2; i++) {
 			str += this.__get_frag() + '-';

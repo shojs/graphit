@@ -12,6 +12,7 @@
 		var CoreUi = new(graphit.import('app/core/ui'));
 		graphit.add_component = CoreUi.add_component;
 		graphit.add_component('ui', CoreUi);
+		graphit.add_component('shape', new (graphit.import('app/core/shape'))());
 		graphit.add_component('widget', new(graphit.import('lib/widget/manager'))());
 		if (testing) {
 			graphit.import('app/boot/test')();
