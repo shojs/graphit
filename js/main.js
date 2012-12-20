@@ -40,9 +40,7 @@
 		name = name.replace(pat, '_');
 		if (!this['egg'] || !this['egg'][name]) {
 			throw('import_non_existing_module__' + name);
-			return null;
-		}
-		if (this['egg'][name]) {
+		} else if (this['egg'][name]) {
 			return this['egg'][name];
 		}
 		return null;
@@ -65,6 +63,25 @@
 		this['egg'][name] = egg;
 	};
 	Module.prototype['export'] = Module.prototype.export;
+
+	/**
+	 * Method find
+	 * graphit[js/main.js]
+	 * sho / 18 déc. 2012 / 22:09:35
+	 * @param dumbopt {String} dumbstring
+	 */
+	Module.prototype.find = function(search) {
+		var pat = /\//g;
+		search = search.replace(pat, '_');
+		console.log('SEARCH', search);
+		var pat = new RegExp('^' + search + '$');
+		var results = [];
+		for (var path in this.egg) {
+			if (pat.exec(path)) results.push(this.egg[path]);
+		}
+		return results;
+	};
+	Module.prototype['find'] = Module.prototype.find;
 
 	/**
 	 * Method to_s

@@ -7,7 +7,6 @@
 			'select' : 2,
 			'checkbox' : 3
 	};
-	console.log('Module', Module)
 	graphit.export(modulePath, Module);
 	
 })(window,graphit, console);

@@ -1,11 +1,16 @@
 (function(window, graphit, console, undefined) {
 
+	'use strict';
+	
 	var modulePath = 'app/graphit';
 	
+	/**
+	 * Imports
+	 */
 	var Cobject = graphit.import('lib/object');
 	var Cmenu = graphit.import('lib/menu');
 	var Ctoolbox = graphit.import('app/toolbox');
-	var Cjquery_theme = graphit.import('app/jquery/theme');
+	var Cjquery_theme = graphit.import('app/core/theme');
 	var Clicense = graphit.import('app/license');
 	var Cgrapher = graphit.import('app/grapher');
 	var Cparameter_numeric = graphit.import('lib/parameter/numeric');
@@ -230,7 +235,7 @@
 			modal : true
 		};
 		if ('dialog_options' in cWidget) {
-			for (label in cWidget['dialog_options']) {
+			for (var label in cWidget['dialog_options']) {
 				opt[label] = cWidget['dialog_options'][label];
 			}
 			;
@@ -320,7 +325,7 @@
 					cSurface.attach_graphit(that);
 					that.selected = cSurface;
 				});
-		widget_factory(s.dom_get(), {
+		graphit.ui.widget_factory(s.dom_get(), {
 			width : (parseInt(options.width) + 100)
 		});
 		this.surfaces.push(s);
@@ -426,6 +431,9 @@
 		return this.surfaces.length;
 	};
 
+	/**
+	 * Export
+	 */
 	graphit.export(modulePath, Module);
 
 })(window, graphit, console);

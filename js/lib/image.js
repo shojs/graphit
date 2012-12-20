@@ -1,4 +1,6 @@
-(function(window, graphit, console, undefined) {
+(function(window, graphit, $, console, undefined) {
+	
+	'use strict';
 	
 	var modulePath = 'lib/image';
 	var Cobject = graphit.import('lib/object');
@@ -8,15 +10,14 @@
 	 * @constructor A html image element
 	 * @param options
 	 *            Cobject hash arguments
-	 * @return {Cimage} Cimage instance
+	 * @return {Module} Module instance
 	 */
-	function Cimage(options) {
+	function Module(options) {
 		options = options || {};
 		options.className = modulePath;
 		options.label = options.label || 'image';
 		Cobject.call(this, options, [
-				'parent', 'src', 'width', 'height', 'title', 'callback_click',
-				'callback_success', 'callback_error', 'autoRelease'
+				'parent', 'src', 'width', 'height', 'title',
 		]);
 		this.options = options;
 		this.data = null;
@@ -29,29 +30,29 @@
 		this.dom_get();
 	}
 
-	Cimage.prototype = Object.create(Cobject.prototype);
-	Cimage.prototype.constructor = new Cobject();
+	Module.prototype = Object.create(Cobject.prototype);
+	Module.prototype.constructor = new Cobject();
 
 	/**
 	 * Build our DOM element, storing it in this.rootElm
 	 * 
-	 * @return {Cimage} This
+	 * @return {Module} This
 	 */
-	Cimage.prototype.dom_build = function() {
+	Module.prototype.dom_build = function() {
 		var that = this;
-		if (this.rootElm && !force) {
-			console.warn('Image already loaded');
-			return this;
-		}
 		var img = $('<img />');
-		img[0].onload = function() {
-			return that.callback_onload.call(that);
-		};
-		img[0].onerror = function() {
-			return that.callback_onerror.call(that);
-		};
-		img.click(function() {
-			return that.callback_click.call(that);
+		img.attr('data-po_label', this.label);
+		img.addClass(this.get_dom_class());
+		img.on('load', function() {
+			return that.__callback_onload.call(that);
+		});
+		img.on('error', function() {
+			return that.__callback_onerror.call(that);
+		});
+		img.on('click', function(e) {
+			e.stopPropagation();
+			that.__callback_click.call(that);
+			return false;
 		});
 		// console.log(opt);
 		if ('label' in this && this.label != undefined) {
@@ -72,9 +73,11 @@
 	};
 
 	/**
+	 * @private
 	 * @returns {Boolean}
 	 */
-	Cimage.prototype.callback_onload = function() {
+	Module.prototype.__callback_onload = function() {
+		console.log('Image loaded');
 		this.status = Estatus.ok;
 		this.last_update = Date.now();
 		if ('replace_id' in this.options && this.options.replace_id) {
@@ -95,45 +98,48 @@
 		if (callback) {
 			return callback.call(this);
 		}
-		return false;
+		return true;
 	};
 
 	/**
+	 * @private
 	 * @returns {Boolean}
 	 */
-	Cimage.prototype.callback_onerror = function() {
+	Module.prototype.__callback_onerror = function() {
 		this.status = Estatus.fail;
 		this.last_update = null;
 		var callback = this.callback_exists('error');
 		if (callback) {
 			return callback.call(this);
 		}
-		return false;
+		return true;
 	};
 
 	/**
+	 * @private 
 	 * @returns {Boolean}
 	 */
-	Cimage.prototype.callback_click = function() {
+	Module.prototype.__callback_click = function() {
+		console.log('Callback click', this.label);
 		var callback = this.callback_exists('click');
 		if (callback) {
 			return callback.call(this);
 		}
-		return false;
+		return true;
 	};
 	
 	/**
 	 * Method __test
-	 * graphit[js/lib/Cimage.js]
+	 * graphit[js/lib/Module.js]
 	 * sho / 13 déc. 2012 / 22:58:51
 	 * @param dumbopt {String} dumbstring
 	 */
-	Cimage.prototype.__test = function(dumbopt) {
+	Module.prototype.__test = function(dumbopt) {
 		console.log('Overide Cobject.__test');
 		return true;
 	};
-	Cimage.prototype['__test'] = Cimage.prototype.__test;
+	Module.prototype['__test'] = Module.prototype.__test;
 	
-	graphit.export(modulePath, Cimage);
+	graphit.export(modulePath, Module);
 
-})(window, graphit, console);
+})(window, graphit, jQuery, console);

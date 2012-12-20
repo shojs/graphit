@@ -5,8 +5,8 @@
 	var modulePath = 'app/boot/test';
 
 	var Module = function() {
-
-		console.log('[ Starting ]')
+		var that = this;
+		console.log('[ Starting ]');
 		var numTest = 0;
 		var numSuccess = 0;
 		for ( var label in graphit.egg) {
@@ -27,7 +27,7 @@
 			}
 			try {
 				var Co = graphit.import(label);
-				success = proto.__test.call(o);
+				success = proto.__test.call(that);
 				success = true;
 				numSuccess++;
 			} catch (e) {

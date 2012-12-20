@@ -37,7 +37,9 @@
 				'save' : "Save",
 				'open' : "Open",
 				'load' : "Load",
-				'load_image' : "Load image (URL)"
+				'load_image' : "Load image (URL)",
+				'TEST_test': "TEST_test: Testing PO translation",
+				'widget_toolbox': 'Toolbox'
 			},
 			'fr' : {
 				'menu_new_surface' : 'Nouveau',
@@ -60,7 +62,8 @@
 				'save' : 'Sauver',
 				'open' : 'Ouvrir',
 				'load' : "Charger",
-				'load_image' : "Charger image (URL)"
+				'load_image' : "Charger image (URL)",
+				'TEST_test': "TEST_test: TEST des traductions PO "
 			}
 		};
 		this['PO'] = this.PO;
@@ -84,6 +87,7 @@
 	 *
 	 */
 	Module.prototype.get = function(label) {
+		if (!label) this.exception('undefined_parameter', 'label');
 		var that = this;
 		var def = this['def'];
 		var lang = this['lang'] || def;
@@ -93,6 +97,7 @@
 		} else if (def in this['PO'] && label in this['PO'][def]) {
 			po = this['PO'][def];
 		} else {
+			//@FIX: doesn't throw error on undefined label
 			throw new Cexception_message({
 				'className' : this.className,
 				'label' : 'no_trad_and_no_def',
@@ -100,6 +105,7 @@
 				'additional' : label
 			});
 		}
+		if (!po[label]) this.exception('translation_fail', {label:label, lang: lang});
 		return po[label];
 	};
 	Module.prototype['get'] = Module.prototype.get;
@@ -163,6 +169,6 @@
 	Module.prototype['__test'] = Module.prototype.__test;
 
 	/* EXPORT */
-	graphit.export('lib/po', Module);
+	graphit.export(modulePath, Module);
 	
 })(window, graphit, console);

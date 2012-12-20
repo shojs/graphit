@@ -1,5 +1,7 @@
 (function(window, graphit, console, undefined) {
 
+	'use strict';
+	
 	var modulePath = 'lib/mouse/tracker';
 	
 	var Cobject = graphit.import('lib/object');
@@ -62,8 +64,8 @@
 	 * @author %AUTHOR
 	 * @param options
 	 */
-	function Cmouse_tracker(options) {
-		options.className = 'Cmouse_tracker';
+	function Module(options) {
+		options.className = 'Module';
 		options.label = 'mousetracker';
 		Cobject.call(this, options, [
 				'parent', 'callback_move', 'callback_track'
@@ -96,13 +98,13 @@
 		return this;
 	}
 
-	Cmouse_tracker.prototype = Object.create(Cobject.prototype);
-	Cmouse_tracker.prototype.constructor = new Cobject();
+	Module.prototype = Object.create(Cobject.prototype);
+	Module.prototype.constructor = new Cobject();
 
 	/**
 	 * 
 	 */
-	Cmouse_tracker.prototype.reset = function() {
+	Module.prototype.reset = function() {
 		this.minx = this.minmax.maxx;
 		this.maxx = 0;
 		this.miny = this.minmax.maxy;
@@ -115,9 +117,9 @@
 	 * 
 	 * @param x
 	 * @param y
-	 * @returns {Cmouse_tracker}
+	 * @returns {Module}
 	 */
-	Cmouse_tracker.prototype.move = function(x, y) {
+	Module.prototype.move = function(x, y) {
 		x = cMath.clamp(Math.round(x), this.minmax.minx, this.minmax.maxx);
 		y = cMath.clamp(Math.round(y), this.minmax.miny, this.minmax.maxy);
 		// if (this.x == x && this.y == y) {
@@ -136,7 +138,7 @@
 	/**
 	 * 
 	 */
-	Cmouse_tracker.prototype.push = function() {
+	Module.prototype.push = function() {
 		this.pushed = Date.now();
 		var that = this;
 		this.interval = setInterval(function() {
@@ -158,7 +160,7 @@
 		if (this.func_push) this.func_push(this);
 	};
 
-	Cmouse_tracker.prototype.dom_build = function() {
+	Module.prototype.dom_build = function() {
 		var r = $('<div />');
 		r.attr('title', 'Mouse tracker');
 		r.addClass('mousetracker');
@@ -177,7 +179,7 @@
 	/**
 	 * 
 	 */
-	Cmouse_tracker.prototype.release = function() {
+	Module.prototype.release = function() {
 		this.pushed = null;
 		if (this.func_release) this.func_release(this);
 		this.reset();
@@ -186,18 +188,18 @@
 	/**
 	 * @return {Boolean}
 	 */
-	Cmouse_tracker.prototype.is_pushed = function() {
+	Module.prototype.is_pushed = function() {
 		return this.pushed;
 	};
 
 	/**
 	 * @return {String}
 	 */
-	Cmouse_tracker.prototype.to_s = function() {
-		var str = 'Cmouse_tracker: ' + this.x + ' / ' + this.y;
+	Module.prototype.to_s = function() {
+		var str = 'Module: ' + this.x + ' / ' + this.y;
 		return str;
 	};
 
-	graphit.export(modulePath, Cmouse_tracker);
+	graphit.export(modulePath, Module);
 	
 })(window, graphit, console);

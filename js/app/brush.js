@@ -1,12 +1,22 @@
 (function(window, graphit, console, undefined) {
 
+	'use strict';
+	
+	var modulePath = 'app/brush';
+	
+	/**
+	 * Imports
+	 */
 	var Cobject = graphit.import('lib/object');
 	var Etype = graphit.import('app/brush/enum/type');
 	var Ccanvas = graphit.import('lib/canvas');
 	var Ccolor = graphit.import('lib/color');
 	
+	/**
+	 * @constructor
+	 */
 	function Module(options) {
-		options.className = "Module";
+		options.className = modulePath;
 		options.label = "brush";
 		Cobject.call(this, options, [
 				'parent', 'name', 'type'
@@ -21,7 +31,6 @@
 	 *
 	 */
 	Module.prototype.init = function(options) {
-		console.log('INITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
 		if (!this.type || !this.name) {
 			console.error("Module need <<type>> and <<name>> parameter");
 			return false;
@@ -104,6 +113,6 @@
 		this.rootElm = r;
 		return this;
 	};
-	graphit.export('app/brush', Module);
+	graphit.export(modulePath, Module);
 	
 })(window, graphit, console);

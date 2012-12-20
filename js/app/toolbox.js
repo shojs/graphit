@@ -1,7 +1,12 @@
 (function(window, graphit, console, undefined) {
 
+	'use strict';
+	
 	var modulePath = 'app/toolbox';
 	
+	/**
+	 * Import
+	 */
 	var Cobject = graphit.import('lib/object');
 	var Ctoolbox_preview = graphit.import('app/toolbox/preview');
 	var Ctoolbox_colorpicker = graphit.import('app/toolbox/colorPicker');
@@ -17,10 +22,8 @@
 	var Cicon= graphit.import('lib/icon');
 	
 	var PO = new(graphit.import('lib/po'))();
-	var T = function(key) { PO.get(key); };
+	var T = function(key) { return PO.get(key); };
 	
-	//var Ccanvas = graphit.import('lib/canvas');
-
 	/***************************************************************************
 	 * @constructor A class representing our toolbox - list of tools - fg/bg
 	 *              colorpicker - options associated with tools - brush preview

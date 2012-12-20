@@ -1,5 +1,7 @@
 (function(window, graphit, console, undefined) {
 
+	'use strict';
+	
 	var modulePath = 'lib/color';
 	
 	var Cobject = graphit.import('lib/object');

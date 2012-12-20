@@ -16,11 +16,10 @@
 	 * @constructor
 	 * @param options {Hash} 
 	 */
-	function Module (options) {
+	var Module = function(options) {
 		options = options || {};
 		options['className'] = modulePath;
 		options['parent'] = options['parent'] || { 'className': 'fakeClassName', 'label': 'fakeLabel'};
-		console.log('Parent', options['parent']);
 		options['autoSave'] = ('autoSave' in options && !options['autoSave']) ? false
 				: true;
 		Cparameter.call(this, options, ['autoSave', 'def', 'label', 'type',
@@ -100,6 +99,7 @@
 	 *            {String} dumbstring
 	 */
 	Module.prototype.__test = function() {
+		var ui = new(graphit.import('app/core/ui'))();
 		var M = graphit.import(modulePath);
 		var parent = { 'className': modulePath, 'label': modulePath };
 		var m = new M({
@@ -111,7 +111,7 @@
 			]
 		});
 		var dom = m.dom_get();
-		widget_factory(dom);// .dialog('open');
+		ui.widget_factory(dom);// .dialog('open');
 		return true;
 	};
 	Module.prototype['__test'] = Module.prototype.__test;

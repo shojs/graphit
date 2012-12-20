@@ -1,5 +1,7 @@
 (function(window, graphit, console, undefined) {
 	
+	'use strict';
+	
 	var modulePath = 'lib/icon';
 	
 	var Cimage = graphit.import('lib/image');

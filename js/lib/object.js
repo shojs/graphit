@@ -4,6 +4,7 @@
 	
 	var modulePath = 'lib/object';
 	
+	var DEBUG = graphit.debug;
 	var Cuid = graphit.import('lib/uid');
 
 	/**
@@ -16,7 +17,8 @@
 	 *            permitted Array of options that we must parse
 	 */
 	var Module = function(options, permitted) {
-		options = options || {};
+		permitted = permitted? permitted: [];
+		options = options? options: {};
 		options['className'] = options['className'] || modulePath;
 		options['label'] = options['label'] || 'object';
 		
@@ -41,15 +43,6 @@
 		}
 	};
 
-	/**
-	 * Method dom_get
-	 * Graphit[js/lib/Module.js]
-	 * sho / 12 déc. 2012 / 14:47:26
-	 * @param dumbopt {String} dumbstring
-	 */
-	//	Module.prototype.dom_get = function(dumbopt){};
-	//	Module.prototype['dom_get'] = Module.prototype.dom_get;
-	//	
 	/**
 	 * Called each time a new object is created
 	 * 
@@ -107,19 +100,6 @@
 		throw e;
 	};
 	Module.prototype['exception'] = Module.prototype.exception;
-
-	//
-	// /**
-	// * @deprecated
-	// * Return true if this exception have been created by us
-	// * @param {Exception} e A
-	// */
-	// Module.prototype.is_our_exception = function(exception) {
-	// if (exception instanceof Cexception_message) {
-	// return true;
-	// }
-	// return false;
-	// };
 
 	/**
 	 * @private This method is reponsible for parsing option when object is
@@ -239,10 +219,47 @@
 	Module.prototype['send_trigger'] = Module.prototype.send_trigger;
 
 	/**
+	 * Method get_dom_id
+	 * graphit[js/lib/object.js]
+	 * sho / 17 déc. 2012 / 16:18:05
+	 * @param dumbopt {String} dumbstring
+	 */
+	Module.prototype.get_dom_id = function(name) {
+		if (name) name = '-' + name;
+		else name = '';
+		var xcn = this.className.split('/');
+//		cEach(xcn, function(i,e) {
+//			e = e.toLowerCase();
+//		});
+		xcn = xcn.join('-');
+		//console.log('XCN', xcn);
+		return this.uid + '-' + xcn + name;
+	};
+	Module.prototype['get_dom_id'] = Module.prototype.get_dom_id;
+	
+	/**
+	 * Method get_dom_class
+	 * graphit[js/lib/object.js]
+	 * sho / 17 déc. 2012 / 16:37:37
+	 * @param dumbopt {String} dumbstring
+	 */
+	Module.prototype.get_dom_class = function() {
+		if (name) name = '-' + name;
+		else name = '';
+		var xcn = this.className.split('/');
+//		cEach(xcn, function(i,e) {
+//			e = e.toLowerCase();
+//		});
+		xcn = xcn.join('-');
+		//console.log('XCN', xcn);
+		return xcn;
+	};
+	Module.prototype['get_dom_class'] = Module.prototype.get_dom_class;
+	/**
 	 *
 	 */
 	Module.prototype.set = function(key, value) {
-		throw ('Not_implemented');
+		throw ('object_set_method_is_not_implemented');
 	};
 	Module.prototype['set'] = Module.prototype.set;
 
@@ -281,10 +298,8 @@
 	Module.prototype.add_parameter = function(options) {
 		var Cparameter_select = graphit.import('lib/parameter/select');
 		var Cparameter_numeric = graphit.import('lib/parameter/numeric');
-		var Cparameter = graphit.import('lib/parameter');
+		//var Cparameter = graphit.import('lib/parameter');
 		var Eparameter_type = graphit.import('lib/parameter/enum/type');
-		console.log('Add parameter', options);
-		var iParam = new Cparameter();
 		if (!('parent' in options)) {
 			options.parent = this;
 		}
@@ -339,21 +354,24 @@
 	 */
 	Module.prototype.dom_get = function(options) {
 		options = options || {};
-		options['force'] = false;
-		var rootElm = this['rootElm'];
-		if (options['force'] || !rootElm) {
-			rootElm = this.dom_build()['rootElm'];
+		//options['force'] = false;
+		var rootElm = this.rootElm;
+		// We are building our element if we are forced
+		if ('force' in options || !rootElm) {
+			//console.log('ForceOrNew');
+			rootElm = this.dom_build().rootElm;
 		}
-		if ('noHeader' in options && options['noHeader']) {
-			return rootElm;
-		}
-		var r = $('<div />');
-		r.attr('id', this.uid);
-		r.attr('title', this.label);
-		var classname = this.className + '-' + this.label;
-		r.addClass(classname.toLowerCase());
-		r.append(rootElm);
-		return r;
+		return rootElm;
+//		if (!('defaultHeader' in options) || !options['defaultHeader']) {
+//			return rootElm;
+//		}
+//		var r = $('<div />');
+//		r.attr('id', this.uid);
+//		r.attr('title', this.label);
+//		var classname = this.className + '-' + this.label;
+//		r.addClass(classname.toLowerCase());
+//		r.append(rootElm);
+//		return r;
 	};
 	Module.prototype['dom_get'] = Module.prototype.dom_get;
 
@@ -407,6 +425,7 @@
 	 * Method _test
 	 */
 	Module.prototype.__test = function(opt) {
+		if (DEBUG) console.warn('__test() from base object');
 		var M = graphit.import('lib/object');
 		var m = new M({
 			'parent' : this,

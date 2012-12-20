@@ -1,15 +1,8 @@
 "use strict";
 
-/*
- * Global variables
- */
-//var cGraphit; /* Our main object */
-//var cPo; /* Traduction */
-/* proxy to method Cpo.get(str) */
-//var cGraphitAuth; /* Our iframe store authentication information here */
-
 function _ok_to_build() {
 	var graphit = window.graphit;
+	var ui = graphit.import('app/core/ui');
 	//graphit.storage.remove('chooserAccounts');
 //	graphit.worker = {};
 //	for ( var i = 0; i < 5; i++) {
@@ -51,12 +44,12 @@ function _ok_to_build() {
 
 	/* Main object */
 	graphit.core = new Cgraphit();
-	widget_factory(graphit.core.dom_get(), {
+	ui.widget_factory(graphit.core.dom_get(), {
 		width : 300,
 		position : 'left top'
 	});
 	if ('auth' in graphit) {
-		widget_factory(graphit.auth.dom_get(), {
+		ui.widget_factory(graphit.auth.dom_get(), {
 			width : 200,
 			position : 'left bottom'
 		});

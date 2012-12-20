@@ -1,7 +1,12 @@
 (function(window, graphit, console, undefined) {
 
+	'use strict';
+	
 	var modulePath = 'app/grapher';
 	
+	/**
+	 * Imports
+	 */
 	var Cobject = graphit.import('lib/object');
 	
 	/**
@@ -40,7 +45,7 @@
 
 	function Module(options) {
 		options = options || {};
-		options.className = 'Module';
+		options.className = modulePath;
 		options.label = 'grapher';
 		Cobject.call(this, options, [
 			'parent'

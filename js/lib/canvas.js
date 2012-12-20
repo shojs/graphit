@@ -1,4 +1,6 @@
 (function(window, graphit, console, undefined) {
+	 
+	'use strict';
 	
 	var modulePath = 'lib/canvas';
 	
@@ -87,7 +89,7 @@
 		if (opt.resize != 'undefined' && opt.resize) {
 			ctx.drawImage(data, 0, 0, sw, sh, 0, 0, dw, dh);
 		} else if (opt.keepRatio) {
-			/* @TODO: keep ratio is bugged ... */
+			/** @TODO: keep ratio is bugged ... */
 			var width = this.data.width;
 			var ratio = (opt.src.get_width() / opt.src.get_height()) / width;
 			var height = this.data.height * ratio;

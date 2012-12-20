@@ -1,10 +1,15 @@
 (function(window, graphit, console, undefined) {
 
+	'use strict';
+	
+	var modulePath = 'app/license';
+	
 	/**
 	 * @constructor
 	 * @returns
 	 */
 	function Module() {
+		this.className = modulePath;
 		this.logo = window.graphit.baseStaticContent
 				+ 'images/badge-gplv3-32.png';
 		this.text = 'license-gpl3.txt';
@@ -67,6 +72,7 @@
 	Module.prototype.dom_get = function() {
 		return this.dom_build().rootElm;
 	};
-	graphit.export('app/license', Module);
+	
+	graphit.export(modulePath, Module);
 
 })(window, graphit, console);

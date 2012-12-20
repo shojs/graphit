@@ -1,13 +1,22 @@
 (function(window, graphit, console, undefined) {
 
+	'use strict';
+	
 	var modulePath = 'app/grid';
 	
+	/**
+	 * Import
+	 */
 	var Cobject = graphit.import('lib/object');
 	var Ccolor = graphit.import('lib/color');
 	var Cparameter_numeric = graphit.import('lib/parameter/numeric');
 	var Cparameter_checkbox = graphit.import('lib/parameter/checkbox');
 	var Eparameter_type = graphit.import('lib/parameter/enum/type');
 	
+	
+	/**
+	 * @constructor
+	 */
 	function Module(options) {
 		options.className = modulePath;
 		options.label = 'grid';
@@ -19,6 +28,9 @@
 	Module.prototype = Object.create(Cobject.prototype);
 	Module.prototype.constructor = new Cobject();
 
+	/**
+	 * 
+	 */
 	Module.prototype.init = function() {
 		// console.log('Init grid');
 		this.color = this.color || new Ccolor({
@@ -82,6 +94,9 @@
 		this.rootElm = null;
 	};
 
+	/**
+	 * 
+	 */
 	Module.prototype.draw = function(dcanvas, sx, sy, width, height) {
 		var ctx = dcanvas.getContext('2d');
 		ctx.save();
@@ -102,7 +117,11 @@
 		ctx.stroke();
 		ctx.restore();
 	};
-
+	
+	/**
+	 * 
+	 * @returns {Module}
+	 */
 	Module.prototype.dom_build = function() {
 		var r = $('<div />');
 		r.attr('title', this.label);
@@ -117,7 +136,10 @@
 		this.rootElm = r;
 		return this;
 	};
-
+	
+	/**
+	 * Export
+	 */
 	graphit.export(modulePath, Module);
 	
 })(window, graphit, console);

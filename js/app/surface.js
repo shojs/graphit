@@ -1,5 +1,7 @@
 (function(window, graphit, console, undefined) {
 
+	'use strict';
+	
 	var modulePath = 'app/surface';
 	
 	var Cobject = graphit.import('lib/object');

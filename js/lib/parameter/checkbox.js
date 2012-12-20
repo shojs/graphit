@@ -9,15 +9,15 @@
 	var Cparameter = graphit.import('lib/parameter');
 	var Etype = graphit.import('lib/parameter/enum/type');
 	/**
-	 * Class Cparameter_checkbox
-	 * graphit[js/lib/parameters/Cparameter_checkbox.js] sho / 13 déc. 2012 /
+	 * Class Module
+	 * graphit[js/lib/parameters/Module.js] sho / 13 déc. 2012 /
 	 * 03:36:07
 	 * 
 	 * @param dumbopt
 	 *            {String} dumbstring
 	 */
 
-	function Cparameter_checkbox(options) {
+	function Module(options) {
 		options = options || {};
 		options.className = modulePath;
 		options.label = 'checkbox';
@@ -27,10 +27,10 @@
 		this.type = Etype.checkbox;
 	}
 
-	Cparameter_checkbox.prototype = Object.create(Cparameter.prototype);
-	Cparameter_checkbox.prototype.constructor = new Cparameter();
+	Module.prototype = Object.create(Cparameter.prototype);
+	Module.prototype.constructor = new Cparameter();
 
-	Cparameter_checkbox.prototype.init = function(options) {
+	Module.prototype.init = function(options) {
 		this.choices = {};
 
 	};
@@ -39,7 +39,7 @@
 	 * @param value
 	 * @returns {Boolean}
 	 */
-	Cparameter_checkbox.prototype._get = function(value) {
+	Module.prototype._get = function(value) {
 		if (value == 'true') return true;
 		else if (value == 'false') return false;
 		else if (value) return true;
@@ -50,7 +50,7 @@
 	/**
 	 * @param v
 	 */
-	Cparameter_checkbox.prototype._set = function(v) {
+	Module.prototype._set = function(v) {
 		if (v == 'false' || !v) {
 			v = false;
 		} else {
@@ -72,7 +72,7 @@
 	/**
 	 * @returns {Cparameter}
 	 */
-	Cparameter_checkbox.prototype.dom_build = function() {
+	Module.prototype.dom_build = function() {
 		var that = this;
 		var r = $('<div />');
 		r.addClass('selectex parameter');
@@ -96,16 +96,16 @@
 
 	/**
 	 * Method __test
-	 * graphit[js/lib/parameters/Cparameter_checkbox.js]
+	 * graphit[js/lib/parameters/Module.js]
 	 * sho / 13 déc. 2012 / 22:45:41
 	 */
-	Cparameter_checkbox.prototype.__test = function() {
+	Module.prototype.__test = function() {
 		if (DEBUG) {
 			console.log('Overide Cparameter test ...');
 		}
 	};
-	Cparameter_checkbox.prototype['__test'] = Cparameter_checkbox.prototype.__test;
+	Module.prototype['__test'] = Module.prototype.__test;
 	
-	graphit.export(modulePath, Cparameter_checkbox);
+	graphit.export(modulePath, Module);
 	
 })(window, graphit, console);

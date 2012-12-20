@@ -18,9 +18,12 @@
 		this.postfix = 'graphit';
 		this.id = null;
 		this.className = modulePath;
-		//this.init(options);
-	}
+	};
 
+	/**
+	 * 
+	 * @param options
+	 */
 	Module.prototype.init = function(options) {};
 	Module.prototype['init'] = Module.prototype.init;
 

@@ -1,5 +1,7 @@
 (function(window, graphiht, console, undefined) {
 
+	'use strict';
+	
 	var modulePath = 'lib/math';
 	var Cvector2d = graphit.import('lib/math/vector2d');
 	var Cpoint2d = graphit.import('lib/math/point2d');	
@@ -70,5 +72,9 @@
 		}
 	};
 
+	/**
+	 * Export
+	 */
 	graphit.export(modulePath, Module);
+	
 })(window, graphit, console);

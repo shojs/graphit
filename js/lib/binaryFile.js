@@ -1,5 +1,7 @@
 (function(window, graphit, console, undefined) {
-
+	
+	'use strict';
+	
 	var modulePath = 'lib/binaryFile';
 	
 	var Cobject = graphit.import('lib/object');

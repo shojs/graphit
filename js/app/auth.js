@@ -1,15 +1,23 @@
 (function(window, graphit, console, undefined) {
 	
-	var Cobject = graphit.import('lib/object');
+	'use strict';
+	
+	var modulePath = 'app/auth';
+	
 	/**
-	 * @constructor Class CgraphitAuth 21:21:38 / 2 d�c. 2012 [graphit -
+	 * Import
+	 */
+	var Cobject = graphit.import('lib/object');
+	
+	/**
+	 * @constructor Class Module 21:21:38 / 2 d�c. 2012 [graphit -
 	 *              nosferat.us] sho
 	 */
-	function CgraphitAuth(options) {
+	var Module = function(options) {
 		var that = this;
 		options = options || {};
-		options.className = "CgraphitAuth";
-		options.label = "CgraphitAuth";
+		options.className = modulePath;
+		options.label = modulePath;
 		options.disable = (options.disable != undefined) ? options.disable
 				: false;
 		this.selected = null;
@@ -30,13 +38,13 @@
 	}
 
 	/* Inheritance */
-	CgraphitAuth.prototype = Object.create(Cobject.prototype);
-	CgraphitAuth.prototype.constructor = new Cobject();
+	Module.prototype = Object.create(Cobject.prototype);
+	Module.prototype.constructor = new Cobject();
 
 	/**
 	 *
 	 */
-	CgraphitAuth.prototype.hasValidAccount = function() {
+	Module.prototype.hasValidAccount = function() {
 		var graphit = window['graphit'];
 		if (!('storage' in graphit)) return null;
 		var acc = graphit.storage.get('chooserAccounts');
@@ -52,19 +60,19 @@
 	 * 
 	 * @private
 	 */
-	CgraphitAuth.prototype.__init_singleton = function(options) {
-		if (!('__data' in CgraphitAuth)) {
-			CgraphitAuth.__data = {};
+	Module.prototype.__init_singleton = function(options) {
+		if (!('__data' in Module)) {
+			Module.__data = {};
 		}
-		if (!('__disable' in CgraphitAuth)) {
-			CgraphitAuth.__disable = options.disable;
+		if (!('__disable' in Module)) {
+			Module.__disable = options.disable;
 		}
 	};
 
 	/**
 	 *
 	 */
-	CgraphitAuth.prototype.copy = function(cAuth) {
+	Module.prototype.copy = function(cAuth) {
 		for (key in cAuth.get_data()) {
 			console.log('Copy', key);
 			this.set(key, cAuth.get(key));
@@ -74,59 +82,59 @@
 	/**
 	 *
 	 */
-	CgraphitAuth.prototype.get_data = function() {
-		return CgraphitAuth.__data;
+	Module.prototype.get_data = function() {
+		return Module.__data;
 	};
 
 	/**
 	 *
 	 */
-	CgraphitAuth.prototype.is_logged = function() {
+	Module.prototype.is_logged = function() {
 		return this.get('verifiedEmail');
 	};
 
 	/**
 	 *
 	 */
-	CgraphitAuth.prototype.is_disable = function(dumbopt) {
-		return CgraphitAuth.__disable;
+	Module.prototype.is_disable = function(dumbopt) {
+		return Module.__disable;
 	};
 
 	/**
 	 *
 	 */
-	CgraphitAuth.prototype.set = function(key, value) {
+	Module.prototype.set = function(key, value) {
 		console.log('Auth', key, value);
-		CgraphitAuth.__data[key] = value;
+		Module.__data[key] = value;
 	};
 
 	/**
 	 *
 	 */
-	CgraphitAuth.prototype.get = function(key) {
-		if (!(key in CgraphitAuth.__data)) {
+	Module.prototype.get = function(key) {
+		if (!(key in Module.__data)) {
 			console.warn('key doesn\'t exists', key);
 			return null;
 		}
-		return CgraphitAuth.__data[key];
+		return Module.__data[key];
 	};
 
 	/**
 	 *
 	 */
-	CgraphitAuth.prototype.each = function(callback) {
+	Module.prototype.each = function(callback) {
 		if (!callback || typeof callback != 'function') {
 			throw 'invalid_callback';
 		}
-		for ( var label in CgraphitAuth.__data) {
-			callback.call(CgraphitAuth.__data, label, this.get(label));
+		for ( var label in Module.__data) {
+			callback.call(Module.__data, label, this.get(label));
 		}
 	};
 
 	/**
 	 *
 	 */
-	CgraphitAuth.prototype.dom_get = function(force) {
+	Module.prototype.dom_get = function(force) {
 		if (this.rootElm && (force == undefined || !force)) {
 			return this.rootElm;
 		}
@@ -136,7 +144,7 @@
 	/**
 	 * @private
 	 */
-	CgraphitAuth.prototype.__replace_accounts = function() {
+	Module.prototype.__replace_accounts = function() {
 		var that = this;
 		var elm = this.rootElm.children('.group-graphit-authentication')
 				.empty();
@@ -187,14 +195,14 @@
 	/**
 	 *
 	 */
-	CgraphitAuth.prototype.update = function() {
+	Module.prototype.update = function() {
 		this.__replace_accounts();
 	};
 
 	/**
 	 *
 	 */
-	CgraphitAuth.prototype.dom_build = function() {
+	Module.prototype.dom_build = function() {
 		// var that = this;
 		// var graphit = window.graphit;
 		var rr = $('<div title="Graphit Authentication"/>');
@@ -210,7 +218,7 @@
 	/**
 	 *
 	 */
-	CgraphitAuth.prototype.ajax_is_logged = function(opt) {
+	Module.prototype.ajax_is_logged = function(opt) {
 		var that = this;
 		var base = window.graphit.baseRestContent;
 		var request = $.ajax({
@@ -234,7 +242,7 @@
 	/**
 	 *
 	 */
-	CgraphitAuth.prototype.ajax_logout = function(opt) {
+	Module.prototype.ajax_logout = function(opt) {
 		var that = this;
 		var base = window.graphit.baseRestContent;
 		var request = $.ajax({
@@ -255,10 +263,9 @@
 		}
 	};
 
-//TODO: deleted for hidden
-//	if (window['graphit']['authEnable']) {
-//		window['graphit']['auth'] = new CgraphitAuth();
-//	}
+	/**
+	 * Export
+	 */
+	graphit.export(modulePath, Module);
 
-	graphit.export('CgraphitAuth', CgraphitAuth);
 })(window, graphit, console);

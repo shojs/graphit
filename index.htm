@@ -48,8 +48,8 @@
 	              ];
 	
 	var graphitclass = [
-	                    '../index.htm.min.js',
-	                    /* MINIFYJS:START 
+	                    //'../index.htm.min.js',
+	                    /* MINIFYJS:START */
                         'lib/func.js', 
 	                    'lib/uid.js', 
 	                    'lib/exception.js',
@@ -59,12 +59,10 @@
 	                    'lib/parameter/enum/type.js',
 	                    'lib/parameter.js', 
 	                    'lib/parameter/select.js',
-	                    'app/jquery/themeInjector.js',
-	                    'app/jquery/theme.js',
+	                    'app/core/themeInjector.js',
+	                    'app/core/theme.js',
 	                    'lib/parameter/checkbox.js',
 	                    'lib/parameter/numeric.js',
-	                    
-	                     
 	                    'lib/enum/loading.js',
 	                    'lib/enum/cardinal.js',
 	                    'lib/image.js',
@@ -74,14 +72,12 @@
 	                    'lib/menu.js',
 	                    'lib/canvas.js',
 	                    'lib/bounding/rectangle.js',
-
 	                    'lib/math/point2d.js',
 	                    'lib/math/vector2d.js',
 	                    'lib/math/matrix33.js',
                         'lib/math.js',
 	                    'lib/transform/2d.js',
 	                    'lib/mouse/tracker.js',
-	                    'app/widget.js',
 	                    'app/enum/compositeOperation.js',
 	                    'app/tool.js',
 	                    'app/tool/pencil.js',
@@ -90,7 +86,6 @@
 	                    'app/tool/fill.js',
 	                    'app/tool/colorPicker.js',
 	                    'app/grapher.js',
-	                    'app/helper_draw.js',
 	                    'app/license.js',
 	                    'app/frag.js',
 	                    'app/layer.js',
@@ -99,7 +94,6 @@
 	                    'app/surface.js',
 	                    'app/surface/workspace.js',
 	                    'app/brush/enum/type.js',
-
                         'app/brush/tools.js',
                         'app/brush.js',
                         'app/brush/manager.js',
@@ -108,14 +102,21 @@
                         'app/toolbox.js',
 	                    'lib/binaryFile.js',
 	                    'lib/binaryFile/GBR.js',
-
 	                    'app/graphit.js',
-	                    'app/graphitAuth.js',
+	                    'app/auth.js',
 	                    'lib/browser.js',
+	                    'app/core/object.js',
+	                    'app/core/ui.js',
+	                    'lib/ui/content.js',
+	                    'lib/ui/rollout.js',
+	                    'lib/widget.js',
+	                    'app/ui/toolbox.js',
+	                    'lib/widget/manager.js',
+	                    //'app/widget/toolbox.js',
 	                    'app/boot/test.js',
 	                    'app/boot.js'
-                        
-                        MINIFYJS:STOP */
+                        /* MINIFYJS:STOP */ 
+
                     ];
 	
 	var inject_script = function(path) {

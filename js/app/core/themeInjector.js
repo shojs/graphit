@@ -2,7 +2,7 @@
 	
 	'use strict';
 	
-	var modulePath = 'app/jquery/themeInjector';
+	var modulePath = 'app/core/themeInjector';
 	
 	var DEBUG = (graphit.debug > 5)? true: false;
 	

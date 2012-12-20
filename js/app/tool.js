@@ -1,5 +1,7 @@
 (function(window, graphit, console, undefined) {
 	
+	'use strict';
+	
 	var modulePath = 'app/tool';
 	
 	var Cobject = graphit.import('lib/object');
@@ -7,14 +9,13 @@
 	var Ccanvas = graphit.import('lib/canvas');
 
 	var PO = new(graphit.import('lib/po'))();
-	var T = function(key) { PO.get(key); }
+	var T = function(key) { return PO.get(key); };
 	
 	/***************************************************************************
 	 * @constructor
 	 * @param options
-	 * @returns
 	 */
-	function Module(options) {
+	var Module = function(options) {
 		var that = this;
 		options = options || {};
 		options.className = modulePath;
@@ -26,14 +27,14 @@
 		this.optElm = null;
 
 		this.changeCursor = true;
-		for (p in options.parameters) {
+		for (var p in options.parameters) {
 			options.parameters[p].parent = this;
 		}
 		Cobject.call(this, options, [
 				'parent', 'brush', 'label', '_pregraph', '_graph',
 				'_postgraph', '_update', 'compositeOperation'
 		]);
-		for (p in this.parameters) {
+		for (var p in this.parameters) {
 			// console.log("Binding tool to parameter update", p);
 			this.bind_trigger(this.parameters[p], "update", function(e, d) {
 				that.update();
@@ -144,18 +145,13 @@
 	 * @param force
 	 * @return Object instance
 	 */
-	Module.prototype.dom_build = function(force) {
-		if (this.rootElm && !force) {
-			return this;
-		}
-		var $r = $('<div />');
-		$r.append(this.dom_build_tool());
-		this.rootElm = $r;
+	Module.prototype.dom_build = function() {
+		this.rootElm = this.dom_build_tool();
 		return this;
 	};
 
 	/**
-	 * @returns
+	 * @return {DOM Element}
 	 */
 	Module.prototype.dom_build_tool = function() {
 		var that = this;
@@ -163,24 +159,26 @@
 			path : 'tools',
 			name : 'stock-tool-' + this.label,
 			callback_click : function(obj) {
-				that.send_trigger('tool_selected', that);
+				console.log('sending trigger');
+				that.parent.send_trigger('tool_selected', that);
 			},
-			label : T('tool_' + this.label)
+			label : 'tool_' + this.label
 		});
-		return $(img.dom_get().addClass('group tool'));
+		//img.dom_get().click(function() {console.log('plop');});
+		return img.dom_get().addClass('group ' + this.get_dom_class());
 	};
 
 	/**
-	 * @returns
+	 * @return {DOM Element}
 	 */
 	Module.prototype.dom_build_options = function() {
 		if (this.optElm) {
 			return this.optElm;
 		}
-		var that = this;
+		//var that = this;
 		var $r = $(document.createElement('div'));
 		$r.addClass('not-draggable');
-		for (label in this.parameters) {
+		for (var label in this.parameters) {
 			var param = this.parameters[label];
 			$r.append(param.dom_get());
 		}

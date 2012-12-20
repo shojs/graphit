@@ -1,5 +1,7 @@
 (function(window, graphit, console) {
 	
+	'use strict';
+	
 	var DEBUG = (graphit.debug >= 10)? true: false;
 	
 	var modulePath = 'lib/exception';
@@ -13,7 +15,7 @@
 		/*
 		 * EXCEPTION DATA (GLOBAL)
 		 */
-		EXCEPTION = {
+		this.EXCEPTION = {
 			'_ALL' : {
 				'method_object_missing' : "This object doesn't have the required method (See additional)"
 			},
@@ -35,19 +37,19 @@
 			},
 		};
 		this['type'] = 'shojs-exception';
-		this['className'] = opt.className || 'no object';
+		this['className'] = opt.className || modulePath;
 		this['label'] = opt.label;
 		this['additional'] = opt.additional;
 		this['object'] = opt.object;
 		this['original'] = opt.original;
 		this.message = null;
-		if (this.className in EXCEPTION && this.label in EXCEPTION[this.className]) {
-			this.message = EXCEPTION[this.className][this.label];
+		if (this.className in this.EXCEPTION && this.label in this.EXCEPTION[this.className]) {
+			this.message = this.EXCEPTION[this.className][this.label];
 		}
-		if (!this.message && this.label in EXCEPTION['_ALL']) {
-			this.message = EXCEPTION['_ALL'][this.label];
+		if (!this.message && this.label in this.EXCEPTION['_ALL']) {
+			this.message = this.EXCEPTION['_ALL'][this.label];
 		}
-	}
+	};
 	
 	/**
 	 * Method __test
@@ -72,7 +74,7 @@
 			}
 		}
 		var str = '[' + this.type + ']' + nl + nl;
-		for (label in this) {
+		for (var label in this) {
 			if (!this.hasOwnProperty(label)) {
 				continue;
 			}

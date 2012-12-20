@@ -1,7 +1,12 @@
 (function(window, graphit, console, undefined) {
 
+	'use strict';
+	
 	var modulePath = 'app/layer';
 
+	/**
+	 * Import
+	 */
 	var Cobject = graphit.import('lib/object');
 	var Cvector2d = graphit.import('lib/math/vector2d');
 	var Ecomposite_operation = graphit.import('app/enum/compositeOperation');
@@ -347,31 +352,6 @@
 	};
 
 	/**
-	 * @returns
-	 */
-	// Module.prototype.get_canvas = function() {
-	// this.redraw();
-	// return this.canvas;
-	// };
-	// Module.prototype.stack_frags = function(p_start, p_end) {
-	// var start = p_start;
-	// var end = p_end;
-	// if (p_start > p_end) {
-	// start = p_end;
-	// end = p_start;
-	// }
-	// var nf = new Cdraw_frag(this.canvas.width, this.canvas.height);
-	// var tctx = nf.getContext('2d');
-	// for ( var i = start; i <= end; i++) {
-	// var f = this.frags[i];
-	// var canvas = f.cCanvas.data;
-	// tctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, f.position.x,
-	// f.position.y, canvas.width, canvas.height);
-	// }
-	// this.frags.splice(start, 0, nf);
-	// this.frags.splice(start, end);
-	// };
-	/**
 	 * @param canvas
 	 * @param sx
 	 * @param sy
@@ -408,12 +388,12 @@
 	};
 
 	Module.prototype.to_json = function() {
-		return {
-			label : this.data,
-			data : this.cCanvas.data.toDataURL()
-		};
+		return ({
+			'label' : this.data,
+			'data' : this.cCanvas.data.toDataURL()
+		});
 	};
 
-	graphit.export('app/layer', Module);
+	graphit.export(modulePath, Module);
 
 })(window, graphit, console);

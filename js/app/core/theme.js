@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	var modulePath = 'app/jquery/theme';
+	var modulePath = 'app/core/theme';
 	
 	/**
 	 * @constructor
@@ -87,7 +87,7 @@
 	 * sho / 13 déc. 2012 / 03:18:40
 	 */
 	Module.prototype.__test = function() {
-		var C = graphit.import('Module');
+		var C = graphit.import(modulePath);
 		var t = new C();
 		t.dom_get().dialog();
 	};

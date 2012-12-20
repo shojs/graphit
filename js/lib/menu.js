@@ -1,8 +1,11 @@
 (function(window, graphit, console, undefined) {
 
+	'use strict';
+	
 	var modulePath = 'lib/menu';
 	
 	var Cobject = graphit.import('lib/object');
+	
 	/**
 	 * @constructor Class Module 06:40:06 / 24 nov. 2012 [jsgraph] sho
 	 */

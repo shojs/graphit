@@ -1,7 +1,12 @@
 (function(window, graphit, console, undefined) {
 
+	'use strict';
+	
 	var modulePath = 'app/frag';
 	
+	/**
+	 * Imports
+	 */
 	var Cobject = graphit.import('lib/object');
 	var Ccolor = graphit.import('lib/color');
 	var Ccanvas = graphit.import('lib/canvas');
